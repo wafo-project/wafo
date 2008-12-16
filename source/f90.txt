@@ -1,0 +1,990 @@
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+ NNNNAAAAMMMMEEEE
+      f90 - Fortran 90 compiler
+
+ SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+      ffff99990000 [_o_p_t_i_o_n_s] _f_i_l_e ...
+
+ DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+      ffff99990000 is the HP Fortran 90 compiler.  The compiler accepts the following
+      types of arguments:
+
+           o+  Files that end in ....ffff99990000, ....ffff, ....FFFF, ....iiii99990000, and ....iiii are compiled as
+              Fortran 90 source files.  If each source compiles
+              successfully, its corresponding object code is left in the
+              current directory in a file whose name is that of the source,
+              with ....oooo substituted for the extension given.  The extensions
+              have the following meanings:
+
+                   ....ffff99990000 Free-format source file, processed by the compiler
+
+                   ....FFFF   Fixed-format source file, processed by the C
+                        preprocessor, then by the compiler; see _c_p_p(1)
+
+                   ....ffff   Fixed-format source file, processed by the compiler
+
+                   ....iiii99990000 Free-format output from C preprocessor, if source
+                        ends in ....ffff99990000
+
+                   ....iiii   Fixed format output from C preprocessor, if source
+                        ends in ....FFFF or ....ffff
+
+              Note that only files ending in ....FFFF are preprocessed by the C
+              preprocessor by default.  To preprocess files that end in ....ffff99990000
+              and ....ffff, you must specify the ++++ccccpppppppp====yyyyeeeessss option (see below).
+
+           o+  Files that end in ....oooo are passed on to the linker to be linked
+              into the final program; see _l_d(1) for information about the
+              linker.
+
+           o+  Files that end in ....ssss are passed on to the assembler; see _a_s(1)
+
+      Note that files that end in ....mmmmoooodddd are Fortran 90 modules that are
+      created and read by the compiler.  However, the compiler does not
+      accept ....mmmmoooodddd files on the command line.  See the EXAMPLES section for
+      additional information about ....mmmmoooodddd files.
+
+    OOOOppppttttiiiioooonnnnssss
+      ffff99990000 recognizes the following options:
+
+           ++++[[[[nnnnoooo]]]]aaaassssmmmm       Compile the named source files and leave [do not
+                          leave] the assembly language output in
+                          corresponding files whose names are suffixed with
+
+
+
+                                    - 1 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+                          ....ssss The default is ++++nnnnooooaaaassssmmmm.
+
+           ++++[[[[nnnnoooo]]]]aaaauuuuttttooooddddbbbbllll   Promote [do not promote] all integer, logical, and
+                          real items to 8 bytes, and all double-precision
+                          and complex items to 16 bytes.  The default is
+                          ++++nnnnooooaaaauuuuttttooooddddbbbbllll.
+
+           ++++[[[[nnnnoooo]]]]aaaauuuuttttooooddddbbbbllll4444  Promote [do not promote] all integer, logical, and
+                          real items to 8 bytes, and complex items to 16
+                          bytes.  The ++++aaaauuuuttttooooddddbbbbllll4444 option does not promote the
+                          size of double-precision and double-complex items.
+                          The default is ++++nnnnooooaaaauuuuttttooooddddbbbbllll4444.
+
+           ----cccc             Suppress linking and produce an object (....oooo) file
+                          from each source file.
+
+           ++++cccchhhheeeecccckkkk===={{{{aaaallllllll||||nnnnoooonnnneeee}}}}
+                          Enable (++++cccchhhheeeecccckkkk====aaaallllllll) or disable (++++cccchhhheeeecccckkkk====nnnnoooonnnneeee)
+                          compile-time range checking of array subscripts.
+                          The default is ++++cccchhhheeeecccckkkk====nnnnoooonnnneeee.
+
+           ++++ccccpppppppp===={{{{yyyyeeeessss||||nnnnoooo||||ddddeeeeffffaaaauuuulllltttt}}}}
+                          Invoke the C preprocessor.  ++++ccccpppppppp====yyyyeeeessss passes all
+                          source files to the preprocessor.  ++++ccccpppppppp====ddddeeeeffffaaaauuuulllltttt
+                          passes only files ending in ....FFFF suffix.  ++++ccccpppppppp====nnnnoooo
+                          suppresses passing any files.  The default is
+                          ++++ccccpppppppp====ddddeeeeffffaaaauuuulllltttt.
+
+           ++++[[[[nnnnoooo]]]]ccccpppppppp____kkkkeeeeeeeepppp  Retain [discard] output from the C preprocessor.
+                          If the source filename is _f_i_l_e.ffff or _f_i_l_e.FFFF,,,, output
+                          is stored in _f_i_l_e.iiii;;;; if the source filename is
+                          _f_i_l_e.ffff99990000,,,, the output filename is _f_i_l_e.iiii99990000....  The
+                          default, ++++nnnnooooccccpppppppp____kkkkeeeeeeeepppp, is to discard the output.
+
+           ----DDDD_n_a_m_e[[[[====_d_e_f]]]]   Define a symbol _n_a_m_e to the C preprocessor.  This
+                          option applies only to files that are processed by
+                          ccccpppppppp.
+
+           ++++DDDDAAAA_m_o_d_e_l       Generate code for a specific version of the PA-
+                          RISC architecture.  _m_o_d_e_l can be one of the
+                          following:
+
+                               o+  A PA-RISC version number (1111....1111 or 2222....0000)
+
+                               o+  A model number (e.g., 777755550000 or 888877770000)
+
+                               o+  One of the PA-RISC processor names (e.g.,
+                                  PPPPAAAA7777000000000000, PPPPAAAA7777111100000000, or PPPPAAAA8888000000000000).
+
+                               o+  The word ppppoooorrrrttttaaaabbbblllleeee to generate code
+                                  compatible across all PA-RISC 1.1 and 2.0
+
+
+
+                                    - 2 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+                                  workstations and servers.
+
+                          If you want to generate code that is compatible
+                          with PA-RISC 1.0 systems, you should compile and
+                          link your program on a PA-RISC 1.0 machine.  Code
+                          generated for 1.1 or 2.0 systems may not run on
+                          earlier architectures.
+
+                          If this option is not used, code is generated
+                          based on the model number returned by the uuuunnnnaaaammmmeeee ----mmmm
+                          command; see _u_n_a_m_e(2).
+
+           ++++DDDDCCCC7777222200000000        Perform memory hierarchy optimizations for the
+                          PA7200 processor.
+
+           ++++[[[[nnnnoooo]]]]ddddeeeemmmmaaaannnndddd____llllooooaaaadddd
+                          Mark [do not mark] the output file from the linker
+                          _d_e_m_a_n_d _l_o_a_d.  The default is ++++nnnnooooddddeeeemmmmaaaannnndddd____llllooooaaaadddd.
+
+           ++++[[[[nnnnoooo]]]]ddddlllliiiinnnneeeessss    Compile debug lines as source statements
+                          [comment].  Source lines must be in fixed format.
+                          Source lines with a DDDD or dddd in column 1 are treated
+                          as comments if this option is not specified.  The
+                          default is ++++nnnnooooddddlllliiiinnnneeeessss.
+
+           ++++DDDDSSSS_m_o_d_e_l       Perform instruction scheduling appropriate for a
+                          specific implementation of the PA-RISC
+                          architecture.  _m_o_d_e_l can be one of the following:
+
+                               o+  A PA-RISC version number (1111....1111 or 2222....0000)
+
+                               o+  A model number (e.g., 777755550000 or 888877770000)
+
+                               o+  One of the PA-RISC processor names (e.g.,
+                                  PPPPAAAA7777000000000000, PPPPAAAA7777111100000000, or PPPPAAAA8888000000000000).
+
+                          Note that code generated for one version will
+                          execute on another version, though possibly not as
+                          efficiently.
+
+                          If this option is not used, code is generated
+                          based on the model number returned by the uuuunnnnaaaammmmeeee ----mmmm
+                          command; see _u_n_a_m_e(2).
+
+           ++++[[[[nnnnoooo]]]]eeeessssccccaaaappppeeee    Treat the backslash character (\\\\) as a C-like
+                          escape [literal] character.  The default is
+                          ++++nnnnooooeeeessssccccaaaappppeeee.
+
+           ++++[[[[nnnnoooo]]]]eeeexxxxtttteeeennnndddd____ssssoooouuuurrrrcccceeee
+                          Allow [do not allow] up to 254 characters on a
+                          single source line.  The default,
+
+
+
+                                    - 3 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+                          ++++nnnnooooeeeexxxxtttteeeennnndddd____ssssoooouuuurrrrcccceeee, is 72 characters for fixed
+                          format and 132 for free format.
+
+           ++++FFFFPPPP_f_l_a_g_s       Specify how the runtime environment for trapping
+                          floating-point operations should be initialized at
+                          program startup.  The default is that all traps
+                          are disabled.  See _l_d(1) for specific values for
+                          _f_l_a_g_s.
+
+           ++++[[[[nnnnoooo]]]]ffffpppp____eeeexxxxcccceeeeppppttttiiiioooonnnnssss
+                          Enable [disable] floating-point exceptions and
+                          cause the running program to issue a procedure
+                          traceback for runtime errors.  The default is
+                          ++++nnnnooooffffpppp____eeeexxxxcccceeeeppppttttiiiioooonnnnssss.
+
+           ----gggg             Generate debugging information needed by ddddddddeeee or
+                          xxxxddddbbbb; see _d_d_e(1) and _x_d_b(1).  This option is
+                          compatible with optimization levels 0, 1, and 2.
+
+           ++++[[[[nnnnoooo]]]]ggggpppprrrrooooffff     Prepare [do not prepare] object files for
+                          profiling with ggggpppprrrrooooffff; see _g_p_r_o_f(1).  The default
+                          is ++++nnnnooooggggpppprrrrooooffff.
+
+           ----IIII_d_i_r_e_c_t_o_r_y    Add _d_i_r_e_c_t_o_r_y to the list of directories searched
+                          for files specified in IIIINNNNCCCCLLLLUUUUDDDDEEEE lines and in
+                          include directives, and for ....mmmmoooodddd files.  The
+                          command line can have multiple occurrences of this
+                          option, each specifying a different _d_i_r_e_c_t_o_r_y.
+
+           ++++[[[[nnnnoooo]]]]iiiimmmmpppplllliiiicccciiiitttt____nnnnoooonnnneeee
+                          Cause the types of identifiers to be implicitly
+                          undefined [defined].  The default,
+                          ++++nnnnooooiiiimmmmpppplllliiiicccciiiitttt____nnnnoooonnnneeee, provides the standard implicit
+                          typing.
+
+           ++++kkkk             Generate code for programs that reference a very
+                          large number of shared data items.  The linker
+                          will issue a diagnostic message in the rare case
+                          when this option is needed.
+
+           ----LLLL_d_i_r_e_c_t_o_r_y    Add _d_i_r_e_c_t_o_r_y to the front of the library search
+                          path.  This option applies only to libraries named
+                          in ----llll operands.  For more information, see _l_d(1).
+
+           ----llll_x            Add lllliiiibbbb_x....aaaa or lllliiiibbbb_x....ssssllll to the library search path.
+                          See the ----LLLL_d_i_r_e_c_t_o_r_y option and _l_d(1).
+
+           ++++llllaaaannnnggggllllvvvvllll===={99990000|ddddeeeeffffaaaauuuulllltttt}
+                          Issue warnings for all extensions to the Fortran
+                          90 standard (++++llllaaaannnnggggllllvvvvllll====99990000).  The default,
+                          ++++llllaaaannnnggggllllvvvvllll====ddddeeeeffffaaaauuuulllltttt, allows extensions.
+
+
+
+                                    - 4 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+           ++++[[[[nnnnoooo]]]]lllliiiisssstttt      Write [suppress] a program listing to the standard
+                          output during compilation.  The default is
+                          ++++nnnnoooolllliiiisssstttt.
+
+           ++++mmmmooooddddddddiiiirrrr====_d_i_r_e_c_t_o_r_y
+                          Write ....mmmmoooodddd files to _d_i_r_e_c_t_o_r_y.  The default is to
+                          write ....mmmmoooodddd files to the current directory.  See
+                          the EXAMPLES section for information about
+                          compiling programs that use modules.
+
+           ++++nnnnllllssss====_l_a_n_g      Enable 16-bit Native Language Support (NLS) in
+                          strings and comments in the language specified by
+                          _l_a_n_g.
+
+           ----OOOO[[[[_o_p_t_l_e_v_e_l]]]]   Specify the level of optimization.  If _o_p_t_l_e_v_e_l is
+                          not specified, the program is optimized at level 2
+                          (----OOOO2222).  For information about the levels of
+                          optimization, see ++++OOOO_o_p_t_l_e_v_e_l....  For information
+                          about additional optimization options, see the
+                          OPTIMIZATION section.
+
+           ++++OOOO_o_p_t_l_e_v_e_l     Specify the level of optimization.  Higher levels
+                          include optimizations performed at lower levels.
+                          _o_p_t_l_e_v_e_l can be one of the following:
+
+                               0000    Minimal optimization, fastest compile
+                                    time, best debugging support.  This is
+                                    the default.
+
+                               1111    Block-level optimizations, moderately
+                                    fast compile time, moderate improvement
+                                    in runtime performance.
+
+                               2222    Full optimization within each subprogram
+                                    in a file.  Marked improvement in
+                                    runtime performance, noticeably longer
+                                    compile time, program transformations
+                                    more pronounced than at lower levels.
+
+                               3333    Full optimization across all subprograms
+                                    within the source file, including
+                                    subprogram cloning and inlining.  This
+                                    level of optimization can greatly
+                                    improve the runtime performance of
+                                    programs that make frequent procedure
+                                    calls.
+
+                          For information about additional optimization
+                          options, see the OPTIMIZATION section.
+
+
+
+
+
+                                    - 5 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+           ----oooo _o_u_t_f_i_l_e     Name the output file _o_u_t_f_i_l_e instead of the
+                          default file name (i.e., aaaa....oooouuuutttt or _f_i_l_e_n_a_m_e....oooo))))....
+
+           ++++[[[[nnnnoooo]]]]oooonnnneeeettttrrrriiiipppp   Execute any counter-controlled DDDDOOOO loop at least
+                          once (++++oooonnnneeeettttrrrriiiipppp).  The default is ++++nnnnoooooooonnnneeeettttrrrriiiipppp.
+
+           ++++ppppiiiicccc===={{{{sssshhhhoooorrrrtttt||||lllloooonnnngggg||||nnnnoooo}}}}
+                          Generate Position Independent Code (PIC) with
+                          short displacements (++++ppppiiiicccc====sssshhhhoooorrrrtttt) or long
+                          displacements (++++ppppiiiicccc====lllloooonnnngggg) for use in shared
+                          libraries.  The default is ++++ppppiiiicccc====nnnnoooo.
+
+           ++++[[[[nnnnoooo]]]]ppppppppuuuu       Postpend [do not postpend] underscores at the end
+                          of definitions of and references to externally
+                          visible symbols (++++ppppppppuuuu).  The default is ++++nnnnooooppppppppuuuu.
+
+           ++++pppprrrreeee____iiiinnnncccclllluuuuddddeeee====_f_i_l_e
+                          Process contents of _f_i_l_e before all source files.
+                          The command line can have multiple occurrences of
+                          this option, each specifying a different _f_i_l_e;
+                          they will be processed in the specified order.
+
+           ++++[[[[nnnnoooo]]]]pppprrrrooooffff      Prepare [do not prepare] object files for
+                          profiling with pppprrrrooooffff; see _p_r_o_f(1).  The default is
+                          ++++nnnnoooopppprrrrooooffff.
+
+           ++++rrrreeeeaaaallll____ccccoooonnnnssssttttaaaannnntttt===={{{{ssssiiiinnnngggglllleeee||||ddddoooouuuubbbblllleeee}}}}
+                          Treat all single-precision real and complex
+                          constants as either single-precision
+                          (++++rrrreeeeaaaallll____ccccoooonnnnssssttttaaaannnntttt====ssssiiiinnnngggglllleeee, the default) or double-
+                          precision (++++rrrreeeeaaaallll____ccccoooonnnnssssttttaaaannnntttt====ddddoooouuuubbbblllleeee).  This option
+                          has no effect on constants that are explicitly
+                          sized or when the ++++aaaauuuuttttooooddddbbbbllll or ++++aaaauuuuttttooooddddbbbbllll4444 option is
+                          specified.
+
+           ++++[[[[nnnnoooo]]]]ssssaaaavvvveeee      Save [do not save] all local variables in all
+                          subprograms.  This option is useful for porting
+                          older programs.  Note the following when using
+                          ++++ssssaaaavvvveeee:
+
+                               o+  All non-initialized variables are
+                                  initialized to zero.
+
+                               o+  This option may result in lower
+                                  performance, especially of optimized code.
+
+                          The default is ++++nnnnoooossssaaaavvvveeee.
+
+           ++++[[[[nnnnoooo]]]]sssshhhhaaaarrrreeeedddd    Cause the output file from the linker to be marked
+                          _s_h_a_r_e_d [_u_n_s_h_a_r_e_d].  The default is ++++sssshhhhaaaarrrreeeedddd.
+
+
+
+
+                                    - 6 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+           ++++ssssoooouuuurrrrcccceeee===={{{{ffffiiiixxxxeeeedddd||||ffffrrrreeeeeeee||||ddddeeeeffffaaaauuuulllltttt}}}}
+                          Accept source files in fixed format
+                          (++++ssssoooouuuurrrrcccceeee====ffffiiiixxxxeeeedddd) or free format (++++ssssoooouuuurrrrcccceeee====ffffrrrreeeeeeee).
+                          The default, ++++ssssoooouuuurrrrcccceeee====ddddeeeeffffaaaauuuulllltttt, is free for ....ffff99990000
+                          files and fixed for ....ffff and ....FFFF source files.
+
+           ++++[[[[nnnnoooo]]]]ssssttttrrrriiiipppp     Strip [do not strip] symbol table information from
+                          the linker output.  For more information, see
+                          _l_d(1) and _s_t_r_i_p(1).  This option is incompatible
+                          with ----gggg.... The default is ++++nnnnoooossssttttrrrriiiipppp.
+
+           ----tttt_x,,,,_n_a_m_e       Substitute a private version of one or more
+                          subprocesses of the compilation.  _x can be one of
+                          the following:
+
+                               aaaa    Assembler
+                               cccc    Compiler
+                               llll    Linker
+                               pppp    C preprocessor
+                               ssss    ccccrrrrtttt0000....oooo startup file
+                               eeee    eeeennnndddd....oooo debug file
+                          For more information about the ----tttt option, see the
+                          _H_P _F_o_r_t_r_a_n _9_0 _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e.
+
+           ++++[[[[nnnnoooo]]]]ttttttttyyyybbbbuuuuffff    Use buffered [unbuffered] output to the tty.  See
+                          also the TTTTTTTTYYYYUUUUNNNNBBBBUUUUFFFF environment variable under
+                          EXTERNAL INFLUENCES.  The default is ++++ttttttttyyyybbbbuuuuffff.
+
+           ----UUUU_n_a_m_e         Remove any initial definition of _n_a_m_e, where _n_a_m_e
+                          is a reserved symbol that is predefined by the
+                          particular preprocessor.
+
+           ++++[[[[nnnnoooo]]]]UUUU77777777       Invoke [do not invoke] support for the BBBBSSSSDDDD 3333ffff
+                          library.  The default is ++++nnnnooooUUUU77777777.
+
+           ++++[[[[nnnnoooo]]]]uuuuppppppppeeeerrrrccccaaaasssseeee Use uppercase [lowercase] for all external names.
+                          The default is ++++nnnnoooouuuuppppppppeeeerrrrccccaaaasssseeee.
+
+           ++++uuuussssaaaaggggeeee         List and briefly describe all ffff99990000 options.
+
+           ----vvvv             Write a verbose description of the compilation
+                          process on standard output.
+
+           ++++vvvveeeerrrrssssiiiioooonnnn       Write compiler version information to standard
+                          output, without compiling.
+
+           ----wwww             Suppress warning messages.
+
+           ----WWWW_x,_a_r_g_1[,_a_r_g_2,...,_a_r_g_N]
+                          Cause _a_r_g_1 through _a_r_g_N to be handed off to a
+                          subprocess of the compilation, identified by _x.  _x
+
+
+
+                                    - 7 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+                          can be one of the following:
+
+                               aaaa    Assembler
+                               cccc    Compiler
+                               llll    Linker
+                               pppp    C preprocessor
+
+ EEEEXXXXTTTTEEEERRRRNNNNAAAALLLL IIIINNNNFFFFLLLLUUUUEEEENNNNCCCCEEEESSSS
+    EEEEnnnnvvvviiiirrrroooonnnnmmmmeeeennnntttt VVVVaaaarrrriiiiaaaabbbblllleeeessss
+      HHHHPPPP____FFFF99990000OOOOPPPPTTTTSSSS     Contains options and arguments for the compiler.  The
+                     compiler picks up the value of HHHHPPPP____FFFF99990000OOOOPPPPTTTTSSSS and places
+                     its contents before any arguments on the command line.
+                     For example, if HHHHPPPP____FFFF99990000OOOOPPPPTTTTSSSS has the value ----vvvv, the
+                     following compile-line:
+
+                          ffff99990000 ++++lllliiiisssstttt pppprrrroooogggg....ffff99990000
+
+                     is equivalent to
+
+                          ffff99990000 ----vvvv ++++lllliiiisssstttt pppprrrroooogggg....ffff99990000
+
+                     The |||| character can be used to specify that options
+                     appearing before |||| are to be recognized before any
+                     options on the command line and that options appearing
+                     after |||| are to be recognized after any options on the
+                     command line.  For example,
+
+                          HHHHPPPP____FFFF99990000OOOOPPPPTTTTSSSS====""""----OOOO |||| ----llllmmmmyyyylllliiiibbbb""""
+                          eeeexxxxppppoooorrrrtttt HHHHPPPP____FFFF99990000OOOOPPPPTTTTSSSS
+                          ffff99990000 ----vvvv pppprrrroooogggg....ffff99990000
+
+                     is equivalent to
+
+                          ffff99990000 ----OOOO ----vvvv pppprrrroooogggg....ffff99990000 ----llllmmmmyyyylllliiiibbbb
+
+      TTTTMMMMPPPPDDDDIIIIRRRR         This environment variable specifies a directory for
+                     temporary files to be used instead of the default
+                     directory ////vvvvaaaarrrr////ttttmmmmpppp.
+
+      TTTTTTTTYYYYUUUUNNNNBBBBUUUUFFFF       This environment variable controls tty buffering.  To
+                     enable tty buffering, set TTTTTTTTYYYYUUUUNNNNBBBBUUUUFFFF====0000.  To disable tty
+                     buffering, set TTTTTTTTYYYYUUUUNNNNBBBBUUUUFFFF to a nonzero value.
+
+    IIIInnnntttteeeerrrrnnnnaaaattttiiiioooonnnnaaaallll CCCCooooddddeeee SSSSeeeetttt SSSSuuuuppppppppoooorrrrtttt
+      Single- and multi-byte character code sets are supported in comments
+      and strings when the ++++nnnnllllssss option is used.
+
+ DDDDIIIIAAAAGGGGNNNNOOOOSSSSTTTTIIIICCCCSSSS
+      Errors and warnings are written on standard error.  If a listing is
+      requested (++++lllliiiisssstttt), errors and warnings are also written to the listing
+      file.  The compiler also lists on standard error the names of each
+
+
+
+                                    - 8 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+      source file and procedure as they are encountered.
+
+ OOOOPPPPTTTTIIIIMMMMIIIIZZZZAAAATTTTIIIIOOOONNNN
+      In addition to the ----OOOO[[[[_o_p_t_l_e_v_e_l]]]] and ++++OOOO_o_p_t_l_e_v_e_l options, ffff99990000 recognizes
+      the optimization options described in this section.  These options
+      enable you to control the different optimization technologies
+      described in the _H_P _P_A-_R_I_S_C _C_o_m_p_i_l_e_r _O_p_t_i_m_i_z_a_t_i_o_n _T_e_c_h_n_o_l_o_g_y _W_h_i_t_e
+      _P_a_p_e_r. To use these options, you must also specify the ++++OOOO_o_p_t_l_e_v_e_l or
+      ----OOOO[[[[_o_p_t_l_e_v_e_l]]]] option, where _o_p_t_l_e_v_e_l must be a level specified in the
+      option descriptions.
+
+      For a full discussion of the optimization options, refer to the _H_P
+      _F_o_r_t_r_a_n _9_0 _P_r_o_g_r_a_m_m_e_r'_s _R_e_f_e_r_e_n_c_e.
+
+      The following options allow the user to control the extent of
+      optimization as well as to disable optimizations that impact code size
+      and system resources:
+
+           ++++OOOO[[[[nnnnoooo]]]]aaaaggggggggrrrreeeessssssssiiiivvvveeee
+                          Apply [do not apply] aggressive optimizations.
+                          These include new optimizations as well as
+                          optimizations invoked by the following option
+                          settings:
+
+                               ++++OOOOeeeennnnttttrrrryyyysssscccchhhheeeedddd
+                               ++++OOOOlllliiiibbbbccccaaaallllllllssss
+                               ++++OOOOnnnnooooffffllllttttaaaacccccccc
+                               ++++OOOOnnnnooooiiiinnnniiiittttcccchhhheeeecccckkkk
+                               ++++OOOOrrrreeeeggggiiiioooonnnnsssscccchhhheeeedddd
+                               ++++OOOOvvvveeeeccccttttoooorrrriiiizzzzeeee
+
+                          This option can be used at level 2 and higher.
+                          The default is ++++OOOOnnnnooooaaaaggggggggrrrreeeessssssssiiiivvvveeee.  Note that
+                          ++++OOOOaaaaggggggggrrrreeeessssssssiiiivvvveeee is incompatible with ++++OOOOccccoooonnnnsssseeeerrrrvvvvaaaattttiiiivvvveeee.
+
+           ++++OOOOaaaallllllll          Apply maximum optimization to achieve the best
+                          runtime performance.  This option is equivalent to
+                          specifying ++++OOOOaaaaggggggggrrrreeeessssssssiiiivvvveeee and ++++OOOOnnnnoooolllliiiimmmmiiiitttt on the same
+                          command line.  The ++++OOOOaaaallllllll option automatically
+                          invokes the highest level of optimization.
+
+           ++++OOOO[[[[nnnnoooo]]]]ccccoooonnnnsssseeeerrrrvvvvaaaattttiiiivvvveeee
+                          Make [do not make] conservative assumptions about
+                          the program when optimizing.  This option can be
+                          used at level 2 and higher.  The default is
+                          ++++OOOOnnnnooooccccoooonnnnsssseeeerrrrvvvvaaaattttiiiivvvveeee.
+
+           ++++OOOO[[[[nnnnoooo]]]]lllliiiimmmmiiiitttt    Suppress [do not suppress] optimizations that
+                          significantly increase compile-time or consume
+                          large amounts of memory.  This option can be used
+                          at level 2 and higher.  The default is ++++OOOOlllliiiimmmmiiiitttt.
+
+
+
+                                    - 9 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+           ++++OOOO[[[[nnnnoooo]]]]ssssiiiizzzzeeee     Suppress [do not suppress] optimizations that
+                          significantly increase code size.  This option can
+                          be used at level 2 and higher.  The default is
+                          ++++OOOOnnnnoooossssiiiizzzzeeee.
+
+      The following options provide low-level control over the optimization
+      process, allowing the user to enable or disable specific optimization
+      techniques:
+
+           ++++OOOO[[[[nnnnoooo]]]]ccccaaaacccchhhheeee____ppppaaaadddd____ccccoooommmmmmmmoooonnnn
+                          Pad [do not pad] common blocks to avoid cache
+                          collisions.  This option can be used at
+                          optimization level 3 and higher.  The default is
+                          ++++OOOOnnnnooooccccaaaacccchhhheeee____ppppaaaadddd____ccccoooommmmmmmmoooonnnn.
+
+                          Note that, if any files are compiled with the
+                          ++++OOOOccccaaaacccchhhheeee____ppppaaaadddd____ccccoooommmmmmmmoooonnnn option, then all other program
+                          files that reference the same common blocks must
+                          also be compiled with this option.
+
+           ++++OOOO[[[[nnnnoooo]]]]ddddaaaattttaaaapppprrrreeeeffffeeeettttcccchhhh
+                          Insert [do not insert] instructions within
+                          innermost loops to explicitly prefetch data from
+                          memory into the data cache.  Data prefetch
+                          instructions can improve cache performance.  This
+                          option can be used at optimization level 2 or
+                          higher.  The default is ++++OOOOnnnnooooddddaaaattttaaaapppprrrreeeeffffeeeettttcccchhhh.
+
+           ++++OOOO[[[[nnnnoooo]]]]eeeennnnttttrrrryyyysssscccchhhheeeedddd
+                          Perform [do not perform] instruction scheduling on
+                          a subprogram's entry and exit code sequences.
+                          This option can be used at optimization level 1
+                          and higher.  The default is ++++OOOOnnnnooooeeeennnnttttrrrryyyysssscccchhhheeeedddd.
+
+           ++++OOOO[[[[nnnnoooo]]]]ffffaaaassssttttaaaacccccccceeeessssssss
+                          Enable [disable] fast access to global data.  This
+                          option can be used at optimization level 2 and
+                          higher.  The default is ++++OOOOnnnnooooffffaaaassssttttaaaacccccccceeeessssssss.
+
+           ++++OOOO[[[[nnnnoooo]]]]ffffllllttttaaaacccccccc   Disable [enable] floating-point optimizations that
+                          can result in numerical differences.  ++++OOOOnnnnooooffffllllttttaaaacccccccc
+                          also generates Fused Multiply-Add (FMA)
+                          instructions, as does compiling your program at
+                          optimization level 2 or higher.  FMA instructions
+                          can improve performance of floating-point
+                          applications and are available only on PA-RISC 2.0
+                          systems or later.
+
+                          If you do not specify either ++++OOOOffffllllttttaaaacccccccc or
+                          ++++OOOOnnnnooooffffllllttttaaaacccccccc at optimization level 2 or higher, the
+                          optimizer will generate FMA instructions but will
+
+
+
+                                   - 10 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+                          not perform any expression-reordering
+                          optimizations.
+
+           ++++OOOO[[[[nnnnoooo]]]]iiiinnnnffffoooo     Provide [do not provide] feedback information
+                          about the optimization process.  This option is
+                          most useful at optimization level 3 and higher.
+                          The default is ++++OOOOnnnnooooiiiinnnnffffoooo.
+
+           ++++OOOO[[[[nnnnoooo]]]]iiiinnnniiiittttcccchhhheeeecccckkkk
+                          Enable [disable] initialization of any local,
+                          scalar, automatic variable that is found to be
+                          uninitialized.  This option can be used at
+                          optimization level 2 and higher.  The default is
+                          to enable initialization if the variable is
+                          uninitialized with respect to every path leading
+                          to its use.
+
+           ++++OOOO[[[[nnnnoooo]]]]iiiinnnnlllliiiinnnneeee   Request [disable] inlining.  This option can be
+                          used at optimization level 3 and higher.  The
+                          default is ++++OOOOiiiinnnnlllliiiinnnneeee.
+
+           ++++OOOOiiiinnnnlllliiiinnnneeee____bbbbuuuuddddggggeeeetttt====_n
+                          Perform more aggressive inlining, where _n
+                          specifies the degree of aggressiveness, as
+                          follows:
+
+                               100    Default level of inlining.
+
+                               > 100  More aggressive inlining at the
+                                      expense of compilation time and code
+                                      size.  The maximum for _n is 1000000.
+
+                               2 - 99 Less aggressive inlining.  The
+                                      optimizer gives more weight to
+                                      compilation time and code size when
+                                      determining whether to inline.
+
+                               1      Inline only if it reduces code size.
+
+                          This option can be used at optimization level 3 or
+                          higher.
+
+           ++++OOOO[[[[nnnnoooo]]]]lllliiiibbbbccccaaaallllllllssss Use [do not use] low-call-overhead versions of
+                          select library routines.  The default is
+                          ++++OOOOnnnnoooolllliiiibbbbccccaaaallllllllssss.
+
+           ++++OOOO[[[[nnnnoooo]]]]lllloooooooopppp____uuuunnnnrrrroooollllllll[[[[====_n]]]]
+                          Unroll [do not unroll] program loops by a factor
+                          of _n.  For example, specifying ++++OOOOlllloooooooopppp____uuuunnnnrrrroooollllllll====4444
+                          requests the optimizer to replicate the loop body
+                          four times.  This option can be used at
+
+
+
+                                   - 11 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+                          optimization level 2 or higher.  The default is
+                          ++++OOOOlllloooooooopppp____uuuunnnnrrrroooollllllll====4444.
+
+           ++++OOOO[[[[nnnnoooo]]]]mmmmoooovvvveeeeffffllllooooppppssss
+                          Enable [disable] moving conditional floating-point
+                          instructions out of loops.  This option can be
+                          used at optimization level 2 and higher.  The
+                          default is ++++OOOOmmmmoooovvvveeeeffffllllooooppppssss.
+
+           ++++OOOO[[[[nnnnoooo]]]]ppppaaaarrrrmmmmssssoooovvvveeeerrrrllllaaaapppp
+                          Optimize with the assumption that subprogram
+                          arguments may [do not] refer to the same memory.
+                          This option can be used at optimization level 2
+                          and higher.  The default is ++++OOOOnnnnooooppppaaaarrrrmmmmssssoooovvvveeeerrrrllllaaaapppp.
+
+           ++++OOOO[[[[nnnnoooo]]]]ppppiiiippppeeeelllliiiinnnneeee Enable [disable] software pipelining.  This option
+                          can be used at optimization level 2 and higher.
+                          The default is ++++OOOOppppiiiippppeeeelllliiiinnnneeee.
+
+           ++++OOOO[[[[nnnnoooo]]]]pppprrrroooocccceeeelllliiiimmmm Remove [do not remove] any unreferenced procedures
+                          from the output executable file.
+
+           ++++OOOO[[[[nnnnoooo]]]]rrrreeeeggggiiiioooonnnnsssscccchhhheeeedddd
+                          Apply [do not apply] aggressive scheduling
+                          techniques to move instructions across branches.
+                          This option can be used at optimization level 2
+                          and higher.  The default is ++++OOOOnnnnoooorrrreeeeggggiiiioooonnnnsssscccchhhheeeedddd.
+
+           ++++OOOO[[[[nnnnoooo]]]]rrrreeeeggggrrrreeeeaaaassssssssoooocccc
+                          Enable [disable] register reassociation.  This
+                          option can be used at optimization level 2 and
+                          higher.  The default is ++++OOOOrrrreeeeggggrrrreeeeaaaassssssssoooocccc.
+
+           ++++OOOO[[[[nnnnoooo]]]]vvvveeeeccccttttoooorrrriiiizzzzeeee
+                          Replace [do not replace] eligible loops with calls
+                          to the vector library.  Any files that were
+                          compiled with ++++OOOOvvvveeeeccccttttoooorrrriiiizzzzeeee must also be linked with
+                          ++++OOOOvvvveeeeccccttttoooorrrriiiizzzzeeee.  This option can be used at
+                          optimization level 3 and higher.  The default is
+                          ++++OOOOnnnnoooovvvveeeeccccttttoooorrrriiiizzzzeeee.
+
+ EEEEXXXXAAAAMMMMPPPPLLLLEEEESSSS
+      The following command compiles and links the source file pppprrrroooogggg....ffff99990000,
+      producing the linked executable file aaaa....oooouuuutttt.
+
+           ffff99990000 pppprrrroooogggg....ffff99990000
+
+      The next command compiles, optimizes, and links the source files
+      tttt....ffff99990000, rrrr....ffff99990000, and ssss....ffff99990000, producing the linked executable file ssssaaaammmmpppplllleeee.
+
+
+
+
+
+                                   - 12 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+           ffff99990000 ----OOOO ----oooo ssssaaaammmmpppplllleeee tttt....ffff99990000 rrrr....ffff99990000 ssss....ffff99990000
+
+      When compiling a program that defines and uses modules in different
+      source files, ffff99990000 creates a ....mmmmoooodddd file for each module in the source
+      files, in addition to the ....oooo files.  The compiler must have created
+      any ....mmmmoooodddd files before compiling the files that use the modules.
+      Consider, for example, a program that consists of two files: the first
+      (ffffiiiilllleeee1111....ffff99990000) defines the module mmmmoooodddduuuulllleeee1111 and the second (ffffiiiilllleeee2222....ffff99990000) uses
+      it.  The following command lines will compile and link the program
+      correctly:
+
+           ffff99990000 ----cccc ffffiiiilllleeee1111....ffff99990000
+           ffff99990000 ----cccc ffffiiiilllleeee2222....ffff99990000
+           ffff99990000 ----oooo mmmmyyyy____pppprrrrooooggggrrrraaaammmm ffffiiiilllleeee1111....oooo ffffiiiilllleeee2222....oooo
+
+      The crucial lines are the first two, which must be specified in order.
+      The first one creates two files: ffffiiiilllleeee1111....oooo and MMMMOOOODDDDUUUULLLLEEEE1111....mmmmoooodddd.  The second
+      needs MMMMOOOODDDDUUUULLLLEEEE1111....mmmmoooodddd to compile ffffiiiilllleeee2222....ffff99990000.
+
+      The same effect can be produced with one command line, so long as the
+      defining file is specified before the using file, as in the following:
+
+           ffff99990000 ----oooo mmmmyyyy____pppprrrrooooggggrrrraaaammmm ffffiiiilllleeee1111....ffff99990000 ffffiiiilllleeee2222....ffff99990000
+
+      See the ++++mmmmooooddddddddiiiirrrr==== and ----IIII options for related information about ....mmmmoooodddd
+      files.
+
+ AAAAUUUUTTTTHHHHOOOORRRR
+      ffff99990000 was developed by HP and EPC.
+
+ FFFFIIIILLLLEEEESSSS
+      _f_i_l_e....ffff99990000                                input file (free-format source
+                                              file)
+      _f_i_l_e....ffff                                  input file (fixed-format
+                                              source file)
+      _f_i_l_e....FFFF                                  input file (fixed-format
+                                              source with ccccpppppppp directives)
+      _f_i_l_e....oooo                                  object file
+      _f_i_l_e....iiii99990000                                preprocessed file (free-format
+                                              output from ccccpppppppp)
+      _f_i_l_e....iiii                                  preprocessed file (fixed-
+                                              format output from ccccpppppppp)
+      _f_i_l_e....mmmmoooodddd                                intermediate file with module
+                                              definitions
+      _f_i_l_e....ssss                                  input file (assembly source
+                                              file)
+      aaaa....oooouuuutttt                                   linked executable output file
+
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////bbbbiiiinnnn////ffff99990000                  compiler driver
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////llllbbbbiiiinnnn////ffff99990000ccccoooommmm              compiler
+
+
+
+
+                                   - 13 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////lllliiiibbbbUUUU77777777....aaaa             library containing ++++UUUU77777777
+                                              routines
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////lllliiiibbbbpppp////lllliiiibbbbUUUU77777777....aaaa        profiling library containing
+                                              ++++UUUU77777777 routines
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////nnnnllllssss////CCCC////lllliiiibbbbUUUU77777777....ccccaaaatttt     lllliiiibbbbUUUU77777777 message catalog
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////lllliiiibbbbUUUU77777777....aaaalllliiiiaaaassss         alias directives for lllliiiibbbbUUUU77777777
+                                              functions
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////lllliiiibbbbbbbbllllaaaassss....aaaa            BLAS library
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////lllliiiibbbbFFFF99990000....aaaa             Fortran 90 intrinsics
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////sssshhhhaaaarrrreeee////mmmmaaaannnn////mmmmaaaannnn3333....ZZZZ////****....3333ffff    man pages for lllliiiibbbbUUUU77777777 routines
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////sssshhhhaaaarrrreeee////mmmmaaaannnn////mmmmaaaannnn3333....ZZZZ////****....3333xxxx    man pages for lllliiiibbbbbbbbllllaaaassss routines
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////nnnnllllssss////mmmmssssgggg////$$$$LLLLAAAANNNNGGGG////ffff99990000....ccccaaaatttt
+                                              driver error message files
+      ////oooopppptttt////ffffoooorrrrttttrrrraaaannnn99990000////lllliiiibbbb////nnnnllllssss////mmmmssssgggg////$$$$LLLLAAAANNNNGGGG////ffff99990000ccccoooommmm....ccccaaaatttt
+                                              compiler error message file
+      ////oooopppptttt////llllaaaannnnggggttttoooooooollllssss////lllliiiibbbb////eeeennnndddd....oooo                symbolic debugger string
+                                              buffer
+
+      ////uuuussssrrrr////ccccccccssss////bbbbiiiinnnn////aaaassss                         assembler
+      ////uuuussssrrrr////ccccccccssss////llllbbbbiiiinnnn////ccccpppppppp                       C preprocessor
+      ////oooopppptttt////llllaaaannnnggggttttoooooooollllssss////lllliiiibbbb////ccccrrrrtttt0000....oooo               runtime startup code
+      ////oooopppptttt////llllaaaannnnggggttttoooooooollllssss////lllliiiibbbb////ggggccccrrrrtttt0000....oooo              startup code for use with
+                                              profiling via ggggpppprrrrooooffff
+      ////oooopppptttt////llllaaaannnnggggttttoooooooollllssss////lllliiiibbbb////mmmmccccrrrrtttt0000....oooo              startup code for use with
+                                              profiling via pppprrrrooooffff
+
+      ////uuuussssrrrr////lllliiiibbbb////lllliiiibbbbcccc....aaaa                         C library; see _i_n_t_r_o(3)
+      ////uuuussssrrrr////lllliiiibbbb////lllliiiibbbbmmmm....aaaa                         math library
+      ////uuuussssrrrr////lllliiiibbbb////lllliiiibbbbccccllll....aaaa                        Fortran 90 math and I/O
+                                              libraries
+      ////uuuussssrrrr////lllliiiibbbb////lllliiiibbbb****....ssssllll                        sharable versions of libraries
+      ////uuuussssrrrr////lllliiiibbbb////nnnnllllssss////mmmmssssgggg////$$$$LLLLAAAANNNNGGGG////lllliiiibbbbccccllll....ccccaaaatttt        runtime error message file
+      ////oooopppptttt////llllaaaannnnggggttttoooooooollllssss////lllliiiibbbb////sssscccchhhheeeedddd....mmmmooooddddeeeellllssss         processor architecture
+                                              classification file
+
+      ////vvvvaaaarrrr////ttttmmmmpppp////ffffcccc****                            compiler temporary files
+      ////vvvvaaaarrrr////ttttmmmmpppp////ffffccccpppp****                           temporary file for ccccpppppppp output
+
+ SSSSEEEEEEEE AAAALLLLSSSSOOOO
+      Program management, debugging, and analysis tools:
+
+           _f_s_p_l_i_t(1)      split fixed-format source files
+           _d_d_e(1)         invoke Distributed Debugging Environment (HP/DDE)
+                          debugger
+           _g_p_r_o_f(1)       display call graph profile data
+           _p_r_o_f(1)        display profile data
+           _p_u_m_a(1)        invoke the performance analysis tool
+           _x_p_s(1)         invoke the system monitoring tool
+
+      System tools:
+
+
+
+
+                                   - 14 -       Formatted:  October 22, 1999
+
+
+
+
+
+
+ ffff99990000((((1111))))                                                               ffff99990000((((1111))))
+
+
+
+
+           _a_r(1)          create archived libraries
+           _a_s(1)          translate assembly code to machine code
+           _a_s_a(1)         interpret ASA carriage-control characters
+           _c_c(1)          invoke the HP-UX C compiler
+           _c_8_9(1)         invoke the HP-UX POSIX-conformant C compiler
+           _c_p_p(1)         invoke the C language preprocessor
+           _l_d(1)          invoke the link editor
+
+      Miscellaneous:
+
+           _m_a_t_h_e_r_r(3M)    trap math errors
+           _s_t_r_i_p(1)       strip symbol and line number information from an
+                          object file
+
+      For the most current information on HP Fortran 90, refer to
+      hhhhttttttttpppp::::////////wwwwwwwwwwww....hhhhpppp....ccccoooommmm////ggggoooo////hhhhppppffffoooorrrrttttrrrraaaannnn.
+
+ SSSSTTTTAAAANNNNDDDDAAAARRRRDDDDSSSS CCCCOOOONNNNFFFFOOOORRRRMMMMAAAANNNNCCCCEEEE
+      AAAANNNNSSSSIIII XXXX3333....111199998888----111199999999_x (Fortran 90)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   - 15 -       Formatted:  October 22, 1999
+
+
+

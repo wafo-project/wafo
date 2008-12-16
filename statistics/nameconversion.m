@@ -1,0 +1,183 @@
+wbetafit        fitbeta
+wchi2fit        fitchi2
+wexpfit         fitexp
+wgamfit         fitgam
+wgevfit         fitgev
+wgevlike        likgev
+wggamfit        fitgengam 
+wgpdfit         fitgenpar
+wgpdfit_ml      fitgenparml
+wgumbfit        fitgumb
+winvgfit        fitinvnorm
+wlognfit        fitlognorm
+wnormfit        fitnorm
+wraylfit        fitray
+wtraylfit       fitraymod 
+wtfit           fitt
+wweibfit        fitweib
+wtweibfit       fitweibmod 
+weib2dfit       fitweib2d
+weib2dlike      likweib2d 
+mdist2dfit      fitmarg2d
+mdist2dlike     likmarg2d
+dist2dfit       fitmargcnd2d
+dist2dsmfun     margcnd2dsmfun
+dist2dsmfun2    margcnd2dsmfun2
+wbetapdf        pdfbeta
+wchi2pdf        pdfchi2
+wexppdf         pdfexp
+wfpdf           pdff
+wfrechpdf       pdffrech
+wgampdf         pdfgam
+wggampdf        pdfgengam
+wgevpdf         pdfgev
+wgpdpdf         pdfgenpar
+wgumbpdf        pdfgumb
+winvgpdf        pdfinvnorm
+wlognpdf        pdflognorm
+wnormpdf        pdfnorm
+mvnormpdf       pdfnormnd
+wraylpdf        pdfray
+wtraylpdf       pdfraymod 
+wtpdf           pdft
+wweibpdf        pdfweib
+wtweibpdf       pdfweibmod
+weib2dpdf       pdfweib2d
+mdist2dpdf      pdfmarg2d 
+mdist2dpdf2     pdfmarg2dv2 
+dist2dpdf       pdfmargcnd2d 
+dist2dpdf2      pdfmargcnd2dv2
+wbetacdf        prbbeta
+wchi2cdf        prbchi2
+wexpcdf         prbexp
+wfcdf           prbf
+wfrechcdf       prbfrech
+wgamcdf         prbgam
+wggamcdf        prbgengam
+wgevcdf         prbgev 
+wgpdcdf         prbgenpar
+wgumbcdf        prbgumb
+winvgcdf        prbinvnorm
+wlogncdf        prblognorm
+wnormcdf        prbnorm
+wraylcdf        prbray
+wtraylcdf       prbraymod 
+wtcdf           prbt
+wweibcdf        prbweib
+wtweibcdf       prbweibmod
+weib2dcdf       cdfweib2d
+weib2dprb       prbweib2d
+mdist2dcdf      cdfmarg2d
+dist2dcdf       cdfmargcnd2d
+dist2dfun       cdfmargcnd2dfun
+dist2dprb       prbmargcnd2d
+wbetainv        invbeta
+wchi2inv        invchi2
+wexpinv         invexp
+wfinv           invf
+wfrechinv       invfrech
+wgaminv         invgam
+wggaminv        invgengam
+wgevinv         invgev
+wgpdinv         invgenpar
+wgumbinv        invgumb
+winvginv        invinvnorm
+wlogninv        invlognorm
+wnorminv        invnorm
+wraylinv        invray
+wtinv           invt
+wweibinv        invweib
+weib2dcinv      invcweib2d
+mdist2dcinv     invcmarg2d
+walpharnd       rndalpha
+wbetarnd        rndbeta
+wchi2rnd        rndchi2
+wexprnd         rndexp
+wfrnd           rndf
+wfrechrnd       rndfrech
+wgamrnd         rndgam
+wggamrnd        rndgengam
+wgevrnd         rndgev
+wgpdrnd         rndgenpar
+wgumbrnd        rndgumb
+winvgrnd        rndinvnorm
+wlognrnd        rndlognorm
+wmnormrnd       rndnormnd
+wnormrnd        rndnorm
+wraylrnd        rndray
+wtrnd           rndt
+wweibrnd        rndweib
+weib2drnd       rndweib2d
+mdist2drnd      rndmarg2d
+dist2drnd       rndmargcnd2d
+wbetastat       mombeta
+wchi2stat       momchi2
+wexpstat        momexp
+wfstat          momf
+wfrechstat      momfrech
+wgamstat        momgam
+wggamstat       momgengam
+wgevstat        momgev
+wgpdstat        momgenpar
+wgumbstat       momgumb
+winvgstat       mominvnorm
+wlognstat       momlognorm
+wnormstat       momnorm
+wraylstat       momray
+wtstat          momt
+wweibstat       momweib
+weib2dstat      momweib2d
+mdist2dstat     mommarg2d
+dist2dstat      mommargcnd2d
+   wkurtosis       kurt
+   wskewness       skew
+   iqr             iqrange
+   wgumbplot       plotgumb
+   wnormplot       plotnorm 
+   wweibplot       plotweib
+   wexpplot        plotexp
+   wraylplot       plotray
+   wqqplot         plotqq
+   cempdistr       edfcnd
+   empdistr        edf
+   whisto          histgrm 
+   kdeplot         plotkde
+   identify        clickslct
+   pairs           plotscatr
+   weib2dcdfplot   plotweib2dprb
+   weib2dstatplot  plotweib2dmom
+   mdist2dcdfplot  plotmarg2dprb
+   mdist2dstatplot plotmarg2dmom
+   dist2dcdfplot   plotmargcnd2dprb
+   dist2dparamplot plotmargcnd2dfit
+   dist2dstatplot  plotmargcnd2dmom
+   wgumbtest       testgumb 
+   estimatemrl     reslife
+   mrlplot         plotreslife
+   norm2dpdf       pdfnorm2d
+   testwgpdfit     testgenparfit
+   w3weibfit       fitweib3
+   wgpdfitrange    fitgenparrange
+   wgpdprofileci   profilegenpar
+   wilmann         testwilman
+   wquantile       percentile
+   mvncdf          cdfnormnd
+   plotdensity     plotdensity
+   plotfitsummary  plotfitsumry
+   plotresp        plotresprb
+   plotresq        plotresq
+   test1b          testmean1b 
+   test1n          testmean1n 
+   test1r          testmedian1r 
+   test2n          testmean2n 
+   test2r          testmedian2r
+   wbinomcdf       prbbin
+   wbinominv       invbin
+   wbinompdf       pdfbin
+   wbinomrnd       rndbin
+   wbinomstat      mombin
+   whypgcdf        prbhyge
+   whypginv        invhyge
+   whypgpdf        pdfhyge
+   whypgrnd        rndhyge
+   whypgstat       momhyge

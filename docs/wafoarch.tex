@@ -1,0 +1,374 @@
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+%twocolumn,notitlepage,letterpaper,
+\documentclass[10pt,a4paper]{article}   % Specifies the document style.
+%\usepackage[latin1]{inputenc}
+%\usepackage{Vmargin,afterpage,xspace,psfrag,rotating} 
+%\usepackage{lastpage,fancyhdr,color,graphicx}           % 
+\usepackage{amsmath}%,natbib,multicol}            % 
+\usepackage{a4wide,xspace}
+\textheight=24cm
+\addtolength{\topmargin}{-20mm}
+\addtolength{\textwidth}{10mm}
+\addtolength{\oddsidemargin}{-10mm}
+\addtolength{\evensidemargin}{-10mm}
+\begin{document}    
+\newcommand{\eg}{e.g.\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+
+\newcommand{\etc}{etc.\@\xspace}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\floatpagefraction}{0.85}
+\setcounter{totalnumber}{5}
+%\renewcommand{\thefootnote}{\arabic{footnote}}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}%
+%                     {headheight}{headsep}{footheight}{footskip}
+%\setpapersize{a4}
+%\setmarginsrb{12mm}{17mm}{11mm}{13mm}{0pt}{0mm}{11mm}{12mm}
+%\setmarginsrb{12mm}{17mm}{11mm}{13mm}{0pt}{0mm}{11mm}{30mm}
+%\fancypagestyle{plain}{
+%\fancyhf{}
+%\fancyfoot[R]{ Page \thepage\ \hspace{0.3cm} of \hspace{0.3cm} \pageref{LastPage} \hspace{0in}}
+%\renewcommand{\headrulewidth}{0pt}
+%\renewcommand{\footrulewidth}{0pt}
+%}
+%\pagestyle{plain}
+%\lhead{} \chead{} \rhead{}
+%\lfoot{\hspace{1in} }
+%\cfoot{%BRODTKORB P.A.
+%}
+
+\title{ WAFO Conventions and Architecture}
+\author{ Per A. Brodtkorb}
+
+\date{\today}
+\maketitle
+% double spacing between lines
+%\renewcommand{\baselinestretch}{2}
+%\small
+%\normalsize
+
+\section{Introduction}
+This document describes how the Wave Analysis for Fatigue and Oceanography (WAFO) Toolbox
+is organized and the conventions/rules for writing new functions
+and demonstrations. 
+It is intended to contributers and developers of WAFO to unify 
+the source code and make maintenance of the toolbox easier.
+\section{Architecture}
+\begin{description}
+\item[/WAFO] is the main directory containing different directories for the  WAFO software, datasets and documentation
+\item[/WAFO/docs] contains the documentation for the toolbox both in ascii and postscript format.
+\item[/WAFO/paper] is a subdirectory including scripts for reproducing figures in various articles and technical reports.
+\item[/WAFO/demos] contains different demonstrations
+\item[/WAFO/data] contains datasets used in the demo scripts.
+\item[/WAFO/source/] contains mex and fortran source files
+\item[/WAFO/exec/alpha] contains mex/fortran compiled executables for alpha computers
+\item[/WAFO/exec/pc] contains mex/fortran compiled executables for PC
+\item[/WAFO/....] (other directories of WAFO specified by Jesper?) 
+\end{description}
+
+\section{Documentation}
+The documentation directory \verb+/WAFO/docs/+ contains all the documentation available for the WAFO. 
+The contents of any of these files
+may be examined by typing its name for ascii files or viewing in ghostview for postscriptfiles.
+\begin{description}
+\item[datastructures.m] Datastructures in WAFO 
+\item[definitions.m] Definitions 
+\item[install.m] How to install WAFO
+\item[bugreport.m] How to report BUGS of the WAFO software
+\item[gettingstarted.m] How and where to start with WAFO
+\item[limitations.m] Known limitations of WAFO
+\item[references.m] A list of all the articles books referenced in functions where the user can find more documentation
+\item[tutorial.ps]  The tutorial of WAFO
+\item[funcreference.ps] refence card of all the functions available in WAFO
+\end{description}
+Every directory  have a \verb+Contents.m+ file which list all the files in the 
+directory along with a short description of what they do.   The first two lines of the \verb+Contents.m+
+contains a directory description and a version marker of the form 
+\begin{verbatim}
+% Wave Analysis for Fatigue and Oceanography (WAFO) Toolbox.
+% Version x.y.z  dd-mm-yyyy
+\end{verbatim}
+in order to get the toolbox to work with the MATLAB function \verb+ver+.
+and to make maintenance of WAFO easier.
+( Look at the Contents.m in any MathWorks toolbox (but
+ not MATLAB) for an example).
+
+Also each function must have a help header explaining their usage and purpose (see: help header).
+The directory also contains some utility functions for documentation:
+\begin{description}
+\item[WAFOhelpfiles] all help files arranged by function name
+\item[WAFOsynopsis] one line synopsis arranged by function name
+\item[WAFOcontents] list all \verb+contents.m+ files
+\item[WAFOfiles] list all WAFO files by directory
+\item[mkcontents] automatically generate contents  for current directory
+  based on H1 line of the files.
+\item[mkref] automatically generate a reference file  for current directory
+\end{description}
+
+
+\subsection{Functions }
+\subsubsection{General conventions}
+Each line of code in the functions must not exceed 76 columns
+to ease the readability of the code. Function names must be written in lower case letters
+without any underscores. Also local variable names should 
+preferably be in lower case letters. Global variables should be written in 
+upper case letters in order to avoid confusion with local variables. 
+
+\subsubsection{Help header}
+Generally a function in WAFO should be well commented and include the following
+blocks of information, each block separated by a blank line, in the given order in the help header:
+
+\begin{description}
+\item[Header:] (H1 line) Name of the function (in uppercase letters) followed by a
+  concise and definitive description appropriate for retrieval purposes by
+  the MATLAB \verb+lookfor+ command. Not to exceed one line.  \\
+  Format: \\
+\% $\langle$ FUNCTION NAME $\rangle $
+  $\langle$ blank $\rangle $ $\langle$ Description $\rangle$
+\item[Call:] Specifying the calling prototype, \ie output argument(s),
+  function name and input argument(s). Optionally, more than one
+  prototype call. Function name in lower case letters. \\
+  Format:\\
+ \%$\langle$ blank $\rangle $ CALL: $\langle$ 2 blanks $\rangle$
+  $\langle$ output $\rangle $ $\langle$ blank $\rangle $ = $\langle$ blank $\rangle$
+  $\langle$ function name $\rangle$ ($\langle$ input $\rangle$) \\
+ \%$\langle$ 8 blanks $\rangle$ 
+  $\langle$ output $\rangle $ $\langle$ blank $\rangle $ = $\langle$ blank $\rangle$
+  $\langle$ function name $\rangle$ ($\langle$ input $\rangle$)
+\item[Outputs/inputs:] A list describing the output and input arguments in
+  the order they appear in the calling prototype. The description should
+  also indicate the data type of the argument. An optional input argument is
+  indicated by specifying the default value enclosed in parenthesis. Each
+  line should be aligned so that all the equal-signs are in the same column.\\
+  Format: \\
+  \%  $\langle$ argument $\rangle$
+  $\langle$ blank $\rangle$ = $\langle$ blank $\rangle$ $\langle$ description
+  $\rangle$ (Default $\langle$ value $\rangle$ )
+\item[Description:] Detailed explanation of what the function does, the
+  assumptions made, the limitations and how the algorithm works.  This
+  should be as detailed as possible without exceeding one page.
+\item[Side effects:] If any like changing/using global variables, 
+changing properties of figure windows etc.
+should also be notified in the help header
+\item[Example(s):] An example of how to use the function in practice is
+  desirable.\\
+  Format: \\
+\% $\langle$ blank $\rangle$ Example: $\langle$ blank $\rangle$ $\langle$ Description $\rangle$ \\
+\% $\langle$ 3 blanks $\rangle$ $\langle$ Command line(s) $\rangle$  \\
+\item[See also:] Comma separated list of related functions or functions
+  which this routine calls.
+\end{description}
+
+\subsubsection{Secret help}
+Immediately after  the help header the following information should be given: 
+\begin{description}
+\item[References:] A complete reference from which the user can obtain further information
+if it exist should also be included\\
+  Format: \\
+\% References \\
+\% \\
+\% $\langle$ Author(s) $\rangle$ ($\langle$ year $\rangle$ ) \\
+\% $\langle$ Title $\rangle$  \\
+\% $\langle$ Journal/Volume/Pages/Publisher/... $\rangle$
+\item[Tested on:] Specifies on which matlab version the function has been
+  tested.
+\item[History:] Revision log of the function in chronological order. \\
+  Format: \\
+ \% revised by $\langle$ name $\rangle$ $\langle$ date $\rangle$  \\
+ \% $\langle$ short description of the revision $\rangle$
+\end{description}
+
+An example on how it looks like in the \verb+torsethaugen+ function is given
+on the next page.
+\newpage{}
+\begin{verbatim}
+%TORSETHAUGEN Calculates and plots a doubly peaked spectral density 
+%
+% CALL:  [S Ss Sw] = torsethaugen(w,data); 
+%        [S Ss Sw] = torsethaugen(w,data,plotflag); 
+%
+%   S, Ss, Sw =  a struct (See WAFOdefinitions) containing the spectral density 
+%                for total, swell and wind, respectively.  
+%        w    = angular frequency (default linspace(0,3,257))
+%        data = [Hm0 Tp]
+%               Hm0 = Significant wave height
+%               Tp  = 2*pi/wp, primary peak period
+%    plotflag = 0, do not plot the spectrum.
+%               1, plot the  spectrum (default).
+%
+% The spectrum is written as
+%         S(w)=Ss(w)+Sp(w) 
+% where Ss and Sp are modified JONSWAP spectrums for the secondary 
+% and primary peak, respectively. The energy
+% is divided  between the two peaks according to empirical parameters
+% which has been fitted to the average measured wave spectra from the North Sea.
+% The dataset used consisted of 20 000 spectra divided into 146 different classes 
+% of Hm0 and Tp ranging from 0.5 to 11 meters and  3.5 to 19 sec,
+% respectively. See Torsethaugen (1996).
+%
+% Preliminary comparisons with spectra from other areas indicate that 
+% some of the empirical parameters are dependent on geographical location.
+% Thus the model must be used with care for other areas than the North Sea 
+% and sea states outside the range of Hm0 and Tp as given above.
+%
+% Example : 
+%   w=linspace(0,4,129);
+%   [S Ss Sw] = torsethaugen(w,[7 12],0); 
+%
+% See also: jonswap, wspecplot
+
+% References 
+% 
+%  Torsethaugen et. al. (1996)
+%  Model for a doubly peaked wave spectrum 
+%  Report No. STF22 A96204. 
+%  SINTEF Civil and Environmental Engineering, Trondheim
+
+% Tested on: Matlab 6.0
+% 
+% History:
+% Revised by pab 27.06.1999
+%    updated some documentation
+% By pab 14.05.1999
+\end{verbatim}
+\section{Paper}
+The \verb+/paper+ directory contains subdirectories including scripts for recreating figures in 
+published articles. Each article have their own subdirectory.  The directories contains 
+demonstration scripts to 
+generate individual figures and (possibly) specialized tools/functions not available in the official 
+release of WAFO for generating the figures. These are the rules for the scripts 
+\begin{enumerate}
+\item One script creates one complete figure.
+\item If some variables set in one script is needed by another script they must be saved as global variables.
+\item No \verb+pause+ or \verb+print+ statements allowed in scripts.
+\end{enumerate}
+
+The steps involved to add a demo are as follows :
+\begin{enumerate}
+\item Decide on a name for the demo, \eg{}, \verb+my+, and create a new subdirectory accordingly after this name
+\item Create the following files:
+\begin{description}
+\item[mydemo.m] Starts a user controlled demonstration with choices. 
+\item[myinit.m] set up data structures,globals
+\item[myfig1,2...m] called from choices which creates one figure each.
+ Each \verb+.m+-file for an individual figure contains a help 
+header which should be displayed in the command window at execution time of the script
+along with a short explanation to the figure.\\
+ Format: \\
+\% MYFIG $\langle$ Number $\rangle $:  $\langle$ Caption $\rangle $ \\
+\% \\
+\% $\langle$ short explanation $\rangle$
+\item[myintro.m]help file describing the purpose of the demo
+\item[mycleanup.m]clears all globals created by the demo
+\end{description}
+\item Specialized tools/functions not available in the official 
+  release of WAFO needed for generating the figures should be put into 
+  \verb+\private\+ subdirectory.
+\end{enumerate}
+
+\section{Demos}
+Just  like the paper directory, 
+the demos directory also contains different subdirectories with scripts producing figures. 
+The only difference
+is that it does not reproduce figures from published articles but merely test and 
+demonstrate various methodologies,
+and release code that approximately reproduces figures in other articles.  
+
+\section{Datasets}
+This directory contains 1D, 2D (3D) datasets used by the scripts in demo and paper directory.
+%Also some utility functions for loading the dataset into a MATLAB session is included.
+\subsection{Dataset format}
+%\begin{enumerate}
+%\item[1D:] 
+The data is stored in vertical format with sampled values aligned  in
+columns. The default suffix for the data files is \verb+.dat+
+The documentation \verb+.m+-file explains what each column is a measure of.
+Sampling times if given should be in the first column.
+
+%\item[2D:] currently not available.
+%\end{enumerate}
+
+
+\subsection{Dataset documentation}
+Each dataset in the system has a documentation \verb+.m+-file with the following structure:
+\begin{description}
+\item[Title:] name of the file in upper case letter followed by descriptive text. 
+Not to exceed one line. \\
+ Format: \\
+\%  $\langle$ DATASET NAME $\rangle $
+  $\langle$ blank $\rangle $ $\langle$ Description $\rangle $
+\item[Call:] indicating how to access the data.\\
+  Format:\\
+ \%$\langle$ blank $\rangle $ CALL: $\langle$ 2 blanks $\rangle$
+  $\langle$ output $\rangle $ = $\langle$ blank $\rangle $ = $\langle$ blank $\rangle$
+  $\langle$ function name $\rangle$ ($\langle$ input $\rangle$)
+\item[Size:] The size of the data.\\
+Format:\\
+\%$\langle$ blank $\rangle $ Size $\langle$  blanks $\rangle$
+  : $\langle$ blanks $\rangle $   $\langle$ Size  $\rangle$
+\item[Sampling rate:] 
+Format:\\
+\%$\langle$ blank $\rangle $ Sampling rate $\langle$  blanks $\rangle$
+  : $\langle$ blanks $\rangle $   $\langle$ rate in Hz  $\rangle$
+\item[Device:] Measuring device used to sample the data. \\
+Format:\\
+\%$\langle$ blank $\rangle $ Device $\langle$  blanks $\rangle$
+  : $\langle$ blanks $\rangle $   $\langle$ name of measuring device $\rangle$
+\item[Source:] Indication of the original source of the data.\\
+Format:\\
+\%$\langle$ blank $\rangle $ Source $\langle$  blanks $\rangle$
+  : $\langle$ blanks $\rangle $   $\langle$ Source  $\rangle$
+\item[Format:] Specifying the format of the file.\\
+Format:\\
+\%$\langle$ blank $\rangle $ Format $\langle$  blanks $\rangle$
+  : $\langle$ blanks $\rangle $   $\langle$ Format  $\rangle$
+ \item[Description:] and other relevant facts of the data , \ie{} where and when the 
+data were measured. An indication of the quality of the data should also be included. 
+Descriptive measures of the data like significant 
+wave height, $H_{m0}$ , and peak period, $T_{p}$ may also be given here.  
+Also restrictions on the use of the data 
+if any should be given here. \\
+Format:\\
+\%$\langle$ blank $\rangle $ Description $\langle$  blanks $\rangle$
+  :  $\langle$ Newline $\rangle $ \\
+\%  $\langle$ Description  $\rangle$
+\item[See also:] Comma separated list of related files of functions 
+\end{description}
+Example is given on the next page.
+\newpage{}
+\begin{verbatim}
+%GULLFAKS  surface elevation measured at Gullfaks C 24.12.1990
+%              
+% CALL:  xn = load('gullfaks.dat')
+%  
+% Size           :    2560 X 2
+% Sampling Rate  :    2.5 Hz
+% Device         :    EMI laser
+% Source         :    STATOIL 
+% Format         :    ascii, c1: time c2: surface elevation
+%
+% Description    :
+%  The wave data was measured 24th December 1990 at the Gullfaks C platform  
+%  in the North Sea from 17.00 to  21.20. The  water depth of  218 m is regarded 
+%  as deep water  for the most  important wave components.
+%  There are two EMI laser sensors named $219$ and $220$. This data  set  is obtained from
+%  sensor $219$, which is  located in the
+%  Northwest corner  approximately two platform leg diameters away from   
+%  the closest  leg. 
+%  Thus the wave elevation is not expected  to be significantly 
+%  affected by  diffraction effects for incoming waves in the western
+%  sector.   The wind direction for this period is from the Southwest. 
+%  Some  difficulties in calibration of the instruments have been reported
+%  resulting in several consecutive measured values being equal or nearly equal 
+%  in the observed data set.
+% 
+%  Hm0 = 6.8m, Tm02 = 8s, Tp = 10.5
+%
+% See also: gullfaks.jpg
+\end{verbatim}
+\end{document}    

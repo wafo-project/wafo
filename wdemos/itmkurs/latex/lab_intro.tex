@@ -1,0 +1,398 @@
+\renewcommand{\FileId}{File: lab\_intro.tex, Last changed: 2005-04-16}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% Introduction.
+%
+\section*{General Introduction}
+\markboth{General Introduction}{General Introduction}
+
+This course is intended to present some tools for analysis of (random) loads
+in order to assess the fatigue damage.
+Throughout the course we will use the Matlab toolbox WAFO
+(Wave Analysis for Fatigue and Oceanography). We shall assume that
+the load is given by one of three possible forms:
+
+\begin{enumerate}
+\item As measurements of the stress or strain function with some given
+sampling frequency in Hz. Such loads will be called measured loads
+and denoted by $x(t)$, $0\le t\le T$, where $t$ is time and $T$ is the
+duration of the measurements.
+\item In the frequency domain (that is important in system analysis)
+as a power spectrum. This means that the signal is represented by a
+Fourier series
+\begin{displaymath}
+x(t)\approx
+m + \sum_{i=1}^N a_i\cos(\omega_i\,t)+b_i
+\sin(\omega_i\,t)
+\end{displaymath}
+where $\omega_i=i\cdot 2\pi/T$ are angular
+frequencies,
+$m$ is the mean of the signal and $a_i,b_i$ are Fourier coefficients.
+\item In the rainflow domain, i.e.\ the measured load is given in the
+form of a rainflow matrix.
+\end{enumerate}
+
+We shall now review some simple means of characterizing
+and analysing loads that are given in forms 1)--3), and how to derive some
+characteristics, important for fatigue evaluation and testing.
+More details will also be given in exercises.
+
+We assume that the reader has some knowledge about the concept of
+cycle counting, in particular rainflow
+cycles, and damage accumulation using Palmgren-Miners linear damage
+accumulation hypotheses. The basic definitions are given in the end of
+this introduction.
+
+
+\subsection*{Parameters for Measured Load Histories}
+
+Some general properties of measured loads can be
+summarized by using a few simple characteristics. Those are
+\emph{the mean} $m$, defined as the average of all values, which is
+approximately equal to $m=1/T\,\int_0^T x(t)\,dt$, and \emph{the
+variance} $\sigma^2$ that measures the variability around the mean
+and is defined as $\sigma^2=1/T\,\int_0^T (x(t)-m)^2\,dt$,
+\emph{the mean frequency} $f_0$ defined as the number of times $x(t)$
+crosses upwards (upcrosses) the mean $m$ normalized by the length
+of the observation interval $T$, and \emph{the irregularity factor}
+$\alpha$, defined as the intensity of mean upcrossings $f_0$
+divided by the intensity of local maxima (intensity of cycles)
+in $x(t)$. (Note, a small $\alpha$ means an irregular process,
+$(0 < \alpha \leq 1$).)
+Another important property
+is the crossing spectrum $\mu(u)$ defined as the intensity of
+upcrossings of a level $u$ by $x(t)$ as a function of $u$.
+Obviously $f_0=\mu(m)$.
+
+The process of damage accumulation depends only on the values
+and the order of the local extremes in the load. The sequence of local
+extremes is called the \emph{sequence of turning points}. The irregularity
+factor $\alpha$ is measuring how dense the local extremes are
+relatively to the mean frequency $f_0$. For a regular function
+it would be only one local maximum between upcrossings of the mean level
+giving irregularity factor equal to one. In the other extreme case,
+there are infinitely many local extremes giving irregularity factor zero.
+However, if the crossing intensity $\mu(u)$ is finite, most of those
+local extremes are irrelevant for the fatigue and should be
+disregarded.
+A particularly useful filter is the so-called rainflow filter that
+removes all local extremes that builds rainflow cycles with amplitude
+smaller than a given threshold. We shall always assume that the signals
+are rainflow filtered.
+
+
+\subsection*{Fatigue Life Prediction}
+Obviously when the signal is given, the rainflow cycles can be extracted
+and  fatigue damage analysis performed. However, often the observed function
+is too short to contain all possible cycles that a structure can
+experience and there is a need to model the damage when $x(t)$ is
+modelled as a possible outcome of a ``random'' measurement or,
+more precisely, as a random process, denoted in the following by $X(t)$.
+The main objective is then to predict the fatigue life from the
+specification of a random load $X(t)$. This problem is resolved on several
+levels of complexity.
+
+First we shall use the fact that the crossing intensity
+can be used to give a conservative estimate (overestimation) of the accumulated damage caused by $X(t)$, see
+Rychlik~\cite{Rychlik93.A2} for algorithm and more detailed discussion.
+Now the crossing intensity can be computed using the so-called Rice's
+formula. Another possibility is to include the intensity in the model
+specification as is done for the so-called transformed Gaussian
+loads.
+
+If more accurate predictions of fatigue life are needed then
+more detailed models are required for the sequence of turning points.
+Here the Markov chain theory has shown to be particularly useful.
+There are two reasons for this:
+\begin{itemize}
+\item the Markov models constitute a broad
+class of processes that can accurately model many real loads
+\item for Markov models, the fatigue damage prediction using rainflow method
+is particularly simple, Rychlik~\cite{Rychlik88.A1} and
+Johannesson~\cite{Johannesson99.PhD}
+\end{itemize}
+In the simplest case, the necessary
+information is the intensity of pairs of local maxima and the following
+minima (the so-called Markov matrix or min-max matrix). The dependence
+between other extremes is modelled using Markov chains,
+see Frendahl~\& Rychlik~\cite{Frendahl93.A1}.
+
+%\subsection*{Fatigue Analysis of Measured Load Histories}
+%
+%[PJ writes.]
+
+%\subsection*{Upper and Lower Bound for Rainflow Damage}
+%
+%[IR writes.]
+
+
+\subsection*{Frequency Modelling of Load Histories}
+
+The important characteristic of signals in frequency domain is their
+power spectrum  $\hat{s}_i=(a_i^2+b_i^2)/(2\Delta\omega)$, where $\Delta\omega$
+is the sampling interval in frequency domain, i.e. $\omega_i=i\cdot \Delta\omega$.
+The two-column matrix $\hat{s}(\omega_i)=(\omega_i,\hat{s}_i)$ will be called the power
+spectrum of $x(t)$.
+
+The sequence $\theta_i=\arccos(a_i/\sqrt{2\hat{s}_i\Delta\omega})$
+is called a sequence of
+phases and the Fourier series can be written as follows
+$$
+x(t)\approx m + \sum_{i=1}^N \sqrt{2\hat{s}_i\Delta\omega}
+\cos(\omega_i\,t+\theta_i).
+$$
+If the sampled signal contains
+exactly $2N+1$ points then $x(t)$ is equal to its Fourier series at the
+sampled points. In the special case when $N=2^k$, the so-called FFT
+(Fast Fourier Transform) can be used in order to compute the Fourier
+coefficients (and the spectrum) from the measured signal and in
+reverse the signal from Fourier coefficients.
+
+As we have written before, the Fourier coefficient to the zero frequency
+is just the mean of the signal, while the variance is given by
+$\sigma^2=\Delta\omega\sum \hat{s}(\omega_i)
+\approx \int_0^\infty \hat{s}(\omega)\,d\omega$. The last integral
+is called the zero-order spectral moment $\lambda_0$. Similarly
+higher-order spectral moments are defined by
+$$
+\lambda_i=\int_0^\infty \omega^i\hat{s}(\omega)\,d\omega.
+$$
+%In oceanography the satellite measurements give information
+%on the  variability of the sea surface by
+%giving the two spectral moments $\lambda_0$,  $\lambda_2$ and the main
+%frequency $f_0$. Geographical location plus these three parameters are
+%then used to select and appropriate energy spectrum $S(\omega)$.
+
+\subsubsection{Random Functions in Spectral Domain}
+Assume that we get new measurements of a signal
+that one is willing to consider as equivalent, but it is seldom
+identical to the first one. Obviously it will have a
+different spectrum $\hat{s}(\omega)$ and the phases will be changed.
+A useful mathematical model for such a situation are the so-called
+random functions (stochastic processes) which will be denoted by $X(t)$.
+Here $x(t)$ is seen as particular randomly chosen function.
+The simplest case that models
+stationary signals with a fixed spectrum $\hat{s}(\omega)$ is
+$$
+X(t)= m + \sum_{i=1}^N \sqrt{\hat{s}_i\Delta\omega}
+\sqrt{2}\cos(\omega_i\,t+\Theta_i),
+$$
+where $\Theta_i$ are independent uniformly distributed phases.
+However, it is not a very realistic model, since in practice we often
+observe variability in spectrum $\hat{s}(\omega)$ between measured functions
+and hence $\hat{s}_i$ should be modelled as random variables too.
+Here we assume that
+there is a deterministic function $S(\omega)$ such that the average value
+of $\hat{s}(\omega_i)\Delta\omega$ can be approximated by
+$S(\omega_i)\Delta\omega$ and in many cases one can model
+$\hat{s}_i=R_i^2\cdot S(\omega_i)/2$ where $R_i$ are independent random
+factors,
+all Rayleigh distributed. (Observe that the average value of $R_i^2$
+is 2.)  This gives the following random function
+$$
+X(t)= m + \sum_{i=1}^N \sqrt{S(\omega_i)\Delta\omega}
+R_i\cos(\omega_i\,t+\Theta_i).
+$$
+The process $X(t)$ has many useful properties that can be used in
+analysis like: for any fixed $t$, $X(t)$ is normally distributed, called also
+Gaussian distributed. A probability of any event defined for $X(t)$
+can, in principal, be computed when the mean $m$ and the spectral
+density $S$ are known.
+
+If $Y(t)$ is an output of a linear filter
+with $X(t)$ on the input, then  $Y(t)$ is also normally distributed
+and we need to derive the spectrum of $Y(t)$ to be able to analyse its
+properties.
+This is a simple task, since if the transfer function of the filter
+$H(\omega)$ is given, then the spectrum of $Y(t)$, denoted by $S_Y$,
+is given by $S_Y(\omega)=|H(\omega)|^2S(\omega)$.
+For example, the derivative $X'(t)$ is a Gaussian process
+with mean zero and spectrum $S_Y(\omega)=\omega^2S(\omega)$.
+The variance of the derivative is $\sigma^2_{X'}=\int
+S_Y(\omega)\,d\omega=\lambda_2$.
+
+%The signal analysis for linear filters is important
+%for describing the stresses in some part of structure and is particularly
+%simple. However, the fatigue process is not dependent on any particular
+%form of oscillatory stress but on its total variability and hence the
+%fatigue analysis for Gaussian loads is not so simple. An  exception is the
+%crossing intensity $\mu(u)$ since the average number of upcrossings of
+%the level $u$, $\mu(u)$ is given by the celebrated Rice's formula
+%$$
+%\mu(u)=f_0\exp(-(u-m)/2\sigma^2).
+%$$
+%Using spectral moments we have that $\sigma^2=\lambda_0$ while
+%$f_0=\frac{1}{2\pi}\sqrt{\frac{\lambda_2}{\lambda_0}}$.
+
+The Gaussian process is a sum of cosine terms with amplitudes defined
+by the spectrum; hence, it is not easy to relate the power
+spectrum and the fatigue damage. The crossing intensity $\mu(u)$,
+which yields the average number of upcrossings of the level $u$, is
+given by the celebrated Rice's formula
+$$
+\mu(u)=f_0\exp(-(u-m)^2/2\sigma^2).
+$$
+Using spectral moments we have that $\sigma^2=\lambda_0$ while
+$f_0=\frac{1}{2\pi}\sqrt{\frac{\lambda_2}{\lambda_0}}$.
+
+Another approach is to model the turning points of
+a Gaussian process by a Markov chain, where the so-called Markov matrix is
+computed from the specified spectrum $S(\omega)$.
+%This analysis
+%can be extended for the models that are instantaneous functions of
+%Gaussian processes, which further extends the class of models, see Rychlik~\cite{Rychlik88.A1}
+%and~\cite{Rychlik96.A1} for review.
+Then calculation of rainflow matrices and fatigue damages are
+possible. This approach requires a considerable amount of computation,
+but often renders accurate results, see Rychlik~\cite{Rychlik88.A1}
+and Rychlik et al.~\cite{Rychlik97.A1} for extension to transformed
+Gaussian processes.
+
+\subsection*{Fatigue Life Prediction -- Rainflow Method}
+
+In laboratory experiments, one often subjects a specimen of a material
+to a constant amplitude load, e.g.
+$L(t)= s \sin(\omega t)$ where $s$ and $\omega$ are constants,
+and counts the number of cycles (periods) until it breaks.
+The number of load cycles $N(s)$ as well as the amplitudes $s$ are
+recorded. Note that for small amplitudes, $s<s_{\infty}$,
+$N(s)\approx\infty$, i.e.\ no
+damage is observed. The amplitude $s_{\infty}$ is called
+\emph{the fatigue limit} or \emph{the endurance limit}.
+In practice, one often uses a simple model for $N(s)$,
+        \begin{equation} %\label{SNmodel}
+        N(s)=\left\{ \begin{array}{c@{\quad}l}
+        K^{-1} s^{-\beta} & s> s_{\infty},\\
+        \infty & s\le s_{\infty},\end{array}\right.
+        \end{equation}
+where $K$ is a (material dependent) stochastic variable, usually
+lognormally distributed, i.e.\ with $K^{-1}=E\gamma^{-1}$ where
+$\mbox{ln}(E)\in\mbox{N}(0,\sigma^2_E)$,
+and $\gamma$, $\beta$ are fixed constants.
+
+
+For irregular loads, also called variable amplitude loads, one is often combining the S-N curve with a cycle
+counting method by means of
+the Palmgren-Miner linear damage accumulation theory, to predict fatigue
+failure time. The cycle counting forms equivalent load cycles.
+The now commonly used cycle counting
+method is rainflow counting and was introduced by Endo~\cite{Matsuishi68.A1} in 1968. It was
+designed to catch both slow and rapid variations of the load by
+forming cycles by pairing high maxima with low minima even if they are
+separated by intermediate extremes.
+More precisely, each local maximum is a top of a
+hysteresis loop with an amplitude that is computed using rainflow
+algorithm. The definition of rainflow cycles as illustrated in
+Figure~\ref{FigRFCdef} is due to Rychlik~\cite{Rychlik87.A1}.
+
+\begin{figure}[htbp]
+  % Figuren är ritad i xfig och konverteras med kommandot
+  % fig2pstex fig/FigRFCdef_intro
+  \begin{center}
+    \input{fig/FigRFCdef_intro.pstex_t}
+  \end{center}
+  \caption{\emph{
+      Definition of the rainflow cycle,
+      as given by Rychlik~\cite{Rychlik87.A1}.
+      From each local maximum $M_k$
+      one shall try to reach above the same level, in the backward(left) and
+      forward(right) directions, with an as small downward excursion as
+      possible. The minimum, of $m_k^-$ and $m_k^+$, which represents the
+      smallest deviation from the maximum $M_k$ is defined as the
+      corresponding rainflow minimum $m_k^{\rfc}$.
+      The $k$:th rainflow cycle is defined as $(m_k^{\rfc},M_k)$.
+      }}
+  \label{FigRFCdef}
+\end{figure}
+
+Let $t_k$ be the time of the $k$:th local maximum and $s_k$
+the amplitude of the attached hysteresis loop. Define the total damage by
+\begin{equation} \label{Damage}
+  D(t)=\sum_{t_k\le t}\frac{1}{N(s_k)}=K\sum_{t_k\le
+  t}s_k^\beta=K D_\beta(t)
+\end{equation}
+where the sum contains all cycles up to time $t$. The
+fatigue life time $T^f$, say, is shorter than $t$ if $D(t)>1$.
+In other words, $T^f$ is defined as the time when $D(t)$ crosses level
+1. A very
+simple predictor of $T^f$ is obtained by
+replacing $K$ in Eq.~(\ref{Damage}) by a constant, for example the
+median value of $K$ equal to $\gamma$.
+For high cycle fatigue, the time to failure is long (more than
+$10^5/f_0$).  Then for stationary (and ergodic and some other mild
+assumptions) loads,
+the damage $D_\beta(t)$ can be approximated by its mean
+$E[D_\beta(t)]=d_\beta\cdot t$. Here $d_\beta$ is the damage intensity,
+i.e.\ how much damage is accumulated per time unit. This leads to
+a very simple predictor of fatigue life time
+\begin{equation}
+\hat T^f=\frac{1}{\gamma d_\beta}.
+\end{equation}
+
+
+
+\subsection*{Switching Loads -- Rainflow Matrices}
+
+Often the real measurements are gathered in the forms of rainflow
+matrices. In the same time there is a need of modelling real loads
+that leads to the observed rainflow matrix. In particular the load
+can be built up by blocks of stationary load conditions that switch
+between each other. The rainflow matrix is then a nonlinear mixture of
+the rainflow matrices for the stationary models and for switching between
+them. The objective is to model the real loads, see
+Johannesson~\cite{Johannesson99.PhD}
+for detailed presentation.
+
+When studying switching loads one has to model both the switching
+between the subloads and the characteristics of the
+different subloads. We will use a hidden Markov
+model (HMM) to describe the switching load. This means that the switching
+is controlled by a Markov chain, called the regime process, which can
+not be observed and therefore is called hidden. Only the switching
+load process can be observed,
+see e.g.\ Figure~\ref{fig1:SamplePath}. The regime process is defined by
+the conditional probabilities of switching
+between the different regime states.
+This determines the mean length of each subload and the proportion of
+the different subloads. The length of a subload is geometrically distributed ($\sim$
+exponential).
+The subloads are modelled by
+min-Max (and Max-min) matrices, see Figure~\ref{fig:TP_Matrix}. This
+means that the sequence of local
+extremes (also called turning points) are discretized to fixed levels
+(often 64 or 128 levels in practice). The transitions from a local
+extreme to the next local extreme are approximated by a Markov
+chain. This is a 1-step Markov approximation,
+as the distribution of the next turning point only depends on the current turning point
+and not on the whole history of turning points.
+For a thorough description of the models and the algorithms see
+Johannesson~\cite{Johannesson99.PhD,Johannesson98.A1}. A summary
+without any mathematical details is found in Johannesson
+et~al.~\cite{Johannesson97.R2}.
+
+\begin{figure}[ht]
+  % Figuren är ritad i xfig och converteras med kommandot
+  % fig2pstex fig/FigTP_Matrix
+  \begin{center}
+%    \resizebox{!}{60mm}{\input{fig/FigTP_Matrix.pstex_t}}
+%    \resizebox{\figwidthA}{!}{\input{fig/FigTP_Matrix.pstex_t}}
+    \resizebox{12cm}{!}{\input{fig/FigTP_Matrix.pstex_t}}
+  \end{center}
+  \caption{\emph{
+      Part of a discrete load process where the turning points are
+      marked with $\bullet$.
+      The scale to the left is the discrete levels.
+      The transitions from minimum
+      to  maximum and the transitions from maximum to minimum are
+      collected in the min-max matrix, $\bm{F}$ and max-min matrix,
+      $\bmh{F}$, respectively. The rainflow cycles are
+      collected in the rainflow matrix, $\bm{F}^{\rfc}$.
+      The figures are the number of observed cycles and the
+      grey areas are by definition always zero.
+      }}
+  \label{fig:TP_Matrix}
+\end{figure}

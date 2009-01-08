@@ -1,5 +1,7 @@
 %README Readme file for module GRAPHUTIL in WAFO Toolbox 
-% Version 2007a
+% Version 2.5
+%
+%  All XXXfigs.m function files are renamed to figXXX.m
 % 
 % Version 2.2.1   07-Nov-2007
 %

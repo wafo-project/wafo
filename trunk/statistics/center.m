@@ -5,7 +5,7 @@ function x = center(x)
 %
 % See also stdize
 
-%       GPL Copyright (c) Anders Holtsberg, 1998
+%       LGPL Copyright (c) Anders Holtsberg, 1998
 
 n = size(x,1);
 m = mean(x);

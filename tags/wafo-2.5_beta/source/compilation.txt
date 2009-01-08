@@ -1,0 +1,149 @@
+In order to compile fortran files, you go to the
+directory "...wafo/exec" and further down one step
+to the directory given by 'lower(coputer)' in MATLAB.
+Dependently on your platform ('lower(coputer)') compile 
+the fortran files using the following commands:
+(Obs. it can happen that you will need to compile them twice.)
+
+ON DIGITAL (alpha):
+ f90   -automatic -o down2cc.exe ../../source/down2cc.f 
+ f90   -automatic -o simduff.exe ../../source/simduff.f  
+
+ f90   -automatic -o sp2Acdf51.exe ../../source/rind51.f ../../source/sp2Acdf1.f 
+ f90   -automatic -o sp2mM51.exe ../../source/rind51.f ../../source/sp2mM1.f 
+ f90   -automatic -o sp2tccpdf51.exe ../../source/rind51.f ../../source/sp2tccpdf1.f 
+
+ f90   -automatic -o minmax.exe ../../source/rind.f ../../source/twog.f ../../source/minmax.f
+ f90   -automatic -o sp2Acdf70.exe ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2Acdf.f
+ f90   -automatic -o sp2mM70.exe  ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2mM.f
+ f90   -automatic -o sp2tccpdf70.exe ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2tccpdf.f
+ f90   -automatic -o sp2thpdf70.exe ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2thpdf.f
+ f90   -automatic -o sp2mmt70.exe ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2mmtpdf.f 
+
+f90   -automatic -o rindd70.exe ../../source/jacobmod.f ../../source/intmodule.f  ../../source/rind70.f ../../source/rindinterf.f  
+
+ON SOLARIS (sol2):
+ f90 -O -Bdynamic -fixed -o rindd70.exe ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/rindinterf.f
+ f90 -O -Bdynamic -fixed -o sp2Acdf70.exe ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2Acdf.f
+ f90 -O -Bdynamic -fixed -o sp2Acdf51.exe ../../source/rind51.f ../../source/sp2Acdf1.f 
+ f90 -O -Bdynamic -fixed -o sp2mM51.exe ../../source/rind51.f ../../source/sp2mM1.f 
+ f90 -O -Bdynamic -fixed -o sp2tccpdf70.exe  ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2tccpdf.f
+ f90 -O -Bdynamic -fixed -o sp2tccpdf51.exe ../../source/rind51.f ../../source/sp2tccpdf1.f
+ f90 -O -Bdynamic -fixed -o sp2thpdf70.exe  ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2thpdf.f 
+ f90 -O -Bdynamic -fixed -o down2cc.exe ../../source/down2cc.f 
+ f90 -O -Bdynamic -fixed -o minmax.exe ../../source/rind.f ../../source/twog.f ../../source/minmax.f
+ f90 -O -Bdynamic -fixed -o sp2mM70.exe  ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2mM.f
+ f90 -O -Bdynamic -fixed -o sp2mmt70.exe ../../source/intmodule.f ../../source/jacobmod.f ../../source/rind70.f ../../source/sp2mmtpdf.f 
+ f90 -O -Bdynamic -fixed -o simduff.exe ../../source/simduff.f  
+ 
+PC In order to compile fortran files with Lahey compilator, you go to the
+directory "...wafo/source".
+(Obs. it can happen that you will need to compile them twice.)
+
+
+ Lf95  sp2Acdf1.f  rind51.f
+ move  sp2Acdf1.exe ../exec/pcwin/sp2Acdf51.exe
+ Lf95  sp2Acdf.f intmodule.f jacobmod.f rind70.f 
+ move sp2Acdf.exe ../exec/pcwin/sp2Acdf70.exe
+...... etc.
+
+
+linux:
+ f90 -O -fixed -Nl126 -o sp2Acdf70.exe intmodule.f jacobmod.f rind70.f sp2Acdf.f
+etc.
+
+HP700
+ f90  -O -fixed -o ../exec/hp700/sp2Acdf60.exe intmodule.f jacobmod.f  rind70.f sp2Acdf.f
+etc.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%       MEX COMPILATION
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Compiling the mex-files written in c is straight forward. Install the appropriate c-compiler by :
+>> mex -setup
+
+The mex files written in c is installed by the following commands in the matlab prompt:
+>>mex -O csort.c
+>>mex -O findcross.c
+>>mex -O findrfc.c
+>>mex -O disufq.c
+
+After compilation, move the compiled mex-files (mentioned above) to the directories of their corresponding m-file. 
+
+
+
+For compiling the mex-files written in fortran 77/90, do the following:
+
+First, you will need a fortran compiler install it.
+( The F77/F90 mex-files in this directory was successfully compiled for matlab 5.3, 6.1
+ using Compaq Visual Fortran 6.1, and Windows 2000 and XP).
+
+Then you need to modify your mexopts.bat file.
+To find it, issue the command prefdir(1) from the Matlab command line,
+the directory it answers with will contain your mexopts.bat file.
+ Open it for editing. The first section will look like:
+
+
+rem ********************************************************************
+rem General parameters
+rem ********************************************************************
+set MATLAB=%MATLAB%
+set DF_ROOT=C:\Program Files\Microsoft Visual Studio
+set VCDir=%DF_ROOT%\VC98
+set MSDevDir=%DF_ROOT%\Common\msdev98
+set DFDir=%DF_ROOT%\DF98
+set PATH=%MSDevDir%\bin;%DFDir%\BIN;%VCDir%\BIN;%PATH%
+set INCLUDE=%DFDir%\INCLUDE;%DFDir%\IMSL\INCLUDE;%INCLUDE%
+set LIB=%DFDir%\LIB;%VCDir%\LIB
+
+then you are ready to compile the mex-files with F77 style at the matlab prompt using the
+following commands:
+
+mex -O mvnprodcorrprbmex.f
+mex -O mvnprdmex.f
+mex -O mexmvtnormprb.f
+mex -O mexmvnprb2.f
+mex -O mexmvnprb.f
+mex -O mexGenzMvnPrb.f
+mex -O -output mexrind71 intmodule.f  jacobmod.f rind71.f mexrind71.f
+mex -O -output mexrindalan24 intmodule.f  jacobmod.f alanpab24.f mexrindalan24.f 
+mex -O -output mexrindalan22 intmodule.f  jacobmod.f alanpab22.f mexrindalan22.f 
+
+
+After compilation, move the 
+compiled mex-files (mentioned above) to the WAFO/trgauss/private directory. 
+
+
+For F90 the  problem is that mex.bat doesn't recognize files
+ with extension .f90 as being source files.
+ To fix it do:
+ 
+  for matlab R11: 
+     (1) open c:\matlab\bin\mex.bat using an editor 
+     (2) line 2338 is:
+           if ($EXTENSION =~ /(c|f|cc|cxx|cpp|for)$/i ) {
+         change it to
+           if ($EXTENSION =~ /(c|f|cc|cxx|cpp|for|f90)$/i ) {
+         (notice the "|f90"?)
+
+ for matlab R12>:
+    make the changes as indicated above to either your 
+      c:\matlab\bin\mex.bat
+    or
+      c:\matlab\bin\mex.pl
+ 
+ then you are ready to compile this file at the matlab prompt using the
+ following command:
+
+  mex -O -output mexmvtprb  mvdist.f90 mexmvtprb.f
+
+
+
+

@@ -1,0 +1,1967 @@
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\cdr.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% By Per A. Brodtkorb 16.03.2001 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\cempdistr.m : 
+ 
+
+% Tested on: Matlab 5.3, 5.2, 5.1 
+% History: 
+% revised PJ 01-Apr-2001: updated help text 
+% revised pab 23.06.2000 
+% - added ih = ishold 
+% - added sym 
+% - added varargin 
+% revised ms 13.06.2000 
+% - pdf usage removed (can't distinguish between a cdf and an increasing pdf) 
+% - changed axis labelling in figures 
+% - changed to staircaseplot when plotflag=2,3 
+% - revised header info 
+% revised pab 08.06.2000 
+% - fixed normalization of f if c>min(z) 
+% revised pab 07.03.2000 
+% - enabled so that f may be empty while plotflag is given  
+% modified by Per A. Brodtkorb 10.11.98 
+% to accept both pdf and cdf's. Also enabled new plotting features, 
+% plotting of  probability of exceedances on a semilogy paper ....  
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\cl2cnr.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% By Per A. Brodtkorb 16.03.2001 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\cnr2cl.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% By Per A. Brodtkorb 16.03.2001 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\COMNSIZE.M : 
+ 
+
+% Tested on: matlab 5.3 
+% History: 
+% revised pab 23.10.2000 
+%  - New name comnsize 
+%  - the input arguments can have a any dimension. 
+%  - Updated documentation 
+%  - Vectorized the calculations a bit more. 
+% Based on common_size.m by 
+%  KH <Kurt.Hornik@ci.tuwien.ac.at> Created: 15 October 1994 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dcdf.m : 
+ 
+
+% tested on: matlab 5.2 
+% history: 
+%  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dcdfplot.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 25.10.2000 
+%  - updated help header 
+% revised pab 23.06.2000 
+%  - added sym and changed input to varargin 
+% revised pab 08.02.2000 
+% -added figdata 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vector to structure 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dfit.m : 
+ 
+
+% tested on: matlab 5.2 
+% history: 
+% revised pab 03.12.2000 
+% -added truncated weibull and rayleigh 
+% revised pab 12.11.2000 
+%  - added wggampdf option 
+%  - For monitor> 0:  removed normplot ...etc and replaced it with a call 
+%     to empdistr instead 
+% Per A. Brodtkorb 20.10.1998 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dfun.m : 
+ 
+
+% tested on: matlab 5.2 
+% history: 
+% pab 09.11.99 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dparamplot.m : 
+ 
+
+% history 
+% revised pab 19.01.2001 
+% - phat.CI may now be empty 
+% - better scaling of plots 
+% revised pab 12.11.2000 
+% - added  the possibility that phat is an array of structs 
+% revised pab 06.02.2000 
+% - added plotflag 
+% - simplified plotting 
+% by pab  
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dpdf.m : 
+ 
+
+%tested on: matlab 5.2 
+% history: 
+% revised pab 19.01.2001 
+% revised pab 03.12.2000 
+% added truncated weibull and truncated raleigh  
+% revised pab 12.11.2000 
+%  - added ggampdf option 
+% revised pab 08.02.2000 
+%   fixed a bug CV -> Cv 
+%  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dpdf2.m : 
+ 
+
+%tested on: matlab 5.2 
+% history: 
+%  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dprb.m : 
+ 
+
+% tested on: matlab 5.2 
+% history: 
+% revised pab 27.10.2000 
+%  - added example text 
+%  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2drnd.m : 
+ 
+
+% tested on: matlab 5.2 
+% history: 
+% by Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dsmfun.m : 
+ 
+
+% Tested on matlab 5.x 
+% history 
+% revised pab 03.12.2000 
+% - added truncated weibull and truncated rayleigh 
+% revised pab 12.11.2000 
+%  - added wggampdf option 
+%  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dsmfun2.m : 
+ 
+
+% Tested on: Matlab 5.2 
+% history 
+% revised pab 08.02.2000 
+%  - added visual 
+% by  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dstat.m : 
+ 
+
+%tested on: matlab 5.2 
+% history: 
+%  by Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\dist2dstatplot.m : 
+ 
+
+%tested on: matlab 5.2 
+% history: 
+% revised pab 03.11.2000 
+% - replaced call to var with std(tmp)^2 
+% revised pab 22.06.2000 
+%  - added varargin 
+%  - fixed some bugs for condon ==1 
+%  - added sym  
+%  - fixed a bug for res. 
+%  - updated header for csm and lin 
+% by Per A. Brodtkorb 23.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\distplot.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+%   Per A. Brodtkorb 12.11.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\empdistr.m : 
+ 
+
+% Tested on: Matlab 5.3, 5.2, 5.1 
+% History: 
+% revised pab 25.10.2000 
+%  - made call to cempdistr instead -> making maintainence easier. 
+% revised pab 07.03.2000 
+% - enabled so that f may be empty while plotflag is given  
+% modified by Per A. Brodtkorb 10.11.98 
+% to accept both pdf and cdf's. Also enabled new plotting features, 
+% plotting of  probability of exceedances on a semilogy paper .... 
+% revised ms 13.06.2000 
+% - pdf usage removed (can't distinguish between a cdf and an increasing pdf) 
+% - changed axis labelling in figures 
+% - changed to staircaseplot when plotflag=2,3 
+% - revised header info 
+% - moved the conditional version to cempdistr 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\ffd.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% By Per A. Brodtkorb 16.03.2001 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\identify.m : 
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Tested on Matlab 5.x 
+% History: 
+% revised pab 12 Nov 2002:   
+%  added the possibility to zoom in or out+delete last picked point 
+%  added nargchk   
+% revised pab: updated help header 
+%       GPL Copyright (c) Anders Holtsberg, 1998 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\iqr.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\kdeplot.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% added ms 2000.08.22 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\LOGLIKE.M : 
+ 
+
+%Tested on: matlab 5.3 
+% History: 
+% by pab 31.10.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dcdf.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vectro to structure 
+%  Per A. Brodtkorb 28.01.99 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dcdfplot.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% by pab 25.10.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dcinv.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vectro to structure 
+% By Per A. Brodtkorb 01.02.99 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dfit.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vector to structure 
+% Per A. Brodtkorb 29.01.1999 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dlike.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised  pab 03.11.2000 
+% - improved the calculation of cov 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  by Per A. Brodtkorb 01.02.99  
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dpdf.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 20.10.2000 
+% - updated to new wstats toolbox 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vectro to structure 
+%  Per A. Brodtkorb 28.01.99 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dpdf2.m : 
+ 
+
+%tested on: matlab 5.2 
+% history: 
+% revised pab 29.10.2000 
+% - updated to new wstats 
+%  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2drnd.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vector to structure 
+%  Per A. Brodtkorb 28.01.99 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dstat.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vector to structure 
+%  Per A. Brodtkorb 28.01.99 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\mdist2dstatplot.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 03.11.2000 
+% changed var(tmp) to std(tmp)^2 
+% revised pab 8.11.1999 
+%  - updated header info 
+%  - changed phat from vector to structure 
+% by Per A. Brodtkorb 31.01.99 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\pairs.m : 
+ 
+
+% Tested on matlab 5.x 
+% History 
+% revised pab 01.11.2000 
+%  - updated help header to WAFO style 
+%  - added N and correlation coefficient to the plot 
+%  - added label 
+%  - removed xtick and ytick from the axis 
+%       Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\ryates.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% By Per A. Brodtkorb 16.03.2001 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\sudg.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% By Per A. Brodtkorb 16.03.2001 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\walpharnd.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% revised ms 15.06.2000 
+% - updated header info 
+% - changed name to walpharnd (from alpharnd) 
+% - rewrote code to work with matrices 
+% revised pab 23.10.2000 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wbetacdf.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize 
+%       Anders Holtsberg, 18-11-93 
+%       Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wbetafit.m : 
+ 
+
+% tested on: matlab 5.3 
+% History: 
+% By  pab 24.10.2000 
+% revised PJ 03-Apr-2001 
+%  - fmins changed name to fminsearch for version >= 5.3 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wbetainv.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize 
+% -refined the Newton-Raphson method 
+%       Anders Holtsberg, 27-07-95 
+%       Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wbetapdf.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize 
+%       Anders Holtsberg, 18-11-93 
+%       Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wbetastat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% by pab 23.10.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WCHI2CDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 25.10.2000 
+%  - added comnsize, nargchk 
+% added ms 26.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wchi2fit.m : 
+ 
+
+% tested on: matlab 5.3 
+% History: 
+% By  pab 24.10.2000 
+% revised PJ 03-Apr-2001 
+%  - fmins changed name to fminsearch for version >= 5.3 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WCHI2INV.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 25.10.2000 
+%  - added comnsize, nargchk 
+% added ms 26.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WCHI2PDF.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% revised pab 25.10.2000 
+%  - added comnsize, nargchk 
+%  - replaced code with a call to wggampdf -> made maintanence easier 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wchi2rnd.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 25.10.2000 
+% - replaced code with a call to wgamrnd 
+% added ms 26.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wchi2stat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 25.10.2000 
+% - found a bug: forgot multiplication 
+% - added warning+nan's 
+% added ms 26.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wlognstat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added default values 
+% added ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dcdf.m : 
+ 
+
+% tested on: matlab5.1 
+%history: 
+% revised pab 29.10.2000 
+% - updated to wstats 
+% - added example 
+%  Per A. Brodtkorb 17.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dcdfplot.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% by pab 25.10.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dcinv.m : 
+ 
+
+% Tested on: matlab 5.2 
+%History 
+% revised pab 13.11.2000, minor fixes 
+% By Per A. Brodtkorb 19.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dfit.m : 
+ 
+
+% tested on: matlab 5.2 
+%History: 
+% revised pab 02.11.2000 
+% by Per A. Brodtkorb 14.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dlike.m : 
+ 
+
+%tested on: matlab 5.1 
+% history: 
+% revised pab 1.11.2000 
+% - improoved the calculation of cov. 
+%  by Per A. Brodtkorb 14.11.98  
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dpdf.m : 
+ 
+
+%Tested on: matlab 5.2 
+% History: 
+%  by Per A. Brodtkorb 13.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dpdf2.m : 
+ 
+
+%tested on: matlab 5.2 
+% history: 
+%  Per A. Brodtkorb 28.10.00 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dprb.m : 
+ 
+
+% tested on: matlab 5.2 
+% history: 
+% revised pab 27.10.2000 
+%  - added example text 
+%  Per A. Brodtkorb 28.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2drnd.m : 
+ 
+
+%tested on matlab 5.1 
+%history: 
+% by Per A. Brodtkorb 19.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dstat.m : 
+ 
+
+%tested on: matlab 5.1 
+% history: 
+%  by Per A. Brodtkorb 13.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\weib2dstatplot.m : 
+ 
+
+% tested on matlab 5.2 
+% history: 
+% revised pab 03.11.2000 
+% changed var(tmp) to std(tmp)^2 
+% by Per A. Brodtkorb 23.11.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WEXPCDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WEXPFIT.M : 
+ 
+
+%tested on: matlab 5.x 
+% History: 
+% revised pab 24.10.2000 
+% - added  nargchk + 95% CI for phat 
+% - fixed some bugs when data is a matrix  
+% added ms 16.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WEXPINV.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WEXPPDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WEXPRND.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - made sizing of R more flexible 
+% added ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WEXPSTAT.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added  nargchk 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wfcdf.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize +  check on floor(df)==df 
+%        Anders Holtsberg, 18-11-93 
+%        Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wfinv.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize 
+%        Anders Holtsberg, 18-11-93 
+%        Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wfpdf.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize + a check that df1,df2 are positive integers 
+%        Anders Holtsberg, 18-11-93 
+%        Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wfrnd.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize + check that df1, df2 are positive integers 
+%        Anders Holtsberg, 18-11-93 
+%        Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wfstat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% by pab 23.10.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGAMCDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 26.06.2000 
+% added b parameter ms 23.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGAMFIT.M : 
+ 
+
+% tested on: matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+% - added check on fzero in order to run on matlab 5.2 
+% - added pci 
+% added ms 23.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wgaminv.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% adapted from stixbox ms 26.06.2000 
+% Revised by jr 01-August-2000 
+% - Added approximation for higher degrees of freedom (see References) 
+% added b parameter ms 23.08.2000 
+% revised pab 23.10.2000 
+%  - added comnsize, nargchk 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGAMPDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - replaced code with a call to wggampdf -> maintainance easier. 
+% added ms 26.06.2000 
+% added b parameter ms 23.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGAMRND.M : 
+ 
+
+% Tested on: matlab 5.3 
+% History: 
+% based on rgamma.m (stixbox) by  (c) Anders Holtsberg 10-05-2000. 
+% revised pab 23.10.2000 
+%  - added default b 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+%  - rejection sampling method modified to give any size of a and b 
+%    the recursive call in rgamma is replaced with a while loop. 
+%  - replaced inversion method with a modified version of  
+%    rgamma from stixbox (Anders Holtsberg) 
+% The algorithm is a rejection method. The logarithm of the gamma  
+% variable is simulated by dominating it with a double exponential. 
+% The proof is easy since the log density is convex! 
+%  
+% Reference: There is no reference! Send me (Anders Holtsberg) an email 
+% if you can't  figure it out. 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGAMSTAT.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 26.06.2000 
+% added b parameter ms 23.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGEVCDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgevcdf (from gevcdf) 
+% revised pab 24.10.2000 
+% - added  nargchk, comnsize and default values for m, s  
+% revised jr 14.08.2001 
+% - a bug in the last if-statement condition fixed 
+%   (thanks to D Eddelbuettel <edd@debian.org>) 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGEVFIT.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by pab 13.06.2001 
+% - Replaced  
+% [phat,dummy,Converged] = fminsearch('wgevlike',mlstart,....); 
+% with 
+%  [phat,dummy,Converged] = feval('fminsearch','wgevlike',mlstart,...); 
+% to avoid "Unknown function referenced: fminsearch" error on matlab 5.2 
+% and below.  
+% 
+% Revised by PJ 02-Apr-2001 
+%   Method 'ml' now works with new format of fminsearch. 
+% Revised by jr 30.09.1999 
+% Modified by PJ 08-Mar-2000 
+%   Added 'hold off' in plotting. 
+%   Added routine 'gevll'. Now method 'ml' works. 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgevfit (from gevfit) 
+% - added w* to used WAFO-files 
+% - enabled consistent use of 3 and 4 arguments 
+% - enabled use of empty start in ML 
+% revised pab 29.10.2000 
+%  - added nargchk 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGEVINV.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgevinv (from gevinv) 
+% revised pab 24.10.2000 
+% - added  nargchk, comnsize and default values for m, s 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGEVLIKE.M : 
+ 
+
+% Tested  on Matlab  5.3 
+% 
+% History: 
+% Revised by PJ (Pär Johannesson) 08-Mar-2000 
+%   updated for WAFO 
+%   Needed by GEVFIT for method 'ml'. 
+% Copied from WAT Ver. 1.1 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgevlike (from gevll) 
+% revised pab 01.11.2000 
+% - added cov (from wgevfit) 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGEVPDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised jr 14.08.2001 
+% - a bug in the last if-statement condition fixed 
+%   (thanks to D Eddelbuettel <edd@debian.org>) 
+% revised pab 24.10.2000 
+% - added  nargchk, comnsize and default values for m, s 
+% added ms 14.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wgevrnd.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgevrnd (from gevrnd) 
+% - allowed 3 arguments 
+% revised pab 23.10.2000 
+%   - added default s,m0 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGEVSTAT.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk + default value for s and m0 
+% added ms 09.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wggambfit.m : 
+ 
+
+% History 
+% revised pab 27.01.2001 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGGAMCDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 23.10.2000 
+%  - added comnsize, nargchk+ default values on b c. 
+% added ms 09.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGGAMFIT.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% revised pab 27.01.2001 
+%  - Improved the stability of estimation by adding a linear search to 
+%    find the largest sign change with positive derivative. 
+% revised pab 13.11.2000 
+%  - added check on estimated parameters -> return NaN when any is less 
+%    than zero 
+% revised pab  
+%  -changed the order of a,b,c 
+%  -safer call to fzero  
+% rewritten ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGGAMINV.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% adapted from stixbox ms 10.08.2000 
+% revised pab 23.10.2000 
+%  - added comnsize, nargchk  
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGGAMPDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 09.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGGAMRND.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% added ms 09.08.2000 
+% revised pab 23.10.2000 
+% %  - added default b and c 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+%  - replaced inversion method with a modified version of  
+%    rgamma from stixbox (Anders Holtsberg) 
+% The algorithm is a rejection method. The logarithm of the gamma  
+% variable is simulated by dominating it with a double exponential. 
+% The proof is easy since the log density is convex! 
+%  
+% Reference: There is no reference! Send me (Anders Holtsberg) an email 
+% if you can't  figure it out. 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wggamstat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk + default value for b and c 
+% added ms 09.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGPDCDF.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% Modified by PJ 08-Mar-2000 
+%   Hjälptext 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgpdcdf (from gpdcdf) 
+% revised pab 24.10.2000 
+% - added  nargchk, comnsize and default values for m, s  
+% revised jr 14.08.2001 
+% - a bug in the last if-statement condition fixed 
+%   (thanks to D Eddelbuettel <edd@debian.org>) 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGPDFIT.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% Modified by PJ 08-Mar-2000 
+%   Changed 'pgpd' to 'gpdcdf' for method 'pkd'. 
+%   Hjälptext 
+%   Added 'hold off' in plotting. 
+%   Added line: 'data = data(:)';' 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgpdfit (from gpdfit) 
+% - added w* to used WAFO-files 
+% Updated by PJ 22-Jun-2000 
+%   Added new method 'ml', maximum likelihood estimation of  
+%   parameters in GPD. 
+% Correction by PJ 19-Jul-2000 
+%   Found error in the covariance matrix for method 'ml'. Now correct! 
+%   Some other small changes in method 'ml' 
+% Correction by PJ 30-Nov-2000 
+%   Updated method 'ml'. New method for finding start values for numerical solving. 
+%   Updated help text, and some other small changes. 
+% Correction by PJ 11-Dec-2000 
+%   Now method 'ml' works with Matlab <5.3. ('fzero' changed format) 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wgpdfit_ml.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% Created by PJ 22-Jun-2000 
+% Revised by PJ 10-Oct-2000 
+% - Help text added w* 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGPDINV.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgpdinv (from gpdinv) 
+% revised pab 25.10.2000 
+% - adde nargchk + comnsize 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGPDPDF.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% revised jr 14.08.2001 
+%  - a bug in the last if-statement condition fixed 
+%    (thanks to D Eddelbuettel <edd@debian.org>) 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added extra check on the scale parameter s 
+%  - added m + default values on m and s 
+% added ms 14.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wgpdrnd.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by jr 22.12.1999 
+% revised ms 14.06.2000 
+% - updated header info 
+% - changed name to wgpdrnd (from gpdrnd) 
+% - allowed 2 arguments 
+% revised pab 23.10.2000 
+%   - added default s,m0 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGPDSTAT.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% Revised by PJ 02-Apr-2001 
+%  - Added non-existing mean and var (k<-1 and k<-0.5). 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk + default value for s and m0 
+% added ms 09.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGUMBCDF.M : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+% updated header info 
+%   Per A. Brodtkorb 17.10.98 
+% rewritten ms 19.06.2000 
+% revised pab 25.10.2000 
+% - added nargchk+comnsize 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGUMBINV.M : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+% updated header info 
+%   Per A. Brodtkorb 17.10.98 
+% rewritten ms 19.06.2000 
+% revised pab 25.10.2000 
+% - added nargchk+comnsize 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WGUMBPDF.M : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 24.10.2000 
+% - reimplemented comnsize 
+% revised pab 8.11.1999 
+% updated header info 
+%   Per A. Brodtkorb 17.10.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wgumbrnd.m : 
+ 
+
+% Tested on: matlab 5.2 
+% History: 
+% revised pab 8.11.1999 
+%  updated help header 
+% by Per A. Brodtkorb 26.10.98 
+% revised ms 13.06.2000 
+% - updated header info 
+% - changed name to wgumbrnd (from gumbrnd) 
+% - added w* to used WAFO-files  
+% - enabled use of 5:th argument 
+% - removed stat-toolbox routines 
+%  
+% revised pab 23.10.2000 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wgumbstat.m : 
+ 
+
+%  tested on: matlab 5.2 
+% history 
+% revised pab 8.11.1999 
+% updated header info 
+%   Per A. Brodtkorb 17.10.98 
+% revised ms 14.06.2000 
+% - changed name to wgumbstat (from gumbstat) 
+% - revised header info 
+% - noted that calculations are wrong for trunc=1 (not corrected) 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wgumbtest.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% Revised by jr 31.08.1999 
+% revised ms 15.06.2000 
+% - updated header info 
+% - changed name to wgumbtest (from gumbtest) 
+% - added optional significance level 
+% - added w* to used WAFO-files 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\whisto.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% Revised by es 31.03.2000 Added default in help + lintype   
+% Revised by jr 22.12.1999 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WINVGCDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 14.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WINVGFIT.M : 
+ 
+
+%tested on: matlab 5.x 
+% History: 
+% revised pab 24.10.2000 
+% - added  nargchk 
+% - fixed some bugs when data is a matrix  
+% - cov changed to var = variance since cov(m,l)=0 
+% added ciU, and ciL which is the 95% confidence interval  upper & lower 
+%     limits, respectively, for phat. 
+% added ms 14.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WINVGINV.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% adapted from stixbox ms 14.08.2000 
+% ad hoc solutions to improve convergence added ms 15.08.2000 
+% revised pab 25.10.2000 
+% - added nargchk + comnsize 
+% - changed the ad hoc solutions a bit 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WINVGPDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 14.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WINVGRND.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 14.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\winvgstat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 14.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wkurtosis.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+% - made it more general: accepts any size of X 
+% - added dim, nargchk 
+% added ms 16.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WLOGNCDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added default values 
+% added ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WLOGNFIT.M : 
+ 
+
+%tested on: matlab 5.x 
+% History: 
+% revised pab 24.10.2000 
+% - added  nargchk 
+% - cov changed to var = variance since cov(m,v)=0 
+% - fixed some bugs when data is a matrix  
+% added ms 15.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WLOGNINV.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added default values 
+%  - fixed a bug: the inversion was not correct  
+% added ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WLOGNPDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added default values 
+%  - fixed a bug in the parameterization 
+% added ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WLOGNRND.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 23.10.2000 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+% added ms 10.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wmnormrnd.m : 
+ 
+
+% History 
+% revised jr 19.09.2001 
+% - Changed *name* in function call.  
+% - Fixed a bug: the spurious default option 'swd' -> 'svd' 
+% revised jr 18.06.2001 
+% - Changed default from 'cholesky' to 'svd' 
+% revised pab 17.01.2000  
+% - updated documentation 
+%  by Per A. Brodtkorb 17.09.98,20.08.98 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wnormcdf.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 23.03.2003 
+% -changed call from erf to erfc in order  
+%  to get more accurate lower probabilities 
+% -added a fix up for a bug in erfcore    
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added default values 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WNORMFIT.M : 
+ 
+
+%tested on: matlab 5.x 
+% History: 
+% revised pab 24.10.2000 
+% - added  nargchk 
+% - cov changed to var = variance since cov(m,v)=0 
+% - fixed some bugs when data is a matrix  
+% added ms 15.08.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wnorminv.m : 
+ 
+
+% Tested on: Matlab 6.0, 5.3 
+% History: 
+% revised pab 23.03.2003 
+% -replace erfinv with PHIINV which perform more accurate 
+%  inversion in the lower tail. This also results in faster execution. 
+% revised jr 03.04.2001 
+%  - fixed a bug in the last if statement 
+%  - updated information, example 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added default values 
+% added ms 17.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wnormpdf.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+%  - added default values 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wnormplot.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - removed tdistr 
+%  - added checks on df and ishold as well as nargchk 
+%  - added example 
+% Revised by jr 22.12.1999 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WNORMRND.M : 
+ 
+
+% tested on: matlab 5.3 
+% History: 
+% revised pab 23.10.2000 
+%  - added default mu,v 
+%  - added comnsize, nargchk 
+%  - added greater flexibility on the sizing of R 
+% by ?? 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WQQPLOT.M : 
+ 
+
+% testen on: matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+% added nargchk 
+% updated header to comform to wafo style 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wquantile.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% revised pab  
+% - added nargchk 
+% - updated help header to conform to wafo style 
+% by Anders Holtsberg 1994, 1998 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wraylcdf.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WRAYLFIT.M : 
+ 
+
+%tested on: matlab 5.x 
+% History: 
+%  by Per A. Brodtkorb 17.10.98 
+% revised ms 15.06.2000 
+% - updated header info 
+% - changed name to wraylfit (from raylfit) 
+% revised ms 11.08.2000 
+% - changed to standard *fit form 
+% -revised pab 24.10.2000 
+%  - replaced gamma with gammaln -> more robust 
+%  - added nargchk 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WRAYLINV.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+% - added comnsize, nargchk 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wraylpdf.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WRAYLRND.M : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% revised PJ 03-Apr-2001 
+%  - added comnsize, nargchk 
+%  - made sizing of R more flexible 
+% revised jr 22.11.2000 
+% - 'reshape' introduced to obtain wanted dimension of output  
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wraylstat.m : 
+ 
+
+%tested on: matlab 5.3 
+% history 
+% revised pab 24.10.2000 
+% Added checks on b 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wskewness.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% revised pab 24.10.2000 
+% - made it more general: accepts any size of X 
+% - added dim, nargchk 
+% added ms 16.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtcdf.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 22.05.2003 
+% -added new methods for df==1 or df==2 and for region1= x^2<df^2 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize, mxdf +  check on floor(df)==df 
+%by      Anders Holtsberg, 18-11-93 
+%       Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtfit.m : 
+ 
+
+% tested on: matlab 5.3 
+% History: 
+% By  pab 24.10.2000 
+% revised PJ 03-Apr-2001 
+%  - fmins changed name to fminsearch for version >= 5.3 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtinv.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 22.05.2003 
+% - added new method for df==2 
+%revised pab 29.10.2000 
+% adapted from stixbox 
+% -added nargchk, comnsize 
+% - added check on F, df + some code from wnormplot when df>mxdf 
+%       Anders Holtsberg, 18-11-93 
+%       Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtpdf.m : 
+ 
+
+% tested on matlab 5.3 
+%History: 
+%revised pab 29.10.2000 
+% adapted from stixbox changed name to wtpdf 
+% -added nargchk + check on floor(df)==df 
+% - changed from gamma to gammaln for more stable computation 
+% - added the secret option disable in order to use this function for MLE 
+%   estimation  
+%  by Anders Holtsberg, 18-11-93 
+%     Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtraylcdf.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% by pab 03.12.2000 
+% based on wraylpdf 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtraylfit.m : 
+ 
+
+%tested on: matlab 5.x 
+% History: 
+%  by Per A. Brodtkorb 17.10.98 
+% revised ms 15.06.2000 
+% - updated header info 
+% - changed name to wraylfit (from raylfit) 
+% revised ms 11.08.2000 
+% - changed to standard *fit form 
+% -revised pab 24.10.2000 
+%  - replaced gamma with gammaln -> more robust 
+%  - added nargchk 
+% revised PJ 03-Apr-2001 
+%  - fmins changed name to fminsearch for version >= 5.3 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtraylpdf.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtrnd.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% revised pab 23.10.2000 
+%  - added comnsize + nargchk 
+%  - added greater flexibility on the sizing of R 
+%       Anders Holtsberg, 18-11-93 
+%       Copyright (c) Anders Holtsberg 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtstat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% by pab 23.10.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtweibcdf.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize 
+% rewritten ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtweibfit.m : 
+ 
+
+%Tested on: matlab  5.3 
+% History: 
+% revised pab 03.11.2000 
+% - added 
+% revised pab 24.10.2000 
+%  - added nargchk + safer call to fzero 
+%  - made sure data is a vector  
+% rewritten ms 20.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wtweibpdf.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 12.11.2000 
+%  - added check on f(k): Replace NaN's with zero  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% rewritten ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WWEIBCDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised oab 24.10.2000 
+%  - added comnsize 
+% rewritten ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WWEIBFIT.M : 
+ 
+
+%Tested on: matlab  5.3 
+% History: 
+% revised pab 03.11.2000 
+% - added 
+% revised pab 24.10.2000 
+%  - added nargchk + safer call to fzero 
+%  - made sure data is a vector  
+% rewritten ms 20.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wweibinv.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+% - added comnsize, nargchk 
+% rewritten ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\WWEIBPDF.M : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 24.10.2000 
+%  - added comnsize, nargchk 
+% rewritten ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wweibrnd.m : 
+ 
+
+% Tested on: matlab 5.3 
+% History:  
+% revised pab 23.10.2000 
+%  - added comnsize 
+%  - added greater flexibility on the sizing of R 
+% rewritten ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\wweibstat.m : 
+ 
+
+% Tested on; Matlab 5.3 
+% History:  
+% revised pab 23.10.2000 
+%   - added comnsize 
+% added ms 15.06.2000 
+
+
+ % ----------------------------------------------
+ % HISTORY NOTES FOR e:\matlab\wafo\wstats\yates.m : 
+ 
+
+% Tested on: Matlab 5.3 
+% History: 
+% By Per A. Brodtkorb 16.03.2001 

@@ -25,7 +25,7 @@ function v = clickslct(x,y,arg3,arg4)
 % Tested on Matlab 5.x
 % History:
 % revised pab: updated help header
-%       GPL Copyright (c) Anders Holtsberg, 1998
+%       LGPL Copyright (c) Anders Holtsberg, 1998
 
 plotsymbol = '*';
 textvector = 1:length(x);

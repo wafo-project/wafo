@@ -7,7 +7,7 @@ function x = stdize(x, opt)
 %	  A 1 as second argument gives normalization with N instead 
 %	  of N-1 as the one argument version does.
 
-%       GPL Copyright (c) Anders Holtsberg, 1998
+%       LGPL Copyright (c) Anders Holtsberg, 1998
 
 n = size(x,1);
 m = mean(x);

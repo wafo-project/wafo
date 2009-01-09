@@ -1,17 +1,17 @@
-#summary One-sentence summary of this page.
+#summary Latest news about WAFO
 
-= News =
-== 2009 ==
-===January 8 ===
+
+= 2009 =
+==January 8 ==
 New beta release of WAFO 2.5. 
 
-==== release notes ====
-===== New directories added=====
+=== release notes ===
+==== New directories added====
   * GRAPHUTIL : many useful plot functions
   * NUMDIFFTOOLS : tools for automatic numerical differentiation of functions
   * POLYUTIL : tools for evaluating polynomials.
 
-=====New functions:=====
+====New functions:====
   
 Spectrum estimation:
 All translated from Octave (GPL).
@@ -97,7 +97,7 @@ Statistics functions:
   
   
 
- ===== Other changes =====
+ ==== Other changes ====
  XXXpdf, XXXcdf, XXXrnd, XXXinv, XXXfit, XXXplot renamed to pdfXXX, cdfXXX, rndXXX,
   invXXX fitXXX, plotXXX, respectively.
   XXXstat renamed to momXXX

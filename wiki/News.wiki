@@ -1,6 +1,6 @@
 #summary Latest news about WAFO
 
-http://code.google.com/p/wafo/source/browse/trunk/data/wafoLogoNewWithoutBorder.png
+http://www.maths.lth.se/matstat/wafo/images/wafoLogoNewWithoutBorder.png
 
 = 2009 =
 ==January 8 ==

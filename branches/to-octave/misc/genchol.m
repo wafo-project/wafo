@@ -81,7 +81,7 @@ while (k<=n)
          i0 = i-nullity;
          L(i,i0) = L(i,i0) - L(i,k0)*L(i,k0);        
          
-         if (L(i,i0)<=localTolerance) % & norm(L(nnDet,k+1:nnDet),'inf')<=tol))
+         if (L(i,i0)<=localTolerance) % && norm(L(nnDet,k+1:nnDet),'inf')<=tol))
             %if (D(i)<=-sqrt(tol)) % make sure we are not too restrictive
             %   warning('Matrix is not positive semi-definite!')
             %end

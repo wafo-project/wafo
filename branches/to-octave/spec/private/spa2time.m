@@ -29,7 +29,7 @@ if nargin<3
   end
 end
 
-if ~(strcmpi(S.type(end-2:end),'k1d')|strcmpi(S.type(end-2:end),'k2d'))
+if ~(strcmpi(S.type(end-2:end),'k1d') || strcmpi(S.type(end-2:end),'k2d'))
   error('Spectrum already in time domain')
 end
 Sf = S;
@@ -39,7 +39,7 @@ Sf = rmfield(Sf,'k');
 %if isfield(Sf,'phi')
 %  Sf=rmfield(Sf,'phi'); % a rotation has no sense in freq-spectrum
 %end
-if nargin<2|isempty(w)
+if nargin<2 || isempty(w)
   w = linspace(0,k2w(k(end),0,S.h,g),length(k))';
 elseif length(w)==1 % then interpret w as dw (step length)
   w = (0:length(k)-1)*w;
@@ -60,7 +60,7 @@ else
   if S.h<inf
     error('WAFO:SPA2TIME','This transformation for finite depth is not available yet')
   end
-  if nargin<3|isempty(theta)
+  if nargin<3 || isempty(theta)
     if S.k(1)<0
       theta=linspace(-pi,pi,2^7+1);
     else

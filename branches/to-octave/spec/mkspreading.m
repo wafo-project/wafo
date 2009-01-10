@@ -265,7 +265,7 @@ end
 %   if Nt<40,
 %     warning('WAFO:mkspreading','Number of angles is less than 40. Spreading too sparsely sampled!'),
 %   end
-   if nargin<3|isempty(wc),
+   if nargin<3 || isempty(wc),
      wc = 1; % Peak frequency
    end
   theta = theta(:);

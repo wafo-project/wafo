@@ -317,7 +317,7 @@ for i=1:n-1
 
     end
 
-    if ~(i == 1 & j == n)
+    if ~(i == 1 && j == n)
 
       % Standing
       if j == n
@@ -379,7 +379,7 @@ for i=1:n-1
     F_rfc(j,i) = Ro*diag(pH3)*pH2*pH1;
     
     if SideInfo == 1  % Rainflow matrix with side information
-      if (i==1) & (j==n)
+      if (i==1) && (j==n)
 	
         b3  = Q(II,J);
         EE  = Q(I,J) + c3*A3h*Inv3*b3;

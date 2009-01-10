@@ -32,7 +32,7 @@ function Snew=dir2enc(S,d,v)
 % TODO % Should remove singularity by e.g. splitting the integral.
 
 error(nargchk(1,3,nargin))  
-if nargin<0|isempty(S)
+if nargin<0 || isempty(S)
   error('Needs an input spectrum')
 end
 
@@ -40,10 +40,10 @@ if ~any(strcmpi(S.type,{'dir','freq'}))
   error('Spectrum must be of type dir or freq ')
 end
 
-if (nargin<2|isempty(d))
+if (nargin<2 || isempty(d))
   d=1;
 end
-if ( nargin<3|isempty(v))
+if ( nargin<3 || isempty(v))
   v=0;
 end
 

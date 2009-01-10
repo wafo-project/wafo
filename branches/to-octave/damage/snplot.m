@@ -61,7 +61,7 @@ number_of_s=99;
 
 if nargin==3
   if nr<10
-    if nr==1 | nr==3
+    if nr==1 || nr==3
      plot(S,N,'.','markersize',12)
      title('SN-data')
     elseif nr==2 | nr==4
@@ -76,7 +76,7 @@ if nargin==3
     xlabel('s'), ylabel('N')
     
   else
-    if nr==11 | nr==13
+    if nr==11 || nr==13
       plot(N,S,'.','markersize',12)
       title('SN-data')
     elseif nr==12 | nr==14

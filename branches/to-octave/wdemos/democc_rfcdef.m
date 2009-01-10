@@ -40,7 +40,7 @@ plot([leftindex leftindex],[leftdepth level],'--');
 pause(1)
 
 list=find(L>=level);
-if ( (length(list)>1) & ( refpoint<max(list)))
+if ( (length(list)>1) && ( refpoint<max(list)))
    index=find(list==refpoint);
    crossright=list(index+1);
    noright=0;

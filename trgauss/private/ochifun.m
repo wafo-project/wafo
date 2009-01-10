@@ -63,14 +63,14 @@ function [g,t0]=ochifun(y,data)
 %1./data2(1:2)
 
 data2 = [0.1 0.15 1 0 1 0];
-if nargin>=2 & any(~isnan(data))
+if nargin>=2 && any(~isnan(data))
   ind=find(~isnan(data(1:min(length(data),6))));
   data2(ind)=data(ind);
 end
 ga     =data2(1);   gb  = data2(2); 
 sigma  = data2(3);  ma  = data2(4); 
 sigma2 = data2(5);  ma2 = data2(6); 
-if nargin<1|isempty(y);
+if nargin<1 || isempty(y);
   y = linspace(-5*sigma+ma,5*sigma+ma,513)';
 else
   y=y(:);

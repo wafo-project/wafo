@@ -52,7 +52,7 @@ if ni<5, h=[]; end
 if ni<6, NOsubzero=[]; end
 if ni<7, alpha=[]; end
 
-if method < 0 | method >2
+if method < 0 || method >2
   error('Input argument "method" should be 0, 1 or 2');
 end
 

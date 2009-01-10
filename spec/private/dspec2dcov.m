@@ -30,10 +30,10 @@ if strcmpi(S.type(end-2:end),'k2d')
 elseif strcmpi(S.type(end-2:end),'k1d')
   S=spec2spec(S,'freq');
 end  
-if nargin<5|isempty(Nx)
+if nargin<5 || isempty(Nx)
   Nx=10;
 end
-if nargin<6 |isempty(Ny)
+if nargin<6 || isempty(Ny)
   Ny=0;
 end
 
@@ -46,11 +46,11 @@ if length(m)==2 % result when S of type 'freq'
   m=spec2mom(S,4,'t',1);  %m=[m0 m002 m004]
   m=[m(1) m(3)/g^2 m(3)/g^2]; %m=[m0 m200 m020];
 end
-if nargin<7|isempty(dx)
+if nargin<7 || isempty(dx)
   dx=4*pi*sqrt(m(1)/m(2))/Nx; % divide the average wave into Nx/2 
 end
 
-if nargin<8|isempty(dy),
+if nargin<8 || isempty(dy),
   if Ny>0
     dy=dx;
     if isinf(dy) % in case of Nx==0
@@ -104,7 +104,7 @@ end
 nf= length(S.w); %number of frequencies
 np= length(S.theta); % number of angles
 
-if Nx==Ny & dx==dy,
+if Nx==Ny && dx==dy,
   symmetry=1;%only able to exploit the symmetry S(x,y,w)=conj(S(y,x,w)) 
          %if Nx=Ny,dx==dy
 else
@@ -120,7 +120,7 @@ yi=((-Ny):Ny)'*dy;
 [Xi Yi]=meshgrid(xi,yi);
 NXYi=length(Xi(:));
 
-if ~isfield(S,'phi') | isempty(S.phi), S.phi=0; end
+if ~isfield(S,'phi') || isempty(S.phi), S.phi=0; end
 
 theta=S.theta(:)-S.phi;     %make sure it is a column
 S.theta=S.theta-S.phi;

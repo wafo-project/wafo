@@ -156,7 +156,7 @@ end
 
 limits = [xlo,xup];
 isLimitsNarrowed = ((-7 < xlo)  |   (xup<7));
-if (isLimitsNarrowed & useBreakPoints)
+if (isLimitsNarrowed && useBreakPoints)
   
   %xCut = max(abs(xlo),abs(xup))
   xCut = 2*min(den);

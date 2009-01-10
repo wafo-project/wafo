@@ -51,7 +51,7 @@ error(nargchk(1,4,nargin))
 % Default values
 if nargin<4,                    sa=[]; end      % unknown stdev is default
 if nargin<3||isempty(plotflag),  plotflag=1; end % default plot final result
-if nargin<2||isempty(def),       def=2; end      % default upcrossings & maxima 
+if nargin<2||isempty(def),       def=2; end      % default upcrossings && maxima 
 
 
 if ((def<1) || (def>4))

@@ -89,10 +89,10 @@ for k = 1:length(x)-1
     res_y(nres) = y(k+1);
   end  
   cycleFound = 1;
-  while cycleFound==1 & nres>=4
+  while cycleFound==1 && nres>=4
     A = sort([res(nres-1) res(nres-2)]);
     B = sort([res(nres) res(nres-3)]);
-    if A(1) >= B(1) & A(2) <= B(2)
+    if A(1) >= B(1) && A(2) <= B(2)
       i = res(nres-2);
       j = res(nres-1);
       RFM0(i,j) = RFM0(i,j) + 1;
@@ -125,7 +125,7 @@ end
 % Calculate RFM = RFM0 + 'cycles in res'
 
 RFM = RFM0;
-if def == 1 | def == 2
+if def == 1 || def == 2
   RFMsid = RFM0sid;
 end
 

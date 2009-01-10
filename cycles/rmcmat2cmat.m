@@ -40,11 +40,11 @@ for r = 1:n
     if Frm(r,m) ~= 0
       i = ceil(m-(r-1)/2);
       j = ceil(m+(r-1)/2);
-      if i<1 | i>n, 
+      if i<1 || i>n, 
         warning(['minimum out of range (' num2str(i) '). Setting to boundary of [1,' num2str(n) '].']);
         i = min(max(i,1),n);
       end
-      if j<1 | j>n, 
+      if j<1 || j>n, 
         warning(['Maximum out of range (' num2str(j) '). Setting to boundary [1,' num2str(n) '].']);
         j = min(max(j,1),n);
       end

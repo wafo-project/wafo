@@ -44,7 +44,7 @@ if ni<3, h=[]; end
 if ni<4, NOsubzero=[]; end
 if ni<5, alpha=[]; end
 
-if method == 1 | method == 2  % Kernel estimator
+if method == 1 || method == 2  % Kernel estimator
   if isempty(h), aut_h=1; else aut_h=0; end
   if isempty(NOsubzero), NOsubzero=0; end
 else
@@ -60,7 +60,7 @@ N = sum(sum(F));  % Total number of cycles
 
 Fsmooth = zeros(n,n);
 
-if method == 1 | method == 2 % Kernel estimator
+if method == 1 || method == 2 % Kernel estimator
 
   d = 2;   % 2-dim
   [I,J] = meshgrid(1:n,1:n);

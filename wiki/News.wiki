@@ -1,5 +1,6 @@
 #summary Latest news about WAFO
 
+http://code.google.com/p/wafo/source/browse/trunk/data/wafoLogoNewWithoutBorder.png
 
 = 2009 =
 ==January 8 ==

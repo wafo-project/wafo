@@ -77,7 +77,7 @@ while 1<=i && i<=n
   %for i = 1:nfigspercycle:n
   if maximize, %save old position and maximize window
     oldposition = get(figs(i),'position');
-    maximizefigs(figs(i));
+    figmaximize(figs(i));
   end
   for ij = 0:nfigspercycle-1
     if i+ij<=n

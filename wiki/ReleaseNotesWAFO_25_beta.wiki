@@ -3,7 +3,8 @@
 
 = Introduction =
 
-The WAFO version 2.5 release includes many new functions and refactorings of old functions. 
+The WAFO version 2.5 release includes many new functions and refactorings of old functions. Many functions are now distributed under the
+GNU LESSER GENERAL PUBLIC LICENSE.
 
 The details are given below:
 

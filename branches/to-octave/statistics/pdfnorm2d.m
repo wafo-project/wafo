@@ -11,8 +11,8 @@ function pdf = pdfnorm2d(X,m,S)
 % x = linspace(-5,5);
 % [X1 X2] = meshgrid(x);
 % f = reshape(pdfnorm2d([X1(:),X2(:)]),100,100);
-% [area,epsi] = boole(x,f);
-% [area2,epsi2] = boole(x,area);
+% [area,epsi] = simpson(x,f);
+% [area2,epsi2] = simpson(x,area);
 %
 %See also: pdfnorm
 

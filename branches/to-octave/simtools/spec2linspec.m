@@ -193,7 +193,7 @@ for ix=1:maxSim
     pause(3)
     figure(1), plot(freq,Hw1,'b'), hold on, title('Hw')
     figure(2), plot(freq,abs(Hw12),'b'), hold on, title('Hw-HwOld')
-    tilefigs
+    figtile
   end
    
    disp(['Iteration ',num2str(ix),...

@@ -3,7 +3,7 @@
 
 = Install instructions =
 
- 0. Make a directory where you want wafo to reside, eg: c:\wafo25
+ 0. Make a directory where you want wafo to reside, eg: c:\wafo25.
 
  1. Binary download the file [http://wafo.googlecode.com/files/wafo_2.5_beta.7z wafo-2.5_beta.7z]. You will be asked for the destination/directory of the compressed file. 
 

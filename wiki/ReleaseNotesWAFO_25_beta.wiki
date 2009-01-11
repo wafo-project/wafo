@@ -1,5 +1,5 @@
-#labels Phase-Design
-#Release notes
+#labels Phase-Design,Featured
+#Release notes for WAFO version 2.5 beta
 
 = Introduction =
 

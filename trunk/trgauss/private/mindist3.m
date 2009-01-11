@@ -34,16 +34,16 @@ end
 g(nulldim)=[];
 b(nulldim)=[];
 d=length(b);
-if (all(g>0)|all(g<0))&u==-.25*sum(b.^2./g)
+if (all(g>0) || all(g<0)) && u==-.25*sum(b.^2./g)
    x00=-.5*b./g;
    pmx=zeros(d,1);
    x0=zeros(d0,1);
    x0(~nulldim)=x00;
 end
-if all(g>0)&u<-.25*sum(b.^2./g)
+if all(g>0) && u<-.25*sum(b.^2./g)
    error('u out of range')
 end
-if all(g<0)&u>-.25*sum(b.^2./g)
+if all(g<0) && u>-.25*sum(b.^2./g)
    error('u out of range')
 end
 pmx0=zeros(d,1);

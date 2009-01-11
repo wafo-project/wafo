@@ -506,7 +506,7 @@ for ix =length(vars):-1:1
   Nsize = evalin('base',NsizeVar1,'errordlg(lasterr,''Error generating plots'',''modal'')');
   isnumericVar1 = sprintf('isnumeric(%s)',vars{ix});
   isNumber = evalin('base',isnumericVar1,'errordlg(lasterr,''Error generating plots'',''modal'')');
-  if prod(Nsize)~= max(Nsize) |  ~isNumber 
+  if prod(Nsize)~= max(Nsize) || ~isNumber 
     % remove data if dimension>1 or if not numeric data
     vars(ix) = [];
   end

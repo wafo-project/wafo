@@ -46,10 +46,10 @@ function S = roadspec(sdata,a,C)
 % By Mats Frendahl, 1993
 
 
-if nargin<1 | isempty(sdata), sdata = [4/257 4 357]; end 
-if nargin<2 | isempty(a), a = 2.1; end 
-if nargin<3 | isempty(C), C = 50e-8; end
-if (a<2)|(a>3)
+if nargin<1 || isempty(sdata), sdata = [4/257 4 357]; end 
+if nargin<2 || isempty(a), a = 2.1; end 
+if nargin<3 || isempty(C), C = 50e-8; end
+if (a<2) || (a>3)
   disp(' The parameter  a  must be in (2,3). Program will terminate.')
   return
 end

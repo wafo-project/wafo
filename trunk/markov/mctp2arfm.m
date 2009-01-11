@@ -279,7 +279,7 @@ for i=1:n-1
       
     end
     
-    if ~(i == 1 & j == n)
+    if ~(i == 1 && j == n)
       
       % Standing
       if j == n
@@ -319,7 +319,7 @@ for i=1:n-1
       
     end
     
-    if Min == 0 | Max == 0
+    if Min == 0 || Max == 0
       pS = 0;
       pH = 0;
     elseif ~(i == 1 & j == n)

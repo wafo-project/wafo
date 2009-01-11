@@ -100,7 +100,7 @@ if any(k)
 end
 t=f.x{1}(:);
 h=f.x{2}(:);
-if nargin<2|isempty(v)
+if nargin<2 || isempty(v)
   v=linspace(0,5,length(t))';
 else
   v=v(:);

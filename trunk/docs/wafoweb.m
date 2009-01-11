@@ -24,7 +24,7 @@ function URLout = wafoweb(ButtonName)
 
 URL = 'http://www.maths.lth.se/matstat/wafo/';
 
-if nargin<1|isempty(ButtonName),  
+if nargin<1 || isempty(ButtonName),  
   %if nargout>0, ButtonName = 'No';  else,    ButtonName ='Yes';  end
   ButtonName =  questdlg('Go To WAFO Toolbox Home Page?', 'WWW', 'Yes', 'No', 'No'); 
 end

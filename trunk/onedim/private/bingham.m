@@ -18,7 +18,7 @@ function w = bingham(n,p)
 if (nargin < 2)
  p=0.2;
 end
-if (p>1 | p<0)
+if (p>1 || p<0)
   disp('Error: P must be between 0 and 1!')
   return
 end

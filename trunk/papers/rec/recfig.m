@@ -33,7 +33,7 @@ switch ix
    case -3, % select a figure
      if isempty(recmenulabels), recinit; end
      iy = menu('Choose a figure',recmenulabels{:},'Cancel');
-     if ~isempty(iy) & (1 <= iy & iy <=Nfigs) ,
+     if ~isempty(iy) && (1 <= iy && iy <=Nfigs) ,
        RECFIGNUM = iy;
        recinit
        figname = ['recfig',num2str(iy)];
@@ -109,7 +109,7 @@ if Na>0
   ind2=find(ind1>0); 
   for ix=ind2(:).',
     answer{ix}=str2num(answer{ix});
-    if (isempty(answer{ix})|answer{ix}==def{1}{ix}), ind1(ix)=0; else, def{1}{ix}=answer{ix}; end
+    if (isempty(answer{ix}) || answer{ix}==def{1}{ix}), ind1(ix)=0; else, def{1}{ix}=answer{ix}; end
   end
   ind2=find(ind1>0); 
   if any(ind2) % set variables  that must be calculated again to empty.
@@ -138,7 +138,7 @@ if Na>0
   ind2=find(ind1>0);
   for ix=ind2(:).',
     answer{ix}=str2num(answer{ix});
-    if (isempty(answer{ix})|answer{ix}==def{2}{ix}), ind1(ix)=0; else, def{2}{ix}=answer{ix}; end
+    if (isempty(answer{ix}) || answer{ix}==def{2}{ix}), ind1(ix)=0; else, def{2}{ix}=answer{ix}; end
   end
   ind2=find(ind1>0); 
   if any(ind2) % set variables  that must be calculated again to empty.
@@ -166,7 +166,7 @@ if Na>0,
   for ix=ind2(:).',
     if (ix~=1), % ix==1 ==> kernel string nothing to do
       answer{ix}=str2num(answer{ix});
-      if (isempty(answer{ix})|answer{ix}==def{3}{ix}), ind1(ix)=0; else, def{3}{ix}=answer{ix}; end
+      if (isempty(answer{ix}) || answer{ix}==def{3}{ix}), ind1(ix)=0; else, def{3}{ix}=answer{ix}; end
     else
       if (strcmpi(answer{ix},def{3}{ix})), ind1(ix)=0; else, def{3}{ix}=answer{ix}; end
     end

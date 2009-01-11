@@ -205,7 +205,7 @@ function [lcEst,Est,MSE] = extrapolate(lc,method,plotflag,offset)
   methodShape = method(1:3);
   methodEst = method(5:end);
   
-  if strcmp(methodShape,'gpd')  & ~strcmp(method,'gpd,ml')
+  if strcmp(methodShape,'gpd') && ~strcmp(method,'gpd,ml')
   %if strcmp(methodShape,'gpd') | strcmp(method,'exp,ml')| strcmp(method,'exp,mld')
     x = [];
     for k = 2:length(lc3)
@@ -217,7 +217,7 @@ function [lcEst,Est,MSE] = extrapolate(lc,method,plotflag,offset)
     x = x+.5;   
   end
   
-  if strcmp(methodShape,'exp') | strcmp(method,'gpd,ml') | strcmp(method,'ray,ml')
+  if strcmp(methodShape,'exp') || strcmp(method,'gpd,ml') || strcmp(method,'ray,ml')
     dN = [];
     for k = 2:length(lc3)
       nn = lc3(k,2)-lc3(k-1,2);
@@ -466,7 +466,7 @@ function [lcEst,Est,MSE] = extrapolate(lc,method,plotflag,offset)
   lcEst(end,2) = 0;  % No crossings of the highest level
   
   % Compute MSE (Mean Square Error)
-  if strcmp(method,'gpd,ml') | strcmp(method,'exp,ml') | strcmp(method,'exp,mld') | strcmp(method,'ray,mld')
+  if strcmp(method,'gpd,ml') || strcmp(method,'exp,ml') || strcmp(method,'exp,mld') || strcmp(method,'ray,mld')
     MSE = 0;
     % Not impemented
   elseif strcmp(methodShape,'gpd')
@@ -484,7 +484,7 @@ function [lcEst,Est,MSE] = extrapolate(lc,method,plotflag,offset)
   
   % Plot Diagnostics 
   if plotflag
-    if strcmp(method,'gpd,ml') | strcmp(method,'exp,ml')| strcmp(method,'exp,mld')
+    if strcmp(method,'gpd,ml') || strcmp(method,'exp,ml') || strcmp(method,'exp,mld')
       Csum = cumsum(dN(:,2));
       q1 = ([1; Csum(1:end-1)+1; Csum(1:end)]-1/2)/n;
       xq1 = invgenpar(q1,Est.k,Est.s)';

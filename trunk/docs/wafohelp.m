@@ -23,7 +23,7 @@ function URLout = wafohelp(ButtonName)
 
 URL = fullfile(waforoot,'docs','wafodoc', 'index.html');
 
-if nargin<1|isempty(ButtonName),  
+if nargin<1 || isempty(ButtonName),  
   if nargout>0, 
     ButtonName = 'No';
   else,    

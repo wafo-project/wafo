@@ -1,12 +1,29 @@
 #labels Featured,Phase-Design
-# Release notes for WAFO version 2.5 beta
+#Release notes for WAFO version 2.5 beta
 
 = Introduction =
 
-This release includes many new functions and refactorings of old functions. The details are given below:
+The WAFO version 2.5 release includes many new functions and refactorings of old functions. The details are given below:
 
 
 = Details =
+== Refactorings ==
+
+ * XXXpdf, XXXcdf, XXXrnd, XXXinv, XXXfit, XXXplot renamed to pdfXXX, cdfXXX, rndXXX, invXXX fitXXX, plotXXX, respectively.
+ * XXXstat renamed to momXXX
+ * fitXXX now returns a structure instead of a vector.
+ * All pdfXXX, cdfXXX, invXXX, momXXX now accepts a structure as returned from fitXXX functions.
+ * All momXXX functions return mean, std, skewness and kurtosis.
+ * iqr      renamed to iqrange
+ * identify renamed to clickslct
+ * whisto   renamed to histgrm
+ * mle      renamed to mlest
+ * empdistr renamed to plotedf
+ * cempdistr renamed to plotedfcnd
+ * wskewness renamed to skew 
+ * wkurtosis renamed to kurt 
+ * wquantile renamed to percentile
+
 == New directories added ==
   * GRAPHUTIL : many useful plot functions
   * NUMDIFFTOOLS : tools for automatic numerical differentiation of functions
@@ -98,20 +115,4 @@ Statistics functions:
   
   
 
- == Other changes ==
- XXXpdf, XXXcdf, XXXrnd, XXXinv, XXXfit, XXXplot renamed to pdfXXX, cdfXXX, rndXXX,
-  invXXX fitXXX, plotXXX, respectively.
-  XXXstat renamed to momXXX
-  fitXXX now returns a structure instead of a vector.
-  All pdfXXX, cdfXXX, invXXX, momXXX now accepts a structure as returned
-  from fitXXX functions.
- All momXXX functions return mean, std, skewness and kurtosis.
-  iqr      renamed to iqrange
-  identify renamed to clickslct
-  whisto   renamed to histgrm
-  mle      renamed to mlest
-  empdistr renamed to plotedf
-  cempdistr renamed to plotedfcnd
-  wskewness renamed to skew 
-  wkurtosis renamed to kurt 
-  wquantile renamed to percentile
+ 

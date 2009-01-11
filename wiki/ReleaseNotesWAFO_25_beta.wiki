@@ -1,0 +1,117 @@
+#labels Featured,Phase-Design
+# Release notes for WAFO version 2.5 beta
+
+= Introduction =
+
+This release includes many new functions and refactorings of old functions. The details are given below:
+
+
+= Details =
+== New directories added ==
+  * GRAPHUTIL : many useful plot functions
+  * NUMDIFFTOOLS : tools for automatic numerical differentiation of functions
+  * POLYUTIL : tools for evaluating polynomials.
+
+==New functions:==
+  
+Spectrum estimation:
+All translated from Octave (GPL).
+   * welch_psd
+   * welch_psd2
+   * welch_cpsd
+
+Distribution functions:
+  * poisson, 
+  * cauchy, 
+  * hypergeometric, 
+
+Profile log likelihood functions:
+  * lnkexp       - Link for x,F and parameters of Exponential distribution
+  * lnkgenpar    - Link for x,F and parameters of Generalized Pareto distribution
+  * lnkgev       - Link for x,F and parameters of Generalized Extreme value distribution
+  * lnkgumb      - Link for x,F and parameters of Gumbel distribution
+  * lnkgumbtrnc  - Link for x,F and parameters of truncated Gumbel distribution
+  * lnkray       - Link for x,F and parameters of Rayleigh distribution
+  * lnkweib      - Link for x,F and parameters of the Weibull distribution
+  * logps        - Moran's negative log Product Spacings statistic
+  * ciproflog    - Confidence Interval using Profile Log- likelihood or Product Spacing- function.
+  * proflog           - Profile Log- likelihood or Product Spacing-function.
+  * FINDCIPROFLOG     - Find Confidence Interval from proflog function
+
+Statistics functions:
+   * decluster         - Decluster peaks over threshold values
+   * extremalidx       - Extremal Index measuring the dependence of data
+   * findpot           - Find indices to Peaks over threshold values
+   * prb2retper        - Return period from Probability of exceedance. 
+   * retper2prb        - Probability of exceedance from return period.
+
+   * fitgenparrange    - Parameter estimates for GPD model vs thresholds
+   * disprsnidx        - Dispersion Index vs threshold
+   * reslife           - Mean Residual Life, i.e., mean excesses vs thresholds
+   * plotdisprsnidx    - Plot Dispersion Index vs thresholds
+   * plotreslife       - Plot Mean Residual Life (mean excess vs thresholds)
+  
+   * logit             - Logit function.
+   * logitinv          - Inverse logit function.
+   * regglm            - Generalized Linear Model regression
+   * reglm             - Fit multiple Linear Regression Model.
+   * reglogit          - Fit ordinal logistic regression model.
+   * regnonlm          - Non-Linear Model Regression  
+   * regsteplm         - Stepwise predictor subset selection for Linear Model regression
+
+   * princomp          -  Compute principal components of X
+
+   * ranktrf           - Rank transformation of data material.
+   * spearman          - Spearman's rank correlation coefficient.
+   * var2corr          - Variance matrix to correlation matrix conversion.
+   * lmoment           - L-moment based on order statistics.
+   * pdfdiscrete       - Discrete PDF
+   * pdfempirical      - Empirical pdf
+   * cdfdiscrete       - Discrete cdf
+   * cdfempirical      - Empirical cdf
+   * invdiscrete       - Disrete quantile
+   * invempirical      - Empirical quantile. 
+
+   * plotbox           - Plot box-and-whisker diagram
+   * plotdensity       - Plot density.
+   * plotfitsumry      - Plot diagnostic of fit to data
+
+   * anovan            - multi-way analysis of variance (ANOVA)
+   * testgumb          - Tests if shape parameter in a GEV is equal to zero
+   * testmean1boot     - Bootstrap t-test for the mean equal to 0.
+   * testmean1n        - Test for mean equals 0 using one-sample T-test
+   * testmean2n        - Two-sample t-test for mean(x) equals mean(y)
+   * testmean1r        - Wilcoxon signed rank test for H0: mean(x) equals 0.
+   * testmean2r        - Wilcoxon rank-sum test for H0: mean(x) equals mean(y).
+
+ Confidence interval estimation
+   * ciboot            - Bootstrap confidence interval.
+   * ciquant           - Nonparametric confidence interval for quantile
+   * momci1b           - Moment confidence intervals using Bootstrap
+
+ Bootstrap & jacknife estimates
+   * covboot           - Bootstrap estimate of the variance of a parameter estimate.
+   * covjack           - Jackknife estimate of the variance of a parameter estimate.
+   * stdboot           - Bootstrap estimate of the parameter standard deviation.
+   * stdjack           - Jackknife estimate of the standard deviation of a parameter 
+  
+  
+  
+
+ == Other changes ==
+ XXXpdf, XXXcdf, XXXrnd, XXXinv, XXXfit, XXXplot renamed to pdfXXX, cdfXXX, rndXXX,
+  invXXX fitXXX, plotXXX, respectively.
+  XXXstat renamed to momXXX
+  fitXXX now returns a structure instead of a vector.
+  All pdfXXX, cdfXXX, invXXX, momXXX now accepts a structure as returned
+  from fitXXX functions.
+ All momXXX functions return mean, std, skewness and kurtosis.
+  iqr      renamed to iqrange
+  identify renamed to clickslct
+  whisto   renamed to histgrm
+  mle      renamed to mlest
+  empdistr renamed to plotedf
+  cempdistr renamed to plotedfcnd
+  wskewness renamed to skew 
+  wkurtosis renamed to kurt 
+  wquantile renamed to percentile

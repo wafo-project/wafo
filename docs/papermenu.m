@@ -11,7 +11,7 @@ function papermenu(kind)
 %history
 % by pab 20.05.2000
 
-if nargin<1|isempty(kind)
+if nargin<1 || isempty(kind)
   kind=0;
 end
 
@@ -26,7 +26,7 @@ filenames = str2mat(...
 Noptions=size(filenames,1);
 if kind==1, % text driven menu
   r=1;
-  while ~isempty(r) & ~strcmpi(r,'q')
+  while ~isempty(r) && ~strcmpi(r,'q')
     clc
     disp(header)
     disp('  ')
@@ -37,7 +37,7 @@ if kind==1, % text driven menu
     if ~isempty(r)
       clc
       r=round(r);
-      if ((1<=r) & (r<=Noptions))
+      if ((1<=r) && (r<=Noptions))
 	eval(filenames(r,:))
 	%pause
       end  

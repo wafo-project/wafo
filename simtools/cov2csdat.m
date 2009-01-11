@@ -113,7 +113,7 @@ switch method(1:4),
     %tmp=S1o/Soo; % this is time consuming if Soo large
     tmp=2*Sigma(inds,~inds)/(Sigma(~inds,~inds) +Sigma(~inds,~inds)' );
     
-    if nargout==3, %|nargout==0,
+    if nargout==3, % || nargout==0,
       %standard deviation of the expected surface
       %mu1oStd=sqrt(diag(S11-tmp*S1o'));
       mu1oStd=sqrt(diag(Sigma(inds,inds)-tmp*Sigma(~inds,inds)));
@@ -211,7 +211,7 @@ switch method(1:4),
     %sample conditioned on the known observations from x
     sample=rndnormnd(mu1o,Sigma1o,cases );
     
-    if nargout==3, %|nargout==0,
+    if nargout==3, % || nargout==0,
       %standard deviation of the expected surface
       mu1oStd=sqrt(diag(Sigma1o));
     end

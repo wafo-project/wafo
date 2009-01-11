@@ -91,7 +91,7 @@ if ~isempty(Pin)
 end
 
 method = lower(Pout.method);
-if ~(strcmp(method,'exp') | strcmp(method,'gpd'))
+if ~(strcmp(method,'exp') || strcmp(method,'gpd'))
     error(['Undefined method: ' Pout.method]), 
 end
 

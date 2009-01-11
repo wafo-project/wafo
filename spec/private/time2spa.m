@@ -26,7 +26,7 @@ function Sk=time2spa(S,k,k2,g,rate)
 %   by es 99.08.17
 
 error(nargchk(1,5,nargin))
-if nargin<5|isempty(rate),
+if nargin<5 || isempty(rate),
   rate = 2;
 end
 rate = max(round(abs(rate)),1);
@@ -38,7 +38,7 @@ if nargin<3
     g=gravity;
   end
 end
-if strcmpi(S.type(end-2:end),'k1d')|strcmpi(S.type(end-2:end),'k2d')
+if strcmpi(S.type(end-2:end),'k1d') || strcmpi(S.type(end-2:end),'k2d')
   error('Spectrum already in space domain')
 end
 Sk = S;
@@ -61,8 +61,8 @@ if isfield(Sk,'v')
 end
 Sk.g=g;
 nw = rate*length(w);
-if strcmpi(S.type,'freq')|strcmpi(S.type,'enc')
-  if nargin<2|isempty(k)
+if strcmpi(S.type,'freq') || strcmpi(S.type,'enc')
+  if nargin<2 || isempty(k)
     k=linspace(0,w2k(w(end),0,S.h,g(1)),nw)';
   else
     if length(k)==1 % then interpret k as dk (step length)
@@ -84,7 +84,7 @@ else % directional spectrum
     error('WAFO:time2spa','This transformation for finite depth is not available yet')
   end
   nw = ceil(nw/2);
-  if nargin<2|(isempty(k) & isempty(k2)) % no arg-in for wave-numbers
+  if nargin<2 || (isempty(k) && isempty(k2)) % no arg-in for wave-numbers
     k=linspace(0,w(end)^2/g(1),nw);
     if g(end)>0
       k2=linspace(-w(end)^2/g(end), w(end)^2/g(end), 2*nw-1)';
@@ -92,7 +92,7 @@ else % directional spectrum
       k2=linspace(-w(end)^2/g(1), w(end)^2/g(1), 2*nw-1)';
     end     
   else % Some arg-in for k
-    if nargin<3|isempty(k2) % no arg-in for k2
+    if nargin<3 || isempty(k2) % no arg-in for k2
       k2=k;
     end
     if length(k)==1 % k scalar, ie dk

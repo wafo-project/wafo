@@ -109,10 +109,10 @@ end
 % Default Parameters for extrapolatin of LC & where to use extreme RFM
 %
 
-if isempty(Pout.u_lev) & isempty(Pout.LCfrac)
+if isempty(Pout.u_lev) && isempty(Pout.LCfrac)
     Pout.LCfrac = 0.05;
 end
-if isempty(Pout.Lim) & isempty(Pout.LimRelDam)
+if isempty(Pout.Lim) && isempty(Pout.LimRelDam)
     Pout.LimRelDam = 0.95;
 end
 

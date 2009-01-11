@@ -25,7 +25,7 @@ if n0<n1
 b=b(:);
 g=g(:);
 xnold=xn+1;
-while iter<niter&sum(abs(xn-xnold))>epsi
+while iter<niter && sum(abs(xn-xnold))>epsi
    a=1-b'*xn/u-g'*xn.^2/u;
    A=-b/u-2*g.*xn/u;
    xnold=xn;

@@ -50,7 +50,7 @@ for i = 1:T
   nres = nres+1;
   res(nres,1:nn) = x(i,1:nn);
   cycleFound = 1;
-  while cycleFound==1 & nres>=4
+  while cycleFound==1 && nres>=4
     if res(nres-1,nn) < res(nres-2,nn)
       A = [res(nres-1,nn) res(nres-2,nn)];
     else
@@ -63,7 +63,7 @@ for i = 1:T
     end
     %A = sort([res(nres-1) res(nres-2)]);
     %B = sort([res(nres) res(nres-3)]);
-    if A(1) >= B(1) & A(2) <= B(2)
+    if A(1) >= B(1) && A(2) <= B(2)
       RFM(res(nres-2,nn),res(nres-1,nn)) = RFM(res(nres-2,nn),res(nres-1,nn)) + 1;
       res(nres-2,1:nn) = res(nres,1:nn);
       nres = nres-2;

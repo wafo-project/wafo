@@ -374,7 +374,7 @@ if (alpha>0), % adaptive kde
   end
   lX=[X1{:}];
   
-  if ~HG ,%(min(hsiz)==1)|(d==1)
+  if ~HG ,%(min(hsiz)==1) || (d==1)
     lX=lX./h(ones(Nx,1),:); 
     for ix=indc,%Sum over all data points
       Avec=lX(ix,:);

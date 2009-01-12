@@ -60,6 +60,8 @@
 %  - Reported bugs.
 %  - List of publications related to WAFO.
 
+% '$revision$'
+
 % By jr 00.05.26
 % Revised 00.07.10
 % Revised 00.07.13

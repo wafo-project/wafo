@@ -1,0 +1,238 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{../mystuff}
+\usepackage{apalike}
+\title{WAFO Data Structures: Wave Spectrum and Covariance Function}
+\author{ Eva Sj\"o}
+\begin{document}
+\maketitle
+\bibliographystyle{apalike}
+\section{Introduction}
+The following types of wave spectra are available in WAFO:
+\begin{itemize}
+\item Directional spectrum (at fixed position). Defining $Cov\lbrace {\eta}(0,0,0),{\eta}(t,x,y)\rbrace$.\\
+\item Frequency spectrum (at fixed position). Defining $Cov\lbrace {\eta}(0){\eta}(t)\rbrace$.\\
+\item Wave number spectrum in $2$-D. Defining $Cov\lbrace {\eta}(0,0,0),{\eta}(t,x,y)\rbrace$.\\
+\item Wave number spectrum in $1$-D. Defining $Cov\lbrace{\eta}(0),{\eta}(x)\rbrace$.\\
+\item Encountered directional spectrum (for given speed and
+  direction). Defining $Cov\lbrace {\eta}(0,0,0), {\eta}(t,x+vt\cos{\phi},y+vt\sin{\phi})\rbrace$. \\
+\item Encountered frequency spectrum (for given speed and
+  direction). Defining $Cov\lbrace {\eta}(0,0,0), {\eta}(t,vt\cos{\phi},vt\sin{\phi})\rbrace$.\\
+\item Rotated directional spectrum. Defining $\Cov
+  \lbrace{\eta}_{\phi}(0,0,0),{\eta}_{\phi}(t,x,y)\rbrace$, ${\eta}_{\phi}(\cdot)$=wave field
+  rotated angle ${\phi}$.\\
+\item Rotated wave number spectrum in 2-D. Defining
+  $Cov\lbrace{\eta}(0,0,0),{\eta}_{\phi}(t,x,y)\rbrace$.\\
+\item Rotated wave number spectrum in 1-D. Defining
+  $Cov\lbrace{\eta}(0,0,0),{\eta}(0,x\cos{\phi},x\sin{\phi})\rbrace$.
+\end{itemize}
+
+The idea of all these spectra is quite clear, but there are several possible
+definitions for each of them when it comes to units, interval of
+definition of parameters etc.
+
+The suggestion here is to allow for different frequency units, but try to keep to only one definition
+for each type of spectrum (apart from the units).
+
+Further, the spectra should not be assumed symmetric in
+${\omega}$. This we can call the physical definition. The mathematical 
+definition with (conjugate) symmetry will be used  when needed internal in the routines.
+
+With $g=$constant of gravity$\approx 9.81$ and ${\omega}=2{\pi}f$ we have
+\begin{description}
+\item[Directional spectrum] $S({\omega},{\theta})$, $0 <
+  {\omega}<\infty$, $-{\pi}<{\theta}<{\pi}$. The main direction of
+  waves is ${\theta}=0$.
+  Alternatively we
+  have $S_f(f,{\theta})$, $0 <
+  f<\infty$, $-{\pi}<{\theta}<{\pi}$. Remark: The definition used
+  in \cite{Lindgren-Rychlik-Prevosto_97b} is  $-\infty <
+  {\omega}<\infty$, $-{\pi/2}<{\theta}<{\pi/2}$ with the motivation
+  that it gives more transparent formulas for the calculation of
+  encountered spectra.
+\item[Frequency spectrum] $S({\omega})$, $0 \leq {\omega} < \infty, 
+  $ or $S_f(f)$, $0 < f[Hz] < \infty$. 
+  Can be integrated out from the directional spectrum:  $S({\omega})=\int_{-\pi}^{\pi}S({\omega},{\theta})d{\theta}$.
+  \\
+\item[Wave number spectrum in 2-D]
+  $S_k({\kappa}_x,{\kappa}_y)=S_k(\mbf{\kappa})$, $-\infty <{\kappa}_x,{\kappa}_y<\infty$.  Related 
+  to the directional spectrum via
+\begin{xalignat*}{2}
+  \label{dr_param}
+  &   \begin{cases}
+    {\omega}(\mbf{\kappa})=\sqrt{g||\mbf{\kappa}||\tanh{(||\mbf{\kappa}||h)}}\\
+    {\theta}(\mbf{\kappa})=\arctan_2({\kappa}_y/{\kappa}_x).
+  \end{cases}&\text{or}\quad &\begin{cases}
+  {\kappa}_x({\omega},{\theta})=k({\omega};h)\cos{\theta} \\
+  {\kappa}_y({\omega},{\theta})=k({\omega};h)\sin{\theta}
+ \end{cases}
+\end{xalignat*}
+where ${\kappa}({\omega};h)$ is the solution to the dispersion
+relation ${\omega}^2=g{\kappa}\tanh({\kappa}h)$, the dispersion
+relation for water depth $h$. The notation $\arctan_2$ means the four
+quadrant arctangent, and $||\mbf{\kappa}||=\sqrt{{\kappa}_x^2+{\kappa}_y^2}$. For deep water ($h=\infty$)  we have
+$S_k({\kappa}_x,{\kappa}_y)=\frac{g^2}{2{\omega}(\mbf{\kappa})^3}S({\omega}(\mbf{\kappa}),{\theta}(\mbf{\kappa}))$.
+Maple helped me to evaluate the Jacobian determinant for the change of 
+variables from $\mbf{\kappa}$ to $({\omega},{\theta})$ for finite depth, but I do not
+think you would like to see that expression  here...
+Similar relation can be derived to $S_f(f,{\theta})$ (involving more $2{\pi}$'s\ldots)\\
+\item[Wave number spectrum in 1-D] $S_k({\kappa})$, $0\leq {\kappa} < \infty$. For deep water related to $S({\omega})$
+  through $S(w)=\frac{2{\omega}}{g}S_k({\omega}^2/g)$. Or reversely, $S_k({\kappa})=\frac{1}{2}\sqrt{\frac{g}{{\kappa}}}S(\sqrt{g{\kappa}})$. For finite depth the
+  dispersion relation is given by
+  ${\omega}^2=g{\kappa}\tanh({\kappa}h)$, and from this a relation can 
+  be found.\\
+\item[Encountered frequency spectrum] $S_e({\omega};v,{\phi})$, for ships traveling with speed 
+  $v$  in the direction ${\phi}$.
+  See~\cite{Lindgren-Rychlik-Prevosto_97b} and
+  ~\cite{Podgorski-Rychlik-Machado} how it
+  is derived from a directional spectrum.
+\item[Encountered directional spectrum] $S({\omega},{\theta};
+  v,{\phi})$. Same as previos, but without integrating out the angle.\\  
+\item[Rotated directional spectrum]
+  $S_{\phi}({\omega},{\theta})=S({\omega},{\theta}+{\phi})$, where
+  $S({\omega},{\theta})$ is extended periodically for ${\theta}$
+  beyond $(-{\pi},{\pi})$.
+\item[Rotated wave number spectrum] $S_k({\kappa};{\phi})$, spectrum
+  along a line in an angle ${\phi}$ with the main direction of waves. In 2-D: $S_k({\kappa}_x,{\kappa}_y;{\phi})$, $x$-axis
+  in an angle ${\phi}$ with the main direction of waves. Can be
+  derived from $S_{\phi}({\omega},{\theta})$.
+\end{description}
+
+\section{In MATLAB}
+All this is possible to describe in MATLAB with a so called 'Structured 
+Array'. The fields needed to describe the spectra defined above are
+\begin{description}
+\item[.type] Defining type of spectrum: 'dir', 'freq', 'k2D', 'k1D',
+  'encdir', 'enc', 'rotdir', 'rotk2D', 'rotk1D'. Default: 'freq'.\\
+\item[.S] Values of spectrum in a matrix size $n_{\theta} \times
+  n_f$. 
+\item[.w] Frequency lag when angular frequency, vector of length
+  $n_f$.  Equidistant values $\geq 0$. Should not be given when .f or .k (see
+  below) is. Default: see .S.\\
+\item[.f] Frequency lag when natural frequency ([Hz]), vector of length
+  $n_f$. Equidistant values $\geq 0$. Should not be given when .w or .k (see
+  below) is. Default: see .S.\\
+\item[.k] Wave number lag (in first dimension), vector of length
+  $n_f$.  Equidistant values, $\geq 0$ when type 'k1D', negative
+  values allowed when type 'k2D' etc. Only when some type of wave number
+  spectrum. Default: see .S.\\
+\item[.k2] Only for .type='k2D' or 'rotk2D'. Second dimension wave number
+  lag, length $n_{\theta}$, equidistant. Default: equal to .k.\\
+\item[.theta] Only for all types of dirctional spectra. Angular lags
+  $-{\pi}<{\theta}[\text{rad}]<{\pi}$,
+   equidistant vector of length $n_{\theta}$.  Default: see .S\\
+\item[.v] Only for .type='encdir' and 'enc'. Speed of ship, scalar,
+  unit [m/s]. Default: 0\\
+\item[.phi] Only for .type='encdir', 'enc' and 'rot\ldots'. Direction of ship 
+  or direction of '$x$-axis', scalar, unit [rad]. Defualt: 0\\
+\item[.h] Water depth, positive scalar, unit [m]. Default: $\infty$\\
+\item[.tr] Transformation funtion. Default: [] (none)
+\item[.norm] Normalization flag. Logical 1 if variance normalized
+  spectrum, 0 else. Default: 0
+\item[.note] String for memorandum about the spectrum.
+\item[.date] Date and time of creation or change of the spectrum.
+\end{description}
+Remark: The field .type in in most cases given by the other fields in 
+the sense that the combination of fields, and the values in these,
+uniquely describes the .type.  For example, if .v is set, then we have a 
+encountered spectrum of some kind, if .theta also is set, then we have
+an encountered directional spectrum. A reason to keep the field .type anyway
+is that it provides an easy check of type of spectrum.
+Remark 2: The fields .w, .f and .k are disjoint.
+
+The following routines are closly related to the spectrum structure:
+%\textbf{findtype(spec)} that looks at the fields
+%specified in variable spec at decides which .type it must
+%be.
+\textbf{checkspec(spec)} to check if  spec.type is compatible with the
+rest of the fields in spec, or if any field has to be changed.\\
+\textbf{spec2spec(spec,newtype)} that can
+translate from one type to another when possible, see
+Table~\ref{tab:changes}.\\
+\textbf{createspec(type, freqtype)} that sets up an empty structure.
+\textbf{w2k} and \textbf{k2w} translates between the frequency world
+and the wave number world in both one and two dimensions.
+\begin{table}[htbp]
+  \begin{center}
+\begin{tabular}[h]{|c||c|c|c|c|c|c|c|c|c|}
+\hline .type & dir & freq & k2D & k1D & encdir & enc & rotdir &
+rotk2D & rotk1D\\\hline\hline
+dir & $\bullet$ &$\Rightarrow$&  $\Rightarrow$ &  $\rightarrow$ &
+$\Rightarrow$ &  $\Rightarrow$ &  $\Rightarrow$ &  $\Rightarrow$ &
+$\rightarrow$ \\ \hline
+freq & & $\bullet$ & &  $\Rightarrow$ & & & &&\\\hline
+k2D &  $\Rightarrow$ &  $\rightarrow$ &  $\bullet$ &
+$\Rightarrow$ &  $\rightarrow$ & $\rightarrow$ &  $\rightarrow$ &
+$\Rightarrow$ &  $\rightarrow$ \\\hline
+k1D & &  $\Rightarrow$ && $\bullet$ &&?&&&\\\hline
+encdir & ? & ? & ? & ? &  $\bullet$ &  $\Rightarrow$ & ? & ? & ?
+\\\hline
+enc & & ? & & & & $\bullet$ & & & ?\\\hline
+rotdir &  $\Rightarrow$ &  $\Rightarrow$ &  $\rightarrow$ &
+$\rightarrow$ &  $\rightarrow$ &  $\rightarrow$ &  $\bullet$ &
+$\Rightarrow$ & $\Rightarrow$ \\\hline
+rotk2D&  $\rightarrow$ &  $\rightarrow$ &  $\Rightarrow$ &
+$\rightarrow$ &  $\rightarrow$ & $\rightarrow$ &  $\Rightarrow$ &
+$\bullet$ &  $\Rightarrow$ \\\hline
+rotk1D & &  $\Rightarrow$ &&  &&?&&& $\bullet$ \\\hline
+\end{tabular}
+    \caption{Scheme of possible type changes. An empty box means
+      translation impossible,  $\Rightarrow$ means
+      direct translation, $\rightarrow$ means translaition via another 
+      type is most easy, and ? means that I had no time to find out if it is possible. }
+    \label{tab:changes}
+  \end{center}
+\end{table}
+
+NB! All field names and file names above are only suggestions, any
+idea of improvement is welcome, as well as comments/corrections on the 
+Table.
+\section{Covariance function data structure}
+To keep everything gathered, the covariance function is also stored in 
+a structured array together with its derivatives and other thing that
+can be useful. One idea with this structure is that although many
+fields are included in the list below, giving possibilities to cover a
+wide range of different situations, it is preferable to only include  the
+fields actually needed. For example, we allow for any combination of the varables $x,y$ and
+$t$, and for up to four derivatives, but if we have the covariance
+function $R(t)$, then no $x$- or $y$-variables or -derivatives should be in
+the struct for this cvf. When we have more than one variable, the
+mutual  order in the
+struct between them should always be $x,y,t$.
+
+This may seem complicated, but to make it simpel there is a
+script:\\\textbf{createcov(nrofder,variables,type)} that sets up an
+empty struct with the fields given by the options: nrofder=number of 
+derivatives, variables= a string of up to 3 characters of any
+combination of x,y and t, type='none','enc' or 'rot'. All the possible 
+types for spectra are not interesting for covariance functions,
+but if we have \textsl{any} of the rotated types or \textsl{any} of the encountered
+types are relevant also for cvfs, all other types passes as 'none'.
+
+Here follows a list of all possible fields (if I am right, worst case
+is 44 fields...) in recommended order:
+\begin{description}
+\item[.R] Matrix/vector with covariance function. Size $n_x \times
+  n_y\times  n_t$, but no singleton dimesions. If no y, for example,
+  then the size is $n_x \times n_t$.
+\item[.x] Lag of first space dimension, vector of length $n_x$, unit
+  [m].
+\item[.y] Lag of second space dimension, vector of length $n_t$, unit
+  [m].
+\item[.t] Time lag, vector of length $n_t$, unit [s].
+%\item[.stdev] Only when one-dimensional (time) function.
+\item[.h] Water depth, scalar, unit [m].
+\item[.tr] Transformation, see spectrum structure.
+\item[.type] 'enc','rot' or 'none', see above.
+\item[.v] Only if type 'enc'. Speed of ship, scalar, unit [m/s].
+\item[.phi] Only if type 'enc' or 'rot'. Direction of ship 
+  or direction of '$x$-axis', scalar, unit [rad].
+\item[.norm] Normalization flag. Logical 1 if autocorrelation function(=
+  normalized cvf), 0 else.
+\item[.Rx \ldots .Rtttt] Matrices with obvious derivatives of R.  
+\item[.note] String for memorandum about the cvf.
+\item[.date] Date and time of creation or change of the cvf.
+\end{description}
+\bibliography{../mybib}
+
+\end{document}

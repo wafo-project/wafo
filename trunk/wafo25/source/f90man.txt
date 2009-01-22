@@ -1,0 +1,3036 @@
+
+
+
+User Commands                                              F90(1)
+
+
+
+NNAAMMEE
+     f90 - FORTRAN 90 compiler
+
+SSYYNNOOPPSSIISS
+     ff9900 [ --aa ] [ --aannssii ]
+          [ --aauuttooppaarr ] [ --BB_x ] [ --CC ] [ --cc ]
+          [ --ccgg8899 ] [ --ccgg9922 ] [ --DD_n_m[==_d_e_f] ] [ --ddaalliiggnn ]
+          [ --ddeeppeenndd ] [ --ddrryyrruunn ] [ --ddnn ] [ --ddyy ] [ --ee ]
+          [ --eexxpplliicciittppaarr ]
+          [ --FF ] [ --ff ] [ --ffaasstt ] [ --ffiixxeedd ] [ --ffllaaggss ]
+          [ --ffnnoonnssttdd ] [ --ffnnss==_y_e_s_|_n_o ]
+          [ --ffppoovveerr==_n_o_|_y_e_s ]
+          [ --ffrroouunndd==_r ] [ --ffssiimmppllee ] [ --ffttrraapp==_t ]
+          [ --GG ] [ --gg ] [ --hh_n_m ] [ --hheellpp ] [ --II_d_i_r ]
+          [ --iinnlliinnee==_r_l ] [ --KKppiicc ] [ --KKPPIICC ]
+          [ --LL_d_i_r ] [ --lliibbmmiill ] [ --llooooppiinnffoo ] [ --MM _d_i_r ]
+          [ --mmpp==_x ] [ --mmtt ] [ --nnaattiivvee ] [ --nnooaauuttooppaarr ]
+          [ --nnooddeeppeenndd ] [ --nnooeexxpplliicciittppaarr ]
+          [ --nnoolliibb ] [ --nnoolliibbmmiill ] [ --nnooqquueeuuee ] [ --nnoorreedduuccttiioonn ]
+          [ --nnoorruunnppaatthh ] [ --OO[_n] ] [ --oo _n_m ]
+          [ --oonneettrriipp ] [ --pp ] [ --ppaadd==_p ]
+          [ --ppaarraalllleell] [ --ppgg ] [ --ppiicc ] [ --PPIICC ]
+          [ --QQooppttiioonn _p_r _l_s ] [ --qqpp ] [ --RR _l_s ]
+          [ --rreedduuccttiioonn ] [ --SS ] [ --ss ] [ --ssbb ]
+          [ --ssttaacckkvvaarr ]
+          [ --tteemmpp==_d_i_r ] [ --ttiimmee ] [ --uunnrroollll==_n ]
+          [ --VV ] [ --vv ] [ --vvppaarraa ] [ --ww ]
+          [ --xxaa ] [ --xxaarrcchh==_a ] [ --xxaauuttooppaarr ] [ --xxccaacchhee==_c ]
+          [ --xxccgg_8_9 ] [ --xxccgg_9_2 ] [ --xxcchhiipp==_c ] [ --xxccooddee==_v ]
+          [ --xxddeeppeenndd ] [ --xxeexxpplliicciittppaarr ]
+          [ --xxhheellpp==_h ] [ --xxiillddooffff ] [ --xxiillddoonn ]
+          [ --xxiinnlliinnee==_r_l ] [ --xxlliibbmmiill ] [ --xxlliibbmmoopptt ]
+          [ --xxlliicciinnffoo ] [ --xxlliicc__lliibb==_l_i_b_s ] [ --XXlliisstt ]
+          [ --xxllooooppiinnffoo ] [ --xxnnoolliibb ] [ --xxnnoolliibbmmiill ]
+          [ --xxnnoolliibbmmoopptt ] [ --xxOO[_n] ] [ --xxppaadd ]
+          [ --xxppaarraalllleell ] [ --xxppgg ]
+          [ --xxpppp==_p ] [ --xxpprreeffeettcchh==_y_e_s_|_n_o ] [ --xxpprrooffiillee==_p ]
+          [ --xxrreedduuccttiioonn ] [ --xxrreeggss==_r ] [ --xxss ] [ --xxssaaffee==mmeemm ]
+          [ --xxssbb ] [ --xxssppaaccee ] [ --xxttaarrggeett==_t ]
+          [ --xxttiimmee ] [ --xxuunnrroollll==_n ]
+          [ --xxvveeccttoorr==_y_e_s_|_n_o ] [ --ZZllpp ] [ --zz _X ] [ --zztteexxtt ]
+            _s_o_u_r_c_e _f_i_l_e_(_s_) ...  [ --ll_x ]
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _V_e_r_s_i_o_n: FORTRAN 90 2.0
+
+     See the online RREEAADDMMEEss//ffoorrttrraann__9900 file (viewable by running
+     ff9900 --xxhheellpp==rreeaaddmmee) for current platforms and environments
+     and latest information on new or changed features.
+
+     Note that the compiler's parallelization features are only
+
+
+
+                   Last change: 98/12/14  2.0                   1
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     available with the Sun Performance WorkShop(TM) Fortran,
+     SPARC Edition.
+
+     ff9900 is derived from Cray CF90(tm), a product of Silicon
+     Graphics, Inc.
+
+     _P_u_r_p_o_s_e: Translate Fortran source files into an executable
+     (aa..oouutt) file
+
+     _O_t_h_e_r _U_s_e_s _o_f _t_h_e _c_o_m_p_i_l_e_r:
+
+     o  Make an executable for multiple processors, --ppaarraalllleell
+     o  Do global checking of the source program, --XXlliisstt
+     o  Transform source to relocatable binary (..oo) files, --cc
+     o  Transform source to a dynamic library (..ssoo) file, --GG
+     o  Prepare for debugging, --gg
+     o  Prepare for profiling by statement or procedure, --ppgg
+     o  Link ..oo files into an executable file
+     o  Relink only the changed files, --xxiillddoonn
+        The Incremental Link Editor, iilldd, is sometimes used in
+        place of the standard linker, lldd, for faster development.
+        See --xxiillddoonn and --xxiillddooffff for more information.
+
+     _N_o_t_e: A mmaann page, by definition, is a _q_u_i_c_k reference, not a
+     complete reference. See the list of Sun documentation at the
+     end of this man page.
+
+CCOOMMPPIILLIINNGG FFOORR 6644--BBIITT SSOOLLAARRIISS 77::
+     This version of the compiler can produce 64-bit object bina­
+     ries on 32-bit or 64-bit Solaris 7 SPARC Platform Edition.
+     The resulting executable will run only on 64-bit SPARC or
+     UltraSPARC processors under Solaris 7 with the 64-bit ker­
+     nel.  Compilation, linking, and execution of 64-bit objects
+     can only take place in a Solaris 7 environment.
+
+     Compiling for 64-bit Solaris 7 is indicated by the --xxaarrcchh==vv99
+     and --xxaarrcchh==vv99aa options. Note that one of these options must
+     be specified even if --xxttaarrggeett or --ffaasstt are also specified.
+     In such a case, the --xxaarrcchh==vv99 (or --xxaarrcchh==vv99aa) option must
+     appear AFTER any --xxttaarrggeett or other option that sets --xxaarrcchh.
+     For example:
+
+           --xxttaarrggeett==uullttrraa --xxaarrcchh==vv99
+
+     Note that --xxttaarrggeett==uullttrraa and --xxttaarrggeett==uullttrraa22 imply --xxaarrcchh==vv88
+     and do not automatically signal --xxaarrcchh==vv99 or vv99aa.
+
+     When building shared dynamic libraries with --xxaarrcchh==vv99 or vv99aa
+     on 64-bit Solaris 7, the --ppiicc or --PPIICC option MUST be speci­
+     fied.
+
+     See also the new --xxccooddee==aabbss3322||aabbss4444||aabbss6644||ppiicc1133||ppiicc3322 option
+
+
+
+                   Last change: 98/12/14  2.0                   2
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     for specifying code address sizes.
+
+     64-bit Solaris 7 not only enables 64-bit integer and pointer
+     data, but also support for large files and large arrays. For
+     more details, see the README file:
+
+      <install-directory>//SSUUNNWWsspprroo//RREEAADDMMEEss//6644bbiitt__CCoommppiilleerrss
+
+     (where <install-directory> is usually //oopptt in a standard
+     install.)
+
+     You can find more specific information about compiling f90
+     programs for a 64-bit environment in the f90 README file.
+     This is viewable by running the command ff9900 --xxhheellpp==rreeaaddmmee
+
+     For general information on 64-bit Solaris for software
+     developers, see the "Solaris 7 64-bit Developer's Guide" on
+     AnswerBook2
+
+FFIILLEE SSUUFFFFIIXXEESS
+     ..ff9900 File names ending in ..ff9900 are assumed to be Fortran 90
+          free format source files.
+
+     ..ff   Files with names ending in ..ff or ..ffoorr are taken to be
+          fixed format Fortran 90 or Fortran 77 source files.
+
+     ..ffoorr Same as ..ff files.
+
+     ..FF   Fixed format Fortran 77 or Fortran 90 source containing
+          preprocessor directives. These files are preprocessed
+          by the Fortran preprocessor ffpppp before they are com­
+          piled.  (See also the --xxpppp== option.)
+
+     ..FF9900 Free format Fortran 90 source containing preprocessor
+          directives.  These files are preprocessed by the For­
+          tran preprocessor ffpppp before they are compiled.  (See
+          also the --xxpppp== option.)
+
+     ..ss   Files with names ending in ..ss are taken to be assembly
+          source files and are assembled, producing ..oo files.
+
+     ..iill  Files with names ending in ..iill are taken to be inline
+          expansion code template files.  The compiler uses these
+          to expand inline calls to selected routines.  The com­
+          piler, not the linker, does this, so to get inline
+          expansion, be sure to include these ..iill files in the
+          compile command.
+
+     ..oo   Files ending in ..oo are object files that are passed
+          through to the linker.
+
+     ..aa   Files ending in ..aa are libraries passed on to the
+
+
+
+                   Last change: 98/12/14  2.0                   3
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          linker.
+
+OOPPTTIIOONNSS
+     For details, check the _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e_.  See lldd(1) for
+     link-time options.
+
+     ff9900 compiles "silently".  Except for error and warning mes­
+     sages, it does not issue "progress" messages during compila­
+     tion.
+
+     In general, processing of the compiler options is from left
+     to right, so selective overriding of macros can be done.
+     This rule does not apply to linker options.
+
+     --aa   Profile by basic block for ttccoovv.
+
+          Count how often each basic block is executed.  Run
+          ttccoovv(1) on the source file to generate statistics about
+          the program.
+
+          For separate compile and link steps, if you compile
+          with --aa, then link with --aa.  You can mix --aa with --OO.
+
+          When the program is run, a ..dd file is created for every
+          ..ff file compiled that accumulates execution data for
+          the corresponding source file. Invoking ttccoovv after run­
+          ning the program generates summary output on _f_i_l_e..ttccoovv
+          for each source file.
+
+          If set at compile-time, the TTCCOOVVDDIIRR environment vari­
+          able specifies the directory where the ..dd and ..ttccoovv
+          files are located.  If this variable is not set, these
+          file will be created in the same directory as the ..ff
+          source files.
+
+          This is the old style of basic block profiling for
+          ttccoovv.  See --xxpprrooffiillee==_p.
+
+     --aannssii
+          Identify many non-ANSI extensions.
+
+     --aauuttooppaarr
+          Enable automatic loop parallelization
+
+          Find and parallelize appropriate loops.  Do dependency
+          analysis (analyze loops for inter-iteration data depen­
+          dencies). Do loop restructuring.  If optimization is
+          not --OO33 or higher, it is raised to --OO33.
+
+          --gg cancels --aauuttooppaarr.  Debugging is facilitated by spec­
+          ifying --gg without any optimization or parallelization
+          options since not all debugging features are available
+
+
+
+                   Last change: 98/12/14  2.0                   4
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          when these options are invoked.  See the ddbbxx documenta­
+          tion for details.
+
+          Avoid --aauuttooppaarr if you do your own thread management.
+          See note under --mmtt.
+
+          On a single-processor system the generated code usually
+          runs slower.
+
+          To improve performance, also specify the --ssttaacckkvvaarr
+          option when using any of the parallelization options,
+          including --aauuttooppaarr.
+
+          For more information, see the Parallelization chapter
+          in the _F_o_r_t_r_a_n _P_r_o_g_a_m_m_e_r_'_s _G_u_i_d_e.
+
+          _N_u_m_b_e_r _o_f _p_r_o_c_e_s_s_o_r_s: To request more than one proces­
+          sor, at runtime set the PPAARRAALLLLEELL environment variable.
+          If NN is the number of processors available on the
+          machine, then for a one-user, multiprocessor machine,
+          try PPAARRAALLLLEELL==NN--11.
+
+          _N_o_t_e: If one user alone asks (or all users together
+          ask) for more processors than are available on the
+          machine, there can be serious degradation of perfor­
+          mance.
+
+          If --aauuttooppaarr is specified but --eexxpplliicciittppaarr is not, then
+          explicit parallelization directives (such as CC$$MMIICC
+          DDOOAALLLL) are ignored.
+
+          If you use --aauuttooppaarr and compile and link in _o_n_e step,
+          linking will automatically include the microtasking
+          library and the threads-safe FORTRAN runtime library.
+          If you use --aauuttooppaarr and compile and link in _s_e_p_a_r_a_t_e
+          steps, then you must _l_i_n_k with ff9900 --aauuttooppaarr as well.
+
+     --BB_x  Prefer dynamic or require static library linking.
+
+          Indicates that either dynamic library linking is pre­
+          ferred, or static linking required for any libraries
+          listed later in the command.  _x must be ddyynnaammiicc or
+          ssttaattiicc.  The default is ddyynnaammiicc.  This is a linker
+          option.
+
+          --BBddyynnaammiicc: Prefer dynamic linking (shared libraries)
+          --BBssttaattiicc : Require static linking (no shared libraries)
+
+          If you specify ssttaattiicc but the linker finds only a
+          dynamic library, then the library is not linked and a
+          warning issued.
+
+
+
+
+                   Last change: 98/12/14  2.0                   5
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          However, if you specify ddyynnaammiicc but the linker finds
+          only a static version, that library is linked with no
+          warning.
+
+          You can toggle between --BBddyynnaammiicc and --BBssttaattiicc on the
+          command line, linking some libraries statically and
+          others dynamically.
+
+          These are linker options. Compiling with --BB_x requires
+          the same options on a linker command if done in sepa­
+          rate steps.
+
+          In a 64-bit environment, many system libraries are
+          available only as shared dynamic libraries. These
+          include libm.so and libc.so (libm.a and libc.a are not
+          provided). As a result, --BBssttaattiicc and --ddnn may cause
+          linking errors in 64-bit Solaris environments. Applica­
+          tions must link with the dynamic libraries in these
+          cases.
+
+     --CC   Check array references for out of range subscripts.
+
+          Subscripting arrays beyond their declared sizes may
+          result in unexpected results, including segmentation
+          faults. The --CC option checks for possible array sub­
+          script violations in the source code and during execu­
+          tion.
+
+          If the --CC option is used, array subscript violations
+          are treated as an error. If an array subscript range
+          violation is detected in the source code during compi­
+          lation, it is treated as a compilation error.
+
+          This option will increase the size of the executable
+          file and degrade execution performance.  It should only
+          be used while debugging.
+
+     --cc   Compile only, do not make executable file.
+
+          Compile and produce a .o file for each source file but
+          suppress linking by the loader.  You can name a single
+          object file explicitly using the --oo option.
+
+     --ccgg8899
+          Generate code for generic SPARC architecture
+
+          This option is a macro for:
+             --xxaarrcchh==vv77 --xxcchhiipp==oolldd --xxccaacchhee==6644//3322//11
+          and is equivalent to:    --xxttaarrggeett==ssss22
+
+     --ccgg9922
+          Generate code for SPARC V8 architecture
+
+
+
+                   Last change: 98/12/14  2.0                   6
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          This option is a macro for:
+          --xxaarrcchh==vv88 --xxcchhiipp==ssuuppeerr --xxccaacchhee==1166//3322//44::11002244//3322//11.
+          and is equivalent to:    --xxttaarrggeett==ssss11000000
+
+     --DD_n_a_m_e[==_d_e_f]
+          Define symbol _n_a_m_e for the source code preprocessor.
+
+          This is equivalent to a "##ddeeffiinnee" directive in the
+          source. If no _d_e_f is given, _n_a_m_e is defined as "1".
+          This option applies to ..FF suffix files only.
+
+          The following values are predefined on appropriate sys­
+          tems; note the two leading underscores:
+
+             ____ssppaarrcc, ____ssppaarrccvv99, ____uunniixx, ____ssuunn, ____ii338866, ____SSVVRR44,
+             ____SSuunnOOSS__55__55__11, ____SSuunnOOSS__55__66, ____SSuunnOOSS__55__77
+
+          They can be in such preprocessor conditionals as
+             ##iiffddeeff ____ssppaarrcc
+
+          Corresponding older values (prior releases) are:
+              ssppaarrcc, uunniixx, ssuunn, ii338866
+
+          These earlier predefined values may be deleted in a
+          future release.
+
+          ff9900 uses the ffpppp(1) preprocessor by default.  Like the
+          C preprocessor ccpppp(1), ffpppp expands source code macros
+          and enables conditional compilation of code. Unlike
+          ccpppp, ffpppp understand Fortran syntax, and is preferred as
+          a Fortran preprocessor. Use the --xxpppp==ccpppp flag to force
+          the compiler to specifically use ccpppp rather than ffpppp.
+
+     --ddaalliiggnn
+          Align COMMON block data and generate faster multi-word
+          load/stores.
+
+          This flag changes the data layout in COMMON blocks (and
+          EQUIVALENCE classes), and enables the compiler to gen­
+          erate faster multi-word load/stores for that data.
+
+          The data layout effect is that of the --ff flag: double-
+          and quad-precision data in COMMON blocks and EQUIVA­
+          LENCE classes are laid out in memory along their "natu­
+          ral" alignment, which is on 8-byte boundaries (or
+          16-byte boundaries for quad-precision when compiling
+          for 64-bit platforms with --xxaarrcchh==vv99 or vv99aa.)  The
+          default alignment in COMMON blocks is on 4-byte bound­
+          aries.
+
+          Using --ddaalliiggnn, may result in non-standard FORTRAN
+          alignment which could cause problems with variables in
+
+
+
+                   Last change: 98/12/14  2.0                   7
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          EQUIVALENCE or COMMON and may render the program non-
+          portable if --ddaalliiggnn is required.
+
+          If you compile one subprogram or file with --ddaalliiggnn,
+          then all subprograms and files in the program unit must
+          be compiled with --ddaalliiggnn.
+
+     --ddeeppeenndd
+          Analyze loops for data dependencies
+
+          Analyze loops for inter-iteration data dependencies and
+          do loop restructuring. Data dependency analysis is
+          included as part of --ppaarraalllleell and --aauuttooppaarr.  --ddeeppeenndd
+          will raise the optimization level to --OO33 if not speci­
+          fied or is less than --OO33..  --gg cancels --ddeeppeenndd.  Debug­
+          ging is facilitated by specifying --gg without any opti­
+          mization or parallelization options since not all
+          debugging features are available when these options are
+          invoked.  See the ddbbxx documentation for details.
+
+     --ddrryyrruunn
+          Show commands built by the ff9900 driver but do not com­
+          pile.
+
+          Useful when debugging, this option displays the com­
+          mands the comiler will run to perform the compilation.
+
+     --dd[yy|nn]
+          Allow/disallow dynamic libraries for executable
+
+          Allow or disallow dynamic libraries for the entire exe­
+          cutable. This is a linker option.
+
+          The default is --ddyy.
+
+          --ddyy: Allow dynamic libraries.
+          --ddnn: Do not allow dynamic libraries.
+
+          Unlike --BB[ddyynnaammiicc|ssttaattiicc], this option applies to the
+          whole executable and need appear only once on the com­
+          mand line.
+
+          --dd[yy|nn] are linker options. If you compile and link in
+          separate steps with these options, then you need the
+          same option in the link step.
+
+          In a 64-bit environment, many system libraries are
+          available only as shared dynamic libraries. These
+          include libm.so and libc.so (libm.a and libc.a are not
+          provided). As a result, --BBssttaattiicc and --ddnn may cause
+          linking errors in 64-bit Solaris environments. Applica­
+          tions must link with the dynamic libraries in these
+
+
+
+                   Last change: 98/12/14  2.0                   8
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          cases.
+
+     --ee   Extend source line maximum length to 132 characters.
+
+          The compiler pads on the right with trailing blanks to
+          column 132.  If you use continuation lines while com­
+          piling with --ee, then do not split character constants
+          across lines, otherwise unnecessary blanks may be
+          inserted in the constants.
+
+     --eexxpplliicciittppaarr
+          Enable parallelization of loops explicitly marked with
+          directives
+
+          This option turns on explicit parallelization. DO loops
+          immediately preceded by DOALL directives will have
+          threaded, parallel code generated for them. Paral­
+          lelization is only appropriate on multiprocessor sys­
+          tems. This option should not be used to compile pro­
+          grams that already do their own multithreading with
+          calls to the libthread library.
+
+          The compiler may generate parallel code even if there
+          are data dependencies in the DO loop that would cause
+          the loop to generate incorrect results when run in par­
+          allel. With explicit parallelization, it is the user's
+          responsibility to correctly analyze loops for data
+          dependency problems before marking them with paral­
+          lelization directives.
+
+          If optimization is not at --OO33 or higher, then it is
+          raised to --OO33.
+
+          --gg cancels --eexxpplliicciittppaarr.  Debugging is facilitated by
+          specifying --gg without any optimization or paralleliza­
+          tion options since not all debugging features are
+          available when these options are invoked.  See the ddbbxx
+          documentation for details.
+
+          Avoid --eexxpplliicciittppaarr if you do your own thread manage­
+          ment. See --mmtt.
+
+          On a single-processor system, the generated code usu­
+          ally runs slower.
+
+          To improve performance, also specify the --ssttaacckkvvaarr
+          option when using any of the parallelization options,
+          including --aauuttooppaarr.
+
+          For more information, see the chapter on Paralleliza­
+          tion in the _F_o_r_t_r_a_n _P_r_o_g_r_a_m_m_i_n_g _G_u_i_d_e.
+
+
+
+
+                   Last change: 98/12/14  2.0                   9
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          If you use --eexxpplliicciittppaarr and compile and link in _o_n_e
+          step, then linking automatically includes the micro­
+          tasking library and the threads-safe FORTRAN runtime
+          library.  If you use --eexxpplliicciittppaarr and compile and link
+          in _s_e_p_a_r_a_t_e steps, then _l_i_n_k with --eexxpplliicciittppaarr.
+
+     --FF   Invoke the source file preprocessor, but do not compile
+
+          Apply the ffpppp preprocessor to ..FF9900 and ..FF files and put
+          the result in the file with the suffix changed to ..ffor
+          ..ff9900, but do not compile.
+
+          ffpppp is the default preprocessor for Fortran. The C pre­
+          processor, ccpppp, can be selected instead by specifying
+          --xxpppp==ccpppp.
+
+     --ff   Align on 8-byte boundaries
+
+          Align all common blocks and all double-precision and
+          quadruple-precision local data on 8-byte boundaries.
+
+          This option applies to both real and complex data.
+
+          Using both --ddbbll and --ff also causes 64-bit integer data
+          to be 8-byte aligned.
+
+          Resulting code may not be standard and may not be
+          portable.
+
+          If you compile one subprogram with --ff, compile all sub­
+          programs of the program with --ff.
+
+          By itself, this option does not enable the compiler to
+          generate faster double word fetch/store instructions
+          ond double and quad precision data. Only --ddaalliiggnn will
+          do this.
+
+     --ffaasstt
+          Optimize for speed of execution using a selection of
+          options.
+
+          Select the combination of options that optimizes for
+          speed of execution without excessive compilation time.
+          This option provides close to the maximum performance
+          for many realistic applications.
+
+          For some critical routines, it may be better to try for
+          more optimization with the --ffaasstt --OO55 combination. With
+          combinations, the last specification applies. Even
+          though the optimization for ffaasstt alone is --OO44, the
+          optimization part of the --ffaasstt --OO55 combination is --OO55.
+
+
+
+
+                   Last change: 98/12/14  2.0                  10
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          If you do not specify an optimization level with --ffaasstt
+          the default is --OO44.
+
+          This is a convenience option, and it chooses:
+
+          o The --nnaattiivvee hardware target.
+            If the program is intended to run on a different tar­
+            get than the compilation machine, follow the --ffaasstt
+            with the appropriate --xxttaarrggeett== option. For example:
+                  ff9900 --ffaasstt --xxttaarrggeett==uullttrraa ...
+
+          o The --OO44 optimization level.
+
+          o The --lliibbmmiill option to inline certain math library
+            routines.
+
+          o The --ffssiimmppllee==11 option to optimize floating-point
+            operations.
+
+          o The --ddaalliiggnn option to allow generation of faster dou­
+            ble word load/store instructions.
+
+          o The --xxlliibbmmoopptt option to link the optimized math
+            library.
+
+          o The --ddeeppeenndd option to better optimize DO loops.
+
+          o The --ffnnss option for possibly faster handling of
+            underflow.
+
+          o The --ffttrraapp==%%nnoonnee option to disable floating-point
+            traps.
+
+
+          Note that this option is a particular selection of
+          other options that is subject to change from one
+          release of the compiler to another, and between compil­
+          ers.  For details on the constituents of --ffaasstt, see the
+          _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e.
+
+          Do not use this option with programs that depend on
+          IEEE standard exception handling; you can get different
+          numerical results, premature program termination, or
+          unexpected SIGFPE signals.
+
+          For separate compile and link steps: if you compile
+          with --ffaasstt, then be sure to link with --ffaasstt.
+
+     --ffiixxeedd
+          Assume fixed-format source input.
+
+          Interpret all Fortran 90 source files as fixed-format.
+
+
+
+                   Last change: 98/12/14  2.0                  11
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          Overrides the file suffix.
+
+     --ffllaaggss
+          Synonym for --hheellpp.
+
+     --ffnnoonnssttdd
+          Initialize floating-point hardware to non-standard
+          preferences
+
+          This option is a synonym for the combination
+                 --ffnnss --ffttrraapp==ccoommmmoonn
+          which initializes the floating-point hardware to:
+
+          o  Abort on exceptions
+          o  Flush _d_e_n_o_r_m_a_l_i_z_e_d numbers to zero _i_f it will
+          improve speed
+
+          Only trapping is affected by this option on x86.
+
+          See --ffnnss for a information on underflow and handling of
+          denormalized numbers.
+
+          The --ffnnoonnssttdd option enables hardware traps for float­
+          ing-point overflow, division by zero, and invalid oper­
+          ation exceptions. These are converted into SIGFPE sig­
+          nals, and if the program has no SIGFPE handler, it
+          aborts.  See iieeeeee__hhaannddlleerr(3m), iieeeeee__ffuunnccttiioonnss(3m), the
+          _N_u_m_e_r_i_c_a_l _C_o_m_p_u_t_a_t_i_o_n _G_u_i_d_e, and _F_o_r_t_r_a_n _P_r_o_g_r_a_m_m_i_n_g
+          _G_u_i_d_e for more information.
+
+     --ffnnss_[_=_{_n_o_,_y_e_s_}_]
+          Select SPARC nonstandard floating point
+
+          Select the SPARC nonstandard floating-point mode.  The
+          default, --ffnnss==nnoo, is SPARC standard floating-point
+          mode.
+
+          Optional use of _=_y_e_s or _=_n_o provides a way of toggling
+          the --ffnnss flag following some other macro flag that
+          includes --ffnnss, such as --ffaasstt.
+
+          --ffnnss is the same as --ffnnss==yyeess.
+          --ffnnss==yyeess selects non-standard floating-point.
+          --ffnnss==nnoo selects standard floating-point.
+
+          On some SPARC systems, the nonstandard floating point
+          mode disables "gradual underflow", causing tiny results
+          to be flushed to zero rather than producing subnormal
+          numbers.  It also causes subnormal operands to be
+          silently replaced by zero.  On those SPARC systems that
+          do not support gradual underflow and subnormal numbers
+          in hardware, use of this option can significantly
+
+
+
+                   Last change: 98/12/14  2.0                  12
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          improve the performance of some programs.
+
+          Warning: When nonstandard mode is enabled, floating
+          point arithmetic may produce results that do not con­
+          form to the requirements of the IEEE 754 standard.  See
+          the Numerical Computation Guide and the Fortran User's
+          Guide for more information.
+
+          This option is effective only on SPARC systems and only
+          if used when compiling the main program.
+
+     --ffppoovveerr[=={yyeess|nnoo}]
+          Detect floating-point overflow in formatted input.
+
+          With --ffppoovveerr==yyeess specified, the I/O library will detect
+          floating-point overflows in formatted input and return
+          error condition 1031. The default is no such overflow
+          detection (--ffppoovveerr==nnoo). --ffppoovveerr is equivalent to
+          --ffppoovveerr==yyeess.
+
+
+     --ffrroouunndd==_r
+          Select the IEEE rounding mode in effect at startup.
+
+          _r must be one of:
+                nneeaarreesstt, ttoozzeerroo, nneeggaattiivvee, ppoossiittiivvee.
+
+          The default is --ffrroouunndd==nneeaarreesstt.
+
+          When r is "tozero", "negative", or "positive", this
+          flag causes the rounding direction mode to be set to
+          round-to-zero, round-to-negative-infinity, or round-to-
+          positive-infinity respectively when a program begins
+          execution.  When r is "nearest" or the -fround flag is
+          not used, the rounding direction mode is not altered
+          from its initial value (round-to-nearest by default).
+
+          This option is effective only if used when compiling
+          the main program.
+
+     --ffssiimmppllee[==_n]
+          Select floating-point optimization preferences
+
+          Allow the optimizer to make simplifying assumptions
+          concerning floating-point arithmetic.
+
+          If _n is present, it must be 0, 1, or 2.
+
+          The defaults are:
+             With no --ffssiimmppllee, ff9900 uses --ffssiimmppllee==00
+             With only --ffssiimmppllee, ff9900 uses --ffssiimmppllee==11
+
+
+
+
+                   Last change: 98/12/14  2.0                  13
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          --ffssiimmppllee==00
+             Permit no simplifying assumptions. Preserve strict
+             IEEE 754 conformance.
+
+          --ffssiimmppllee==11
+             Allow conservative simplifications. The resulting
+             code does not strictly conform to IEEE 754, but
+             numeric results of most programs are unchanged.
+
+             With --ffssiimmppllee==11, the optimizer can assume the fol­
+             lowing:
+
+                IEEE 754 default rounding/trapping modes do not
+                change after process initialization.
+
+                Computations producing no visible result other
+                than potential floating point exceptions may be
+                deleted.
+
+                Computations with Infinity or NaNs as operands
+                need not propagate NaNs to their results; e.g.,
+                x*0 may be replaced by 0.
+
+                Computations do not depend on sign of zero.
+
+             With --ffssiimmppllee==11, the optimizer is not allowed to
+             optimize completely without regard to roundoff or
+             exceptions. In particular, a floating-point computa­
+             tion cannot be replaced by one that produces differ­
+             ent results with rounding modes held constant at run
+             time.
+             --ffaasstt implies --ffssiimmppllee==11..
+
+          --ffssiimmppllee==22
+
+             Permit aggressive floating-point optimizations that
+             may cause many programs to produce different numeric
+             results due to changes in rounding.
+
+             For example, --ffssiimmppllee==22 will permit the optimizer to
+             attempt replacing computations of x/y with x*z,
+             where z=1/y is computed once and saved in a tempo­
+             rary, thereby eliminating costly divide operations.
+
+             Even with --ffssiimmppllee==22, the optimizer still is not
+             permitted to introduce a floating-point exception in
+             a program that otherwise produces none.
+
+     --ffttrraapp==_t
+          Set floating-point trapping mode
+
+          This option sets the IEEE floating-point trapping that
+
+
+
+                   Last change: 98/12/14  2.0                  14
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          is in effect at startup.
+
+          _t is a comma-separated list that consists of one or
+          more of the following:
+
+           %%aallll, %%nnoonnee, ccoommmmoonn, [[nnoo%%]]iinnvvaalliidd, [[nnoo%%]]oovveerrffllooww,
+           [[nnoo%%]]uunnddeerrffllooww, [[nnoo%%]]ddiivviissiioonn, [[nnoo%%]]iinneexxaacctt.
+
+          The ff9900 default is --ffttrraapp==ccoommmmoonn.  (Note that the
+          default with ff7777 is --ffttrraapp==%%nnoonnee.)
+
+          This option sets the IEEE 754 trapping modes that are
+          established at program initialization. Processing is
+          left-to-right. The common exceptions, by definition,
+          are invalid, division by zero, and overflow.  For exam­
+          ple:
+          --ffttrraapp==oovveerrffllooww.
+
+          Example: Set all traps, except iinneexxaacctt.
+
+                --ffttrraapp==%%aallll,,nnoo%%iinneexxaacctt
+
+          The meanings are the same as for the iieeeeee__ffllaaggss func­
+          tion, except that:
+
+          o %%aallll turns on all the trapping modes.
+
+          o %%nnoonnee, the default, turns off all trapping modes.
+
+          o A nnoo%% prefix turns off that specific trapping mode.
+
+          To be effective this option must be used when compiling
+          the main program.
+
+     --GG   Build a dynamic shared library
+
+          Direct the linker to make a shared dynamic library.
+          Without --GG the linker builds an executable file. With
+          --GG it builds a dynamic library (but no executable).
+          Use --oo with --GG to specify the name of the file to be
+          written.
+
+     --gg   Compile for debugging.
+
+          Produce additional symbol table information for ddbbxx(1)
+          or the Sun WorkShop debugging utility.
+
+          --gg cancels any parallelization option ( --aauuttooppaarr,
+          --eexxpplliicciittppaarr, --ppaarraalllleell) as well as --ddeeppeenndd and --rreedduucc­­
+          ttiioonn.  Debugging is facilitated by specifying --gg with­
+          out any optimization or parallelization options since
+          not all debugging features are available when these
+
+
+
+                   Last change: 98/12/14  2.0                  15
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          options are invoked.  See the ddbbxx documentation for
+          details.
+
+          --gg no longer overrides --OO, but it does override the
+          automatic inlining that is usually provided by --OO44.
+
+          For _S_P_A_R_C: The --gg option makes --xxiillddoonn the default
+          incremental linker option (see --xxiillddoonn).  That is, with
+          --gg, the compiler default behavior is to automatically
+          invoke iilldd in place of lldd, unless the --GG option is pre­
+          sent, or any source file is named on the command line.
+
+
+     --hh _n_m
+          Specify the name of the generated dynamic shared
+          library
+
+          If the library has an _i_n_t_e_r_n_a_l _n_a_m_e, then whenever the
+          executable is run, the linker must find a library with
+          the same _i_n_t_e_r_n_a_l _n_a_m_e; the file can be in any library
+          search path.  If the library has no _i_n_t_e_r_n_a_l _n_a_m_e, then
+          the linker must find a library with the same _p_a_t_h as
+          when it was generated.  Having an internal name allows
+          more flexibility at runtime.
+
+          Remarks:
+          o The space between the --hh and _n_m is optional.
+          o --hh_n_m is meaningless without --GG.
+          o --hh_n_m is a linker option.
+          o The names after --hh and --oo are usually the same.
+          o --hh_n_m facilitates versions for dynamic libraries.
+
+          See the Solaris _L_i_n_k_e_r _a_n_d _L_i_b_r_a_r_i_e_s _G_u_i_d_e.
+
+     --hheellpp
+          List the ff9900 command-line options.
+
+          See also --xxhheellpp.
+
+     --II_d_i_r
+          Add _d_i_r to the include file search path.
+
+          Insert directory _d_i_r at the start of the include file
+          search path. No space is allowed between --II and _d_i_r.
+
+          The _i_n_c_l_u_d_e _f_i_l_e _s_e_a_r_c_h _p_a_t_h is the list of directories
+          searched for include files. This search path is used
+          by:
+
+            o   The preprocessor directive ##iinncclluuddee
+            o   The ff9900 statement IINNCCLLUUDDEE
+
+
+
+
+                   Last change: 98/12/14  2.0                  16
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          Example: To search for include files in //uussrr//aapppplliibb:
+
+              ff9900 --II//uussrr//aapppplliibb ggrroowwtthh..FF
+
+          Of course, to invoke the preprocessor, you must use a
+          ..FF suffix; and the ff9900 compiler IINNCCLLUUDDEE statement
+          allows the ..ff or ..FF suffix.
+
+          The --II_d_i_r search path is used while searching for _r_e_l_a_­
+          _t_i_v_e path names, not absolute path names. The search
+          order for relative path names is:
+
+           1. The directory containing the source file
+           2. Directories named in --II options
+           3. Directories in the default list of the compiler
+
+          The _d_e_f_a_u_l_t _l_i_s_t depends on installation:
+
+          Standard install:
+            //oopptt//SSUUNNWWsspprroo//SSCC55..00//iinncclluuddee//ff9900    //uussrr//iinncclluuddee
+          Nonstandard install to _/_m_y_/_d_i_r_/:
+            _/_m_y_/_d_i_r//SSCC55..00//iinncclluuddee//ff9900    //uussrr//iinncclluuddee
+
+     --iinnlliinnee==_r_l
+          Request inlining of the specified user-written rou­
+          tines.
+
+          Optimize by inlining the specified user-written rou­
+          tines named in the list _r_l.  The list is a comma-sepa­
+          rated list of functions and subroutines.  Only routines
+          in the file being compiled are considered. The opti­
+          mizer decides which of these routines are appropriate
+          for inlining.
+
+          If compiling with --OO33, this option can increase opti­
+          mization by inlining some routines.  The --OO33 option
+          inlines none by itself.
+
+          If compiling with --OO44, this can decrease optimization
+          by restricting inlining to only those routines in the
+          list. With --OO44, the optimizer normally tries to inline
+          all appropriate user-written subroutines and functions.
+
+          A routine is not inlined if any of the following condi­
+          tions apply, with no warnings:
+
+          o Optimization is less than --OO33
+
+          o The routine cannot be found.
+
+          o Inlining it is not profitable or safe.
+
+
+
+
+                   Last change: 98/12/14  2.0                  17
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          o The source is not in the file being compiled. But,
+            see
+            --xxccrroossssffiillee..
+
+     --KKppiicc
+          Synonym for --ppiicc
+
+     --KKPPIICC
+          Synonym for --PPIICC
+
+     --LL_d_i_r
+          Add _d_i_r to list of directories to search for libraries.
+
+          _d_i_r is added to the start of the search list. A space
+          between --LL and _d_i_r is optional.
+
+          _N_o_t_e: Do not use the --LL_d_i_r option to specify //uussrr//lliibb
+          or //uussrr//ccccss//lliibb, since they are searched by default,
+          and including them here prevents using the unbundled
+          lliibbmm.
+
+     --ll_x  Link with library lliibb_x..aa.
+
+          Direct the loader to link with object library lliibb_x..aa,
+          where _x is a string. See lldd(1).
+
+          Example: --llssuummeexx links in the library lliibbssuummeexx..aa
+
+          _O_r_d_e_r _o_n _t_h_e _C_o_m_m_a_n_d _L_i_n_e: Place --ll_x options _a_f_t_e_r any
+          ..ff,, ..FF,, or ..oo files. If you call functions in lliibb_x_, and
+          they reference functions in lliibb_y_, then place --ll_x before
+          --ll_y_.
+
+          _S_e_a_r_c_h _O_r_d_e_r for --ll_x files: the linker searches for
+          libraries in several locations.  For details, see the
+          chapter, "Libraries," in the _F_o_r_t_r_a_n _P_r_o_g_r_a_m_m_i_n_g _G_u_i_d_e.
+          See also lldd(1).
+
+     --lliibbmmiill
+          Inline selected lliibbmm math library routines for opti­
+          mization.
+
+          Some of the simpler library routines can be inlined by
+          the compiler. This option inlines library calls depend­
+          ing on the floating-point options and platform curently
+          being used.
+
+     --llooooppiinnffoo
+          Show which loops are parallelized
+
+          Show which loops are parallelized and which are not.
+          This option is normally for use with the
+
+
+
+                   Last change: 98/12/14  2.0                  18
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          --aauuttooppaarr and --eexxpplliicciittppaarr options. It requires a Sun
+          WorkShop license and generates a list of messages on
+          standard error.
+
+     --MM_p_a_t_h
+          Specify Module directory.
+
+          Look in the directory specified by _p_a_t_h for Fortran 90
+          modules referenced in the current compilation. This
+          path is searched in addition to the current directory.
+          By default, without this option, only the current
+          directory is searched for referenced module files.
+          (There is no space between the --MM and the _p_a_t_h. For
+          example, --MM//hhoommee//ssiirrii//PPKK1155//MMoodduulleess
+
+     --mmpp==_x
+          Specify the style for parallelization directives
+
+          _x must be either ssuunn or ccrraayy.  The default is ssuunn.
+
+          ssuunn: Accept only the Sun-style MP directives.
+          ccrraayy: Accept only the Cray-style MP directives.
+
+          Sun-style parallelization directives start with CC$$PPAARR
+          or !!$$PPAARR.  Cray-style parallelization directives start
+          with CCMMIICC$$ or !!MMIICC$$.  Either style can use any upper­
+          case or lowercase.
+          Use only one directive style in any single compilation
+          unit.
+
+     --mmtt  Use multithread safe libraries
+
+          If you are doing your own multithread coding and not
+          using --aauuttooppaarr, --eexxpplliicciittppaarr, or --ppaarraalllleell, then you
+          must use the --mmtt option in the compile and link steps.
+          The parallelization options use --mmtt automatically.
+
+          On a single-processor system, the generated code usu­
+          ally runs more slowly with this option.
+
+     --nnaattiivvee
+          Optimize for the host system.
+
+          The --nnaattiivvee option is a synonym for the --xxttaarrggeett==nnaattiivvee
+          option.
+
+     --nnooaauuttooppaarr
+          Cancel --aauuttooppaarr on the command line.
+
+          Cancel automatic parallelization of loops invoked by
+          --aauuttooppaarr on the command line. (Parallelization options
+          require a Sun WorkShop license.)
+
+
+
+                   Last change: 98/12/14  2.0                  19
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     --nnooddeeppeenndd
+          Cancel --ddeeppeenndd in command line
+
+          Cancel dependency analysis invoked by a --ddeeppeenndd option
+          appearing earlier in the command line.
+
+     --nnooeexxpplliicciittppaarr
+          Cancel --eexxpplliicciittppaarr
+
+          Cancel explicit parallelization of loops invoked by
+          --eexxpplliicciittppaarr earlier on the command line. (Paralleliza­
+          tion options require a Sun WorkShop license.)
+
+     --nnoolliibb
+          Do _n_o_t link with system libraries.
+
+          Do _n_o_t automatically link with _a_n_y system or language
+          library; that is, do _n_o_t pass any default --ll_x options
+          to lldd.  The default is to link such libraries into exe­
+          cutables automatically, without users specifying them
+          on the command line.
+
+          The system and language libraries are _r_e_q_u_i_r_e_d for
+          final execution. It is your responsibility to link them
+          in manually. This option provides you complete control
+          (and responsibility).
+
+          The --nnoolliibb option makes it easier to link one of these
+          libraries _s_t_a_t_i_c_a_l_l_y.
+
+     --nnoolliibbmmiill
+          Cancel --lliibbmmiill on command line
+
+          Use with --ffaasstt to disable inlining of lliibbmm math rou­
+          tines:
+
+             demo% ff9900 --ffaasstt --nnoolliibbmmiill  ...
+
+     --nnooqquueeuuee
+          Disable license queueing.
+
+          With this option, if no license is available, the com­
+          piler returns without queuing your request and without
+          performing any compilation.  A nonzero status is
+          returned for testing in makefiles.
+
+     --nnoorreedduuccttiioonn
+          Cancel --rreedduuccttiioonn on command line
+
+          --rreedduuccttiioonn is used along with parallelization options.
+          This option cancels a --rreedduuccttiioonn appearing earlier on
+          the command line.  (Parallelization options require a
+
+
+
+                   Last change: 98/12/14  2.0                  20
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          Sun WorkShop license.)
+
+     --nnoorruunnppaatthh
+          Do not build a runtime library search path into the
+          executable
+
+          If an executable file uses shared libraries, then the
+          compiler normally builds in a path that tells the run­
+          time linker where to find those shared libraries. The
+          path depends on the directory where you installed the
+          compiler. The --nnoorruunnppaatthh option prevents that path from
+          being built into the executable.
+
+          This option is helpful when libraries have been
+          installed in some nonstandard location, and you do not
+          wish to make the loader search down those paths when
+          the executable is run at another site.  Compare with
+          --RR.
+
+     --OO[_n]
+          Specify optimizaion level
+
+          If --OO[_n] is not specified, only a very basic level of
+          optimization limited to local common subexpression
+          elimination and dead code analysis is performed.  A
+          program's performance may be significanly improved when
+          compiled with an optimization level than without opti­
+          mization. Use of --OO (which implies --OO33) is recommended
+          for most programs.
+
+          Each --OO_n level includes the optimizations performed at
+          the levels below it. Generally, the higher the level of
+          optimization a program is compiled with, the better
+          runtime performance obtained. However, higher optimiza­
+          tion levels may result in increased compilation time
+          and larger executable files.
+
+          The --gg option no longer suppresses --OO[_n], but does
+          limit debugging in certain ways.
+
+          If the optimizer runs out of memory, it attempts to
+          proceed over again at a lower level of optimization,
+          resuming compilation of subsequent routines at the
+          original level.
+
+          For details on optimization, see the _F_o_r_t_r_a_n _P_r_o_g_r_a_m_­
+          _m_i_n_g _G_u_i_d_e chapters _P_e_r_f_o_r_m_a_n_c_e _P_r_o_f_i_l_i_n_g_, and _P_e_r_f_o_r_­
+          _m_a_n_c_e _a_n_d _O_p_t_i_m_i_z_a_t_i_o_n_.
+
+
+          --OO   Optimize at the level most likely to give close to
+               the maximum performance for many realistic
+
+
+
+                   Last change: 98/12/14  2.0                  21
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+               applications (currently --OO33).
+
+          --OO11  Do only the minimum amount of optimization (peep­
+               hole).
+
+          --OO22  Do basic local and global optimization. This level
+               usually gives minimum code size.  --OO33 is preferred
+               over --OO22 unless --OO33 results in excessive compila­
+               tion time, running out of swap space, or exces­
+               sively large code size.
+
+          --OO33  Adds global optimizations at the function level.
+               Usually generates larger executable files.
+
+          --OO44  Adds automatic inlining of functions in the same
+               file.  --gg suppresses automatic inlining. In gen­
+               eral, --OO44 results in larger code.
+
+          --OO55  Attempt aggressive optimizations
+               Suitable only for that small fraction of a program
+               that uses the largest fraction of compute time.
+               --OO55's optimization algorithms take more compila­
+               tion time, and may also degrade performance when
+               applied to too large a fraction of the source pro­
+               gram.
+
+               Optimization at this level is more likely to
+               improve performance if it is done with profile
+               feedback. See --xxpprrooffiillee==_p.
+     --oo _n_m
+          Specify the name of the executable file to be written
+
+          There must be a blank between --oo and _n_m_.  Without this
+          option, the default is to write the executable to
+          aa..oouutt.  When used with --cc, --oo specifies the target ..oo
+          object file; with --GG it specifies the target ..ssoo
+          library file.
+
+     --oonneettrriipp
+          Enable one-trip DDOO loops.
+
+          Compile DDOO loops so they are performed at least once if
+          reached.
+
+          ff9900 FORTRAN DDOO loops are not performed at all if the
+          upper limit is smaller than the lower limit, unlike
+          some legacy implementations of Fortran.
+
+
+
+
+
+
+
+
+                   Last change: 98/12/14  2.0                  22
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     --pp   Compile for profiling with pprrooff.
+
+          Prepare object files for profiling with pprrooff(1).  This
+          option makes profiles by procedure, showing the number
+          of calls to each procedure and the percent of time used
+          by each procedure.
+
+          For separate compile and link steps, if you compile
+          with --pp, then be sure to link with --pp.
+
+     --ppaadd==_p
+          Insert padding for efficient use of cache.
+
+          This option inserts padding between arrays or character
+          strings if they are:
+            o   Static local and not initialized, or
+            o   In common blocks
+
+          NOTE: Use of --ppaadd==ccoommmmoonn is not recommended in this
+          release.
+
+          For either one, the arrays or character strings can not
+          be equivalenced.
+
+          If _p is present, it must be one of the following (no
+          spaces):
+            llooccaall: Pad local variables
+            ccoommmmoonn: Pad variables in common blocks
+            llooccaall,,ccoommmmoonn: Both local and common padding is done
+            ccoommmmoonn,,llooccaall: Both local and common padding is done
+
+            Each --ppaadd choice is one token; no internal spaces.
+
+          Defaults:
+            Without the --ppaadd[[==_p_] option, no padding.
+            With --ppaadd, without ==_p, local and common padding.
+
+          The following are equivalent:
+            ff9900 --ppaadd aannyy..ff
+            ff9900 --ppaadd==llooccaall,,ccoommmmoonn aannyy..ff
+            ff9900 --ppaadd==ccoommmmoonn,,llooccaall aannyy..ff
+            ff9900 --ppaadd==llooccaall   --ppaadd==ccoommmmoonn aannyy..ff
+            ff9900 --ppaadd==ccoommmmoonn   --ppaadd==llooccaall aannyy..ff
+
+          Restrictions on -pad=common:
+
+          o    If --ppaadd==ccoommmmoonn is specified for a file that refer­
+               ences a common block, it must be specified for all
+               files that reference that common block.
+
+          o    With --ppaadd==ccoommmmoonn specified, declarations of common
+               block variables in different program units must be
+
+
+
+                   Last change: 98/12/14  2.0                  23
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+               the same except for the names of the variables.
+
+          o    EEQQUUIIVVAALLEENNCCEE declarations involving common block
+               variables cause a fatal compilation error when
+               compiled with --ppaadd==ccoommmmoonn.
+
+     --ppaarraalllleell
+          Enable parallelization of loops using --aauuttooppaarr,
+          --eexxpplliicciittppaarr, --ddeeppeenndd
+
+          Parallelize loops chosen automatically by the compiler
+          and explicitly specified by user supplied directives.
+          Optimization level is automatically raised to --OO33 if it
+          is lower.
+
+          --gg cancels --ppaarraalllleell.  Debugging is facilitated by
+          specifying --gg without any optimization or paralleliza­
+          tion options since not all debugging features are
+          available when these options are invoked.  See the ddbbxx
+          documentation for details.
+
+          To improve performance, also specify the --ssttaacckkvvaarr
+          option when using any of the parallelization options,
+          including --aauuttooppaarr.
+
+          Avoid --ppaarraalllleell if you do your own thread management.
+          See the discussion of --mmtt
+
+          Parallelization options like --ppaarraalllleell are intended to
+          produce executables programs to be run on multiproces­
+          sor systems. On a single-processor system, paralleliza­
+          tion generally degrades performance.
+
+          Parallelization options require a Sun WorkShop license.
+
+          If you compile and link in separate steps, if --ppaarraalllleell
+          appears on the compile command it must also appear on
+          the link command.
+
+          For more information, see the chapter on paralleliza­
+          tion in the _F_o_r_t_r_a_n _P_r_o_g_r_a_m_m_i_n_g _G_u_i_d_e.
+
+
+     --ppgg  Compile for profiling with ggpprrooff.
+
+          Prepare the object files for profiling with ggpprrooff(1).
+          This option makes profiles by procedure, showing the
+          number of calls to each procedure and the percent of
+          time used by each procedure.
+
+          This option also produces counting code in the manner
+          of --pp, but invokes a runtime recording mechanism that
+
+
+
+                   Last change: 98/12/14  2.0                  24
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          keeps more extensive statistics and produces a ggmmoonn..oouutt
+          file at normal termination. You can then generate an
+          execution profile using ggpprrooff(1).
+
+          For separate compile and link steps, if you compile
+          with --ppgg, then link with --ppgg.
+
+     --ppiicc Compile position-independent code for shared library.
+
+          This option is used to create dynamic shared libraries.
+          Each reference to a global datum is generated as a
+          dereference of a pointer in the global offset table.
+          Each function call is generated in program-counter-rel­
+          ative addressing mode through a procedure linkage
+          table.
+
+          o The size of the global offset table is limited to 8Kb
+            on SPARC.
+
+          o Do not mix --ppiicc and --PPIICC..
+
+          There are two nominal performance costs with --ppiicc and
+          --PPIICC:
+
+               o A routine compiled with either --ppiicc or --PPIICC exe­
+                 cutes a few extra instructions upon entry to set
+                 a register to point at the global offset table
+                 used for accessing a shared library's global or
+                 static variables.
+
+               o Each access to a global or static variable
+                 involves an extra indirect memory reference
+                 through the global offset table. If the compile
+                 is done with --PPIICC, there are two additional
+                 instructions per global and static memory refer­
+                 ence.
+
+          When considering the above costs, remember that the use
+          of --ppiicc and --PPIICC can significantly reduce system memory
+          requirements, due to the effect of library code shar­
+          ing. Every page of code in a shared library compiled
+          --ppiicc or --PPIICC can be shared by every process that uses
+          the library. If a page of code in a shared library con­
+          tains even a single non-pic (that is, absolute) memory
+          reference, the page becomes nonsharable, and a copy of
+          the page must be created each time a program using the
+          library is executed.
+
+          The easiest way to tell whether or not a .o file has
+          been compiled with --ppiicc or --PPIICC is with the nnmm command:
+
+              nnmm _f_i_l_e..oo || ggrreepp __GGLLOOBBAALL__OOFFFFSSEETT__TTAABBLLEE__
+
+
+
+                   Last change: 98/12/14  2.0                  25
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          A ..oo file containing position-independent code will
+          contain an unresolved external reference to
+          __GGLLOOBBAALL__OOFFFFSSEETT__TTAABBLLEE__ as marked by the letter U.
+
+          To determine whether to use --ppiicc or --PPIICC, use nnmm to
+          identify the number of distinct global and static vari­
+          ables used or defined in the library. If the size of
+          __GGLLOOBBAALL__OOFFFFSSEETT__TTAABBLLEE__ is under 8,192 bytes, you can use
+          --ppiicc.  Otherwise, you must use --PPIICC.
+
+          When building shared dynamic libraries with --xxaarrcchh==vv99
+          or vv99aa on 64-bit Solaris 7, the --ppiicc or --PPIICC option (or
+          their --xxccooddee equivalents --xxccooddee==ppiicc1133 or --xxccooddee==ppiicc3322)
+          MUST be specified.
+
+          See also --xxccooddee.
+
+
+     --PPIICC Similar to --ppiicc, with 32-bit addresses
+
+          This allows the global offset table to span the range
+          of 32-bit addresses. Use it for those rare cases with
+          too many global data objects for --ppiicc.
+
+          On x86, --ppiicc is the same as --PPIICC.
+
+          Do not mix --ppiicc with --PPIICC.
+
+          When building shared dynamic libraries with --xxaarrcchh==vv99
+          or vv99aa on 64-bit Solaris 7, the --ppiicc or --PPIICC option (or
+          their --xxccooddee equivalents --xxccooddee==ppiicc1133 or --xxccooddee==ppiicc3322)
+          MUST be specified.
+
+          See also --xxccooddee.
+
+
+     --qqpp  Synonym for --pp.
+
+     --QQooppttiioonn _p_r _l_s
+          Pass option list _l_s to the compilation phase _p_r.
+
+          This option is used primarily by customer service.
+
+          The list is a comma-separated list of options, no
+          blanks within the list.  Each option must be appropri­
+          ate to _p_r and may begin with a minus sign.
+          _p_r may be any one of the following:
+             aass, ffbbee, ccgg, ccpppp, ffpppp, iirroopptt, lldd.
+
+          Example: Load map:
+
+
+
+
+
+                   Last change: 98/12/14  2.0                  26
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          ddeemmoo%% ff9900 --QQooppttiioonn lldd --mm aannyy..ff
+
+     --RR_l_i_s_t
+          Build library search paths into executable
+
+          With this option, the linker, lldd(1), adds a list of
+          library search paths into the executable file.
+
+          _l_i_s_t is a colon-separated list of directories used to
+          specify library search paths to the runtime linker. The
+          list is added to the default list that f90 passes to
+          the linker.
+
+          The blank between --RR and _l_i_s_t is optional.
+
+          Multiple instances of this option are concatenated
+          together, with each list separated by a colon.
+
+          Use this option if you want to export an executable
+          that can run without any special option for paths to
+          your dynamic libraries.
+
+          Building an executable with this option adds paths to a
+          default path that is always searched last:
+             //oopptt//SSUUNNWWsspprroo//lliibb   _f_o_r _s_t_a_n_d_a_r_d _i_n_s_t_a_l_l_s
+             _i_n_s_t_a_l_l_p_a_t_h//lliibb    _f_o_r _c_u_s_t_o_m _i_n_s_t_a_l_l_s
+
+
+     --rreedduuccttiioonn
+          Parallelize reduction operations in loops
+
+          Analyze loops for reduction in automatic paralleliza­
+          tion. To enable parallelization of reduction loops,
+          specify both --rreedduuccttiioonn and --aauuttooppaarr.
+
+          A loop that transforms the elements of an array into a
+          single scalar value is called a reduction operation.
+          For example, summing the elements of a vector is a typ­
+          ical reduction operation. Although these operations
+          violate the criteria for parallelizability, the com­
+          piler can recognize them and parallelize them as spe­
+          cial cases when -reduction is specified. See the _F_o_r_­
+          _t_r_a_n _P_r_o_g_r_a_m_m_i_n_g _G_u_i_d_e chapter _P_a_r_a_l_l_e_l_i_z_a_t_i_o_n for
+          information on reduction operations recognized by ff9900..
+          If you specify --rreedduuccttiioonn without --aauuttooppaarr, the com­
+          piler issues a warning.
+
+          --gg cancels --rreedduuccttiioonn.  Debugging is facilitated by
+          specifying --gg without any optimization or paralleliza­
+          tion options since not all debugging features are
+          available when these options are invoked.  See the ddbbxx
+          documentation for details.
+
+
+
+                   Last change: 98/12/14  2.0                  27
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          On a single-processor system, the generated code usu­
+          ally runs more slowly.
+
+          Example:  ddeemmoo%% ff9900 --aauuttooppaarr --rreedduuccttiioonn aannyy..ff
+
+          There is always potential for roundoff error with
+          reduction.
+
+          If you have a reduction loop to be parallelized, then
+          use --rreedduuccttiioonn (with --aauuttooppaarr, of course). Do not use
+          an explicit pragma, because the explicit pragma pre­
+          vents reduction for that loop, resulting in wrong
+          answers.
+
+     --SS   Compile and only generate assembly code.
+
+          Compile the named programs and leave the assembly lan­
+          guage output on corresponding files suffixed ..ss (no ..oo
+          file is created).
+
+     --ss   Strip the symbol table from the executable file.
+
+          This option makes the executable file smaller and more
+          difficult to reverse engineer. However, this option
+          prevents debugging.
+
+     --ssbb  Produce table information for the SourceBrowser.
+
+     --ssttaacckkvvaarr
+          Force all _l_o_c_a_l variables to be allocated on the stack.
+
+          Allocate all the local variables and arrays in a rou­
+          tine onto the memory stack, unless otherwise specified.
+          This option makes them automatic, rather than static,
+          and provides more freedom to the optimizer for paral­
+          lelizing a CALL in a loop.
+
+          Use of --ssttaacckkvvaarr is recommended with any of the paral­
+          lelization options.
+
+          Variables and arrays are local, unless they are:
+
+          o    Arguments in a SUBROUTINE or FUNCTION statement
+               (already on stack)
+
+          o    Global items in a COMMON or SAVE, or STATIC state­
+               ment
+
+          o    Initialized items in a type statement or a DATA
+               statement, such as:
+                   RREEAALL XX//88..00// or DDAATTAA XX//88..00//
+
+
+
+
+                   Last change: 98/12/14  2.0                  28
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          Putting large arrays onto the stack with --ssttaacckkvvaarr can
+          overflow the stack causing segmentation faults.
+          Increasing the stack size may be required.
+
+          There are two stacks:
+
+             The whole program has a main stack.
+             Each thread of a multi-threaded program has a thread
+             stack.
+
+          The default stack size is about 8 Megabytes for the
+          main stack and 256 Kilobytes for each thread stack. The
+          lliimmiitt command (with no parameters) shows the current
+          main stack size.
+
+          You can set the _m_a_i_n stack size to 64 Megabytes, for
+          example, with the
+             lliimmiitt ssttaacckkssiizzee 6655553366
+          command. See the _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e.
+
+     --tteemmpp==_d_i_r
+          Define directory for temporary files.
+
+          Set the directory for temporary files used by ff9900 to be
+          _d_i_r instead of the //ttmmpp directory.
+
+     --ttiimmee
+          Show execution time for each compilation phase.
+
+     --uunnrroollll==_n
+          Enable unrolling of DO loops n times where possible.
+
+          _n is a positive integer.
+
+          _n = 1, inhibits all loop unrolling
+
+          _n > 1, this option _s_u_g_g_e_s_t_s to the optimizer that it
+          unroll loops _n times.
+
+          If any loops are actually unrolled, then the executable
+          file is larger.
+
+     --VV   Show name and version of each compilation phase.
+
+     --vv   Verbose mode - show compilation details
+
+          Like --VV but also show detail of options and environment
+          variables used by the driver.
+
+
+     --vvppaarraa
+          Show verbose parallelization messages
+
+
+
+                   Last change: 98/12/14  2.0                  29
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          Parallelization options require a Sun WorkShop license.
+
+          As the compiler detects each explicitly parallelized
+          loop that has dependencies, it issues a warning message
+          but the loop is parallelized.
+
+          Use with -explictpar and a CC$$MMIICC DDOOAALLLL parallel pragma.
+
+          Example: ddeemmoo%% ff9900 --eexxpplliicciittppaarr --vvppaarraa aannyy..ff
+
+     --ww   Suppress warning messages.
+
+          This option suppresses most warnings.  However, if you
+          specify two options, and the second one overrides all
+          or part of the first one, the compiler issues a warn­
+          ing.
+
+     --xxaa  Synonym for --aa.
+
+     --xxaarrcchh==_a
+          Specify the target architecture instruction set.
+
+          _a must be one of the following depending on platform.
+
+          ggeenneerriicc, vv77, vv88aa, vv88, vv88pplluuss, vv88pplluussaa, vv99, vv99aa.
+
+          Note that vv99 and vv99aa are only available on 64-bit
+          Solaris 7.
+
+          Although this option can be used alone, it is part of
+          the expansion of the --xxttaarrggeett option; its primary use
+          is to override a value supplied by the --xxttaarrggeett option.
+
+          This option limits the instructions generated to those
+          of the specified architecture, and allows the specified
+          set of instructions. It does not guarantee an instruc­
+          tion is used; however, under optimization, it is usu­
+          ally used.
+
+          If this option is used with optimization, the appropri­
+          ate choice can provide good performance of the exe­
+          cutable on the specified architecture. An inappropriate
+          choice can result in serious degradation of perfor­
+          mance.
+
+          vv77, vv88, and vv88aa are all binary compatible.  vv88pplluuss and
+          vv88pplluussaa are binary compatible with each other and for­
+          ward, but not backward.
+
+          For any particular choice, the generated executable can
+          run much more slowly on earlier architectures (to the
+          left in the above list).
+
+
+
+                   Last change: 98/12/14  2.0                  30
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          vv99, and vv99aa are binary compatible with each other, but
+          not backward compatible with the earlier architectures.
+
+          The --xxaarrcchh values on SPARC are:
+
+          ggeenneerriicc Get good performance on most SPARCs, and major
+                  degradation on none.  This is the default.
+
+          vv77      Limit the instruction set to V7 architecture.
+
+          vv88aa     Limit the instruction set to the V8a version of
+                  the V8 architecture.
+
+          vv88      Limit the instruction set to V8 architecture.
+
+          vv88pplluuss  Limit the instruction set to the V8plus version
+                  of the V9 architecture.
+
+          vv88pplluussaa Limit the instruction set to the V8plusa ver­
+                  sion of the V9 architecture with version 1.0 of
+                  the Visual Instruction Set (VIS).
+
+          vv99      Limits instruction set to the SPARC-V9 archi­
+                  tecture.
+                  The resulting .o object files are in 64-bit ELF
+                  format and can only be linked with other object
+                  files in the same format. The resulting exe­
+                  cutable can only be run on a 64-bit SPARC pro­
+                  cessor running 64-bit Solaris 7 with the 64-bit
+                  kernel.  Compiling with this option uses the
+                  best instruction set for good performance on
+                  the V9 SPARC architecture, but without the use
+                  of quad-precision floating-point instructions.
+                  (Available only on 64-bit Solaris 7)
+
+          vv99aa     Limits instruction set to the SPARC-V9 archi­
+                  tecture, adding the Visual Instruction Set
+                  (VIS) and extensions specific to UltraSPARC
+                  processors.
+                  The resulting .o object files are in 64-bit ELF
+                  format and can only be linked with other object
+                  files in the same format. The resulting exe­
+                  cutable can only be run on a 64-bit SPARC pro­
+                  cessor running 64-bit Solaris 7 with the 64-bit
+                  kernel.  Compiling with this option uses the
+                  best instruction set for good performance on
+                  the V9 UltraSPARC architecture, but without the
+                  use of quad-precision floating-point instruc­
+                  tions.
+                  (Available only on 64-bit Solaris 7)
+
+          Use of --xxaarrcchh==vv88pplluuss or vv88pplluussaa causes the .o file to
+
+
+
+                   Last change: 98/12/14  2.0                  31
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          be marked as a V8plus binary; such binaries will not
+          run on a V7 or V8 machine.
+
+          See the _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e for more complete defini­
+          tions.
+
+     --xxaauuttooppaarr
+          Synonym for --aauuttooppaarr
+
+     --xxccaacchhee==_c
+          Define cache for optimizer
+
+          Define cache properties for use by optimizer.
+
+          _c must be one of the following:
+             o ggeenneerriicc
+             o _s_1_/_l_1_/_a_1
+             o _s_1_/_l_1_/_a_1_:_s_2_/_l_2_/_a_2
+             o _s_1_/_l_1_/_a_1_:_s_2_/_l_2_/_a_2_:_s_3_/_l_3_/_a_3
+          The _s_i, _l_i, and _a_i, are defined as follows:
+          _s_i The size of the data cache at level _i, in kilobytes
+          _l_i The line size of the data cache at level _i, in bytes
+          _a_i The associativity of the data cache at level _i
+          This option specifies the cache properties that the
+          optimizer can use.  It does not guarantee that any par­
+          ticular cache property is used.
+          Although this option can be used alone, it is part of
+          the expansion of the --xxttaarrggeett option; its primary use
+          is to override a value supplied by the --xxttaarrggeett option.
+
+          The --xxccaacchhee values are:
+          ggeenneerriicc
+                Define the cache properties for good performance
+                on most SPARCs. This is the default.
+          _s_1_/_l_1_/_a_1
+                Define level 1 cache properties.
+          _s_1_/_l_1_/_a_1_:_s_2_/_l_2_/_a_2
+                Define levels 1 and 2 cache properties.
+          _s_1_/_l_1_/_a_1_:_s_2_/_l_2_/_a_2_:_s_3_/_l_3_/_a_3
+                Define levels 1, 2, and 3 cache properties.
+
+     --xxccgg8899
+          Synonym for --ccgg8899.
+
+     --xxccgg9922
+          Synonym for --ccgg9922.
+
+     --xxcchhiipp==_c
+          Specify target processor for optimizer.
+
+          Specify the target processor for use by the optimizer.
+
+
+
+
+                   Last change: 98/12/14  2.0                  32
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          _c must be one of the following, depending on platform.
+
+          On SPARC: ggeenneerriicc, oolldd, ssuuppeerr, ssuuppeerr22, mmiiccrroo, mmiiccrroo22,
+          hhyyppeerr, hhyyppeerr22, ppoowweerruupp, uullttrraa, uullttrraa22, uullttrraaii.
+
+          This option specifies timing properties by specifying
+          the target processor.
+
+          Although this option can be used alone, it is part of
+          the expansion of the --xxttaarrggeett option; its primary use
+          is to override a value supplied by the --xxttaarrggeett option.
+
+          Some effects are:
+          o The ordering of instructions, that is, scheduling
+          o The way the compiler uses branches
+          o The instructions to use in cases where semantically
+            equivalent alternatives are available
+          The --xxcchhiipp values on SPARC are:
+          ggeenneerriicc Optimize for good performance on most SPARCs.
+          oolldd     Optimize for pre-SuperSPARC processors.
+          ssuuppeerr   Optimize for the SuperSPARC(TM) chip.
+          ssuuppeerr22  Optimize for the SuperSPARC II(TM) chip.
+          mmiiccrroo   Optimize for the MicroSPARC(TM) chip.
+          mmiiccrroo22  Optimize for the MicroSPARC II(TM) chip.
+          hhyyppeerr   Optimize for the HyperSPARC(TM) chip.
+          hhyyppeerr22  Optimize for the HyperSPARC II(TM) chip.
+          ppoowweerruupp Optimize for the Weitek(R) PowerUp(TM) chip.
+          uullttrraa   Optimize for the UltraSPARC(TM) chip.
+          uullttrraa22  Optimize for the UltraSPARC II(TM) chip.
+          uullttrraa22ii Optimize for the UltraSPARC IIi(TM) chip.
+          For complete information, see the _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e
+
+     --xxccooddee==v
+          Specify code address space
+
+          The following values for --xxccooddee are:
+
+          aabbss3322   Generate 32-bit absolute addresses.
+                  Code + data + bss size is limited to 2**32
+                  bytes.  This is the default on 32-bit architec­
+                  tures: -xarch=generic,v7,v8,v8a,v8plus,v8plusa
+
+          aabbss4444   Generate 44-bit absolute addresses.
+                  Code + data + bss size is limited to 2**44
+                  bytes.  Available only on 64-bit architectures:
+                  --xxaarrcchh==vv99,,vv99aa
+
+          aabbss6644   Generate 64-bit absolute addresses.
+                  Available only on 64-bit architectures:
+                  --xxaarrcchh==vv99,,vv99aa
+
+          ppiicc1133   Generate position-independent code (small
+
+
+
+                   Last change: 98/12/14  2.0                  33
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+                  model).
+                  Equivalent to --ppiicc.  Permits references to at
+                  most 2**11 unique external symbols on 32-bit
+                  architectures, 2**10 on 64-bit.
+
+          ppiicc3322   Generate position-independent code (large
+                  model).
+                  Equivalent to --PPIICC.  Permits references to at
+                  most 2**30 unique external symbols on 32-bit
+                  architectures, 2**29 on 64-bit.
+
+          The default is --xxccooddee==aabbss3322 for SPARC V8 and V7.  The
+          default is --xxccooddee==aabbss6644 for SPARC and UltraSPARC V9
+          (with --xxaarrcchh==vv99||vv99aa).
+
+          When building shared dynamic libraries with --xxaarrcchh==vv99
+          or vv99aa on 64-bit Solaris 7, a --xxccooddee==ppiicc1133 or ppiicc3322 (or
+          --ppiicc or --PPIICC) option MUST be specified.
+
+
+
+     --xxddeeppeenndd
+          Synonym for --ddeeppeenndd
+
+     --xxeexxpplliicciittppaarr
+          Synonym for --eexxpplliicciittppaarr
+
+     --xxhheellpp==_h
+          Show options summary or README file.
+
+          _h is either rreeaaddmmee or ffllaaggss.
+
+          rreeaaddmmee: Show the online README file.
+          ffllaaggss: Show the compiler flags (options).
+
+          --xxhheellpp==ffllaaggss is a synonym for --hheellpp.
+
+     --xxiillddooffff
+          Turn off Incremental Linker
+          This forces the use of the standard linker, lldd.
+
+          This option is the default if you do _n_o_t use --gg.  It is
+          also the default if you use --GG or name any source file
+          on the command line.
+
+          Override this default by using --xxiillddoonn.
+
+     --xxiillddoonn
+          Turn on Incremental Linker
+          Turn on the Incremental Linker and force the use of iilldd
+          in incremental mode.
+
+
+
+
+                   Last change: 98/12/14  2.0                  34
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          This option is the default if you use --gg, and do _n_o_t
+          use --GG, and do _n_o_t name any source file on the command
+          line.
+
+          Override this default by using --xxiillddooffff.
+
+     --xxiinnlliinnee==_r_l
+          Synonym for --iinnlliinnee==_r_l.
+
+     --xxlliibbmmiill
+          Synonym for --lliibbmmiill.
+
+     --xxlliibbmmoopptt
+          Use library of optimized math routines
+
+          Use a library of selected math routines optimized for
+          performance.  This option usually generates faster
+          code. It may produce slightly different results; if so,
+          they usually differ in the last bit.  The order on the
+          command line for this library option is not signifi­
+          cant.
+
+     --xxlliicciinnffoo
+          Show license server user IDs.
+
+          Return license information about the licensing system.
+          In particular, return the name of the license server
+          and the IDs of users who have obtained licenses.
+
+          Generally, with this option, no compilation is done,
+          and a license is not checked out. If a conflicting
+          option is used, then the latest one on the command line
+          takes precedence, and a warning is issued.
+     --xxlliicc__lliibb==_l_i_b_s
+          Link with specified Sun licensed libraries.
+
+          Example: linking with the Sun Performance Library:
+             ff9900 --oo ppggxx --ffaasstt --ppggxx..ff --xxlliicc__lliibb==ssuunnppeerrff
+
+          _l_i_b_s is a comma-delimited list of libraries.
+
+          As with --ll it should appear after all source and object
+          file names on the command line.
+
+     --XXlliisstt
+          Produce lisitings and do global program checking.
+
+          Check across routines for consistency.  This option
+          helps find a variety of bugs. In general, --XXlliisstt also
+          makes a line-numbered listing of the source and a cross
+          reference table of the identifiers. The errors that are
+          found do not prevent the program from being compiled
+
+
+
+                   Last change: 98/12/14  2.0                  35
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+          and linked.
+
+          Output is to a file with a name like the first file
+          name but with a ..llsstt extension.
+
+          Example: Errors, listing, and xref to ffiillee11..llsstt
+
+             ddeemmoo%% ff9900 --XXlliisstt ffiillee11..ff ffiillee22..ff
+
+          Summary of --XXlliisstt Suboptions
+
+          --XXlliisstt         Default: listings, errors, xref
+          --XXlliissttEE        Errors only (no xref or listings)
+          --XXlliisstteerrrr      Suppress all --XXlliisstt error messages
+          --XXlliisstteerrrr[_n]   Suppress --XXlliisstt error message _n.
+          --XXlliissttII        Check include files also
+          --XXlliissttLL        Listings only (no xref)
+          --XXlliissttll[_n]     Page length is _n lines
+          --XXlliissttoo_n_m      Output to _n_m instead of to _f_i_l_e..llsstt
+          --XXlliissttww_[_n_n_n_]   Set output line width to _n; default is
+                         79
+          --XXlliissttwwaarr      Suppress all --XXlliisstt warning messages
+          --XXlliissttwwaarr[_n]   Suppress --XXlliisstt warning message _n.
+          --XXlliissttXX        Xref only (no listings)
+
+
+
+     --xxllooooppiinnffoo
+          Synonym for --llooooppiinnffoo
+
+
+     --xxnnoolliibb
+          Synonym for --nnoolliibb.
+
+
+     --xxnnoolliibbmmiill
+          Synonym for --nnoolliibbmmiill.
+
+
+     --xxnnoolliibbmmoopptt
+          Cancel --xxlliibbmmoopptt
+
+          Use with --ffaasstt to cancel linking with the optimized
+          math library.
+
+
+     --xxOO[_n]
+          Synonym for --OO[_n].
+
+
+     --xxppaadd
+          Synonym for --ppaadd
+
+
+
+                   Last change: 98/12/14  2.0                  36
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     --xxppaarraalllleell
+          Synonym for --ppaarraalllleell
+
+
+     --xxppgg Synonym for --ppgg.
+
+
+     --xxpppp==_p
+          Select source file preprocessor.
+
+          _p is either ffpppp or ccpppp.  Selects the source file pre­
+          processor to be used with ..FF files. The default is ffpppp,
+          which is appropriate for Fortran. Previous versions of
+          the compiler used ccpppp, the standard C language prepro­
+          cessor. To select ccpppp, specify --xxpppp==ccpppp.
+
+
+     --xxpprreeffeettcchh[=={yyeess|nnoo}]
+          Use prefetch instructions on UltraSPARC II processors.
+
+          With --xxpprreeffeettcchh==yyeess, the compiler is free to insert
+          prefetch instructions into the code it generates. This
+          may result in a performance improvement on UltraSPARC
+          II processors.
+
+          The default if not specified is --xxpprreeffeettcchh==nnoo. Specify­
+          ing --xxpprreeffeettcchh alone is equivalent to --xxpprreeffeettcchh==yyeess.
+
+     --xxpprrooffiillee==_p
+          Collect or optimize with runtime profiling data
+
+          Collect and save execution frequency data during execu­
+          tion; then use the data in subsequent runs to improve
+          performance.
+
+          _p must be ccoolllleecctt[::_n_m], uussee[::_n_m], ttccoovv, or ffuunncc.
+
+
+          If compilation and linking are performed in separate
+          steps, the same --xxpprrooffiillee option must appear on the
+          compile as well as the link step.
+
+          ccoolllleecctt[::_n_m]
+                   Collect and save execution frequency data for
+                   later use by the optimizer with --xxpprrooffiillee==uussee..
+                   The compiler generates code to measure state­
+                   ment execution frequency.
+
+                   The _n_m is the name of the program that is
+                   being analyzed. This name is optional. If not
+                   specified, aa..oouutt is assumed to be the name of
+                   the executable.
+
+
+
+                   Last change: 98/12/14  2.0                  37
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+                   At runtime a program compiled with --xxpprroo­­
+                   ffiillee==ccoolllleecctt::_n_m will create the subdirectory
+                   _n_m..pprrooffiillee to hold the runtime feedback infor­
+                   mation. Data is written to the file feedback
+                   in this subdirectory. If you run the program
+                   several times, the execution frequency data
+                   accumulates in the feedback file; that is,
+                   output from prior runs is not lost.
+
+          uussee[::_n_m] Use execution frequency data to optimize
+                   strategically.
+
+                   As with ccoolllleecctt::_n_m, the _n_m is optional and may
+                   be used to specify the name of the program.
+
+                   The program is optimized by using the execu­
+                   tion frequency data previously generated and
+                   saved in the feedback files written by a pre­
+                   vious execution of the program compiled with
+                   --xxpprrooffiillee==ccoolllleecctt..
+
+                   The source files and other compiler options
+                   must be exactly the same as used for the com­
+                   pilation that created the compiled program
+                   that generated the feedback file. If compiled
+                   with --xxpprrooffiillee==ccoolllleecctt::_n_m, the same program
+                   name nm must appear in the optimizing compila­
+                   tion: --xxpprrooffiillee==uussee::_n_m.
+
+          ttccoovv     Basic block coverage analysis using "new"
+                   style ttccoovv(1).
+
+                   Code instrumentation is similar to that of --aa,
+                   but ..dd files are no longer generated for each
+                   source file. Instead, a single file is gener­
+                   ated, whose name is based on the name of the
+                   final executable. For example, if ssttuuffff is the
+                   executable file, then ssttuuffff..pprrooffiillee//ttccoovvdd is
+                   the data file.
+
+                   When running ttccoovv you must pass it the --xx
+                   option to make it use the new style of data.
+                   If not, ttccoovv uses the old ..dd files, if any, by
+                   default for data, and produces unexpected out­
+                   put.
+
+                   Unlike --aa, the TTCCOOVVDDIIRR environment variable
+                   has no effect at compile-time.  However, its
+                   value is used at program runtime to identify
+                   where to create the profile subdirectory.
+
+
+
+
+
+                   Last change: 98/12/14  2.0                  38
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     --xxrreedduuccttiioonn
+          Synonym for --rreedduuccttiioonn
+
+
+     --xxrreeggss==_r
+          Specify register usage _(_S_P_A_R_C _O_n_l_y_)_.
+
+          Specify usage of registers in generated code.
+
+          _r is a comma-separated list of one or more of the fol­
+          lowing: [[nnoo%%]]aappppll, [[nnoo%%]]ffllooaatt.
+
+
+          The --xxrreeggss values are for specific --xxaarrcchh values):
+
+          aappppll     Allow using registers gg22, gg33, and gg44.  (v8,
+                   v8a)
+                   Allow using registers gg22, gg33, gg44, and gg55.
+                   (v8plus, v8plusa)
+                   Allow using registers gg22, gg33.  (v9, v9a)
+
+          nnoo%%aappppll  Do not use aappppll registers.
+
+          ffllooaatt    Allow using floating-point registers as speci­
+                   fied in the SPARC ABI.
+
+          nnoo%%ffllooaatt Do not use floating-point registers.
+
+          The default is: --xxrreeggss==aappppll,,ffllooaatt.
+
+
+     --xxss Allow debugging by dbx without ..oo files.
+
+         With --xxss, if you move executables to another directory,
+         then you can use ddbbxx and ignore the object (..oo) files.
+         Use this option in case you cannot keep the ..oo files
+         around.
+
+         This option reverts to implementing symbol tables as
+         implemented in release 1.4 and earlier. For this older
+         way, if you move the executables, you must also move the
+         source files, but you can ignore the object files. Also,
+         the loader links more slowly, and ddbbxx initializes more
+         slowly. For comparison, with the newer way, which is now
+         the default, the loader links faster, and ddbbxx initial­
+         izes faster. If you move the executables, you must move
+         both the source files and the object ( ..oo ) files, or
+         set the path with the ddbbxx ppaatthhmmaapp or uussee command.
+
+         This option passes the --ss option to the assembler.
+
+
+
+
+
+                   Last change: 98/12/14  2.0                  39
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     --xxssaaffee==mmeemm
+         Assume no memory-based traps
+
+         Allow the compiler to assume no memory-based traps occur
+         This option grants permission to use the speculative
+         load instruction on V9 machines. It is only effective
+         when used with --OO55 optimization, and
+         --xxaarrcchh==vv88pplluuss||vv88pplluussaa||vv99||vv99aa is specified.
+
+
+     --xxssbb
+         Synonym for --ssbb.
+
+     --xxssppaaccee
+         Do not increase code size
+
+         Do no optimizations that increase the code size.
+         Example: Do not unroll loops.
+
+
+     --xxttaarrggeett==_t
+         Specify system for optimization
+
+         Specify the target system for the instruction set and
+         optimization.
+
+         _t must be one of: nnaattiivvee, ggeenneerriicc, _s_y_s_t_e_m_-_n_a_m_e.
+
+         The --xxttaarrggeett option permits a quick and easy specifica­
+         tion of the --xxaarrcchh, --xxcchhiipp, and --xxccaacchhee combinations
+         that occur on real systems. The only meaning of --xxttaarrggeett
+         is in its expansion.
+
+         The --xxttaarrggeett values are:
+
+         nnaattiivvee: Get the best performance on the host system.
+
+         ggeenneerriicc: Get the best performance for generic architec­
+         ture, chip, and cache. This is the default.
+
+         _s_y_s_t_e_m_-_n_a_m_e: Get the best performance for the specified
+         system.
+
+         Valid system names on SPARC are: sun4/15, sun4/20,
+         sun4/25, sun4/30, sun4/40, sun4/50, sun4/60, sun4/65,
+         sun4/75, sun4/110, sun4/150, sun4/260, sun4/280,
+         sun4/330, sun4/370, sun4/390, sun4/470, sun4/490,
+         sun4/630, sun4/670, sun4/690, sselc, ssipc, ssipx, sslc,
+         sslt, sslx, sslx2, ssslc, ss1, ss1plus, ss2, ss2p, ss4,
+         ss5, ssvyger, ss10, ss10/hs11, ss10/hs12, ss10/hs14,
+         ss10/20, ss10/hs21, ss10/hs22, ss10/30, ss10/40,
+         ss10/41, ss10/50, ss10/51, ss10/61, ss10/71, ss10/402,
+
+
+
+                   Last change: 98/12/14  2.0                  40
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+         ss10/412, ss10/512, ss10/514, ss10/612, ss10/712,
+         ss20/hs11, ss20/hs12, ss20/hs14, ss20/hs21, ss20/hs22,
+         ss20/51, ss20/61, ss20/71, ss20/502, ss20/512, ss20/514,
+         ss20/612, ss20/712, ss600/41, ss600/51, ss600/61,
+         ss600/120, ss600/140, ss600/412, ss600/512, ss600/514,
+         ss600/612, ss1000, sc2000, cs6400, solb5, solb6, ultra,
+         ultra2, ultra2i, ultra1/140, ultra1/170, ultra1/200,
+         ultra2/1170, ultra2/1200, ultra2/1300, ultra2/2170,
+         ultra2/2200, ultra2/2300, entr2, entr2/1170, entr2/2170,
+         entr2/1200, entr2/2200, entr150, entr3000, entr4000,
+         entr5000, entr6000.
+
+         Compiling for 64-bit Solaris 7 on SPARC or UltraSPARC V9
+         is indicated by the --xxaarrcchh==vv99 or --xxaarrcchh==vv99aa flag. Set­
+         ting --xxttaarrggeett==uullttrraa or uullttrraa22 is not necessary or suffi­
+         cient.  If --xxttaarrggeett is specified, the --xxaarrcchh==vv99 or vv99aa
+         option must appear AFTER the --xxttaarrggeett,, as in:
+                    --xxttaarrggeett==uullttrraa22 ...... --xxaarrcchh==vv99 otherwise the
+         --xxttaarrggeett setting will revert --xxaarrcchh to vv88.
+
+         See the section on --xxttaarrggeett==_t in the _F_o_r_t_r_a_n _U_s_e_r_'_s
+         _G_u_i_d_e for the --xxttaarrggeett expansions that show the mnemonic
+         encodings of the actual system names and numbers.
+
+         This option is a macro. Each specific value for -xtarget
+         expands into a specific set of values for the --xxaarrcchh,
+         --xxcchhiipp, and --xxccaacchhee options. For example: --xxttaarr­­
+         ggeett==ssuunn44//1155 is equivalent to:
+         --xxaarrcchh==vv88aa --xxcchhiipp==mmiiccrroo --xxccaacchhee==22//1166//11
+
+         fpversion(1) can be used to see the --xxttaarrggeett or
+         --xxaarrcchh, --xxcchhiipp, and --xxccaacchhee options equivalent to --xxttaarr­­
+         ggeett==nnaattiivvee on any system.
+
+
+     --xxttiimmee
+         Synonym for --ttiimmee.
+
+
+     --xxuunnrroollll==_n
+         Synonym for --uunnrroollll==_n
+
+
+     --xxvveeccttoorr[=={yyeess|nnoo}]
+         Enable automatic generation of calls to the vector
+         library functions.
+
+         --xxvveeccttoorr==yyeess permits the compiler to transform math
+         library calls within DO loops into single calls to the
+         equivalent vector math routines when such transforma­
+         tions are possible. This could result in a performance
+         improvement for loops with large loop counts.
+
+
+
+                   Last change: 98/12/14  2.0                  41
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+         The default if not specified is --xxvveeccttoorr==nnoo.  Specifying
+         --xxvveeccttoorr is equivalent to --xxvveeccttoorr==yyeess.
+
+         This option also triggers --ddeeppeenndd if --ddeeppeenndd is not
+         already specified prior to --xxvveeccttoorr on the command line.
+         However, --nnooddeeppeenndd following --xxvveeccttoorr on the command
+         line will cancel the effect of --xxvveeccttoorr.
+
+         The compiler automatically informs the linker to include
+         the libmvec and libc libraries in the load step. If com­
+         piling and linking are done in separate commands, --xxvveecc­­
+         ttoorr must also appear on the linking ff9900 command.
+
+
+     --ZZllpp
+         Compile for loop profiling by llooooppttooooll.
+
+         Prepare object files for the loop profiler llooooppttooooll,
+         part of the Sun WorkShop.  This option requires a Work­
+         Shop license.
+
+         If you compile and link in separate steps, and you com­
+         pile with --ZZllpp, then be sure to link with --ZZllpp.
+
+         If you compile one subprogram with --ZZllpp, you need not
+         compile all subprograms of that program with --ZZllpp.  How­
+         ever, you get loop information only for the files com­
+         piled with --ZZllpp, and no indication that the program
+         includes other files.
+
+
+     --zztteexxtt
+         Make no library with relocations
+
+         Do not make the library if relocations remain.  The gen­
+         eral purpose of --zztteexxtt is to ask if the generated
+         library is pure text; instructions are all position-
+         independent code. Therefore, it is generally used with
+         both --GG and --ppiicc.
+
+         With --zztteexxtt, if lldd finds an incomplete relocation in the
+         text segment, then it does not build the library. If it
+         finds one in the data segment, then it generally builds
+         the library anyway; the data segment is writable.
+
+         Without --zztteexxtt, lldd builds the library, relocations or
+         not.
+
+         A typical use is to make a library from both source
+         files and object files, where you do not know if the
+         object files were made with --ppiicc.
+
+
+
+
+                   Last change: 98/12/14  2.0                  42
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     Other arguments are taken to be either linker option argu­
+     ments, or names of ff9900-compatible object programs, typically
+     produced by an earlier run, or libraries of routines that
+     are ff9900-compatible.  These programs, together with the
+     results of any compilations specified, are linked in the
+     order given to produce an executable program in the file
+     specified by the --oo option, or in a file named aa..oouutt if the
+     --oo option is not specified.
+
+DDIIRREECCTTIIVVEESS
+     _G_e_n_e_r_a_l _D_i_r_e_c_t_i_v_e_s: ff9900 allows _g_e_n_e_r_a_l compiler directive
+     lines starting with CC$$PPRRAAGGMMAA, !!$$PPRRAAGGMMAA, or **$$PPRRAAGGMMAA, and any
+     uppercase or lowercase is allowed.  Examples:
+
+       CC$$PPRRAAGGMMAA CC(( ssuubbaa,, ssuubbzz))
+       CC$$PPRRAAGGMMAA SSUUNN UUNNRROOLLLL 22
+       CC$$PPRRAAGGMMAA WWEEAAKK FFUUNNKK
+
+     _P_a_r_a_l_l_e_l _D_i_r_e_c_t_i_v_e_s: ff9900 allows _p_a_r_a_l_l_e_l compiler directive
+     lines starting with CC$$PPAARR, !!$$PPAARR, or **$$PPAARR, and any upper­
+     case or lowercase is allowed.  Examples:
+
+       CC$$PPAARR DDOOAALLLL
+       CC$$PPAARR DDOOSSEERRIIAALL
+       CC$$PPAARR DDOOSSEERRIIAALL**
+       CC$$PPAARR TTAASSKK CCOOMMMMOONN
+
+     See the _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e for details and variations.
+
+EENNVVIIRROONNMMEENNTT
+     The paths shown below assume a standard installation of the
+     Sun WorkShop Compilers to _/_o_p_t_/_S_U_N_W_s_p_r_o_/.  Contact your sys­
+     tem administrator if your compilers were custom installed to
+     some other directory path.
+
+  PPAATTHH
+     To use ff9900, add the following to the _s_t_a_r_t of the search
+     path:
+
+     //oopptt//SSUUNNWWsspprroo//bbiinn//
+
+
+  MMAANNPPAATTHH
+     To access the ff9900 mmaann pages, add the following to the MMAANN­­
+     PPAATTHH environment variable:
+
+     //oopptt//SSUUNNWWsspprroo//mmaann//
+
+
+  LLDD__LLIIBBRRAARRYY__PPAATTHH
+     Generally, you need not set up LLDD__LLIIBBRRAARRYY__PPAATTHH.  If you do
+     need to do so, then maybe there is some discrepancy in the
+
+
+
+                   Last change: 98/12/14  2.0                  43
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     installation, or some executable has been built incorrectly.
+
+     Set the LLDD__LLIIBBRRAARRYY__PPAATTHH, environment variable to:
+
+     //oopptt//SSUUNNWWsspprroo//lliibb//
+
+
+  LLDD__LLIIBBRRAARRYY__PPAATTHH__6644
+     On Solaris 7, this environment variable is similar to
+     LLDD__LLIIBBRRAARRYY__PPAATTHH but overrides it when searching for 64-bit
+     dependencies.
+
+     When running Solaris 7 on a SPARC processor and linking in
+     32-bit mode, LLDD__LLIIBBRRAARRYY__PPAATTHH__6644 is ignored.  If only
+     LLDD__LLIIBBRRAARRYY__PPAATTHH is defined, it us used for both 32-bit and
+     64-bit linking.  If both LLDD__LLIIBBRRAARRYY__PPAATTHH and
+     LLDD__LLIIBBRRAARRYY__PPAATTHH__6644 are defined, the 32-bit linking will be
+     done using LLDD__LLIIBBRRAARRYY__PPAATTHH and the 64-bit linking using
+     LLDD__LLIIBBRRAARRYY__PPAATTHH__6644.
+
+     See _L_i_n_k_e_r _a_n_d _L_i_b_r_a_r_i_e_s _G_u_i_d_e for more information on these
+     environment variables.
+
+
+  LLDD__RRUUNN__PPAATTHH
+     If you use LLDD__RRUUNN__PPAATTHH, note that for ff9900, LLDD__RRUUNN__PPAATTHH is
+     not identical with --RR.  (For lldd..ssoo, they are identical.)
+     See --RR, in the _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e, for details.
+
+FFIILLEESS
+     Selected major files used by the compiler
+     aa..oouutt                Executable output file
+     _f_i_l_e..aa               Library of object files
+     _f_i_l_e..dd               Test coverage input file for ttccoovv(1)
+     _f_i_l_e..ff               FORTRAN source file
+     _f_i_l_e..ff9900             Fortran 90 source file
+     _f_i_l_e..FF               FORTRAN source file for ffpppp(1)
+     _f_i_l_e..FF9900             Fortran 90 source file for ffpppp(1)
+     _f_i_l_e..ffoorr             FORTRAN source file
+     _f_i_l_e..iill              In-line expansion file
+     _f_i_l_e..oo               Object file
+     _f_i_l_e..rr               Ratfor source file
+     _f_i_l_e..ss               Assembler source file
+     _f_i_l_e..SS               Assembler source for ccpppp(1)
+     _f_i_l_e..ttccoovv            Output from ttccoovv(1)
+
+     //uussrr//lliibb//lliibbcc..aa      Standard C library, see iinnttrroo(3)
+     //uussrr//lliibb//lliibbpp//lliibbcc..aa Profiling library, see iinnttrroo(3)
+     //ttmmpp//**               Compiler temporary files
+     mmoonn..oouutt              File produced for analysis by pprrooff(1)
+     ggmmoonn..oouutt             File produced for analysis by ggpprrooff(1)
+
+
+
+
+                   Last change: 98/12/14  2.0                  44
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+
+
+     For the remaining files, if no absolute path is shown then
+     they are in the following directory:
+
+     //oopptt//SSUUNNWWsspprroo//SSCC55..00//
+
+     TThhee ``SSCC55..00'' vvaarriieess wwiitthh eeaacchh rreelleeaassee ooff tthhee ccoommppiilleerrss..
+
+     bbiinn//ffpppp
+          Fortran preprocessor
+     bbiinn//ccpppp
+          C preprocessor
+     iinncclluuddee//ff9900
+          Path searched for ff9900 IINNCCLLUUDDEE statement
+     iinncclluuddee//ff9900//ff9900__ffllooaattiinnggppooiinntt..hh
+          ff9900 IEEE arithmetic type definitions
+
+     The following libraries exist in both ..ssoo and ..aa versions:
+     lliibb//lliibbffssuu
+          ff9900 support intrinsics
+     lliibb//lliibbffuuii
+          ff9900 - UNIX interface
+     lliibb//lliibbffiioo
+          Fortran 90 I/O
+     lliibb//lliibbff**aaii
+          Fortran 90 array intrinsics libraries
+     lliibb//lliibbff7777ccoommppaatt
+          ff7777 I/O compatibility library
+     lliibb//lliibbppoossiixx99
+          ff9900 POSIX interface
+
+     //uussrr//lliibb//lliibbmm..aa
+          Math lib
+     //uussrr//lliibb//lliibbpp//lliibbmm..aa
+          Math profile lib
+     lliibb//lliibbssuunnmmaatthh..aa
+          Sun value-added math lib
+     lliibb//lliibbpp//lliibbssuunnmmaatthh..aa
+          Sun value-added math profile lib
+
+RREEAADDMMEEss
+     A number of README files provide valuable last-minute infor­
+     mation on the compilers and libraries, including white
+     papers. Of particular interest are:
+
+          o   fortran_90
+          o   math_libraries
+          o   64bit_Compilers
+
+     The path to the READMEs directory is:
+       <install_path>/SUNWspro/READMEs/
+
+
+
+                   Last change: 98/12/14  2.0                  45
+
+
+
+
+
+
+User Commands                                              F90(1)
+
+
+
+     where _<_i_n_s_t_a_l_l___p_a_t_h_> is usually _/_o_p_t in a standard install.
+
+SSEEEE AALLSSOO
+     aassaa(1),  cccc(1),  ddbbxx(1),  ffpppp(1),  ffpprr(1),  ffsspplliitt(1),
+     ggpprrooff(1),  iilldd(1),  lldd(1),  ppeerrrroorr(3f),  pprrooff(1),  ttccoovv(1)
+
+     _F_o_r_t_r_a_n _U_s_e_r_'_s _G_u_i_d_e
+     _F_o_r_t_r_a_n _P_r_o_g_r_a_m_m_i_n_g _G_u_i_d_e
+     _N_u_m_e_r_i_c_a_l _C_o_m_p_u_t_a_t_i_o_n _G_u_i_d_e
+     _A_n_a_l_y_z_i_n_g _P_r_o_g_r_a_m _P_e_r_f_o_r_m_a_n_c_e _w_i_t_h _S_u_n _W_o_r_k_S_h_o_p
+     _F_o_r_t_r_a_n _L_i_b_r_a_r_y _R_e_f_e_r_e_n_c_e
+     _L_i_n_k_e_r _a_n_d _L_i_b_r_a_r_i_e_s _G_u_i_d_e (lldd)
+     _D_e_b_u_g_g_i_n_g _a _P_r_o_g_r_a_m _W_i_t_h _d_b_x
+
+     _S_u_n _P_e_r_f_o_r_m_a_n_c_e _L_i_b_r_a_r_y: See the ppeerrffoorrmmaannccee__lliibbrraarryy infor­
+     mation file and the lliibbssuunnppeerrff Reference Manual PostScript
+     files in the RREEAADDMMEEss// directory. This library is part of the
+     Sun Performance WorkShop and contains subroutines and func­
+     tions for operations in computational linear algebra and
+     Fourier transforms.
+
+     _P_O_S_I_X _b_i_n_d_i_n_g_s: The POSIX bindings provided are for IEEE
+     Standard 1003.9-1992.  IEEE 1003.9 is a binding of
+     1003.1-1990 to Fortran.
+
+     POSIX.1 documents:
+          o    ISO/IEC 9945-1:1990
+          o    IEEE Standard 1003.1-1990
+          o    ISO/IEC 9945-1:1996
+          o    IEEE CS Catalog number 1019
+
+     To find out precisely what POSIX Fortran bindings are, you
+     need both the 1003.9 and the POSIX.1 documents.
+
+     For information on ordering these documents, see the chapter
+     on libraries in the _F_o_r_t_r_a_n _P_r_o_g_r_a_m_m_i_n_g _G_u_i_d_e.
+
+DDIIAAGGNNOOSSTTIICCSS
+     The diagnostics produced by ff9900 itself are intended to be
+     self-explanatory. Occasional messages may be produced by the
+     linker.  The error messages are listed in ppeerrrroorr(3f).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   Last change: 98/12/14  2.0                  46
+
+
+

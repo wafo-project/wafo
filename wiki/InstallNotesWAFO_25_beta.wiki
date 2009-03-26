@@ -11,4 +11,4 @@
 
  3. Edit the file startup.m and give a path to the WAFO toolbox by adding the command "addpath('c:\wafo25')".. 
 
- 4. Start Matlab and type 'initwafo' at the matlab prompt. Try 'help wafo'.
+ 4. Start Matlab and type 'initwafo' at the matlab prompt. Try 'help wafo25'.

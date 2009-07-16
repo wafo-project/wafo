@@ -58,7 +58,7 @@ df2 = params{2};
 ok1= ((df1 >0) );
 ok2= ((df2 >0));
 if options.disable
-  warntxt =  'df%d should be a positive.';
+  warntxt =  'df%d should be positive.';
 else
    ok1 = (ok1 & df1==round(df1));
    ok2 = (ok2 & df2==round(df2) );

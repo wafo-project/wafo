@@ -21,7 +21,7 @@ ext = ['.' mexext];
 
 outdir = wafomexpath;
 if ~exist(outdir,'dir')
-   [succes,msg,msgid] = mkdir(outdir);
+   [success,msg,msgid] = mkdir(outdir);
    if ~success
      error(msg)
    end

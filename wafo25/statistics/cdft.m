@@ -92,7 +92,7 @@ if ~options.disable || all(df==floor(df))
     F(k3) = Fk;
   end
 else 
-  region2(:) = df<mxdf;
+  region2 = df<mxdf;
 end
 
 k = find(ok & region2);
@@ -104,7 +104,7 @@ if any(k),
 %   F(k) = (1 + sgn.*probF)/2;h
   neg = x(k)<0;
   %tmp = 1-(1-cdff(x(k).^2,1,df(k)))/2;
-  tmp = (1+cdff(x(k).^2,1,df(k)))/2;
+  tmp = (1+cdff(x(k).^2,1,df(k),'disable',options.disable))/2;
   F(k) = tmp + (1-2*tmp).*neg;
   %xn = 1./(1+df(k)./(x(k).^2));
   %tmp = cdfbeta(xn,1/2,df(k)/2,'lowertail',false)/2;

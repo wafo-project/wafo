@@ -1,49 +1,45 @@
 """
 Class objects for data, spectrum, covariance function and time series in WAFO
 
-  To represent data, spectra, covariance functions and time series
-  in WAFO, the classes WafoData, SpecData1D, CovData1D and TimeSeries is used.
-  Here follows a list of their attributes:
+To represent data, spectra, covariance functions and time series
+in WAFO, the classes WafoData, SpecData1D, CovData1D and TimeSeries are used.
+Here follows a list of their attributes:
 
-  WafoData
-  --------
-  data : array_like
-  args : vector for 1D, list of vectors for 2D, 3D, ...
-  date : Date and time of creation or change.
-  labels : AxisLabels
-  children : list of WafoData objects
+WafoData
+--------
+data : array_like
+args : vector for 1D, list of vectors for 2D, 3D, ...
+date : Date and time of creation or change.
+labels : AxisLabels
+children : list of WafoData objects
 
-  SpecData1D
-  ----------
-  data : One sided Spectrum values
-  args : freguency values of freqtype
-  type :String: 'freq', 'dir', 'k2d', k1d', 'encdir' or 'enc'.
-    freqtype :'w' OR 'f' OR 'k' Frequency/wave number lag, length nf.
-    tr :   Transformation function (default [] (none)).
-    h :     Water depth (default inf).
-    norm : Normalization flag, Logical 1 if S is normalized, 0 if not
-    date  :Date and time of creation or change.
-    v   :  Ship speed, if .type = 'enc' or 'encdir'.
-    phi   angle of rotation of the coordinate system
+SpecData1D
+----------
+data : One sided Spectrum values
+args : freguency values of freqtype
+type :String: 'freq', 'dir', 'k2d', k1d', 'encdir' or 'enc'.
+freqtype :'w' OR 'f' OR 'k' Frequency/wave number lag, length nf.
+tr : Transformation function (default (none)).
+h : Water depth (default inf).
+norm : Normalization flag, Logical 1 if S is normalized, 0 if not
+date : Date and time of creation or change.
+v :  Ship speed, if .type = 'enc' or 'encdir'.
+phi   angle of rotation of the coordinate system
            (counter-clocwise) e.g. azymuth of a ship.
 
-
-  CovData1D
-  ---------
-    data : Covariance function values. Size [ny nx nt], all singleton dim. removed.
-    args : Lag of first space dimension, length nx.
-    .h     Water depth.
-    .tr    Transformation function.
-    .type  'enc', 'rot' or 'none'.
-    .v     Ship speed, if .type='enc'
-    .phi   Rotation of coordinate system, e.g.  direction of ship
-    .norm  Normalization flag, Logical 1 if autocorrelation, 0 if covariance.
-    .Rx ... .Rtttt   Obvious derivatives of .R.
-    .note  Memorandum string.
-    .date  Date and time of creation or change.
-
-
-
+CovData1D
+---------
+data : Covariance function values. Size [ny nx nt], all singleton dim. removed.
+args : Lag of first space dimension, length nx.
+h : Water depth.
+tr : Transformation function.
+type : 'enc', 'rot' or 'none'.
+v : Ship speed, if .type='enc'
+phi : Rotation of coordinate system, e.g.  direction of ship
+norm : Normalization flag, Logical 1 if autocorrelation, 0 if covariance.
+Rx, ... ,Rtttt :  Obvious derivatives of .R.
+note : Memorandum string.
+date : Date and time of creation or change.
 
 """
 #-------------------------------------------------------------------------------
@@ -61,19 +57,24 @@ Class objects for data, spectrum, covariance function and time series in WAFO
 
 from __future__ import division
 import warnings
-import numpy
 import numpy as np
 from scitools import numpytools as npt
-from scitools.numpytools import (inf,pi,zeros,sqrt,where,log,exp)
+from scitools.numpytools import (inf, pi, zeros, sqrt, where, log, exp, ceil, 
+                                 floor, sin, arcsin, tanh, arctan2, newaxis, 
+                                 linspace, sort)
 from time import gmtime, strftime
-from wafo.misc import (nextpow2, discretize, findtp, findtc, findextrema, findrfc,
-         sub_dict_select,tranproc)
+from wafo.misc import (nextpow2, discretize, findtp, findtc, findextrema, 
+        findcross, findrfc, sub_dict_select, tranproc, ecross)
 from wafo.spectrum.dispersion_relation import w2k, k2w
+from wafo.gaussian import Rind
 #from scipy import fft
 from scipy.integrate import simps, trapz
 from pylab import stineman_interp
 from matplotlib.mlab import psd
+import scipy.signal
 import scipy.interpolate as interpolate
+from scipy.special import erf
+from scipy.linalg import toeplitz
 
 try:
     #import diffsumfunq
@@ -86,6 +87,7 @@ from plotbackend import plotbackend
 __all__ = ['SpecData1D','SpecData2D','WafoData', 'AxisLabels','CovData1D',
     'TimeSeries','TrGauss','LevelCrossings','CyclePairs','TurningPoints',
     'sensortypeid','sensortype']
+
 def empty_copy(obj):
     class Empty(obj.__class__):
         def __init__(self):
@@ -100,6 +102,11 @@ def _set_seed(iseed):
             np.random.set_state(iseed)
         except:
             np.random.seed(iseed)
+def now():
+    '''
+    Return current date and time as a string
+    '''
+    return strftime("%a, %d %b %Y %H:%M:%S", gmtime())
 
 class WafoData(object):
     '''
@@ -121,15 +128,15 @@ class WafoData(object):
     Example
     -------
     >>> import numpy as np
-    >>> x = np.arange(-2,2,0.2)
+    >>> x = np.arange(-2, 2, 0.2)
 
     # Plot 2 objects in one call
-    >>> d2 = WafoData(np.sin(x),x,xlab='x',ylab='sin',title='sinus')
-    >>> d2.plot()
+    >>> d2 = WafoData(np.sin(x), x, xlab='x', ylab='sin', title='sinus')
+    >>> h = d2.plot()
 
-    % Plot with confidence interval
-    d3 = wdata(sin(x),x);
-    d3 = set(d3,'dataCI',[sin(x(:))*0.9 sin(x(:))*1.2]);
+    Plot with confidence interval
+    d3 = wdata(sin(x),x)
+    d3 = set(d3,'dataCI',[sin(x(:))*0.9 sin(x(:))*1.2])
     plot(d3)
 
     See also
@@ -141,7 +148,7 @@ class WafoData(object):
     def __init__(self,data=None,args=None,**kwds):
         self.data = data
         self.args = args
-        self.date = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
+        self.date = now()
         self.plotter = None
         self.children = None
         self.labels = AxisLabels(**kwds)
@@ -161,6 +168,9 @@ class WafoData(object):
 
         tmp2 =  self.plotter.plot(self,*args,**kwds)
         return tmp2,tmp
+    
+    def show(self):
+        self.plotter.show()
 
     def copy(self):
         newcopy = empty_copy(self)
@@ -230,7 +240,6 @@ class Plotter_1d(object):
         stem : Stem plot
         step : stair-step plot
         scatter : scatter plot
-
     """
 
     def __init__(self,plotmethod='plot'):
@@ -239,7 +248,8 @@ class Plotter_1d(object):
             plotmethod = 'plot'
         self.plotbackend = plotbackend
         try:
-            self.plotfun = plotbackend.__dict__[plotmethod]
+            #self.plotfun = plotbackend.__dict__[plotmethod]
+            self.plotfun = getattr(plotbackend, plotmethod)
         except:
             pass
     def show(self):
@@ -274,16 +284,65 @@ class Plotter_2d(Plotter_1d):
         #self.plotfun = plotbackend.__dict__[plotmethod]
 
 class TrGauss(WafoData):
+    """
+    Non-parametric Transformation model, g.
+
+    Information about the moments of the process can be obtained by site
+    specific data, laboratory measurements or by resort to theoretical models.
+
+    Assumption
+    ----------
+    The Gaussian process, Y, distributed N(0,1) is related to the
+    non-Gaussian process, X, by Y = g(X), where g is a stricly increasing 
+    function.
+
+    Methods
+    -------
+    dist2gauss : Returns a measure of departure from the Gaussian model, i.e.,
+                int (g(x)-xn)^2 dx  where int. limits is given by X.
+    dat2gauss : Transform non-linear data to Gaussian scale
+    gauss2dat : Transform Gaussian data to non-linear scale
+
+    Member variables
+    ----------------
+    data : array-like
+        Gaussian values, Y
+    args : array-like
+        non-Gaussian values, X
+    mean, sigma : real, scalar
+        mean and standard-deviation, respectively, of the non-Gaussian process. 
+        Default: 
+        mean = self.gauss2dat(0), 
+        sigma = (self.gauss2dat(1)-self.gauss2dat(-1))/2
+    
+    Example
+    -------
+    Construct a linear transformation
+    >>> import numpy as np
+    >>> x = np.linspace(-5,5); y = x
+    >>> g = TrGauss(x,y)
+    >>> g.mean
+    array([ 0.])
+    >>> g.sigma
+    array([ 1.])
+    
+    Check that the departure from a Gaussian model is zero
+    >>> g.dist2gauss()<1e-16
+    True
+    """
     def __init__(self,*args,**kwds):
         super(TrGauss, self).__init__(*args,**kwds)
         self.labels.title = 'Transform'
         self.labels.ylab = 'g(u)'
         self.labels.xlab = 'u'
-        self.mean = kwds.get('mean',None)
-        self.sigma = kwds.get('sigma',None)
+        self.mean = kwds.get('mean', None)
+        self.sigma = kwds.get('sigma', None)
+        if self.mean is None: 
+            self.mean = self.gauss2dat(0)
+        if self.sigma is None:
+            self.sigma = (self.gauss2dat(1)-self.gauss2dat(-1))/2.
 
-
-    def  dist2gauss(self,x=None,xnmin=-5,xnmax=5,n=513):
+    def  dist2gauss(self, x=None, xnmin=-5, xnmax=5, n=513):
         """
         Return a measure of departure from the Gaussian model.
 
@@ -297,56 +356,56 @@ class TrGauss(WafoData):
         n : integer, scalar
             number of evaluation points
 
-
         Returns
         -------
-        t0 = real, scalar
+        t0 : real, scalar
             a measure of departure from the Gaussian model calculated as
             trapz(xn,(xn-g(x))**2.) where int. limits is given by X.
         """
         if x is None:
-            xn = np.linspace(xnmin,xnmax,n)
-            x = self.sigma*xn+self.mean
-        else:
+            xn = np.linspace(xnmin, xnmax, n)
+            x = self.sigma*xn + self.mean
+        else:    
             xn = (x-self.mean)/self.sigma
 
-        g = self.dat2gauss(x)
-        t0 = trapz(xn,(xn-g)**2.)
+        y = self.dat2gauss(x)
+        t0 = trapz(xn, (xn-y)**2.)
         return t0
 
-    def gauss2dat(self,y,*yi):
+    def gauss2dat(self, y, *yi):
         """
         Transforms Gaussian data, y, to non-linear scale.
 
         Parameters
         ----------
-        y : array-like
-            input vector with Gaussian data values.
-
+        y, y1,...,yn : array-like
+            input vectors with Gaussian data values, where yi is the i'th time
+            derivative of y. (n<=4)
         Returns
         -------
-        x : array-like
+        x, x1,...,xn : array-like
             transformed data to a non-linear scale
 
 
         See also
         --------
         dat2gauss
-        tranproc.
+        tranproc
         """
-        return tranproc(self.data,self.args,y,*yi)
-    def dat2gauss(self,x,*xi):
+        return tranproc(self.data, self.args, y, *yi)
+    
+    def dat2gauss(self, x, *xi):
         """
         Transforms non-linear data, x, to Gaussian scale.
 
         Parameters
         ----------
-        x : array-like
-            input vector with non-linear data values.
-
+        x, x1,...,xn : array-like
+            input vectors with non-linear data values, where xi is the i'th time
+            derivative of x. (n<=4)
         Returns
         -------
-        y : array-like
+        y, y1,...,yn : array-like
             transformed data to a Gaussian scale
 
         See also
@@ -354,9 +413,7 @@ class TrGauss(WafoData):
         gauss2dat
         tranproc.
         """
-        return tranproc(self.args,self.data,x,*xi)
-
-
+        return tranproc(self.args, self.data, x, *xi)
 
 class LevelCrossings(WafoData):
     '''
@@ -380,11 +437,11 @@ class LevelCrossings(WafoData):
         icmax = self.data.argmax()
         if self.data != None:
             if self.stdev is None or self.mean is None:
-                logcros = where(self.data==0.0,inf,-log(self.data))
+                logcros = where(self.data==0.0, inf, -log(self.data))
                 logcmin = logcros[icmax]
                 logcros = sqrt(2*abs(logcros-logcmin))
                 logcros[0:icmax+1] = 2*logcros[icmax]-logcros[0:icmax+1]
-                p = np.polyfit(self.args[10:-9],logcros[10:-9],1) #least square fit
+                p = np.polyfit(self.args[10:-9], logcros[10:-9],1) #least square fit
                 if self.stdev is None:
                     self.stdev = 1.0/p[0] #estimated standard deviation of x
                 if self.mean is None:
@@ -394,14 +451,13 @@ class LevelCrossings(WafoData):
             y = cmax*exp(-x**2/2.0)
             self.children = [WafoData(y,self.args)]
 
-    def sim(self,N,alpha):
+    def sim(self,ns,alpha):
         """
         Simulates process with given irregularity factor and crossing spectrum
 
-
         Parameters
         ----------
-        N : scalar, integer
+        ns : scalar, integer
             number of sample points.
         alpha : real scalar
             irregularity factor, 0<alpha<1, small  alpha  gives
@@ -409,22 +465,22 @@ class LevelCrossings(WafoData):
 
         Returns
         --------
-        L : timeseries object
+        ts : timeseries object
             with times and values of the simulated process.
 
         Example
         -------
-        n = 10000;
-        S = jonswap(7);
-        alpha = spec2char(S,'alpha');
-        xs  = spec2sdat(S,n);
-        lc  = dat2lc(xs);
-        xs2 = lc2sdat(lc,n,alpha);
-        Se  = dat2spec(xs2);
+        n = 10000
+        S = jonswap(7)
+        alpha = spec2char(S,'alpha')
+        xs  = spec2sdat(S,n)
+        lc  = dat2lc(xs)
+        xs2 = lc2sdat(lc,n,alpha)
+        Se  = dat2spec(xs2)
         plotspec(S),hold on
         plotspec(Se,'r'), hold off
         spec2char(Se,'alpha')
-        lc2  = dat2lc(xs2);
+        lc2  = dat2lc(xs2)
         figure(gcf+1)
         subplot(211)
         lcplot(lc2)
@@ -433,9 +489,6 @@ class LevelCrossings(WafoData):
         """
 
         # TODO % add a good example
-
-
-
         f = np.linspace(0,0.49999,1000)
         rho_st = 2.*sin(f*pi)**2-1.
         tmp = alpha*arcsin(sqrt((1.+rho_st)/2))
@@ -443,7 +496,7 @@ class LevelCrossings(WafoData):
         a2  = (tmp-rho_st)/(1-tmp)
         y   = np.vstack((a2+rho_st,1-a2)).min(axis=0)
         maxidx = y.argmax()
-        #[maximum,maxidx]=max(y);
+        #[maximum,maxidx]=max(y)
 
         rho_st = rho_st[maxidx]
         a2 = a2[maxidx]
@@ -453,53 +506,53 @@ class LevelCrossings(WafoData):
         r2 = (a1**2-a2-a2**2)/(1+a2)
         sigma2 = r0+a1*r1+a2*r2
         randn = np.random.randn
-        e = randn(N)*sqrt(sigma2)
+        e = randn(ns)*sqrt(sigma2)
         e[:1] = 0.0
         L0 = randn(1)
         L0 = np.vstack((L0,r1*L0+sqrt(1-r2**2)*randn(1)))
         #%Simulate the process, starting in L0
         filter = scipy.signal.lfilter
-        L = filter(1,[1, a1, a2],e,filter([1, a1, a2],1,L0));
+        L = filter(1,[1, a1, a2],e,filter([1, a1, a2],1,L0))
 
-        epsilon = 1.01;
-        min_L   = min(L);
-        max_L   = max(L);
-        maxi    = max(abs(np.r_[min_L, max_L]))*epsilon;
-        mini    = -maxi;
+        epsilon = 1.01
+        min_L   = min(L)
+        max_L   = max(L)
+        maxi    = max(abs(np.r_[min_L, max_L]))*epsilon
+        mini    = -maxi
 
-        u = linspace(mini,maxi,101);
-        G = (1+erf(u/sqrt(2)))/2;
-        G = G*(1-G);
+        u = np.linspace(mini,maxi,101)
+        G = (1+erf(u/sqrt(2)))/2
+        G = G*(1-G)
 
-        x = linspace(0,r1,100);
-        factor1  = 1./sqrt(1-x**2);
-        factor2  = 1./(1+x);
-        integral = zeros(size(u));
+        x = np.linspace(0,r1,100)
+        factor1 = 1./sqrt(1-x**2)
+        factor2 = 1./(1+x)
+        integral = zeros(u.shape, dtype=float)
         for i in range(len(integral)):
-            y = factor1*exp(-u(i)*u(i)*factor2);
-            integral[i] = trapz(x,y);
+            y = factor1*exp(-u[i]*u[i]*factor2)
+            integral[i] = trapz(x,y)
         #end
-        G = G-integral/(2*pi);
-        G = G/max(G);
+        G = G-integral/(2*pi)
+        G = G/max(G)
 
-        Z = ((u>=0)*2-1)*sqrt(-2*log(G));
+        Z = ((u>=0)*2-1)*sqrt(-2*log(G))
 
-##        sumcr   = trapz(lc(:,1),lc(:,2));
-##        lc(:,2) = lc(:,2)/sumcr;
-##        mcr     = trapz(lc(:,1),lc(:,1).*lc(:,2));
-##        scr     = trapz(lc(:,1),lc(:,1).^2.*lc(:,2));
-##        scr     = sqrt(scr-mcr^2);
-##        g       = lc2tr(lc,mcr,scr);
+##        sumcr   = trapz(lc(:,1),lc(:,2))
+##        lc(:,2) = lc(:,2)/sumcr
+##        mcr     = trapz(lc(:,1),lc(:,1).*lc(:,2))
+##        scr     = trapz(lc(:,1),lc(:,1).^2.*lc(:,2))
+##        scr     = sqrt(scr-mcr^2)
+##        g       = lc2tr(lc,mcr,scr)
 ##
-##        f = [u u];
-##        f(:,2) = tranproc(Z,fliplr(g));
+##        f = [u u]
+##        f(:,2) = tranproc(Z,fliplr(g))
 ##
-##        process = tranproc(L,f);
-##        process = [(1:length(process)) process];
+##        process = tranproc(L,f)
+##        process = [(1:length(process)) process]
 ##
 ##
 ##        %Check the result without reference to getrfc:
-##        LCe = dat2lc(process);
+##        LCe = dat2lc(process)
 ##        max(lc(:,2))
 ##        max(LCe(:,2))
 ##
@@ -510,16 +563,16 @@ class LevelCrossings(WafoData):
 ##        title('Relative crossing intensity')
 ##
 ##        %% Plot made by the function funplot_4, JE 970707
-##        %param = [min(process(:,2)) max(process(:,2)) 100];
+##        %param = [min(process(:,2)) max(process(:,2)) 100]
 ##        %plot(lc(:,1),lc(:,2)/max(lc(:,2)))
 ##        %hold on
 ##        %plot(levels(param),mu/max(mu),'--')
 ##        %hold off
 ##        %title('Crossing intensity')
-##        %watstamp;
+##        %watstamp
 ##
 ##        % Temporarily
-##        %funplot_4(lc,param,mu);
+##        %funplot_4(lc,param,mu)
 
 
     def trgauss(self):
@@ -548,26 +601,27 @@ class CyclePairs(WafoData):
 
     def amplitudes(self):
         return (self.data-self.args)/2.
-    def damage(self,beta,K=1):
+    
+    def damage(self, beta, K=1):
         """
         Calculates the total Palmgren-Miner damage of cycle pairs.
 
         Parameters
         ----------
-        beta : array_like
-            Beta-values, material parameter.                    [1xm]
+        beta : array-like, size m
+            Beta-values, material parameter.                   
         K : scalar, optional
             K-value, material parameter.
 
         Returns
         -------
-        D : ndarray
-            Damage.                                            [1xm]
+        D : ndarray, size m
+            Damage.      
 
         Notes
         -----
         The damage is calculated according to
-           D[i] = sum ( K * S**beta(i) ),  with  S = (max-min)/2
+           D[i] = sum ( K * a**beta[i] ),  with  a = (max-min)/2
 
         Examples
         --------
@@ -576,27 +630,20 @@ class CyclePairs(WafoData):
         >>> ts = wafo.objects.mat2timeseries(wafo.data.sea())
         >>> tp = ts.turning_points()
         >>> mm = tp.cycle_pairs()
-        >>> mm.plot('.')
-        >>> bv = arange(3,9)
-        >>> D = mm.damage(bv);
-        >>> plt.plot(bv,D,'x-')
+        >>> h = mm.plot('.')
+        >>> bv = range(3,9)
+        >>> D = mm.damage(beta=bv)
+        >>> D
+        array([ 138.5238799 ,  117.56050788,  108.99265423,  107.86681126,
+                112.3791076 ,  122.08375071])
+        >>> h = plt.plot(bv,D,'x-')
 
         See also
         --------
         SurvivalCycleCount
-
         """
-
-        # Calculate damage
-
         amp = np.abs(self.amplitudes())
-        return np.ndarray(K*np.sum(amp**betai) for betai in beta)
-#        n = len(beta)
-#        D = np.zeros(n)
-#        for i,betai in enumerate(beta):
-#            D[i]=K*np.sum(amp**betai)
-#        return D
-
+        return np.atleast_1d([K*np.sum(amp**betai) for betai in beta])
 
     def level_crossings(self,type_='uM'):
         """ Return number of upcrossings from a cycle count.
@@ -624,10 +671,9 @@ class CyclePairs(WafoData):
         >>> ts = wafo.objects.mat2timeseries(wafo.data.sea())
         >>> tp = ts.turning_points()
         >>> mm = tp.cycle_pairs()
-        >>> mm.plot('.')
-        >>>
+        >>> h = mm.plot('.')
         >>> lc = mm.level_crossings()
-        >>> lc.plot()
+        >>> h2 = lc.plot()
 
         See also
         --------
@@ -659,43 +705,40 @@ class CyclePairs(WafoData):
         ncc = len(m)
         ones = np.ones
         zeros = np.zeros
-        cumsum  = np.cumsum
-        minima=np.vstack((m, ones(ncc), zeros(ncc), ones(ncc)))
-        maxima=np.vstack((M, -ones(ncc), ones(ncc), zeros(ncc)))
+        cumsum = np.cumsum
+        minima = np.vstack((m, ones(ncc), zeros(ncc), ones(ncc)))
+        maxima = np.vstack((M, -ones(ncc), ones(ncc), zeros(ncc)))
 
-        extremes=np.hstack((maxima, minima))
+        extremes = np.hstack((maxima, minima))
         index = extremes[0].argsort()
-        extremes=extremes[:,index]
+        extremes = extremes[:,index]
 
-        ii=0
-        n=extremes.shape[1]
-        extr=zeros((4,n));
-        extr[:,0]=extremes[:,0]
+        ii = 0
+        n = extremes.shape[1]
+        extr = zeros((4,n))
+        extr[:,0] = extremes[:,0]
         for i in xrange(1,n):
             if extremes[0,i]==extr[0,ii]:
                 extr[1:4,ii]=extr[1:4,ii]+extremes[1:4,i]
             else:
-                ii+=1
-                extr[:,ii]=extremes[:,i]
+                ii += 1
+                extr[:,ii] = extremes[:,i]
 
-        #[xx nx]=max(extr(:,1));
+        #[xx nx]=max(extr(:,1))
         nx = extr[0].argmax()+1
-        levels =extr[0,0:nx]
-        if defnr==2: #% This are upcrossings + maxima
+        levels = extr[0,0:nx]
+        if defnr == 2: #% This are upcrossings + maxima
             dcount = cumsum(extr[1,0:nx]) + extr[2,0:nx]-extr[3,0:nx]
-        elif defnr==4: # % This are upcrossings + minima
-            dcount=  cumsum(extr[1,0:nx])
-            dcount[nx-1]=dcount[nx-2]
-        elif defnr==1: #% This are only upcrossings
+        elif defnr == 4: # % This are upcrossings + minima
+            dcount = cumsum(extr[1,0:nx])
+            dcount[nx-1] = dcount[nx-2]
+        elif defnr == 1: #% This are only upcrossings
             dcount = cumsum(extr[1,0:nx]) - extr[3,0:nx]
-        elif defnr==3: #% This are upcrossings + minima + maxima
+        elif defnr == 3: #% This are upcrossings + minima + maxima
             dcount = cumsum(extr[1,0:nx]) + extr[2,0:nx]
         return LevelCrossings(dcount,levels,stdev=self.stdev)
 
-
-
-
-def qtf(w,h=inf,g=9.81):
+def qtf(w, h=inf, g=9.81):
     """
     Return Quadratic Transfer Function
 
@@ -719,11 +762,11 @@ def qtf(w,h=inf,g=9.81):
 
     kw = w2k(w,theta=0,h=h,g=g)
     kw = kw[0]
-    [k1, k2] = npt.meshgrid(kw,kw);
+    [k1, k2] = npt.meshgrid(kw,kw)
 
     if h==inf: # go here for faster calculations
-        Hs   = 0.25*(abs(k1)+abs(k2));
-        Hd   = -0.25*abs(abs(k1)-abs(k2));
+        Hs   = 0.25*(abs(k1)+abs(k2))
+        Hd   = -0.25*abs(abs(k1)-abs(k2))
         Hdii = np.zeros(Nw)
         return Hs, Hd ,Hdii
 
@@ -731,12 +774,12 @@ def qtf(w,h=inf,g=9.81):
 
 
 
-    w12  = (w1*w2);
-    w1p2 = (w1+w2);
-    w1m2 = (w1-w2);
-    k12  = (k1*k2);
-    k1p2 = (k1+k2);
-    k1m2 = abs(k1-k2);
+    w12  = (w1*w2)
+    w1p2 = (w1+w2)
+    w1m2 = (w1-w2)
+    k12  = (k1*k2)
+    k1p2 = (k1+k2)
+    k1m2 = abs(k1-k2)
     cosh = np.cosh
     sinh = np.sinh
     if 0: # Langley
@@ -756,27 +799,27 @@ def qtf(w,h=inf,g=9.81):
             (k12*g**2+w12**2)/(4*g*w12)+(w1**2.+w2**2.)/(4.*g))
 
     else: #  % Marthinsen & Winterstein
-        tmp1 = 0.5*g*k12/w12;
+        tmp1 = 0.5*g*k12/w12
         tmp2 = 0.25/g*(w1**2.+w2**2.+w12)
         Hs   = (tmp1-tmp2+0.25*g*(w1*k2**2.+w2*k1**2)/
                 (w12*(w1p2)))/(1.-g*(k1p2)/(w1p2)**2.*tanh((k1p2)*h))+tmp2-0.5*tmp1 #% OK
 
-        tmp2 = 0.25/g*(w1**2+w2**2-w12) #; %OK
+        tmp2 = 0.25/g*(w1**2+w2**2-w12) # %OK
         Hd   = (tmp1-tmp2-0.25*g*(w1*k2**2-w2*k1**2)/
-            (w12*(w1m2)))/(1.-g*(k1m2)/(w1m2)**2.*tanh((k1m2)*h))+tmp2-0.5*tmp1 #; % OK
+            (w12*(w1m2)))/(1.-g*(k1m2)/(w1m2)**2.*tanh((k1m2)*h))+tmp2-0.5*tmp1 # % OK
 
 
-    #%tmp1 = 0.5*g*kw./(w.*sqrt(g*h));
-    #%tmp2 = 0.25*w.^2/g;
+    #%tmp1 = 0.5*g*kw./(w.*sqrt(g*h))
+    #%tmp2 = 0.25*w.^2/g
 
 
-    Cg = 0.5*g*(tanh(kw*h) +kw*h*(1.0- tanh(kw*h)**2))/w #; %Wave group velocity
+    Cg = 0.5*g*(tanh(kw*h) +kw*h*(1.0- tanh(kw*h)**2))/w # %Wave group velocity
     Hdii = (0.5*(0.5*g*(kw/w)**2.-0.5*w**2/g+g*kw/(w*Cg))
-            /(1.-g*h/Cg**2.)-0.5*kw/sinh(2*kw*h) )#; % OK
+            /(1.-g*h/Cg**2.)-0.5*kw/sinh(2*kw*h) )# % OK
     Hd.flat[0::Nw+1] = Hdii
 
-    #%k    = find(w1==w2);
-    #%Hd(k) = Hdii;
+    #%k    = find(w1==w2)
+    #%Hd(k) = Hdii
 
     #% The NaN's occur due to division by zero. => Set the isnans to zero
     isnan = np.isnan
@@ -817,39 +860,41 @@ class SpecData1D(WafoData):
 
     def __init__(self,*args,**kwds):
         super(SpecData1D, self).__init__(*args,**kwds)
-
-        self.name='WAFO Spectrum Object'
-        self.type='freq'
-        self.freqtype='w'
-        self.angletype=''
-        self.h=np.inf
-        self.tr=None
-        self.phi=0.
-        self.v=0.
-        self.norm=0
+        self.name = 'WAFO Spectrum Object'
+        self.type = 'freq'
+        self.freqtype = 'w'
+        self.angletype = ''
+        self.h = np.inf
+        self.tr = None
+        self.phi = 0.0
+        self.v = 0.0
+        self.norm = False
         somekeys = ['angletype', 'phi', 'name', 'h', 'tr', 'freqtype', 'v', 'type', 'norm']
 
         self.__dict__.update(sub_dict_select(kwds,somekeys))
 
         self.setlabels()
 
-    def toacf_matrix(self,nr=0,Nt=None,dt=None):
+    def tocov_matrix(self, nr=0, nt=None, dt=None):
         '''
         Computes covariance function and its derivatives, alternative version
 
         Parameters
         ----------
-        Nr   = number of derivatives in output, Nr<=4          (default 0)
-        Nt   = number in time grid, i.e., number of time-lags.
-              (default rate*(n-1)) where rate = round(1/(2*f(end)*dt)) or
-              rate = round(pi/(w(n)*dt)) depending on S.
-        dt   = time spacing for R
+        nr : scalar integer
+            number of derivatives in output, nr<=4          (default 0)
+        nt : scalar integer
+            number in time grid, i.e., number of time-lags.
+            (default rate*(n-1)) where rate = round(1/(2*f(end)*dt)) or
+                     rate = round(pi/(w(n)*dt)) depending on S.
+        dt : real scalar
+            time spacing for R
 
         Returns
         -------
-        R    = [R0, R1,...Rnr] matrix with autocovariance and its
-              derivatives, i.e., Ri (i=1:nr) are column vectors with
-              the 1'st to nr'th derivatives of R0.  size Nt+1 x Nr+1
+        R : [R0, R1,...Rnr], shape Nt+1 x Nr+1 
+            matrix with autocovariance and its derivatives, i.e., Ri (i=1:nr) 
+            are column vectors with the 1'st to nr'th derivatives of R0.  
 
         NB! This routine requires that the spectrum grid is equidistant
            starting from zero frequency.
@@ -859,8 +904,10 @@ class SpecData1D(WafoData):
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap()
         >>> S = Sj.toSpecData()
-        >>> R = S.toacf_matrix(nr=3,Nt=256,dt=0.1)
-
+        >>> R = S.tocov_matrix(nr=3, nt=256, dt=0.1)
+        >>> R[:2,:]
+        array([[ 3.06075987,  0.        , -1.67750289,  0.        ],
+               [ 3.05246132, -0.16662376, -1.66819445,  0.18634189]])
 
         See also
         --------
@@ -869,24 +916,24 @@ class SpecData1D(WafoData):
         objects
         '''
 
-        ftype = self.freqtype #; %options are 'f' and 'w' and 'k'
+        ftype = self.freqtype # %options are 'f' and 'w' and 'k'
         freq  = self.args
-        n     = length(freq)
-        dTold = self.sampling_period()
+        n     = len(freq)
+        dt_old = self.sampling_period()
         if dt is None:
-            dt = dTold
+            dt = dt_old
             rate = 1
         else:
-            rate = np.maximum(np.round(dTold*1./dt),1.)
+            rate = np.maximum(np.round(dt_old*1./dt),1.)
 
 
-        if Nt is None:
-            Nt = rate*(n-1)
+        if nt is None:
+            nt = rate*(n-1)
         else: #%check if Nt is ok
-            Nt = np.minimum(Nt,rate*(n-1));
+            nt = np.minimum(nt,rate*(n-1))
 
 
-        checkdt = 1.2*min(np.diff(freq))/2./np.pi;
+        checkdt = 1.2*min(np.diff(freq))/2./np.pi
         if ftype in 'k':
             lagtype = 'x'
         else:
@@ -908,22 +955,23 @@ class SpecData1D(WafoData):
         S2 = self.copy()
         S2.resample(dt)
 
-        R2 = S2.toacf(nr,Nt,rate=1)
-        R  = np.zeros((Nt+1,nr+1))
-        R[:,0] = R2.data[0:Nt+1]
+        R2 = S2.tocov(nr, nt, rate=1)
+        R = np.zeros((nt+1,nr+1),dtype=float)
+        R[:,0] = R2.data[0:nt+1]
         fieldname = 'R' + lagtype*nr
         for ix in range(1,nr+1):
-            fn = fieldname[1:ix];
-            R[:,0:Nt+1] = gettattr(R2,fn)[0:Nt+1];
+            fn = fieldname[:ix+1]
+            Ri = getattr(R2,fn)
+            R[:,ix] = Ri[0:nt+1]
 
 
         EPS0 = 0.0001
-        cc  = R[0,0]-R[1,0]*(R[1,0]/R[0,0]);
-        if Nt+1>=5:
-            #%cc1=R(1,1)-R(3,1)*(R(3,1)/R(1,1))+R(3,2)*(R(3,2)/R(1,3));
-            #%cc3=R(1,1)-R(5,1)*(R(5,1)/R(1,1))+R(5,2)*(R(5,2)/R(1,3));
+        cc  = R[0,0]-R[1,0]*(R[1,0]/R[0,0])
+        if nt+1>=5:
+            #%cc1=R(1,1)-R(3,1)*(R(3,1)/R(1,1))+R(3,2)*(R(3,2)/R(1,3))
+            #%cc3=R(1,1)-R(5,1)*(R(5,1)/R(1,1))+R(5,2)*(R(5,2)/R(1,3))
 
-            cc2 = R(0,0)-R(4,0)*(R(4,0)/R(0,0));
+            cc2 = R[0,0]-R[4, 0]*(R[4, 0]/R[0, 0])
             if (cc2<EPS0):
                 warnings.warn(msg1)
 
@@ -931,24 +979,22 @@ class SpecData1D(WafoData):
             np.disp(msg2)
         return R
 
-    def toacf(self,nr=0,Nt=None,rate=None):
+    def tocov(self, nr=0, nt=None, rate=None):
         '''
         Computes covariance function and its derivatives
 
         Parameters
         ----------
-        S    = a spectral density structure (See datastructures)
-        nr   = number of derivatives in output, nr<=4 (default = 0).
-        Nt   = number in time grid, i.e., number of time-lags
+        nr : number of derivatives in output, nr<=4 (default = 0).
+        nt : number in time grid, i.e., number of time-lags
               (default rate*(length(S.S)-1)).
-        rate = 1,2,4,8...2^r, interpolation rate for R
+        rate = 1,2,4,8...2**r, interpolation rate for R
                (default = 1, no interpolation)
-        Nx,Ny   = number in space grid (default = )
-        dx,dy   = space grid step (default: depending on S)
 
         Returns
         -------
-        R    = a covariance structure (See datastructures)
+        R : CovData1D
+            auto covariance function
 
         The input 'rate' gives together with the spectrum
         the t-grid-spacing: dt=pi/(S.w(end)*rate), S.w(end) is the Nyquist freq.
@@ -973,14 +1019,14 @@ class SpecData1D(WafoData):
         >>> S = Sj.toSpecData()
         >>> S.data[0:40] = 0.0
         >>> S.data[100:-1] = 0.0
-        >>> Nt = len(S.data)-1;
-        >>> R = S.toacf(nr=0,Nt=Nt)
+        >>> Nt = len(S.data)-1
+        >>> R = S.tocov(nr=0,nt=Nt)
 
-        R   = spec2cov(S,0,Nt);
-        win = parzen(2*Nt+1);
-        R.R = R.R.*win(Nt+1:end);
-        S1  = cov2spec(R);
-        R2  = spec2cov(S1);
+        R   = spec2cov(S,0,Nt)
+        win = parzen(2*Nt+1)
+        R.R = R.R.*win(Nt+1:end)
+        S1  = cov2spec(R)
+        R2  = spec2cov(S1)
         figure(1)
         plotspec(S),hold on, plotspec(S1,'r')
         figure(2)
@@ -989,11 +1035,13 @@ class SpecData1D(WafoData):
         semilogy(abs(R2.R-R.R)), hold on,
         semilogy(abs(S1.S-S.S)+1e-7,'r')
 
-        See also  cov2spec, datastructures
+        See also
+        --------
+        cov2spec
         '''
 
-        freq  = self.args
-        n     = freq.size
+        freq = self.args
+        n = len(freq)
 
         if freq[0]>0:
             raise ValueError('Spectrum does not start at zero frequency/wave number.\n Correct it with resample, for example.')
@@ -1003,19 +1051,18 @@ class SpecData1D(WafoData):
 
 
         if rate is None:
-            rate=1 #; %interpolation rate
+            rate=1 # %interpolation rate
         elif rate>16:
-            rate=16
+            rate = 16
         else: # make sure rate is a power of 2
-            rate=2**nextpow2(rate)
+            rate = 2**nextpow2(rate)
 
-        if Nt is None:
-            Nt = rate*(n-1)
+        if nt is None:
+            nt = rate*(n-1)
         else: #check if Nt is ok
-            Nt = np.minimum(Nt,rate*(n-1))
+            nt = np.minimum(nt, rate*(n-1))
 
         S = self.copy()
-
 
         if self.freqtype in 'k':
             lagtype = 'x'
@@ -1030,30 +1077,260 @@ class SpecData1D(WafoData):
         else:
             w = freq
 
-        nfft = rate*2**nextpow2(2*n-2);
+        nfft = rate*2**nextpow2(2*n-2)
 
-        Rper = np.r_[specn, np.zeros(nfft-(2*n)+2) , np.conj(specn[n-1:0:-1])] #; % periodogram
-        t    = np.r_[0:Nt+1]*dT*(2*n-2)/nfft
+        Rper = np.r_[specn, np.zeros(nfft-(2*n)+2) , np.conj(specn[n-1:0:-1])] # % periodogram
+        t    = np.r_[0:nt+1]*dT*(2*n-2)/nfft
 
         fft = np.fft.fft
 
         r   = fft(Rper,nfft).real/(2*n-2)
-        R = CovData1D(r[0:Nt+1],t,lagtype=lagtype)
-        R.tr   = S.tr;
-        R.h    = S.h;
-        R.norm = S.norm;
+        R = CovData1D(r[0:nt+1],t,lagtype=lagtype)
+        R.tr   = S.tr
+        R.h    = S.h
+        R.norm = S.norm
 
         if nr>0:
             w = np.r_[w , np.zeros(nfft-2*n+2) ,-w[n-1:0:-1] ]
-            fieldname = 'R' + lagtype*nr ;
+            fieldname = 'R' + lagtype*nr 
             for ix in range(1,nr+1):
-                Rper = (-1j*w*Rper)
+                Rper = -1j*w*Rper
                 r    = fft(Rper,nfft).real/(2*n-2)
-                setattr(R,fieldname[0:ix+1],r[0:Nt+1])
+                setattr(R,fieldname[0:ix+1],r[0:nt+1])
         return R
 
+    def to_t_pdf(self, u=None, pdef='Tc', paramt=None, **options):
+        '''
+        Density of crest/trough- period or length, version 2. 
+       
+        Parameters
+        ----------
+        u : real scalar
+            reference level (default the most frequently crossed level).
+        pdef : string, 'Tc', Tt', 'Lc' or 'Lt'
+            'Tc',    gives half wave period, Tc (default).
+            'Tt',    gives half wave period, Tt
+            'Lc' and 'Lt' ditto for wave length.
+        paramt : [t0, tn, nt] 
+            where t0, tn and nt is the first value, last value and the number
+            of points, respectively, for which the density will be computed. 
+            paramt= [5, 5, 51] implies that the density is computed only for 
+            T=5 and using 51 equidistant points in the interval [0,5].
+        options : optional parameters
+            controlling the performance of the integration. See Rind for details.
+
+        Notes
+        -----
+        SPEC2TPDF2 calculates pdf of halfperiods  Tc, Tt, Lc or Lt 
+        in a stationary Gaussian transform process X(t), 
+        where Y(t) = g(X(t)) (Y zero-mean Gaussian with spectrum given in S). 
+        The transformation, g, can be estimated using LC2TR,
+        DAT2TR, HERMITETR or OCHITR.  
+    
+        Example
+        -------
+        The density of Tc is computed by:
+        >>> import pylab as plb
+        >>> from wafo.spectrum import models as sm
+        >>> w = np.linspace(0,3,100)
+        >>> Sj = sm.Jonswap()
+        >>> S = Sj.toSpecData()
+        >>> f = S.to_t_pdf(pdef='Tc', paramt=(0, 10, 51), speed=7) 
+        >>> h = f.plot()
+     
+        estimated error bounds
+        >>> h2 = plb.plot(f.args, f.data+f.err, 'r', f.args, f.data-f.err, 'r')  
+    
+        >>> plb.close('all')
+    
+        See also  
+        --------
+        Rind, spec2cov2, specnorm, dat2tr, dat2gaus, perioddef, wavedef
+
+        '''
+
+        opts = dict(speed=9)
+        opts.update(options)
+        if pdef[0] in ('l','L'):
+            if self.type!='k1d':
+                raise ValueError('Must be spectrum of type: k1d')
+        elif pdef[0] in ('t','T'):
+            if self.type!='freq':
+                raise ValueError('Must be spectrum of type: freq')
+        else:
+            raise ValueError('pdef must be Tc,Tt or Lc, Lt')
+#        if strncmpi('l',def,1)
+#          spec=spec2spec(spec,'k1d')
+#        elseif strncmpi('t',def,1)
+#          spec=spec2spec(spec,'freq')
+#        else
+#          error('Unknown def')
+#        end
+        pdef2defnr = dict(tc=1, lc=1, tt=-1, lt=-1)
+        defnr = pdef2defnr[pdef.lower()]
+         
+        S = self.copy()
+        S.normalize()
+        m, mtxt = self.moment(nr=2, even=True)
+        A = sqrt(m[0]/m[1])
+        
+       
+        if self.tr is None:
+            y = np.linspace(-5,5,513)
+            g = TrGauss(y,sqrt(m[0])*y)
+        else:
+            g = self.tr
+        
+        
+        if u is None:
+            u = g.gauss2dat(0) #% most frequently crossed level 
+        
+        # transform reference level into Gaussian level
+        un = g.dat2gauss(u)
+
+        #disp(['The level u for Gaussian process = ', num2str(u)])
+        
+        if paramt is None:
+            #% z2 = u^2/2
+            z  = -np.sign(defnr)*un/sqrt(2)
+            expectedMaxPeriod = 2*ceil(2*pi*A*exp(z)*(0.5+erf(z)/2)) 
+            paramt = [0, expectedMaxPeriod, 51]
+        
+        t0     = paramt[0]
+        tn     = paramt[1]
+        Ntime  = paramt[2]
+        t      = np.linspace(0, tn/A, Ntime) #normalized times
+        Nstart = max(round(t0/tn*(Ntime-1)),1)  #% index to starting point to
+                                             #% evaluate
+                                    
+        dt = t[1] - t[0]
+        nr = 2
+        R = S.tocov_matrix(nr,Ntime-1,dt)
+        #R  = spec2cov2(S,nr,Ntime-1,dt)
+        
+                        
+        xc   = np.vstack((un, un))
+        indI = -np.ones(4, dtype=int)
+        Nd   = 2
+        Nc   = 2
+        XdInf = 100.e0*sqrt(-R[0,2])
+        XtInf = 100.e0*sqrt(R[0,0])
+        
+        B_up  = np.hstack([un+XtInf, XdInf, 0])
+        B_lo  = np.hstack([un,    0, -XdInf])
+        #%INFIN = [1 1 0]
+        #BIG   = zeros((Ntime+2,Ntime+2))
+        ex    = zeros(Ntime+2, dtype=float)
+        #%CC    = 2*pi*sqrt(-R(1,1)/R(1,3))*exp(un^2/(2*R(1,1)))
+        #%  XcScale = log(CC)
+        opts['xcscale'] = log(2*pi*sqrt(-R[0, 0]/R[0, 2]))+(un**2/(2*R[0, 0]))
+        
+        f = zeros(Ntime, dtype=float)
+        err = zeros(Ntime, dtype=float)
+        
+        rind = Rind(**opts)
+        #h11 = fwaitbar(0,[],sprintf('Please wait ...(start at: %s)',datestr(now)))
+        for pt in xrange(Nstart,Ntime):
+            Nt = pt - Nd + 1
+            Ntd = Nt + Nd
+            Ntdc = Ntd + Nc
+            indI[1] = Nt-1
+            indI[2] = Nt
+            indI[3] = Ntd-1
+            
+            #% positive wave period  
+            BIG = self._covinput(pt,R) 
+          
+            tmp = rind(BIG, ex[:Ntdc], B_lo, B_up, indI, xc, Nt)
+            f[pt], err[pt] = tmp[:2]
+            #fwaitbar(pt/Ntime,h11,sprintf('%s Ready: %d of %d',datestr(now),pt,Ntime))
+        #end
+        #close(h11)
+        
+        
+        titledict = dict(tc='Density of Tc',tt='Density of Tt',lc='Density of Lc',lt='Density of Lt')
+        Htxt = titledict.get(pdef.lower())
+        
+        if pdef[0].lower()=='l':
+            xtxt = 'wave length [m]'
+        else:
+            xtxt = 'period [s]'
+        
+        Htxt = '%s_{v =%2.5g}' % (Htxt, u)
+        pdf = WafoData(f/A, t*A, title=Htxt, xlab=xtxt)
+        pdf.err = err/A
+        pdf.u = u
+        pdf.options = opts
+        return pdf
 
 
+    def _covinput(self,pt,R):
+        """
+        Return covariance matrix for Tc or Tt period problems
+    
+        Parameters
+        ----------
+        pt : scalar integer
+            time
+        R : array-like, shape Ntime x 3
+            [R0,R1,R2] column vectors with autocovariance and its derivatives, 
+            i.e., Ri (i=1:2) are vectors with the 1'st and 2'nd derivatives of R0.  
+      
+        The order of the variables in the covariance matrix are organized as follows: 
+        For pt>1:
+        ||X(t2)..X(ts),..X(tn-1)|| X'(t1) X'(tn)|| X(t1) X(tn) || 
+        = [Xt                          Xd                    Xc]
+    
+        where 
+    
+        Xt = time points in the indicator function
+        Xd = derivatives
+        Xc=variables to condition on
+    
+        Computations of all covariances follows simple rules: 
+            Cov(X(t),X(s))=r(t,s),
+        then  Cov(X'(t),X(s))=dr(t,s)/dt.  Now for stationary X(t) we have
+        a function r(tau) such that Cov(X(t),X(s))=r(s-t) (or r(t-s) will give 
+        the same result).
+
+        Consequently  
+            Cov(X'(t),X(s))    = -r'(s-t)    = -sign(s-t)*r'(|s-t|)
+            Cov(X'(t),X'(s))   = -r''(s-t)   = -r''(|s-t|)
+            Cov(X''(t),X'(s))  =  r'''(s-t)  =  sign(s-t)*r'''(|s-t|)
+            Cov(X''(t),X(s))   =  r''(s-t)   =   r''(|s-t|)
+            Cov(X''(t),X''(s)) =  r''''(s-t) = r''''(|s-t|)
+    
+        """
+        # cov(Xd)
+        Sdd = -toeplitz(R[[0, pt],2])      
+        # cov(Xc)
+        Scc = toeplitz(R[[0, pt],0])    
+        # cov(Xc,Xd)
+        Scd = np.array([[0, R[pt,1]],[ -R[pt,1], 0]])
+        
+        if pt > 1 :
+            #%cov(Xt)
+            Stt = toeplitz(R[:pt-1,0]) # Cov(X(tn),X(ts))  = r(ts-tn)   = r(|ts-tn|)
+            #%cov(Xc,Xt) 
+            Sct = R[1:pt,0]        # Cov(X(tn),X(ts))  = r(ts-tn)   = r(|ts-tn|)
+            Sct = np.vstack((Sct,Sct[::-1]))
+            #%Cov(Xd,Xt)
+            Sdt = -R[1:pt,1]         # Cov(X'(t1),X(ts)) = -r'(ts-t1) = r(|s-t|)
+            Sdt = np.vstack((Sdt, -Sdt[::-1]))
+            #N   = pt + 3
+            big = np.vstack((np.hstack((Stt, Sdt.T, Sct.T)),
+                             np.hstack((Sdt, Sdd, Scd.T)),
+                             np.hstack((Sct, Scd, Scc))))
+        else:
+            #N = 4
+            big =  np.vstack((np.hstack((Sdd, Scd.T)),
+                                    np.hstack((Scd, Scc))))
+        return big
+
+    def to_specnorm(self):
+        S = self.copy()
+        S.normalize()
+        return S
 
     def sim(self,ns=None,cases=1,dt=None,iseed=None,method='random',derivative=False):
         ''' Simulates a Gaussian process and its derivative from spectrum
@@ -1077,7 +1354,6 @@ class SpecData1D(WafoData):
             if true : return derivative of simulated signal as well
             otherwise
 
-
         Returns
         -------
         xs    = a cases+1 column matrix  ( t,X1(t) X2(t) ...).
@@ -1099,9 +1375,9 @@ class SpecData1D(WafoData):
 
         Example:
         >>> import wafo.spectrum.models as sm
-        >>> Sj = sm.Jonswap();S = Sj.toSpecData();
-        >>> ns =100; dt = .2;
-        >>> x1 = S.sim(ns,dt=dt);
+        >>> Sj = sm.Jonswap();S = Sj.toSpecData()
+        >>> ns =100; dt = .2
+        >>> x1 = S.sim(ns,dt=dt)
 
         >>> import numpy as np
         >>> import scipy.stats as st
@@ -1153,15 +1429,15 @@ class SpecData1D(WafoData):
         if method in 'exact':
 
             #nr=0,Nt=None,dt=None
-            R = S.toacf(nr=0);
+            R = S.tocov(nr=0)
             T = Nt*dT
-            ix = np.flatnonzero(R.args>T);
+            ix = np.flatnonzero(R.args>T)
 
             # Trick to avoid adding high frequency noise to the spectrum
             if ix.size>0:
                 R.data[ix[0]::]=0.0
 
-            return R.sim(ns=ns,cases=cases,iseed=iseed,derivative=derivative)
+            return R.sim(ns=ns, cases=cases, iseed=iseed, derivative=derivative)
 
         _set_seed(iseed)
 
@@ -1171,83 +1447,79 @@ class SpecData1D(WafoData):
         Si    = S.data[1:-1]
         if ftype in ('w','k'):
             fact = 2.*np.pi
-            Si = Si*fact;
-            fi = fi/fact;
+            Si = Si*fact
+            fi = fi/fact
 
         zeros = np.zeros
 
-        x = zeros((ns,cases+1));
+        x = zeros((ns,cases+1))
 
         df = 1/(ns*dT)
 
 
         # interpolate for freq.  [1:(N/2)-1]*df and create 2-sided, uncentered spectra
-        # ----------------------------------------------------------------------------
         f = np.arange(1,ns/2.)*df
 
-        Fs      = np.hstack((0., fi, df*ns/2.))
-        Su      = np.hstack((0., np.abs(Si)/2., 0.));
+        Fs = np.hstack((0., fi, df*ns/2.))
+        Su = np.hstack((0., np.abs(Si)/2., 0.))
 
 
         Si = np.interp(f,Fs,Su)
-        Su=np.hstack((0., Si,0, Si[(ns/2)-2::-1]))
+        Su=np.hstack((0., Si, 0, Si[(ns/2)-2::-1]))
         del(Si, Fs)
 
         # Generate standard normal random numbers for the simulations
-        # -----------------------------------------------------------
         randn = np.random.randn
         Zr = randn((ns/2)+1,cases)
-        Zi = np.vstack((zeros((1,cases)), randn((ns/2)-1,cases), zeros((1,cases))));
+        Zi = np.vstack((zeros((1,cases)), randn((ns/2)-1,cases), zeros((1, cases))))
 
-        A                = zeros((ns,cases),dtype=complex)
-        A[0:(ns/2+1),:]  = Zr - 1j*Zi;
+        A = zeros((ns,cases), dtype=complex)
+        A[0:(ns/2+1), :] = Zr - 1j*Zi
         del(Zr, Zi)
-        A[(ns/2+1):ns,:] = A[ns/2-1:0:-1,:].conj();
-        A[0,:]           = A[0,:]*np.sqrt(2.);
-        A[(ns/2),:]    = A[(ns/2),:]*np.sqrt(2.);
+        A[(ns/2+1):ns, :] = A[ns/2-1:0:-1, :].conj()
+        A[0, :] = A[0, :]*np.sqrt(2.)
+        A[(ns/2), :] = A[(ns/2), :]*np.sqrt(2.)
 
 
         # Make simulated time series
-        # --------------------------
-
         T    = (ns-1)*dT
         Ssqr = np.sqrt(Su*df/2.)
 
         # stochastic amplitude
-        A    = A*Ssqr[:,np.newaxis];
+        A    = A*Ssqr[:,np.newaxis]
 
 
         # Deterministic amplitude
-        #A     =  sqrt[1]*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)));
+        #A = sqrt[1]*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)))
         del( Su, Ssqr)
 
 
-        x[:,1::] = fft(A,axis=0).real
-        x[:,0] = np.linspace(0,T,ns) #'; %(0:dT:(np-1)*dT).';
+        x[:, 1::] = fft(A,axis=0).real
+        x[:, 0] = np.linspace(0, T, ns) #' %(0:dT:(np-1)*dT).'
 
 
         if derivative:
             xder=np.zeros(ns,cases+1)
             w = 2.*np.pi*np.hstack((0, f, 0.,-f[-1::-1]))
             A = -1j*A*w[:,newaxis]
-            xder[:,1:(cases+1)] = fft(A,axis=0).real;
+            xder[:,1:(cases+1)] = fft(A,axis=0).real
             xder[:,0]           = x[:,0]
 
 
 
         if S.tr is not None:
             np.disp('   Transforming data.')
-            g=S.tr;
-            G=np.fliplr(g); #% the invers of g
+            g = S.tr
+            G=np.fliplr(g) #% the invers of g
             if derivative:
                 for ix in range(cases):
-                    tmp=tranproc(np.hstack((x[:,ix+1], xder[:,ix+1])),G);
-                    x[:,ix+1]=tmp[:,0];
-                    xder[:,ix+1]=tmp[:,1];
+                    tmp=tranproc(np.hstack((x[:,ix+1], xder[:,ix+1])),G)
+                    x[:,ix+1]=tmp[:,0]
+                    xder[:,ix+1]=tmp[:,1]
 
             else:
                 for ix in range(cases):
-                    x[:,ix+1]=tranproc(x[:,ix+1],G);
+                    x[:,ix+1]=tranproc(x[:,ix+1],G)
 
 
 
@@ -1259,7 +1531,8 @@ class SpecData1D(WafoData):
 # function [x2,x,svec,dvec,A]=spec2nlsdat(S,np,dt,iseed,method,truncationLimit)
     def sim_nl(self,ns=None,cases=1,dt=None,iseed=None,method='random',
         fnlimit=1.4142,reltol=1e-3,g=9.81):
-        """ Simulates a Randomized 2nd order non-linear wave X(t)
+        """ 
+        Simulates a Randomized 2nd order non-linear wave X(t)
 
         Parameters
         ----------
@@ -1320,8 +1593,8 @@ class SpecData1D(WafoData):
 
         Example
         --------
-        np =100; dt = .2;
-        [x1, x2] = spec2nlsdat(jonswap,np,dt);
+        np =100; dt = .2
+        [x1, x2] = spec2nlsdat(jonswap,np,dt)
         waveplot(x1,'r',x2,'g',1,1)
 
         See also
@@ -1376,15 +1649,15 @@ class SpecData1D(WafoData):
         Si    = S.data[1:-1]
         if ftype in ('w','k'):
             fact = 2.*np.pi
-            Si = Si*fact;
-            fi = fi/fact;
+            Si = Si*fact
+            fi = fi/fact
 
         Smax = max(Si)
-        waterDepth = min(abs(S.h),10.**30);
+        waterDepth = min(abs(S.h),10.**30)
 
         zeros = np.zeros
 
-        x = zeros((ns,cases+1));
+        x = zeros((ns,cases+1))
 
         df = 1/(ns*dT)
 
@@ -1394,7 +1667,7 @@ class SpecData1D(WafoData):
         Fs = np.hstack((0., fi, df*ns/2.))
         w = 2.*np.pi*np.hstack((0., f, df*ns/2.))
         kw = sm.w2k(w ,0.,waterDepth,g)[0]
-        Su = np.hstack((0., np.abs(Si)/2., 0.));
+        Su = np.hstack((0., np.abs(Si)/2., 0.))
 
 
 
@@ -1408,14 +1681,14 @@ class SpecData1D(WafoData):
         # -----------------------------------------------------------
         randn = np.random.randn
         Zr = randn((ns/2)+1,cases)
-        Zi = np.vstack((zeros((1,cases)), randn((ns/2)-1,cases), zeros((1,cases))));
+        Zi = np.vstack((zeros((1,cases)), randn((ns/2)-1,cases), zeros((1,cases))))
 
         A                = zeros((ns,cases),dtype=complex)
-        A[0:(ns/2+1),:]  = Zr - 1j*Zi;
+        A[0:(ns/2+1),:]  = Zr - 1j*Zi
         del(Zr, Zi)
-        A[(ns/2+1):ns,:] = A[ns/2-1:0:-1,:].conj();
-        A[0,:]           = A[0,:]*np.sqrt(2.);
-        A[(ns/2),:]    = A[(ns/2),:]*np.sqrt(2.);
+        A[(ns/2+1):ns,:] = A[ns/2-1:0:-1,:].conj()
+        A[0,:]           = A[0,:]*np.sqrt(2.)
+        A[(ns/2),:]    = A[(ns/2),:]*np.sqrt(2.)
 
 
         # Make simulated time series
@@ -1427,22 +1700,22 @@ class SpecData1D(WafoData):
 
         if method.startswith('apd') : # apdeterministic
             # Deterministic amplitude and phase
-            A[1:(ns/2),:]    = A[1,0];
-            A[(ns/2+1):ns,:] = A[1,0].conj();
-            A = sqrt(2)*Ssqr[:,np.newaxis]*exp(1J*atan2(A.imag,A.real))
+            A[1:(ns/2),:]    = A[1,0]
+            A[(ns/2+1):ns,:] = A[1,0].conj()
+            A = sqrt(2)*Ssqr[:,np.newaxis]*exp(1J*arctan2(A.imag,A.real))
         elif method.startswith('ade'): # adeterministic
             # Deterministic amplitude and random phase
-            A = sqrt(2)*Ssqr[:,np.newaxis]*exp(1J*atan2(A.imag,A.real));
+            A = sqrt(2)*Ssqr[:,np.newaxis]*exp(1J*arctan2(A.imag,A.real))
         else:
             # stochastic amplitude
-            A    = A*Ssqr[:,np.newaxis];
+            A    = A*Ssqr[:,np.newaxis]
         # Deterministic amplitude
-        #A     =  sqrt(2)*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)));
+        #A     =  sqrt(2)*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)))
         del( Su, Ssqr)
 
 
         x[:,1::] = fft(A,axis=0).real
-        x[:,0] = np.linspace(0,T,ns) #'; %(0:dT:(np-1)*dT).';
+        x[:,0] = np.linspace(0,T,ns) #' %(0:dT:(np-1)*dT).'
 
 
 
@@ -1461,19 +1734,19 @@ class SpecData1D(WafoData):
         pi = np.pi
         tanh = np.tanh
         numWaves = 1000. # Typical number of waves in 3 hour seastate
-        kbar = sm.w2k(2.*np.pi/Tm02,0.,waterDepth)[0];
-        Amax = sqrt(2*log(numWaves))*Hm0/4; #% Expected maximum amplitude for 1000 waves seastate
+        kbar = sm.w2k(2.*np.pi/Tm02,0.,waterDepth)[0]
+        Amax = sqrt(2*log(numWaves))*Hm0/4 #% Expected maximum amplitude for 1000 waves seastate
 
-        fLimitUp = fnlimit*sqrt(g*tanh(kbar*waterDepth)/Amax)/(2*pi);
-        fLimitLo = sqrt(g*tanh(kbar*waterDepth)*Amax/waterDepth)/(2*pi*waterDepth);
+        fLimitUp = fnlimit*sqrt(g*tanh(kbar*waterDepth)/Amax)/(2*pi)
+        fLimitLo = sqrt(g*tanh(kbar*waterDepth)*Amax/waterDepth)/(2*pi*waterDepth)
 
-        nmax   = min(np.flatnonzero(f<=fLimitUp).max(),nmax)+1;
-        nmin   = max(np.flatnonzero(fLimitLo<=f).min(),nmin)+1;
+        nmax   = min(np.flatnonzero(f<=fLimitUp).max(),nmax)+1
+        nmin   = max(np.flatnonzero(fLimitLo<=f).min(),nmin)+1
 
-        #if isempty(nmax),nmax = np/2;end
-        #if isempty(nmin),nmin = 2;end % Must always be greater than 1
-        fLimitUp = df*nmax;
-        fLimitLo = df*nmin;
+        #if isempty(nmax),nmax = np/2end
+        #if isempty(nmin),nmin = 2end % Must always be greater than 1
+        fLimitUp = df*nmax
+        fLimitLo = df*nmin
 
         print('2nd order frequency Limits = %g,%g'% (fLimitLo, fLimitUp))
 
@@ -1481,15 +1754,15 @@ class SpecData1D(WafoData):
 
 ##        if nargout>3,
 ##        %compute the sum and frequency effects separately
-##        [svec, dvec] = disufq((A.'),w,kw,min(h,10^30),g,nmin,nmax);
-##        svec = svec.';
-##        dvec = dvec.';
+##        [svec, dvec] = disufq((A.'),w,kw,min(h,10^30),g,nmin,nmax)
+##        svec = svec.'
+##        dvec = dvec.'
 ##
-##        x2s  = fft(svec); % 2'nd order sum frequency component
-##        x2d  = fft(dvec); % 2'nd order difference frequency component
+##        x2s  = fft(svec) % 2'nd order sum frequency component
+##        x2d  = fft(dvec) % 2'nd order difference frequency component
 ##
 ##        % 1'st order + 2'nd order component.
-##        x2(:,2:end) =x(:,2:end)+ real(x2s(1:np,:))+real(x2d(1:np,:));
+##        x2(:,2:end) =x(:,2:end)+ real(x2s(1:np,:))+real(x2d(1:np,:))
 ##        else
         A = A.T
         rvec,ivec = c_library.disufq(A.real,A.imag,w,kw,waterDepth,g,nmin,nmax,cases,ns)
@@ -1536,14 +1809,14 @@ class SpecData1D(WafoData):
 
         method == 'eigenvalue'
 
-        mean  = sum(E);
-        sigma = sqrt(sum(C^2)+2*sum(E^2));
-        skew  = sum((6*C^2+8*E^2).*E)/sigma^3;
-        kurt  = 3+48*sum((C^2+E^2).*E^2)/sigma^4;
+        mean  = sum(E)
+        sigma = sqrt(sum(C^2)+2*sum(E^2))
+        skew  = sum((6*C^2+8*E^2).*E)/sigma^3
+        kurt  = 3+48*sum((C^2+E^2).*E^2)/sigma^4
 
         where
-        h1 = sqrt(S*dw/2);
-        C  = (ctranspose(V)*[h1;h1]);
+        h1 = sqrt(S*dw/2)
+        C  = (ctranspose(V)*[h1;h1])
         and E and V is the eigenvalues and eigenvectors, respectively, of the 2'order
         transfer matrix. S is the spectrum and dw is the frequency spacing of S.
 
@@ -1556,11 +1829,11 @@ class SpecData1D(WafoData):
         >>> me,va,sk,ku = S.stats_nl(moments='mvsk')
 
 
-        Hm0=7;Tp=11;
-        S = jonswap([],[Hm0 Tp]); [sk, ku, me]=spec2skew(S);
-        g=hermitetr([],[Hm0/4 sk ku me]);  g2=[g(:,1), g(:,2)*Hm0/4];
-        ys = spec2sdat(S,15000);   % Simulated in the Gaussian world
-        xs = gaus2dat(ys,g2);      % Transformed to the real world
+        Hm0=7;Tp=11
+        S = jonswap([],[Hm0 Tp]); [sk, ku, me]=spec2skew(S)
+        g=hermitetr([],[Hm0/4 sk ku me]);  g2=[g(:,1), g(:,2)*Hm0/4]
+        ys = spec2sdat(S,15000)   % Simulated in the Gaussian world
+        xs = gaus2dat(ys,g2)      % Transformed to the real world
 
         See also
         ---------
@@ -1587,7 +1860,7 @@ class SpecData1D(WafoData):
         if h is None:
             h = self.h
 
-        #S = ttspec(S,'w');
+        #S = ttspec(S,'w')
         w = np.ravel(self.args)
         S = np.ravel(self.data)
         if self.freqtype in ['f','w']:
@@ -1596,16 +1869,16 @@ class SpecData1D(WafoData):
                w = 2.*pi*w
                S = S/(2.*pi)
         #m0 = self.moment(nr=0)
-        m0 = simps(S,w);
+        m0 = simps(S,w)
         sa = np.sqrt(m0)
         Nw = w.size
 
-        Hs, Hd,Hdii = qtf(w,h,g);
+        Hs, Hd,Hdii = qtf(w,h,g)
 
         #%return
-        #%skew=6/sqrt(m0)^3*simpson(S.w,simpson(S.w,(Hs+Hd).*S1(:,ones(1,Nw))).*S1.');
+        #%skew=6/sqrt(m0)^3*simpson(S.w,simpson(S.w,(Hs+Hd).*S1(:,ones(1,Nw))).*S1.')
 
-        Hspd = trapz(trapz((Hs+Hd)*S[np.newaxis,:],w)*S,w);
+        Hspd = trapz(trapz((Hs+Hd)*S[np.newaxis,:],w)*S,w)
         output = []
         if method[0] == 'a': # %approx : Marthinsen, T. and Winterstein, S.R (1992) method
             if 'm' in moments:
@@ -1623,58 +1896,58 @@ class SpecData1D(WafoData):
 ##        elif method[0]== 'q': #, #% quasi method
 ##            Fn = self.nyquist_freq()
 ##            dw = Fn/Nw
-##            tmp1 =sqrt(S[:,np.newaxis]*S[np.newaxis,:])*dw;
-##            Hd = Hd*tmp1;
-##            Hs = Hs*tmp1;
-##            k = 6;
-##            stop = 0;
+##            tmp1 =sqrt(S[:,np.newaxis]*S[np.newaxis,:])*dw
+##            Hd = Hd*tmp1
+##            Hs = Hs*tmp1
+##            k = 6
+##            stop = 0
 ##            while !stop:
-##                E = eigs([Hd,Hs;Hs,Hd],[],k);
-##                %stop = (length(find(abs(E)<1e-4))>0 | k>1200);
-##                %stop = (any(abs(E(:))<1e-4) | k>1200);
-##                stop = (any(abs(E(:))<1e-4) | k>=min(2*Nw,1200));
-##                k = min(2*k,2*Nw);
+##                E = eigs([Hd,Hs;Hs,Hd],[],k)
+##                %stop = (length(find(abs(E)<1e-4))>0 | k>1200)
+##                %stop = (any(abs(E(:))<1e-4) | k>1200)
+##                stop = (any(abs(E(:))<1e-4) | k>=min(2*Nw,1200))
+##                k = min(2*k,2*Nw)
 ##            #end
 ##
 ##
-##            m02=2*sum(E.^2); % variance of 2'nd order contribution
+##            m02=2*sum(E.^2) % variance of 2'nd order contribution
 ##
-##            %Hstd = 16*trapz(S.w,(Hdii.*S1).^2);
-##            %Hstd = trapz(S.w,trapz(S.w,((Hs+Hd)+ 2*Hs.*Hd).*S1(:,ones(1,Nw))).*S1.');
-##            ma   = 2*trapz(S.w,Hdii.*S1);
+##            %Hstd = 16*trapz(S.w,(Hdii.*S1).^2)
+##            %Hstd = trapz(S.w,trapz(S.w,((Hs+Hd)+ 2*Hs.*Hd).*S1(:,ones(1,Nw))).*S1.')
+##            ma   = 2*trapz(S.w,Hdii.*S1)
 ##            %m02  = Hstd-ma^2% variance of second order part
-##            sa   = sqrt(m0+m02);
-##            skew = 6/sa^3*Hspd;
-##            kurt = (4*skew/3).^2+3;
+##            sa   = sqrt(m0+m02)
+##            skew = 6/sa^3*Hspd
+##            kurt = (4*skew/3).^2+3
 ##        elif method[0]== 'e': #, % Kac and Siegert eigenvalue analysis
 ##            Fn = self.nyquist_freq()
 ##            dw = Fn/Nw
-##            tmp1 =sqrt(S[:,np.newaxis]*S[np.newaxis,:])*dw;
-##            Hd = Hd*tmp1;
-##            Hs = Hs*tmp1;
-##            k = 6;
-##            stop = 0;
+##            tmp1 =sqrt(S[:,np.newaxis]*S[np.newaxis,:])*dw
+##            Hd = Hd*tmp1
+##            Hs = Hs*tmp1
+##            k = 6
+##            stop = 0
 ##
 ##
 ##            while (not stop):
-##              [V,D] = eigs([Hd,Hs;Hs,Hd],[],k);
-##              E = diag(D);
-##              %stop = (length(find(abs(E)<1e-4))>0 | k>=min(2*Nw,1200));
-##              stop = (any(abs(E(:))<1e-4) | k>=min(2*Nw,1200));
-##              k = min(2*k,2*Nw);
+##              [V,D] = eigs([Hd,HsHs,Hd],[],k)
+##              E = diag(D)
+##              %stop = (length(find(abs(E)<1e-4))>0 | k>=min(2*Nw,1200))
+##              stop = (any(abs(E(:))<1e-4) | k>=min(2*Nw,1200))
+##              k = min(2*k,2*Nw)
 ##            #end
 ##
 ##
-##            h1 = sqrt(S*dw/2);
-##            C  = (ctranspose(V)*[h1;h1]);
+##            h1 = sqrt(S*dw/2)
+##            C  = (ctranspose(V)*[h1;h1])
 ##
-##            E2 = E.^2;
-##            C2 = C.^2;
+##            E2 = E.^2
+##            C2 = C.^2
 ##
-##            ma   = sum(E);                     % mean
-##            sa   = sqrt(sum(C2)+2*sum(E2));    % standard deviation
-##            skew = sum((6*C2+8*E2).*E)/sa^3;   % skewness
-##            kurt = 3+48*sum((C2+E2).*E2)/sa^4; % kurtosis
+##            ma   = sum(E)                     % mean
+##            sa   = sqrt(sum(C2)+2*sum(E2))    % standard deviation
+##            skew = sum((6*C2+8*E2).*E)/sa^3   % skewness
+##            kurt = 3+48*sum((C2+E2).*E2)/sa^4 % kurtosis
 
 
         return output
@@ -1760,11 +2033,13 @@ class SpecData1D(WafoData):
             m.append(simps(S1,x=f))
             mtext.append(mtxt+vari*i)
         return m, mtext
+    
     def nyquist_freq(self):
         """
         Return Nyquist frequency
         """
         return self.args[-1]
+    
     def sampling_period(self):
         ''' Returns sampling interval from Nyquist frequency of spectrum
 
@@ -1780,7 +2055,7 @@ class SpecData1D(WafoData):
 
         Example
         -------
-        S = jonswap;
+        S = jonswap
         dt = spec2dt(S)
 
         See also
@@ -1789,10 +2064,10 @@ class SpecData1D(WafoData):
         if self.freqtype in 'f':
             wmdt = 0.5  # Nyquist to sampling interval factor
         else: # ftype == w og ftype == k
-            wmdt = np.pi;
+            wmdt = np.pi
 
         wm = self.args[-1] #Nyquist frequency
-        dt = wmdt/wm; #sampling interval = 1/Fs
+        dt = wmdt/wm #sampling interval = 1/Fs
         return dt
 
     def resample(self,dt=None,Nmin=0,Nmax=2**13+1,method='stineman'):
@@ -1832,21 +2107,19 @@ class SpecData1D(WafoData):
         w     = self.args.ravel()
         n     = w.size
 
-        #%doInterpolate = 0;
+        #%doInterpolate = 0
 
         if ftype=='f':
-            Cnf2dt = 0.5; # Nyquist to sampling interval factor
+            Cnf2dt = 0.5 # Nyquist to sampling interval factor
         else: #% ftype == w og ftype == k
             Cnf2dt = np.pi
 
         wnOld = w[-1]         # Old Nyquist frequency
-        dTold = Cnf2dt/wnOld; # sampling interval=1/Fs
+        dTold = Cnf2dt/wnOld # sampling interval=1/Fs
 
 
         if dt is None:
-            dt=dTold
-
-
+            dt = dTold
 
         # Find how many points that is needed
         nfft   = 2**nextpow2(max(n-1,Nmin-1))
@@ -1856,21 +2129,21 @@ class SpecData1D(WafoData):
             nfft   = nfft*2
             dttest = dTold*(n-1)/nfft
 
-        nfft = nfft+1;
+        nfft = nfft+1
 
-        wnNew         = Cnf2dt/dt; #% New Nyquist frequency
-        dWn           = wnNew-wnOld;
-        doInterpolate = dWn>0 or w[1]>0 or (nfft!=n) or dt!=dTold or any(abs(np.diff(w,axis=0))>1.0e-8);
+        wnNew         = Cnf2dt/dt #% New Nyquist frequency
+        dWn           = wnNew-wnOld
+        doInterpolate = dWn>0 or w[1]>0 or (nfft!=n) or dt!=dTold or any(abs(np.diff(w,axis=0))>1.0e-8)
 
         if doInterpolate>0:
             S1 = self.data
 
-            dw = min(np.diff(w));
+            dw = min(np.diff(w))
 
             if dWn>0:
                 #% add a zero just above old max-freq, and a zero at new max-freq
                 #% to get correct interpolation there
-                Nz = 1  + (dWn>dw) #; % Number of zeros to add
+                Nz = 1  + (dWn>dw) # % Number of zeros to add
                 if Nz==2:
                     w = np.hstack((w, wnOld+dw, wnNew))
                 else:
@@ -1880,7 +2153,7 @@ class SpecData1D(WafoData):
 
             if w[0]>0:
                 #% add a zero at freq 0, and, if there is space, a zero just below min-freq
-                Nz = 1 + (w[0]>dw); #% Number of zeros to add
+                Nz = 1 + (w[0]>dw) #% Number of zeros to add
                 if Nz==2:
                     w=np.hstack((0, w[0]-dw, w))
                 else:
@@ -1893,8 +2166,8 @@ class SpecData1D(WafoData):
             #% sufficiently dense:
             #np1 = S1.size
             dwMin = np.finfo(float).max
-            #%wnc = min(wnNew,wnOld-1e-5);
-            wnc = wnNew;
+            #%wnc = min(wnNew,wnOld-1e-5)
+            wnc = wnNew
             specfun = lambda xi : stineman_interp(xi,w,S1)
 
 
@@ -1907,7 +2180,7 @@ class SpecData1D(WafoData):
                 if (nfft<=2**15+1) and (newNfft>2**15+1):
                     warnings.warn('Spectrum matrix is very large (>33k). Memory problems may occur.')
 
-                nfft = newNfft;
+                nfft = newNfft
 
 
             self.args = np.linspace(0,wnNew,nfft)
@@ -1918,27 +2191,77 @@ class SpecData1D(WafoData):
                 self.data = intfun(self.args)
             self.data = self.data.clip(0) # clip negative values to 0
 
-    def normalize(self):
-        pass
-    def bandwidth(self,factors=0):
-        ''' Return some spectral bandwidth and irregularity factors
+    def normalize(self, gravity=9.81):
+        '''
+        Normalize a spectral density such that m0=m2=1
+        
+        Paramter
+        --------
+        gravity=9.81
 
+        Notes
+        -----
+        Normalization performed such that
+        INT S(freq) dfreq = 1       INT freq^2  S(freq) dfreq = 1
+        where integration limits are given by  freq  and  S(freq)  is the 
+        spectral density; freq can be frequency or wave number.
+        The normalization is defined by
+            A=sqrt(m0/m2); B=1/A/m0; freq'=freq*A; S(freq')=S(freq)*B
+    
+        If S is a directional spectrum then a normalized gravity (.g) is added
+        to Sn, such that mxx normalizes to 1, as well as m0 and mtt.
+        (See spec2mom for notation of moments)
+    
+        If S is complex-valued cross spectral density which has to be
+        normalized, then m0, m2 (suitable spectral moments) should be given.
+    
+        Example:
+        ------- 
+        S = jonswap
+        [Sn,mn4] = specnorm(S)
+        mts = spec2mom(S,2)     % Should be equal to one!
+        '''
+        mom, mtext = self.moment(nr=4, even=True)
+        m0 = mom[0] 
+        m2 = mom[1] 
+        m4 = mom[2]  
+        
+        SM0 = sqrt(m0)
+        SM2 = sqrt(m2)  
+        A = SM0/SM2
+        B = SM2/(SM0*m0)
+         
+        if self.freqtype=='f':
+            self.args = self.args*A/2/pi
+            self.data = self.data*B*2*pi  
+        elif self.freqtype=='w' :
+            self.args = self.args*A
+            self.data = self.data*B
+            m02 = m4/gravity**2
+            m20 = m02
+            self.g = gravity*sqrt(m0*m20)/m2
+        self.A = A
+        self.norm = True
+        #S.date=datestr(now)
+
+    def bandwidth(self,factors=0):
+        ''' 
+        Return some spectral bandwidth and irregularity factors
+
+        Parameters
+        -----------
+        factors : array-like
+            Input vector 'factors' correspondence:
+            0 alpha=m2/sqrt(m0*m4)                        (irregularity factor)
+            1 eps2 = sqrt(m0*m2/m1^2-1)                   (narrowness factor)
+            2 eps4 = sqrt(1-m2^2/(m0*m4))=sqrt(1-alpha^2) (broadness factor)
+            3 Qp=(2/m0^2)int_0^inf f*S(f)^2 df            (peakedness factor)
 
         Returns
         --------
         bw : arraylike
             vector of bandwidth factors
-
-        Parameters
-        -----------
-        factors : array-like
-        Input vector 'factors' correspondence:
-        0 alpha=m2/sqrt(m0*m4)                        (irregularity factor)
-        1 eps2 = sqrt(m0*m2/m1^2-1)                   (narrowness factor)
-        2 eps4 = sqrt(1-m2^2/(m0*m4))=sqrt(1-alpha^2) (broadness factor)
-        3 Qp=(2/m0^2)int_0^inf f*S(f)^2 df            (peakedness factor)
-
-        Order of output is the same as order in 'factors'
+            Order of output is the same as order in 'factors'
 
         Example:
         >>> import numpy as np
@@ -1951,24 +2274,25 @@ class SpecData1D(WafoData):
         '''
 
         if self.freqtype in 'k':
-            vari = 'k';
+            vari = 'k'
         else:
-            vari = 'w';
+            vari = 'w'
 
-        m,mtxt = self.moment(nr=4,even=False)
+        m, mtxt = self.moment(nr=4, even=False)
         sqrt = np.sqrt
         fact = np.atleast_1d(factors)
         alpha = m[2]/sqrt(m[0]*m[4])
         eps2 = sqrt(m[0]*m[2]/m[1]**2.-1.)
-        eps4 = sqrt(1.-m[2]**2./m[0]/m[4]);
+        eps4 = sqrt(1.-m[2]**2./m[0]/m[4])
         f = self.args
         S = self.data
-        Qp = 2/m[0]**2.*simps(f*S**2,x=f);
+        Qp = 2/m[0]**2.*simps(f*S**2,x=f)
         bw = np.array([alpha,eps2,eps4,Qp])
         return bw[fact]
 
-    def characteristic(self,fact='Hm0',T=1200,g=9.81):
-        """Returns spectral characteristics and their covariance
+    def characteristic(self, fact='Hm0', T=1200, g=9.81):
+        """
+        Returns spectral characteristics and their covariance
 
         Parameters
         ----------
@@ -2043,10 +2367,8 @@ class SpecData1D(WafoData):
         (array([ 0.04963112]), array([[  2.63624782e-06]]), ['Ss'])
 
         >>> S.characteristic(['Hm0','Tm02'])   # fact a list of strings
-        (array([ 4.99833578,  8.03139757]),
-         array([[ 0.05292989,  0.02511371],
-               [ 0.02511371,  0.0274645 ]]),
-         ['Hm0', 'Tm02'])
+        (array([ 4.99833578,  8.03139757]), array([[ 0.05292989,  0.02511371],
+               [ 0.02511371,  0.0274645 ]]), ['Hm0', 'Tm02'])
 
         See also
         ---------
@@ -2076,7 +2398,7 @@ class SpecData1D(WafoData):
         #% TODO % Covariances between Tm24,alpha, eps2 and eps4 variables are also needed
         NaN = np.nan
         tfact = dict(Hm0=0,Tm01=1,Tm02=2,Tm24=3, Tm_10=4,Tp=5,Ss=6, Sp=7, Ka=8,
-              Rs=9, Tp1=10,Alpha=11,Eps2=12,Eps4=13,Qp=14)
+              Rs=9, Tp1=10, Alpha=11, Eps2=12, Eps4=13, Qp=14)
         tfact1 = ('Hm0','Tm01','Tm02','Tm24', 'Tm_10','Tp','Ss', 'Sp', 'Ka',
               'Rs', 'Tp1','Alpha','Eps2','Eps4','Qp')
 
@@ -2090,7 +2412,7 @@ class SpecData1D(WafoData):
                 else:
                     nfact.append(k)
         else:
-            nfact = fact;
+            nfact = fact
 
         nfact = np.atleast_1d(nfact)
 
@@ -2101,48 +2423,48 @@ class SpecData1D(WafoData):
 
         f  = self.args.ravel()
         S1 = self.data.ravel()
-        m,mtxt = self.moment(nr=4,even=False)
+        m, mtxt = self.moment(nr=4,even=False)
 
         #% moments corresponding to freq  in Hz
         for k in range(1,5):
             m[k] = m[k]/(2*np.pi)**k
 
-        pi = np.pi
+        #pi = np.pi
         ind  = np.flatnonzero(f>0)
-        m.append(simps(S1[ind]/f[ind],f[ind])*2.*np.pi) #;  % = m_1
+        m.append(simps(S1[ind]/f[ind],f[ind])*2.*np.pi) #  % = m_1
         m_10 = simps(S1[ind]**2/f[ind],f[ind])*(2*pi)**2/T #    % = COV(m_1,m0|T=t0)
         m_11 = simps(S1[ind]**2./f[ind]**2,f[ind])*(2*pi)**3/T  #% = COV(m_1,m_1|T=t0)
 
-        sqrt = np.sqrt
+        #sqrt = np.sqrt
         #%      Hm0        Tm01        Tm02             Tm24         Tm_10
-        Hm0  = 4.*sqrt(m[0]);
-        Tm01 = m[0]/m[1];
-        Tm02 = sqrt(m[0]/m[2]);
-        Tm24 = sqrt(m[2]/m[4]);
-        Tm_10= m[5]/m[0];
+        Hm0  = 4.*sqrt(m[0])
+        Tm01 = m[0]/m[1]
+        Tm02 = sqrt(m[0]/m[2])
+        Tm24 = sqrt(m[2]/m[4])
+        Tm_10= m[5]/m[0]
 
         Tm12 = m[1]/m[2]
 
         ind = S1.argmax()
         maxS = S1[ind]
-        #[maxS ind] = max(S1);
+        #[maxS ind] = max(S1)
         Tp   = 2.*pi/f[ind] #                                   % peak period /length
         Ss   = 2.*pi*Hm0/g/Tm02**2 #                             % Significant wave steepness
-        Sp   = 2.*pi*Hm0/g/Tp**2 #;                               % Average wave steepness
-        Ka   = abs(simps(S1*np.exp(1J*f*Tm02),f))/m[0]; #% groupiness factor
+        Sp   = 2.*pi*Hm0/g/Tp**2 #                               % Average wave steepness
+        Ka   = abs(simps(S1*np.exp(1J*f*Tm02),f))/m[0] #% groupiness factor
 
         #% Quality control parameter
         #% critical value is approximately 0.02 for surface displacement records
         #% If Rs>0.02 then there are something wrong with the lower frequency part
         #% of S.
-        Rs   = np.sum(np.interp(np.r_[0.0146, 0.0195, 0.0244]*2*pi,f,S1))/3./maxS;
-        Tp2  = 2*pi*simps(S1**4,f)/simps(f*S1**4,f);
+        Rs   = np.sum(np.interp(np.r_[0.0146, 0.0195, 0.0244]*2*pi,f,S1))/3./maxS
+        Tp2  = 2*pi*simps(S1**4,f)/simps(f*S1**4,f)
 
 
-        alpha1 = Tm24/Tm02 #;                 % m(3)/sqrt(m(1)*m(5));
-        eps2   = sqrt(Tm01/Tm12-1.)#         % sqrt(m(1)*m(3)/m(2)^2-1);
-        eps4   = sqrt(1.-alpha1**2) #;          % sqrt(1-m(3)^2/m(1)/m(5));
-        Qp     = 2./m[0]**2*simps(f*S1**2,f);
+        alpha1 = Tm24/Tm02 #                 % m(3)/sqrt(m(1)*m(5))
+        eps2   = sqrt(Tm01/Tm12-1.)#         % sqrt(m(1)*m(3)/m(2)^2-1)
+        eps4   = sqrt(1.-alpha1**2) #          % sqrt(1-m(3)^2/m(1)/m(5))
+        Qp     = 2./m[0]**2*simps(f*S1**2,f)
 
 
 
@@ -2178,7 +2500,7 @@ class SpecData1D(WafoData):
                 m[0]*m[2]*mij[2]/2-m[0]**2*m[2]/m[1]*mij[3])/eps2**2/m[1]**4,
         	(m[2]**2*mij[0]/(4*m[0]**2)+mij[4]+m[2]**2*mij[8]/(4*m[4]**2)-m[2]*mij[2]/m[0]+
         	m[2]**2*mij[4]/(2*m[0]*m[4])-m[2]*mij[6]/m[4])*m[2]**2/(m[0]*m[4]*eps4)**2,
-        	NaN];
+        	NaN]
 
         #% and covariances by a taylor expansion technique:
         #% Cov(Hm0,Tm01) Cov(Hm0,Tm02) Cov(Tm01,Tm02)
@@ -2186,15 +2508,15 @@ class SpecData1D(WafoData):
         	1./sqrt(m[2])*(mij[0]/m[0]-mij[2]/m[2]),
         	1./(2*m[1])*sqrt(m[0]/m[2])*(mij[0]/m[0]-mij[2]/m[2]-mij[1]/m[1]+m[0]*mij[3]/(m[1]*m[2]))]
 
-        R1  = np.ones((15,15));
+        R1  = np.ones((15,15))
         R1[:,:] = NaN
         for ix,Ri in enumerate(R):
             R1[ix,ix] = Ri
 
 
 
-        R1[0,2:4]   = S0[:2];
-        R1[1,2]     = S0[2];
+        R1[0,2:4]   = S0[:2]
+        R1[1,2]     = S0[2]
         for ix in [0,1]: #%make lower triangular equal to upper triangular part
             R1[ix+1:,ix] = R1[ix,ix+1:]
 
@@ -2213,7 +2535,7 @@ class SpecData1D(WafoData):
             based on type, angletype, freqtype
         '''
 
-        N = len(self.type);
+        N = len(self.type)
         if N==0:
             raise ValueError('Object does not appear to be initialized, it is empty!')
 
@@ -2402,7 +2724,7 @@ class SpecData2D(WafoData):
 ##        if not self.type.endswith('dir'):
 ##            S1 = self.tospec(self.type[:-2]+'dir')
 ##        else:
-##            S1 = self;
+##            S1 = self
 ##        w = np.ravel(S1.args[0])
 ##        theta = S1.args[1]-S1.phi
 ##        S = S1.data
@@ -2414,97 +2736,97 @@ class SpecData2D(WafoData):
 ##
 ##          nw=w.size
 ##          if strcmpi(vari(1),'x')
-##            Sc=simpson(th,S1.S.*(cos(th)*ones(1,nw))).';
+##            Sc=simpson(th,S1.S.*(cos(th)*ones(1,nw))).'
 ##            % integral S*cos(th) dth
 ##          end
 ##          if strcmpi(vari(1),'y')
-##            Ss=simpson(th,S1.S.*(sin(th)*ones(1,nw))).';
+##            Ss=simpson(th,S1.S.*(sin(th)*ones(1,nw))).'
 ##            % integral S*sin(th) dth
 ##            if strcmpi(vari(1),'x')
-##            Sc=simpson(th,S1.S.*(cos(th)*ones(1,nw))).';
+##            Sc=simpson(th,S1.S.*(cos(th)*ones(1,nw))).'
 ##            end
 ##          end
 ##          if ~isfield(S1,'g')
-##            S1.g=gravity;
+##            S1.g=gravity
 ##          end
-##          kx=w.^2/S1.g(1); % maybe different normalization in x and y => diff. g
-##          ky=w.^2/S1.g(end);
+##          kx=w.^2/S1.g(1) % maybe different normalization in x and y => diff. g
+##          ky=w.^2/S1.g(end)
 ##
 ##          if Nv>=1
 ##            switch vari
 ##              case 'x'
-##                vec = kx.*Sc;
-##                mtext(end+1)={'mx'};
+##                vec = kx.*Sc
+##                mtext(end+1)={'mx'}
 ##              case 'y'
-##                vec = ky.*Ss;
-##                mtext(end+1)={'my'};
+##                vec = ky.*Ss
+##                mtext(end+1)={'my'}
 ##              case 't'
-##                vec = w.*Sw;
-##               mtext(end+1)={'mt'};
+##                vec = w.*Sw
+##               mtext(end+1)={'mt'}
 ##            end
 ##          else
-##            vec = [kx.*Sc ky.*Ss w*Sw];
-##            mtext(end+(1:3))={'mx', 'my', 'mt'};
+##            vec = [kx.*Sc ky.*Ss w*Sw]
+##            mtext(end+(1:3))={'mx', 'my', 'mt'}
 ##          end
 ##          if nr>1
 ##          if strcmpi(vari(1),'x')
-##            Sc=simpson(th,S1.S.*(cos(th)*ones(1,nw))).';
+##            Sc=simpson(th,S1.S.*(cos(th)*ones(1,nw))).'
 ##            % integral S*cos(th) dth
-##            Sc2=simpson(th,S1.S.*(cos(th).^2*ones(1,nw))).';
+##            Sc2=simpson(th,S1.S.*(cos(th).^2*ones(1,nw))).'
 ##            % integral S*cos(th)^2 dth
 ##          end
 ##          if strcmpi(vari(1),'y')||strcmpi(vari(2),'y')
-##            Ss=simpson(th,S1.S.*(sin(th)*ones(1,nw))).';
+##            Ss=simpson(th,S1.S.*(sin(th)*ones(1,nw))).'
 ##            % integral S*sin(th) dth
-##            Ss2=simpson(th,S1.S.*(sin(th).^2*ones(1,nw))).';
+##            Ss2=simpson(th,S1.S.*(sin(th).^2*ones(1,nw))).'
 ##            % integral S*sin(th)^2 dth
 ##            if strcmpi(vari(1),'x')
-##              Scs=simpson(th,S1.S.*((cos(th).*sin(th))*ones(1,nw))).';
+##              Scs=simpson(th,S1.S.*((cos(th).*sin(th))*ones(1,nw))).'
 ##              % integral S*cos(th)*sin(th) dth
 ##            end
 ##          end
 ##          if ~isfield(S1,'g')
-##            S1.g=gravity;
+##            S1.g=gravity
 ##          end
 ##
 ##          if Nv==2
 ##            switch vari
 ##              case 'xy'
-##                vec=[kx.*Sc ky.*Ss kx.^2.*Sc2 ky.^2.*Ss2 kx.*ky.*Scs];
-##                mtext(end+(1:5))={'mx','my','mxx', 'myy', 'mxy'};
+##                vec=[kx.*Sc ky.*Ss kx.^2.*Sc2 ky.^2.*Ss2 kx.*ky.*Scs]
+##                mtext(end+(1:5))={'mx','my','mxx', 'myy', 'mxy'}
 ##              case 'xt'
-##                vec=[kx.*Sc w.*Sw kx.^2.*Sc2 w.^2.*Sw kx.*w.*Sc];
-##                mtext(end+(1:5))={'mx','mt','mxx', 'mtt', 'mxt'};
+##                vec=[kx.*Sc w.*Sw kx.^2.*Sc2 w.^2.*Sw kx.*w.*Sc]
+##                mtext(end+(1:5))={'mx','mt','mxx', 'mtt', 'mxt'}
 ##              case 'yt'
-##                vec=[ky.*Ss w.*Sw ky.^2.*Ss2 w.^2.*Sw ky.*w.*Ss];
-##                mtext(end+(1:5))={'my','mt','myy', 'mtt', 'myt'};
+##                vec=[ky.*Ss w.*Sw ky.^2.*Ss2 w.^2.*Sw ky.*w.*Ss]
+##                mtext(end+(1:5))={'my','mt','myy', 'mtt', 'myt'}
 ##            end
 ##          else
-##            vec=[kx.*Sc ky.*Ss w.*Sw kx.^2.*Sc2 ky.^2.*Ss2  w.^2.*Sw kx.*ky.*Scs kx.*w.*Sc ky.*w.*Ss];
-##            mtext(end+(1:9))={'mx','my','mt','mxx', 'myy', 'mtt', 'mxy', 'mxt', 'myt'};
+##            vec=[kx.*Sc ky.*Ss w.*Sw kx.^2.*Sc2 ky.^2.*Ss2  w.^2.*Sw kx.*ky.*Scs kx.*w.*Sc ky.*w.*Ss]
+##            mtext(end+(1:9))={'mx','my','mt','mxx', 'myy', 'mtt', 'mxy', 'mxt', 'myt'}
 ##          end
 ##          if nr>3
 ##            if strcmpi(vari(1),'x')
-##              Sc3=simpson(th,S1.S.*(cos(th).^3*ones(1,nw))).';
+##              Sc3=simpson(th,S1.S.*(cos(th).^3*ones(1,nw))).'
 ##              % integral S*cos(th)^3 dth
-##              Sc4=simpson(th,S1.S.*(cos(th).^4*ones(1,nw))).';
+##              Sc4=simpson(th,S1.S.*(cos(th).^4*ones(1,nw))).'
 ##              % integral S*cos(th)^4 dth
 ##            end
 ##            if strcmpi(vari(1),'y')||strcmpi(vari(2),'y')
-##              Ss3=simpson(th,S1.S.*(sin(th).^3*ones(1,nw))).';
+##              Ss3=simpson(th,S1.S.*(sin(th).^3*ones(1,nw))).'
 ##              % integral S*sin(th)^3 dth
-##              Ss4=simpson(th,S1.S.*(sin(th).^4*ones(1,nw))).';
+##              Ss4=simpson(th,S1.S.*(sin(th).^4*ones(1,nw))).'
 ##              % integral S*sin(th)^4 dth
 ##              if strcmpi(vari(1),'x')  %both x and y
-##                Sc2s=simpson(th,S1.S.*((cos(th).^2.*sin(th))*ones(1,nw))).';
+##                Sc2s=simpson(th,S1.S.*((cos(th).^2.*sin(th))*ones(1,nw))).'
 ##                % integral S*cos(th)^2*sin(th) dth
-##                Sc3s=simpson(th,S1.S.*((cos(th).^3.*sin(th))*ones(1,nw))).';
+##                Sc3s=simpson(th,S1.S.*((cos(th).^3.*sin(th))*ones(1,nw))).'
 ##                % integral S*cos(th)^3*sin(th) dth
-##                Scs2=simpson(th,S1.S.*((cos(th).*sin(th).^2)*ones(1,nw))).';
+##                Scs2=simpson(th,S1.S.*((cos(th).*sin(th).^2)*ones(1,nw))).'
 ##                % integral S*cos(th)*sin(th)^2 dth
-##                Scs3=simpson(th,S1.S.*((cos(th).*sin(th).^3)*ones(1,nw))).';
+##                Scs3=simpson(th,S1.S.*((cos(th).*sin(th).^3)*ones(1,nw))).'
 ##                % integral S*cos(th)*sin(th)^3 dth
-##                Sc2s2=simpson(th,S1.S.*((cos(th).^2.*sin(th).^2)*ones(1,nw))).';
+##                Sc2s2=simpson(th,S1.S.*((cos(th).^2.*sin(th).^2)*ones(1,nw))).'
 ##                % integral S*cos(th)^2*sin(th)^2 dth
 ##              end
 ##            end
@@ -2512,32 +2834,32 @@ class SpecData2D(WafoData):
 ##              switch vari
 ##                case 'xy'
 ##                  vec=[vec kx.^4.*Sc4 ky.^4.*Ss4 kx.^3.*ky.*Sc3s ...
-##                        kx.^2.*ky.^2.*Sc2s2 kx.*ky.^3.*Scs3];
-##                  mtext(end+(1:5))={'mxxxx','myyyy','mxxxy','mxxyy','mxyyy'};
+##                        kx.^2.*ky.^2.*Sc2s2 kx.*ky.^3.*Scs3]
+##                  mtext(end+(1:5))={'mxxxx','myyyy','mxxxy','mxxyy','mxyyy'}
 ##                case 'xt'
 ##                  vec=[vec kx.^4.*Sc4 w.^4.*Sw kx.^3.*w.*Sc3 ...
-##                        kx.^2.*w.^2.*Sc2 kx.*w.^3.*Sc];
-##                  mtext(end+(1:5))={'mxxxx','mtttt','mxxxt','mxxtt','mxttt'};
+##                        kx.^2.*w.^2.*Sc2 kx.*w.^3.*Sc]
+##                  mtext(end+(1:5))={'mxxxx','mtttt','mxxxt','mxxtt','mxttt'}
 ##                case 'yt'
 ##                  vec=[vec ky.^4.*Ss4 w.^4.*Sw ky.^3.*w.*Ss3 ...
-##                        ky.^2.*w.^2.*Ss2 ky.*w.^3.*Ss];
-##                  mtext(end+(1:5))={'myyyy','mtttt','myyyt','myytt','myttt'};
+##                        ky.^2.*w.^2.*Ss2 ky.*w.^3.*Ss]
+##                  mtext(end+(1:5))={'myyyy','mtttt','myyyt','myytt','myttt'}
 ##              end
 ##            else
 ##              vec=[vec kx.^4.*Sc4 ky.^4.*Ss4 w.^4.*Sw kx.^3.*ky.*Sc3s ...
 ##                   kx.^2.*ky.^2.*Sc2s2 kx.*ky.^3.*Scs3 kx.^3.*w.*Sc3 ...
 ##                   kx.^2.*w.^2.*Sc2 kx.*w.^3.*Sc ky.^3.*w.*Ss3 ...
 ##                   ky.^2.*w.^2.*Ss2 ky.*w.^3.*Ss kx.^2.*ky.*w.*Sc2s ...
-##                   kx.*ky.^2.*w.*Scs2 kx.*ky.*w.^2.*Scs];
+##                   kx.*ky.^2.*w.*Scs2 kx.*ky.*w.^2.*Scs]
 ##              mtext(end+(1:15))={'mxxxx','myyyy','mtttt','mxxxy','mxxyy',...
-##              'mxyyy','mxxxt','mxxtt','mxttt','myyyt','myytt','myttt','mxxyt','mxyyt','mxytt'};
+##              'mxyyy','mxxxt','mxxtt','mxttt','myyyt','myytt','myttt','mxxyt','mxyyt','mxytt'}
 ##
 ##            end % if Nv==2 ... else ...
 ##          end % if nr>3
 ##          end % if nr>1
-##          m=[m simpson(w,vec)];
+##          m=[m simpson(w,vec)]
 ##        end % if nr>0
-##      %  end; %%if Nv==1... else...    to be removed
+##      %  end %%if Nv==1... else...    to be removed
 ##    end % ... else two-dim spectrum
 
 
@@ -2554,7 +2876,7 @@ class SpecData2D(WafoData):
             based on type, angletype, freqtype
         '''
 
-        N = len(self.type);
+        N = len(self.type)
         if N==0:
             raise ValueError('Object does not appear to be initialized, it is empty!')
 
@@ -2652,7 +2974,7 @@ class CovData1D(WafoData):
             based on type,
         '''
 
-        N = len(self.type);
+        N = len(self.type)
         if N==0:
             raise ValueError('Object does not appear to be initialized, it is empty!')
 
@@ -2682,7 +3004,8 @@ class CovData1D(WafoData):
 ##        return wdata
 
     def tospec(self,rate=None,method='linear',nugget=0.0,trunc=1e-5,fast=True):
-        '''Computes spectral density from the auto covariance function
+        '''
+        Computes spectral density from the auto covariance function
 
         Parameters
         ----------
@@ -2726,7 +3049,7 @@ class CovData1D(WafoData):
 
         >>> Sj = sm.Jonswap()
         >>> S = Sj.toSpecData()
-        >>> R2 = S.toacf()
+        >>> R2 = S.tocov()
         >>> S1 = R2.tospec()
         >>> assert(all(abs(S1.data-S.data)<1e-4) ,'COV2SPEC')
 
@@ -2737,9 +3060,9 @@ class CovData1D(WafoData):
         '''
 
         dT = self.sampling_period()
-        #       dT   = time-step between data points.(default = T(2)-T1)).
+        # dT = time-step between data points.
 
-        ACF, ti = np.atleast_1d(self.data,self.args)
+        ACF, ti = np.atleast_1d(self.data, self.args)
 
         if self.lagtype in 't':
             spectype = 'freq'
@@ -2749,9 +3072,9 @@ class CovData1D(WafoData):
             ftype = 'k'
 
         if rate is None:
-            rate = 1 #;%interpolation rate
+            rate = 1 #%interpolation rate
         else:
-            rate = 2**nextpow2(rate) #;%make sure rate is a power of 2
+            rate = 2**nextpow2(rate) #%make sure rate is a power of 2
 
 
         #% add a nugget effect to ensure that round off errors
@@ -2764,7 +3087,7 @@ class CovData1D(WafoData):
         else:
           nfft = 2*n-2
 
-        nf   = nfft/2 #;% number of frequencies
+        nf   = nfft/2 #% number of frequencies
         fft = np.fft.fft
         ACF  = np.r_[ACF,np.zeros(nfft-2*n+2),ACF[n-1:0:-1]]
 
@@ -2775,24 +3098,19 @@ class CovData1D(WafoData):
         S = np.abs(Rper[0:(nf+1)])*dT/pi
         w = np.linspace(0,pi/dT,nf+1)
         So = SpecData1D(S,w,type=spectype,freqtype=ftype)
-        So.tr   = self.tr
-        So.h    = self.h;
-        So.norm = self.norm;
+        So.tr = self.tr
+        So.h = self.h
+        So.norm = self.norm
 
-        if rate>1:
-            So.args = np.linspace(0,pi/dT,nf*rate);
+        if rate > 1:
+            So.args = np.linspace(0, pi/dT, nf*rate)
             if method=='stineman':
-                So.data = stineman_interp(So.args,w,S)
+                So.data = stineman_interp(So.args, w, S)
             else:
-                intfun = interpolate.interp1d(w,S,kind=method)
+                intfun = interpolate.interp1d(w, S, kind=method)
                 So.data = intfun(So.args)
             So.data = So.data.clip(0) # clip negative values to 0
-
         return So
-
-
-
-
 
     def sampling_period(self):
         ''' Returns sampling interval
@@ -2803,19 +3121,17 @@ class CovData1D(WafoData):
             sampling interval, unit:
             [s] if lagtype=='t'
             [m] otherwise
-
-
         See also
         '''
         dt1 = self.args[1]-self.args[0]
-        N = np.size(self.args)-1
-        T = self.args[-1]-self.args[0]
-        dt = T/N
-
+        n = np.size(self.args)-1
+        t = self.args[-1]-self.args[0]
+        dt = t/n
         return dt
 
-    def sim(self,ns=None,cases=1,dt=None,iseed=None,derivative=False):
-        ''' Simulates a Gaussian process and its derivative from ACF
+    def sim(self, ns=None, cases=1, dt=None, iseed=None, derivative=False):
+        ''' 
+        Simulates a Gaussian process and its derivative from ACF
 
         Parameters
         ----------
@@ -2832,7 +3148,6 @@ class CovData1D(WafoData):
         derivative : bool
             if true : return derivative of simulated signal as well
             otherwise
-
 
         Returns
         -------
@@ -2855,7 +3170,7 @@ class CovData1D(WafoData):
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap()
         >>> S = Sj.toSpecData()   #Make spec
-        >>> R = S.toacf()
+        >>> R = S.tocov()
         >>> x = R.sim(ns=1000,dt=0.2)
 
         See also
@@ -2873,9 +3188,10 @@ class CovData1D(WafoData):
         '''
 
         # TODO fix it, it does not work
-        #% add a nugget effect to ensure that round off errors
-        #% do not result in negative spectral estimates
-        nugget=0 #;%10^-12;
+        
+        # Add a nugget effect to ensure that round off errors
+        # do not result in negative spectral estimates
+        nugget = 0 # 10**-12
 
         _set_seed(iseed)
 
@@ -2884,51 +3200,44 @@ class CovData1D(WafoData):
 
 
         I = ACF.argmax()
-        if I!=0:
+        if I != 0:
             raise ValueError('ACF does not have a maximum at zero lag')
 
-        ACF.shape = (n,1)
+        ACF.shape = (n, 1)
 
         dT = self.sampling_period()
 
-
         fft = np.fft.fft
 
-        x=np.zeros((ns,cases+1))
-
+        x = np.zeros((ns, cases+1))
 
         if derivative:
-            xder=x.copy()
-
+            xder = x.copy()
 
         #% add a nugget effect to ensure that round off errors
         #% do not result in negative spectral estimates
-        ACF[0]=ACF[0]+nugget;
+        ACF[0] = ACF[0] + nugget
 
         #% Fast and exact simulation of simulation of stationary
         #% Gaussian process throug circulant embedding of the
         #% Covariance matrix
-        floatinfo = numpy.finfo(float)
-        if (abs(ACF[-1])>floatinfo.eps): #% assuming ACF(n+1)==0
-            m2=2*n-1;
-            nfft=2**nextpow2(max(m2,2*ns));
-            ACF=np.r_[ACF,np.zeros((nfft-m2,1)),ACF[-1:0:-1,:]]
-
+        floatinfo = np.finfo(float)
+        if (abs(ACF[-1]) > floatinfo.eps): #% assuming ACF(n+1)==0
+            m2 = 2*n-1
+            nfft = 2**nextpow2(max(m2, 2*ns))
+            ACF = np.r_[ACF, np.zeros((nfft-m2,1)), ACF[-1:0:-1,:]]
             #disp('Warning: I am now assuming that ACF(k)=0 ')
             #disp('for k>MAXLAG.')
-
         else: # % ACF(n)==0
-            m2=2*n-2;
-            nfft=2**nextpow2(max(m2,2*ns))
-            ACF=np.r_[ACF,np.zeros((nfft-m2,1)),ACF[n-1:1:-1,:]]
+            m2 = 2*n-2
+            nfft = 2**nextpow2(max(m2, 2*ns))
+            ACF = np.r_[ACF, np.zeros((nfft-m2, 1)), ACF[n-1:1:-1, :]]
 
-        #%m2=2*n-2;
+        #%m2=2*n-2
+        S = fft(ACF,nfft,axis=0).real #% periodogram
 
-        S=fft(ACF,nfft,axis=0).real #;% periodogram
-
-
-        I=S.argmax()
-        k=np.flatnonzero(S<0);
+        I = S.argmax()
+        k = np.flatnonzero(S<0)
         if k.size>0:
             #disp('Warning: Not able to construct a nonnegative circulant ')
             #disp('vector from the ACF. Apply the parzen windowfunction ')
@@ -2951,53 +3260,49 @@ class CovData1D(WafoData):
 
 
         sqrt = np.sqrt
-        trunc = 1e-5;
+        trunc = 1e-5
         maxS = S[I]
-        k=np.flatnonzero(S[I:-I]<maxS*trunc)
+        k = np.flatnonzero(S[I:-I]<maxS*trunc)
         if k.size>0:
             S[k+I]=0.
             #% truncating small values to zero to ensure that
             #% that high frequency noise is not added to
             #% the simulated timeseries
 
-        cases1 = np.floor(cases/2);
-        cases2 = np.ceil(cases/2);
-#% Generate standard normal random numbers for the simulations
-#% -----------------------------------------------------------
+        cases1 = np.floor(cases/2)
+        cases2 = np.ceil(cases/2)
+# Generate standard normal random numbers for the simulations
+
         randn = np.random.randn
-        epsi = randn(nfft,cases2)+1j*randn(nfft,cases2);
-        Ssqr=sqrt(S/(nfft)) #; %sqrt(S(wn)*dw )
-        ephat=epsi*Ssqr #[:,np.newaxis]
-        y=fft(ephat,nfft,axis=0);
-        x[:,1:cases+1]=np.hstack((y[2:ns+2,0:cases2].real, y[2:ns+2,0:cases1].imag))
+        epsi = randn(nfft,cases2)+1j*randn(nfft,cases2)
+        Ssqr = sqrt(S/(nfft)) # %sqrt(S(wn)*dw )
+        ephat = epsi*Ssqr #[:,np.newaxis]
+        y = fft(ephat,nfft,axis=0)
+        x[:, 1:cases+1] = np.hstack((y[2:ns+2, 0:cases2].real, y[2:ns+2, 0:cases1].imag))
 
-
-
-        x[:,0]=np.linspace(0,(ns-1)*dT,ns) #%(0:dT:(dT*(np-1)))';
+        x[:, 0] = np.linspace(0,(ns-1)*dT,ns) #%(0:dT:(dT*(np-1)))'
 
         if derivative:
-            Ssqr  = Ssqr*np.r_[0:(nfft/2+1),-(nfft/2-1):0]*2*np.pi/nfft/dT
+            Ssqr = Ssqr*np.r_[0:(nfft/2+1), -(nfft/2-1):0]*2*np.pi/nfft/dT
             ephat = epsi*Ssqr #[:,np.newaxis]
-            y     = fft(ephat,nfft,axis=0)
-            xder[:,1:(cases+1)]= np.hstack((y[2:ns+2,0:cases2].imag -y[2:ns+2,0:cases1].real))
-            xder[:,0]=x[:,0]
+            y = fft(ephat,nfft,axis=0)
+            xder[:, 1:(cases+1)] = np.hstack((y[2:ns+2, 0:cases2].imag -y[2:ns+2, 0:cases1].real))
+            xder[:, 0] = x[:,0]
 
         if self.tr is not None:
             np.disp('   Transforming data.')
-            g=self.tr;
-            G=np.fliplr(g); #% the invers of g
+            g = self.tr
             if derivative:
                 for ix in range(cases):
-                    tmp=tranproc(np.hstack((x[:,ix+1], xder[:,ix+1])),G);
-                    x[:,ix+1]=tmp[:,0];
-                    xder[:,ix+1]=tmp[:,1];
-
+                    tmp = g.gauss2dat(x[:,ix+1], xder[:,ix+1])
+                    x[:,ix+1] = tmp[0]
+                    xder[:,ix+1] = tmp[1]
             else:
                 for ix in range(cases):
-                    x[:,ix+1]=tranproc(x[:,ix+1],G);
+                    x[:, ix+1] = g.gauss2dat(x[:, ix+1])
 
         if derivative:
-            return x,xder
+            return x, xder
         else:
             return x
 
@@ -3046,7 +3351,7 @@ class TurningPoints(WafoData):
         >>> ts = wafo.objects.mat2timeseries(x)
         >>> tp = ts.turning_points()
         >>> mM = tp.cycle_pairs()
-        >>> mM.plot('.')
+        >>> h = mM.plot('.')
 
 
         See also
@@ -3064,7 +3369,7 @@ class TurningPoints(WafoData):
             iM = 1
 
         # Extract min-max and max-min cycle pairs
-        n=len(self.data)
+        n = len(self.data)
         if type_.lower().startswith('min2max'):
             m = self.data[im:-1:2]
             M = self.data[im+1::2]
@@ -3102,8 +3407,8 @@ class TimeSeries(WafoData):
     >>> import wafo.data
     >>> x = wafo.data.sea()
     >>> ts = mat2timeseries(x)
-    >>> rf = ts.acf(150)
-    >>> rf.plot()
+    >>> rf = ts.tocov(lag=150)
+    >>> h = rf.plot()
 
     '''
     def __init__(self,*args,**kwds):
@@ -3125,11 +3430,10 @@ class TimeSeries(WafoData):
 
         Returns
         -------
-        dT : scalar
+        dt : scalar
             sampling interval, unit:
             [s] if lagtype=='t'
             [m] otherwise
-
 
         See also
         '''
@@ -3137,24 +3441,24 @@ class TimeSeries(WafoData):
         N = np.size(self.args)-1
         T = self.args[-1]-self.args[0]
         dt = T/N
-
         return dt
 
-    def acf(self,lag=None,flag='biased',norm=False,dt = None):
-        ''' Return auto covariance function from data.
+    def tocov(self, lag=None, flag='biased', norm=False, dt = None):
+        ''' 
+        Return auto covariance function from data.
 
         Parameters
         ----------
-        L : scalar, int
-            maximum time-lag for which the ACF is estimated. (Default L=n-1)
-        dT : scalar
-            time-step between data points (default xn(2,1)-xn(1,1) or 1 Hz).
-        flag : string
-             'biased'  : scales the raw cross-correlation by 1/n. (default)
-             'unbiased': scales the raw correlation by 1/(n-abs(k)),
-                            where k is the index into the result.
+        lag : scalar, int
+            maximum time-lag for which the ACF is estimated. (Default lag=n-1)
+        flag : string, 'biased' or 'unbiased' 
+            If 'unbiased' scales the raw correlation by 1/(n-abs(k)),
+            where k is the index into the result, otherwise scales the raw 
+            cross-correlation by 1/n. (default) 
         norm : bool
             True if normalize output to one
+        dt : scalar
+            time-step between data points (default xn(2,1)-xn(1,1) or 1 Hz).
 
         Return
         -------
@@ -3169,25 +3473,26 @@ class TimeSeries(WafoData):
                      var(R(k))=1/N*(R(0)^2+2*R(1)^2+2*R(2)^2+ ..+2*R(q)^2)
                      for  k>q and where  N=length(x). Special case is
                      white noise where it equals R(0)^2/N for k>0
-            norm : 0 indicating that R is not normalized
+            norm : bool
+                If false indicating that R is not normalized
 
          Example:
          --------
          >>> import wafo.data
          >>> x = wafo.data.sea()
          >>> ts = mat2timeseries(x)
-         >>> rf = ts.acf(150)
-         >>> rf.plot()
+         >>> acf = ts.tocov(150)
+         >>> h = acf.plot()
         '''
         n = len(self.data)
         if not lag:
             lag = n-1
 
-        x = self.data.copy().flatten()
+        x = self.data.flatten()
         indnan = np.isnan(x)
         if any(indnan):
             x = x - np.mean(x[1-indnan]) # remove the mean pab 09.10.2000
-            #indnan = find(indnan);
+            #indnan = find(indnan)
             Ncens = n - sum(indnan)
             x[indnan] = 0. # pab 09.10.2000 much faster for censored samples
         else:
@@ -3203,16 +3508,16 @@ class TimeSeries(WafoData):
         lags = range(0,lag+1)
         if flag.startswith('unbiased'):
             # unbiased result, i.e. divide by n-abs(lag)
-            R=R[lags]*Ncens/ np.arange(Ncens,Ncens-lag,-1)
+            R = R[lags]*Ncens/np.arange(Ncens, Ncens-lag, -1)
         #else  % biased result, i.e. divide by n
-        #  r=r(1:L+1)*Ncens/Ncens;
+        #  r=r(1:L+1)*Ncens/Ncens
 
-        c0     = R[0]
+        c0 = R[0]
         if norm:
             R = R/c0
-
-        dT = self.sampling_period()
-        t = np.linspace(0,lag*dT,lag+1)
+        if dt is None:
+            dt = self.sampling_period()
+        t = np.linspace(0,lag*dt,lag+1)
         cumsum = np.cumsum
         acf = CovData1D(R[lags],t)
         acf.stdev=np.sqrt(np.r_[ 0, 1 ,1+2*cumsum(R[1:]**2)]/Ncens)
@@ -3220,8 +3525,9 @@ class TimeSeries(WafoData):
         acf.norm = norm
         return acf
 
-    def spec(self,*args,**kwargs):
-        """ Return power spectral density by Welches average periodogram method.
+    def tospec(self,*args,**kwargs):
+        """ 
+        Return power spectral density by Welches average periodogram method.
 
         Parameters
         ----------
@@ -3240,8 +3546,8 @@ class TimeSeries(WafoData):
 
         Returns
         -------
-        Pxx, freqs : ndarray
-            psd and frequency
+        S : SpecData1D
+            Power Spectral Density
 
         Notes
         -----
@@ -3257,19 +3563,20 @@ class TimeSeries(WafoData):
         Procedures, John Wiley & Sons
         """
         fs = 1./(2*self.sampling_period())
-        S,f = psd(self.data.flatten(),Fs=fs,*args,**kwargs)
+        S, f = psd(self.data.ravel(), Fs=fs, *args, **kwargs)
         fact = 2.0*pi
         w = fact*f
-        return SpecData1D(S/fact,w)
+        return SpecData1D(S/fact, w)
 
     def turning_points(self,h=0.0,wavetype=None):
-        ''' Return turning points (tp) from data, optionally rainflowfiltered.
+        ''' 
+        Return turning points (tp) from data, optionally rainflowfiltered.
 
         Parameters
         ----------
         h  : scalar
             a threshold
-             if  h<=0, then  tp  is a sequence of turning points (default);
+             if  h<=0, then  tp  is a sequence of turning points (default)
              if  h>0, then all rainflow cycles with height smaller than
                       h  are removed.
 
@@ -3283,7 +3590,7 @@ class TimeSeries(WafoData):
 
         Returns
         -------
-        tp : TimeSeries object
+        tp : TurningPoints object
             with times and turning points.
 
         Example:
@@ -3293,7 +3600,9 @@ class TimeSeries(WafoData):
         >>> ts1 = mat2timeseries(x1)
         >>> tp = ts1.turning_points(wavetype='Mw')
         >>> tph = ts1.turning_points(h=0.3,wavetype='Mw')
-        >>> ts1.plot();tp.plot('ro');tph.plot('k.')
+        >>> hs = ts1.plot()
+        >>> hp = tp.plot('ro')
+        >>> hph = tph.plot('k.')
 
         See also
         ---------
@@ -3301,7 +3610,7 @@ class TimeSeries(WafoData):
         findrfc
         findtp
         '''
-        ind = findtp(self.data,np.max(h,0.0),wavetype)
+        ind = findtp(self.data,np.max(h,0.0), wavetype)
         try:
             t = self.args[ind]
         except:
@@ -3309,7 +3618,8 @@ class TimeSeries(WafoData):
         return TurningPoints(self.data[ind],t)
 
     def trough_crest(self,v=None,wavetype=None):
-        """ Return trough and crest turning points
+        """ 
+        Return trough and crest turning points
 
         Parameters
         -----------
@@ -3325,18 +3635,19 @@ class TimeSeries(WafoData):
 
         Returns
         --------
-        tc : turning points object
+        tc : TurningPoints object
             with trough and crest turningpoints
-
         """
-        ind = findtc(self.data,v,wavetype)[0]
+        ind = findtc(self.data, v, wavetype)[0]
         try:
             t = self.args[ind]
         except:
             t = ind
-        return TurningPoints(self.data[ind],t)
-    def wave_periods(self,vh=None,pdef='d2d',wdef=None,index=None,rate=1):
-        """ Return sequence of wave periods/lengths from data.
+        return TurningPoints(self.data[ind], t)
+    
+    def wave_periods(self, vh=None, pdef='d2d', wdef=None, index=None, rate=1):
+        """ 
+        Return sequence of wave periods/lengths from data.
 
         Parameters
         ----------
@@ -3396,7 +3707,7 @@ class TimeSeries(WafoData):
         >>> ts = wafo.objects.mat2timeseries(x[0:400,:])
         >>> T = ts.wave_periods(vh=0.0,pdef='c2c')
 
-        T = dat2wa(x1,0,'c2c'); #% Returns crest2crest waveperiods
+        T = dat2wa(x1,0,'c2c') #% Returns crest2crest waveperiods
         subplot(121), waveplot(x1,'-',1,1),subplot(122),histgrm(T)
 
         See also:
@@ -3414,19 +3725,19 @@ class TimeSeries(WafoData):
 ##% If the first is a up-crossing then the first is a 'u2c' waveperiod.
 ##%
 ##%	Example:
-##%		[T ind]=dat2wa(x,0,'all'); %returns all waveperiods
+##%		[T ind]=dat2wa(x,0,'all') %returns all waveperiods
 ##%		nn = length(T)
 ##%		% want to extract all t2u waveperiods
 ##%		if x(ind(1),2)>0 % if first is down-crossing
-##%			Tt2u=T(2:4:nn);
+##%			Tt2u=T(2:4:nn)
 ##%		else 		% first is up-crossing
-##%			Tt2u=T(4:4:nn);
+##%			Tt2u=T(4:4:nn)
 ##%		end
 
         if rate>1: #% interpolate with spline
             n = np.ceil(self.data.size*rate)
-            ti = linspace(self.args[0],self.args[-1],n)
-            x = stineman_interp(ti,self.args,self.data)
+            ti = linspace(self.args[0], self.args[-1], n)
+            x = stineman_interp(ti, self.args, self.data)
         else:
             x = self.data
             ti = self.args
@@ -3434,90 +3745,92 @@ class TimeSeries(WafoData):
 
         if vh is None:
             if pdef[0] in ('m','M'):
-                vh=0;
+                vh = 0
                 np.disp('   The minimum rfc height, h,  is set to: %g' % vh)
             else:
-                vh=x.mean()
+                vh = x.mean()
                 np.disp('   The level l is set to: %g' % vh)
 
 
         if index is None:
             if pdef in ('m2m', 'm2M', 'M2m','M2M'):
-                index = findtp(x,vh,wdef)
+                index = findtp(x, vh, wdef)
             elif pdef in ('u2u','u2d','d2u', 'd2d'):
-                index = findcross(x,vh,wdef)
+                index = findcross(x, vh, wdef)
             elif pdef in ('t2t','t2c','c2t', 'c2c'):
                 index = findtc(x,vh,wdef)[0]
             elif pdef in ('d2t','t2u', 'u2c', 'c2d','all'):
-                index, v_ind=findtc(x,h,wdef)
-                index = sort(np.r_[index , v_ind]) #% sorting crossings and tp in sequence
+                index, v_ind = findtc(x, vh, wdef)
+                index = sort(np.r_[index, v_ind]) #% sorting crossings and tp in sequence
             else:
-                raise ValueError('Unknown pdef option!');
+                raise ValueError('Unknown pdef option!')
 
         if (x[index[0]]>x[index[1]]): #% if first is down-crossing or max
-            if pdef in  ('d2t','M2m','c2t', 'd2u' , 'M2M','c2c','d2d','all'):
-                start=1
-            elif pdef in ('t2u','m2M', 't2c', 'u2d' ,'m2m','t2t','u2u'):
-                start=2
+            if pdef in  ('d2t', 'M2m', 'c2t', 'd2u' , 'M2M', 'c2c', 'd2d', 'all'):
+                start = 1
+            elif pdef in ('t2u', 'm2M', 't2c', 'u2d' ,'m2m', 't2t', 'u2u'):
+                start = 2
             elif pdef in ('u2c'):
-                start=3
-            elif pdef in ( 'c2d'):
-                start=4;
+                start = 3
+            elif pdef in ('c2d'):
+                start = 4
             else:
-                raise ValueError('Unknown pdef option!');
+                raise ValueError('Unknown pdef option!')
             # else first is up-crossing or min
-        elif pdef in ('all','u2c','m2M', 't2c', 'u2d','m2m','t2t','u2u'):
+        elif pdef in ('all', 'u2c', 'm2M', 't2c', 'u2d', 'm2m', 't2t', 'u2u'):
             start = 0
-        elif pdef in ('c2d','M2m','c2t', 'd2u' , 'M2M','c2c','d2d'):
-            start=1
+        elif pdef in ('c2d', 'M2m', 'c2t', 'd2u', 'M2M', 'c2c', 'd2d'):
+            start = 1
         elif pdef in ('d2t'):
-            start=2;
+            start = 2
         elif pdef in ('t2u'):
-            start=3;
+            start = 3
         else:
-            raise ValueError('Unknown pdef option!');
+            raise ValueError('Unknown pdef option!')
 
         # determine the steps between wanted periods
-        if pdef in ('d2t','t2u','u2c', 'c2d' ):
-            step=4;
+        if pdef in ('d2t', 't2u', 'u2c', 'c2d' ):
+            step = 4
         elif pdef in ('all'):
-            step=1 #;% secret option!
+            step = 1 #% secret option!
         else:
-            step=2;
+            step = 2
 
         #% determine the distance between min2min, t2t etc..
-        if pdef in ('m2m','t2t','u2u','M2M','c2c','d2d'):
-            dist=2
+        if pdef in ('m2m', 't2t', 'u2u', 'M2M', 'c2c', 'd2d'):
+            dist = 2
         else:
-            dist=1;
+            dist = 1
 
         nn = len(index)
         #% New call: (pab 28.06.2001)
-        if pdef[0] in ('u','d'):
-            t0 = ecross(ti,x,index[start:(nn-dist):step],vh)
+        if pdef[0] in ('u', 'd'):
+            t0 = ecross(ti, x, index[start:(nn-dist):step], vh)
         else: # % min, Max, trough, crest or all crossings wanted
-            t0 = x[index[start:(nn-dist):step]];
+            t0 = x[index[start:(nn-dist):step]]
 
         if pdef[2] in ('u','d'):
-            t1 = ecross(ti,x,index[(start+dist):nn:step],vh);
+            t1 = ecross(ti, x, index[(start+dist):nn:step], vh)
         else: # % min, Max, trough, crest or all crossings wanted
-            t1 = x[index[(start+dist):nn:step]];
+            t1 = x[index[(start+dist):nn:step]]
 
-        T = t1-t0;
+        T = t1 - t0
 ##        if False: #% Secret option: indices to the actual crossings used.
-##            index=index.ravel();
-##            ind = [index(start:(nn-dist):step) index((start+dist):nn:step)].';
-##            ind = ind(:);
+##            index=index.ravel()
+##            ind = [index(start:(nn-dist):step) index((start+dist):nn:step)].'
+##            ind = ind(:)
 
 
         return T, index
 
         #% Old call: kept just in case
-        #%T  = x(index((start+dist):step:nn),1)-x(index(start:step:(nn-dist)),1);
+        #%T  = x(index((start+dist):step:nn),1)-x(index(start:step:(nn-dist)),1)
 
 
 
     def reconstruct(self):
+        pass
+    def plot_wave(self):
         pass
     def plot_sp_wave(self,wave_idx,tz_idx=None,*args,**kwds):
         """
@@ -3535,8 +3848,8 @@ class TimeSeries(WafoData):
         Plot waves nr. 6,7,8 and waves nr. 12,13,...,17
         >>> import wafo
         >>> x = wafo.data.sea()
-        >>> ts = wafo.objects.mat2timseries(x[0:500])
-        >>> ts.plot_sp_waves(np.r_[6:9,12:18])
+        >>> ts = wafo.objects.mat2timeseries(x[0:500])
+        >>> ts.plot_sp_wave(np.r_[6:9,12:18])
 
 
         See also
@@ -3545,7 +3858,7 @@ class TimeSeries(WafoData):
         """
 
         if tz_idx is None:
-            tc_ind,tz_idx = findtc(self.data,0,'tw'); # finding trough to trough waves
+            tc_ind,tz_idx = findtc(self.data,0,'tw') # finding trough to trough waves
 
 ##        dw, = np.nonzero(np.abs(np.diff(wave_idx))>1)
 ##        Nsub = dw.size+1
@@ -3555,16 +3868,16 @@ class TimeSeries(WafoData):
 ##            wave_idx = wave_idx[0:dw[-1]+1]
 ##            for ix in range(Nsub-2,0,-2):
 ##                Nwp[ix+1] = wave_idx[dw[ix+1]-1]-wave_idx[dw[ix]]+1 # # of waves pr subplot
-##                wave_idx(dw[ix]+1:dw[ix+1]-1)=[];
+##                wave_idx(dw[ix]+1:dw[ix+1]-1)=[]
 ##
-##            Nwp[0]= wave_idx(dw[0]-1)-wave_idx[0]+1;
-##            wave_idx(1:dw[0]-1)=[];
+##            Nwp[0]= wave_idx(dw[0]-1)-wave_idx[0]+1
+##            wave_idx(1:dw[0]-1)=[]
 ##        else:
-##            Nwp[]= wave_idx[-1]-wave_idx[0]+1;
+##            Nwp[]= wave_idx[-1]-wave_idx[0]+1
 ##        end
 ##
 ##        Nsub = min(6,Nsub)
-##        Nfig = np.ceil(Nsub/6);
+##        Nfig = np.ceil(Nsub/6)
 ##        Nsub = min(6,np.ceil(Nsub/Nfig))
 ##        gcf = plotbackend.gcf
 ##        for iy in range(Nfig):
@@ -3572,7 +3885,7 @@ class TimeSeries(WafoData):
 ##                plotbackend.subplot(Nsub,1,mod(ix,Nsub)+1)
 ##                ind = np.r_[tz_ind[2*wave_idx[ix]-1]:tz_ind[2*wave_idx[ix]+2*Nwp[ix]]]
 ##                #% indices to wave
-##                plotbackend.plot(self.args[ind],self.data[ind],*args,**kwds);
+##                plotbackend.plot(self.args[ind],self.data[ind],*args,**kwds)
 ##                plotbackend.hold('on')
 ##                plotbackend.plot(self.args[ind[0],ind[-1]],[0, 0])
 ##
@@ -3622,23 +3935,26 @@ def sensortypeid(*sensortypes):
     >>> sensortypeid('W','v')
     [11, 10]
     >>> sensortypeid('rubbish')
-    [-1.#IND]
+    [1.#QNAN]
 
-    See also sensortype, id
+    See also 
+    --------
+    sensortype
     '''
 
-    sensorid_table = dict(n=0,n_t=1,n_tt=2,n_x=3,n_y=4,n_xx=5,
-        n_yy=6,n_xy=7,p=8,u=9,v=10,w=11,u_t=12,
-        v_t=13,w_t=14,x_p=15,y_p=16,z_p=17)
+    sensorid_table = dict(n=0, n_t=1, n_tt=2, n_x=3, n_y=4, n_xx=5,
+        n_yy=6, n_xy=7, p=8, u=9, v=10, w=11, u_t=12,
+        v_t=13, w_t=14, x_p=15, y_p=16, z_p=17)
     try:
-        return [sensorid_table.get(name.lower(),np.NAN) for name in sensortypes]
+        return [sensorid_table.get(name.lower(), np.NAN) for name in sensortypes]
     except:
         raise ValueError('Input must be a string!')
 
 
 
 def sensortype(*sensorids):
-    ''' Return sensortype name
+    ''' 
+    Return sensortype name
 
     Parameter
     ---------
@@ -3646,9 +3962,8 @@ def sensortype(*sensorids):
 
     Returns
     -------
-    sensornames : list of strings defining the sensortype
-
-    Valid senor-ids and -types for time series are as follows:
+    sensornames : tuple of strings defining the sensortype
+        Valid senor-ids and -types for time series are as follows:
         0,  'n'    : Surface elevation              (n=Eta)
         1,  'n_t'  : Vertical surface velocity
         2,  'n_tt' : Vertical surface acceleration
@@ -3670,49 +3985,63 @@ def sensortype(*sensorids):
 
     Example:
     >>> sensortype(range(3))
-    ['n', 'n_t', 'n_tt']
+    ('n', 'n_t', 'n_tt')
 
-    See also sensortypeid, tran
+    See also 
+    --------
+    sensortypeid, tran
     '''
-
-
-
-    validNames = ('n','n_t','n_tt','n_x','n_y','n_xx',
-    'n_yy','n_xy','p','u','v','w','u_t',
-    'v_t','w_t','x_p','y_p','z_p',np.NAN)
+    valid_names = ('n', 'n_t', 'n_tt', 'n_x', 'n_y', 'n_xx', 'n_yy', 'n_xy',
+                  'p', 'u', 'v', 'w', 'u_t', 'v_t', 'w_t', 'x_p', 'y_p', 'z_p',
+                  np.NAN)
     ids = np.atleast_1d(*sensorids)
-    if isinstance(ids,list):
+    if isinstance(ids, list):
         ids = np.hstack(ids)
-    N = len(validNames)-1
-
-    try:
-        return [validNames[id] for id in ids.clip(0,N)]
-    except:
-        raise ValueError('Input must be an integer!')
+    n = len(valid_names) - 1
+    ids = where(((ids<0) | (n<ids)), n , ids)
+    
+    #try:
+    return tuple(valid_names[i] for i in ids)
+    #except:
+    #    raise ValueError('Input must be an integer!')
 
 
 def main():
+    import matplotlib
+    matplotlib.interactive(True)
     from wafo.spectrum import models as sm
     sensortype(range(21))
     w = np.linspace(0,3,100)
     Sj = sm.Jonswap()
     S = Sj.toSpecData()
+    
+    f = S.to_t_pdf(pdef='Tc', paramt=(0, 10, 51), speed=7)
+    f.err
+    f.plot()
+    f.show()
+    #pdfplot(f)
+    #hold on, 
+    #plot(f.x{:}, f.f+f.err,'r',f.x{:}, f.f-f.err)  estimated error bounds
+    #hold off  
+
+    
+    
     #S = SpecData1D(Sj(w),w)
-    R = S.toacf(nr=1)
+    R = S.tocov(nr=1)
     S1 = S.copy()
     Si = R.tospec()
-    ns =5000;
-    dt = .2;
-    x1 = S.sim_nl(ns= ns,dt=dt);
+    ns =5000
+    dt = .2
+    x1 = S.sim_nl(ns= ns,dt=dt)
     x2 = TimeSeries(x1[:,1],x1[:,0])
-    R = x2.acf(lag=100)
+    R = x2.tocov(lag=100)
     R.plot()
 
     S.plot('ro')
     t = S.moment()
     t1 = S.bandwidth([0,1,2,3])
     S1 = S.copy()
-    S1.resample(dt=0.3,method='cubic')
+    S1.resample(dt=0.3, method='cubic')
     S1.plot('k+')
     x = S1.sim(ns=100)
     import pylab
@@ -3725,10 +4054,11 @@ def main():
 
 
 if __name__ == '__main__':
-    if  False : #  True: #
+    if  True: #False : #  
         import doctest
         doctest.testmod()
     else:
+        main()
         import wafo
         ts = wafo.objects.mat2timeseries(wafo.data.sea())
         tp = ts.turning_points()
@@ -3743,18 +4073,19 @@ if __name__ == '__main__':
         import wafo.data
         x = wafo.data.sea()
         ts = mat2timeseries(x)
-        rf = ts.acf(150)
+        rf = ts.tocov(lag=150)
         rf.plot()
         #main()
         import wafo.spectrum.models as sm
-        Sj = sm.Jonswap();
-        S = Sj.toSpecData();
+        Sj = sm.Jonswap()
+        S = Sj.toSpecData()
 
-        R = S.toacf()
+        R = S.tocov()
         x = R.sim(ns=1000,dt=0.2)
         S.characteristic(['hm0','tm02'])
-        ns =1000; dt = .2;
-        x1 = S.sim(ns,dt=dt);
+        ns = 1000 
+        dt = .2
+        x1 = S.sim(ns,dt=dt)
 
         ts = TimeSeries(x1[:,1],x1[:,0])
         tp = ts.turning_points(0.0)

@@ -1,5 +1,7 @@
 import numpy as np
+from scipy.special import ndtri as invnorm
 import rindmod
+
 
 class Rind(object):
     '''
@@ -78,7 +80,7 @@ class Rind(object):
     >>> Bup[0,ind] = np.minimum(Bup[0,ind] , infinity*dev[indI[ind+1]])
     >>> Blo[0,ind] = np.maximum(Blo[0,ind] ,-infinity*dev[indI[ind+1]])
     >>> rind(Sc,m,Blo,Bup,indI, xc, nt=0)
-    (array([ 0.05635559]), array([ 0.00743526]), array([  1.00000000e-10]))
+    (array([ 0.05494076]), array([ 0.00083066]), array([  1.00000000e-10]))
     
     Compute expectation E( X1^{+}*X2^{+} ) with random
     correlation coefficient,Cov(X1,X2) = rho2.
@@ -195,6 +197,7 @@ class Rind(object):
     
         self.__dict__.update(**kwds)
         self.initialize(self.speed)
+        self.set_constants()
  
     def initialize(self, speed=None):
         '''
@@ -276,12 +279,16 @@ class Rind(object):
             constants[0] = np.mod(constants[0], 10)
             rindmod.set_constants(*constants)
         
-    def __call__(self, BIG, Ex, Blo, Bup, indI=None, xc=None, nt=None, **kwds):
-        self.__dict__.update(**kwds)
+    def __call__(self, cov, m, ab, bb, indI=None, xc=None, nt=None, **kwds):
+        if any(kwds):
+            self.__dict__.update(**kwds)
+            self.set_constants()
         if xc is None:
-            xc = np.zeros((0,1))
+            xc = np.zeros((0, 1))
         
-        BIG, Blo, Bup, xc = np.atleast_2d(BIG, Blo, Bup, xc)
+        BIG, Blo, Bup, xc = np.atleast_2d(cov, ab, bb, xc)
+        Blo = Blo.copy()
+        Bup = Bup.copy()
         
         Ntdc = BIG.shape[0]    
         Nc = xc.shape[0]
@@ -297,7 +304,7 @@ class Rind(object):
                 raise ValueError('Inconsistent size of Blo and Bup')
             indI = np.r_[-1:Ntd]
 
-        Ex, indI = np.atleast_1d(Ex,indI)
+        Ex, indI = np.atleast_1d(m, indI)
         if self.seed is None:
             seed = int(np.floor(np.random.rand(1)*1e10))
         else:
@@ -310,14 +317,15 @@ class Rind(object):
         #            if INFIN(I) = 2, Ith limits are [Hlo(I), Hup(I)].
         infinity = 37
         dev = np.sqrt(np.diag(BIG))  # std
-        ind = np.nonzero(indI[1:])[0]
-        INFIN = np.repeat(2, len(indI)-1)
-        INFIN[ind] = 2 - (Bup[0, ind] > infinity*dev[indI[ind+1]])-2*(Blo[0, ind] < -infinity*dev[indI[ind+1]])
+        ind = np.nonzero(indI[1:]>-1)[0]
+        infin = np.repeat(2, len(indI)-1)
+        infin[ind] = (2 - (Bup[0, ind] > infinity*dev[indI[ind+1]]) 
+                      - 2*(Blo[0, ind] < -infinity*dev[indI[ind+1]]))
 
         Bup[0, ind] = np.minimum(Bup[0, ind], infinity*dev[indI[ind+1]])
         Blo[0, ind] = np.maximum(Blo[0, ind], -infinity*dev[indI[ind+1]])
         ind2 = indI+1
-        return rindmod.rind(BIG, Ex, xc, nt, ind2, Blo, Bup, INFIN, seed)
+        return rindmod.rind(BIG, Ex, xc, nt, ind2, Blo, Bup, infin, seed)
               
 def test_rind():
     ''' Small test function

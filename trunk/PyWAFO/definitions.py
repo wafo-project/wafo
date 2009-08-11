@@ -9,7 +9,7 @@ wave_periods :
 waves :
 """
 def wave_amplitudes():
-    """
+    r"""
     Wave amplitudes and heights definitions and nomenclature
 
     Definition of wave amplitudes and wave heights
@@ -18,12 +18,12 @@ def wave_amplitudes():
                 <----- Direction of wave propagation
 
 
-               ...............c_..........
+               |..............c_..........|
                |             /| \         |
            Hd  |           _/ |  \        |  Hu
        M       |          /   |   \       |
       / \      |     M   / Ac |    \_     |     c_
-     F   \     |    / \m/     |      \    |    /  \
+     F   \     |    / \m/     |      \    |    /  \          
     ------d----|---u------------------d---|---u----d------ level v
            \   |  /|                   \  |  /      \L
             \_ | / | At                 \_|_/
@@ -41,9 +41,10 @@ def wave_amplitudes():
     --------
     waves, crossings, turning_points
     """
-    pass
+    print(wave_amplitudes.__doc__)
+
 def crossings():
-    """
+    r"""
     Level v crossing definitions and nomenclature
 
     Definition of level v crossings
@@ -84,9 +85,10 @@ def crossings():
     --------
     wave_periods, waves, turning_points, findcross, findtp
     """
-    pass
+    print(crossings.__doc__)
+    
 def cycle_pairs():
-    """
+    r"""
     Cycle pairs definitions and numenclature
 
     Definition of Max2min and min2Max cycle pair
@@ -100,9 +102,10 @@ def cycle_pairs():
     --------
     turning_points
     """
-    pass
+    print(cycle_pairs.__doc__)
+    
 def wave_periods():
-    """
+    r"""
     Wave periods (lengths) definitions and nomenclature
 
     Definition of wave periods (lengths)
@@ -187,9 +190,9 @@ def wave_periods():
     crossings,
     turning_points
     """
-    pass
+    print(wave_periods.__doc__)
 def turning_points():
-    """
+    r"""
     Turning points definitions and numenclature
 
     Definition of turningpoints
@@ -222,9 +225,9 @@ def turning_points():
     findtp
 
     """
-    pass
+    print(turning_points.__doc__)
 def waves():
-    """
+    r"""
     Wave definitions and nomenclature
 
     Definition of trough and crest
@@ -260,7 +263,7 @@ def waves():
        <------Mw-----> <----mw---->
        M             : :  c       :
       / \            M : / \_     :     c_            c
-     F   \          / \m/    \    :    /: \          /:\
+     F   \          / \m/    \    :    /: \          /:\               
     ------d--------u----------d-------u----d--------u---d------ level v
            \      /:           \  :  /: :  :\_    _/  : :\_   L
             \_   / :            \_t_/ : :  :  \t_/    : :  \m/
@@ -268,7 +271,7 @@ def waves():
                :                  :     :             :
                <--------tw-------->     <------cw----->
 
-     (F= first value and L=last value).
+     (F=first value and L=last value).
 
     See also
     --------
@@ -278,4 +281,4 @@ def waves():
     findtc,
     findcross
     """
-    pass
+    print(waves.__doc__)

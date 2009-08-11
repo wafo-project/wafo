@@ -13,7 +13,7 @@
 from scipy.optimize import brentq
 from scipy.integrate import trapz
 from numpy import (sqrt, atleast_1d, abs, imag, sign, where, cos, arccos, ceil,
-    expm1,log1p)
+    expm1, log1p, pi)
 import numpy as np
 import warnings
 
@@ -33,7 +33,7 @@ class TrCommon(object):
     Methods
     -------
     dist2gauss : Returns a measure of departure from the Gaussian model, i.e.,
-                int (g(x)-xn)^2 dx  where int. limits is given by X.
+                int (g(x)-xn)^2 dx  where int. limits are given by X.
     dat2gauss : Transform non-linear data to Gaussian scale
     gauss2dat : Transform Gaussian data to non-linear scale
 
@@ -44,7 +44,8 @@ class TrCommon(object):
         non-Gaussian process. Default mean=0, sigma=1, skew=0.16, kurt=3.04.
         skew=kurt-3=0 for a Gaussian process.
     """
-    def __init__(self,mean=0.0,var=1.0,skew=0.16,kurt=3.04,sigma=None,*args,**kwds):
+    def __init__(self, mean=0.0, var=1.0, skew=0.16, kurt=3.04, sigma=None,
+                 *args, **kwds):
         if sigma is None:
             sigma = sqrt(var)
         self.mean = mean
@@ -52,10 +53,10 @@ class TrCommon(object):
         self.skew = skew
         self.kurt = kurt
 
-    def __call__(self,x):
+    def __call__(self, x):
         return self._dat2gauss(x)
 
-    def  dist2gauss(self,x=None,xnmin=-5,xnmax=5,n=513):
+    def dist2gauss(self, x=None, xnmin=-5, xnmax=5, n=513):
         """
         Return a measure of departure from the Gaussian model.
 
@@ -72,12 +73,12 @@ class TrCommon(object):
 
         Returns
         -------
-        t0 = real, scalar
+        t0 : real, scalar
             a measure of departure from the Gaussian model calculated as
             trapz(xn,(xn-g(x))**2.) where int. limits is given by X.
         """
         if x is None:
-            xn = np.linspace(xnmin,xnmax,n)
+            xn = np.linspace(xnmin, xnmax, n)
             x = self.sigma*xn+self.mean
         else:
             xn = (x-self.mean)/self.sigma
@@ -107,7 +108,9 @@ class TrCommon(object):
         tranproc.
         """
         return self._gauss2dat(y)
-    def dat2gauss(self,x):
+    def _gauss2dat(self, y):
+        pass
+    def dat2gauss(self, x):
         """
         Transforms non-linear data, x, to Gaussian scale.
 
@@ -127,7 +130,9 @@ class TrCommon(object):
         tranproc.
         """
         return self._dat2gauss(x)
-
+    def _dat2gauss(self, x):
+        pass
+    
 class TrHermite(TrCommon):
     __doc__ = TrCommon.__doc__.replace('<generic>','Hermite') + """
     pardef : scalar, integer
@@ -165,11 +170,11 @@ class TrHermite(TrCommon):
     Example:
     --------
     # Simulate a Transformed Gaussian process:
-    Hm0=7;Tp=11;
-    S = jonswap([],[Hm0 Tp]);
-    g=hermitetr*Hm0/4;
-    ys = spec2sdat(S,15000);   % Simulated in the Gaussian world
-    xs = gaus2dat(ys,g);      % Transformed to the real world
+    Hm0=7;Tp=11
+    S = jonswap([],[Hm0 Tp])
+    g=hermitetr*Hm0/4
+    ys = spec2sdat(S,15000)   % Simulated in the Gaussian world
+    xs = gaus2dat(ys,g)      % Transformed to the real world
 
     See also  spec2skew, ochitr, lc2tr, dat2tr
 
@@ -210,8 +215,8 @@ class TrHermite(TrCommon):
             if skew**2>8*(ga2+3.)/9.:
                 warnings.warn('Kurtosis too low compared to the skewness')
 
-            self._c4 = (sqrt(1.+1.5*ga2)-1.)/18.;
-            self._c3 = skew/(6.*(1+6.*c4))
+            self._c4 = (sqrt(1.+1.5*ga2)-1.)/18.
+            self._c3 = skew/(6.*(1+6.*self._c4))
         else:
             # Winterstein et. al. 1994 parametrization intended to
             # apply for the range:  0 <= ga2 < 12 and 0<= skew^2 < 2*ga2/3
@@ -221,12 +226,12 @@ class TrHermite(TrCommon):
             if (ga2 < 0) or (12 < ga2):
                 warnings.warn('Kurtosis must be between 0 and 12')
 
-            self._c3 = skew/6*(1-0.015*abs(skew)+0.3*skew**2)/(1+0.2*ga2);
+            self._c3 = skew/6*(1-0.015*abs(skew)+0.3*skew**2)/(1+0.2*ga2)
             if ga2==0.:
-                self._c4=0.0;
+                self._c4=0.0
             else:
-                c41= (1.-1.43*skew**2./ga2)**(1.-0.1*(ga2+3.)**0.8);
-                self._c4 = 0.1*((1.+1.25*ga2)**(1./3.)-1.)*c41;
+                c41 = (1.-1.43*skew**2./ga2)**(1.-0.1*(ga2+3.)**0.8)
+                self._c4 = 0.1*((1.+1.25*ga2)**(1./3.)-1.)*c41
 
         if not np.isfinite(self._c3) or not np.isfinite(self._c4):
             raise ValueError('Unable to calculate the polynomial')
@@ -248,7 +253,7 @@ class TrHermite(TrCommon):
             self._forward = p
             self._backward = None
         else:
-            Km1 = np.sqrt(1.+2.*c3**2+6*c4**2);
+            Km1 = np.sqrt(1.+2.*c3**2+6*c4**2)
             p = np.poly1d(np.r_[c4, c3, 1.-3.*c4, -c3]/Km1)   # backward G
             self._forward = None
             self._backward = p
@@ -261,11 +266,11 @@ class TrHermite(TrCommon):
         if r.size>0:
             # Compute where it is possible to invert the polynomial
             if self.kurt<3.:
-                self._x_limit = r;
+                self._x_limit = r
             else:
                 self._x_limit = sa*p(r)+ma
 
-            txt1 = 'The polynomial is not a strictly increasing function.';
+            txt1 = 'The polynomial is not a strictly increasing function.'
             txt2 = 'The derivative of g(x) is infinite at x = %g' % self._x_limit
             warnings.warn('%s \n %s ' % (txt1,txt2))
         return
@@ -275,9 +280,9 @@ class TrHermite(TrCommon):
             txt2 = 'for the given interval x = [%g, %g]' % (x[0],x[-1])
 
             if any(np.logical_and(x[0]<= x00, x00 <= x[-1])):
-                cdef = 1;
+                cdef = 1
             else:
-                cdef = sum( np.logical_xor(x00 <= x[0] , x00 <= x[-1]));
+                cdef = sum( np.logical_xor(x00 <= x[0] , x00 <= x[-1]))
 
             if np.mod(cdef,2):
                 errtxt = 'Unable to invert the polynomial \n %s' % txt2
@@ -309,8 +314,10 @@ class TrHermite(TrCommon):
         else:
             xn = self._backward(y)
         return self.sigma*xn + self.mean
-    def _poly_inv(self,p,xn):
-
+    def _poly_inv(self, p, xn):
+        '''
+        Invert polynomial
+        '''
         if p.order<2:
             return xn
         elif p.order==2:
@@ -345,29 +352,29 @@ class TrHermite(TrCommon):
 
 ##            c3 = self._c3
 ##            c4 = self._c4
-##            b1 = 1./(3.*c4);
-##            #x0 = c3*b1 ;
+##            b1 = 1./(3.*c4)
+##            #x0 = c3*b1 
 ##            #% substitue u = z-x0  and divide by c4 => z^3 + 3*c*z+2*q0  = 0
 ##            #p1  = b1-1.-x0**2.
-##            Km1 = np.sqrt(1.+2.*c3**2+6*c4**2);
+##            Km1 = np.sqrt(1.+2.*c3**2+6*c4**2)
 ##            q0 = x0**3-1.5*b1*(x0+xn*Km1)
             #q0 = x0**3-1.5*b1*(x0+xn)
             if not (self._x_limit is None):  # % Three real roots
-                d = sqrt(-p1);
-                theta1   = arccos(-q0/d**3)/3;
-                th2      = np.r_[0, -2*pi/3, 2*pi/3];
-                x1       = abs(2*d*cos(theta1[ceil(len(xn)/2)] + th2)-x0);
-                ix = x1.argmin() #;   % choose the smallest solution
+                d = sqrt(-p1)
+                theta1   = arccos(-q0/d**3)/3
+                th2      = np.r_[0, -2*pi/3, 2*pi/3]
+                x1       = abs(2*d*cos(theta1[ceil(len(xn)/2)] + th2)-x0)
+                ix = x1.argmin() #   % choose the smallest solution
                 return 2.*d*cos(theta1 + th2[ix])-x0
             else:                # %Only one real root exist
-                q1 = sqrt((q0)**2+p1**3);
+                q1 = sqrt((q0)**2+p1**3)
                 #% Find the real root of the monic polynomial
-                A0 = (q1-q0)**(1./3.);
-                B0 = -(q1+q0)**(1./3.);
-                return A0+B0-x0;   #% real root
+                A0 = (q1-q0)**(1./3.)
+                B0 = -(q1+q0)**(1./3.)
+                return A0+B0-x0  #% real root
                 #%% The other complex roots are given by
-                #%x= -(A0+B0)/2+(A0-B0)*sqrt(3)/2-x0;
-                #%x=-(A0+B0)/2+(A0-B0)*sqrt(-3)/2-x0;
+                #%x= -(A0+B0)/2+(A0-B0)*sqrt(3)/2-x0
+                #%x=-(A0+B0)/2+(A0-B0)*sqrt(-3)/2-x0
 
 
 class TrOchi(TrCommon):
@@ -405,11 +412,11 @@ class TrOchi(TrCommon):
     Example
     -------
     #Simulate a Transformed Gaussian process:
-    Hm0=7;Tp=11;
-    S = jonswap([],[Hm0 Tp]); [sk ku ma]=spec2skew(S);
-    g = ochitr([],[Hm0/4,sk,ma]); g2=[g(:,1), g(:,2)*Hm0/4];
-    ys = spec2sdat(S,15000);   % Simulated in the Gaussian world
-    xs = gaus2dat(ys,g2);      % Transformed to the real world
+    Hm0=7;Tp=11
+    S = jonswap([],[Hm0 Tp]); [sk ku ma]=spec2skew(S)
+    g = ochitr([],[Hm0/4,sk,ma]); g2=[g(:,1), g(:,2)*Hm0/4]
+    ys = spec2sdat(S,15000)   % Simulated in the Gaussian world
+    xs = gaus2dat(ys,g2)      % Transformed to the real world
 
     See also
     --------
@@ -443,7 +450,7 @@ class TrOchi(TrCommon):
         sig1 = self.sigma
 
         if skew==0:
-            self.phat = [0, 0, sig1, ma,1, 0];
+            self.phat = [0, 0, sig1, ma,1, 0]
             return
 
         #% Solve the equations to obtain the gamma parameters:
@@ -454,29 +461,29 @@ class TrOchi(TrCommon):
 
         #% Let x = [a sig2^2 ]
         #% Set up the 2D non-linear equations for a and sig2^2:
-        #g1='[x(2)-2.*x(1).^2.*x(2).^2-P1, 2.*x(1).*x(2).^2.*(3-8.*x(1).^2.*x(2))-P2  ]';
+        #g1='[x(2)-2.*x(1).^2.*x(2).^2-P1, 2.*x(1).*x(2).^2.*(3-8.*x(1).^2.*x(2))-P2  ]'
         #% Or solve the following 1D non-linear equation for sig2^2:
         g2 = lambda x: -sqrt(abs(x-1)*2)*(3.*x-4*abs(x-1))+abs(skew)
 
 
-        a1 = 1. #; % Start interval where sig2^2 is located.
+        a1 = 1. # % Start interval where sig2^2 is located.
         a2 = 2.
 
         sig22 = brentq(g2,a1,a2) #% smallest solution for sig22
-        a  =   sign(skew)*sqrt(abs(sig22-1)/2/sig22**2);
+        a  =   sign(skew)*sqrt(abs(sig22-1)/2/sig22**2)
 
-        sig2 = sqrt(sig22);
+        sig2 = sqrt(sig22)
 
         #% Solve the following 2nd order equation to obtain ma2
         #%        a*(sig2^2+ma2^2)+ma2 = 0
-        my2 =  (-1.-sqrt(1.-4.*a**2*sig22))/a;  #% Largest mean
-        ma2 = a*sig22/my2 ;                  #% choose the smallest mean
+        my2 =  (-1.-sqrt(1.-4.*a**2*sig22))/a  #% Largest mean
+        ma2 = a*sig22/my2                   #% choose the smallest mean
 
         gam_a = 1.28*a
         gam_b = 3*a
         # this is valid for processes with very strong
         # nonlinear characteristics
-        self.phat = [gam_a, gam_b, sig1, ma, sig2, ma2];
+        self.phat = [gam_a, gam_b, sig1, ma, sig2, ma2]
 
         return
 
@@ -487,22 +494,18 @@ class TrOchi(TrCommon):
         if self.phat is None:
             self._par_from_stats()
 
-        ga = self.phat[0];
+        ga = self.phat[0]
         gb = self.phat[1]
         sigma = self.phat[2]
         ma = self.phat[3]
         sigma2 = self.phat[4]
         ma2 = self.phat[5]
 
+        igp, = where(ma<=x)
+        igm, = where(x<ma)
 
-
-
-        igp,=where(ma<=x);
-        igm,=where(x<ma);
-
-        xn = (x-ma)/sigma;
+        xn = (x-ma)/sigma
         g = xn.copy()
-
 
         if ga!=0:
             np.put(g,igp,(-expm1(-ga*xn[igp]))/ga)
@@ -510,14 +513,13 @@ class TrOchi(TrCommon):
         if gb!=0:
             np.put(g,igm,(-expm1(-gb*xn[igm]))/gb)
 
-
-        return (g-ma2)/sigma2;
+        return (g-ma2)/sigma2
 
     def _gauss2dat(self,yn):
         if self.phat is None:
             self._par_from_stats()
 
-        ga  =self.phat[0];
+        ga  =self.phat[0]
         gb  = self.phat[1]
         sigma  = self.phat[2]
         ma  = self.phat[3]
@@ -526,35 +528,36 @@ class TrOchi(TrCommon):
 
         xn = sigma2*yn+ma2
 
-        igp,=where(0<=xn);
-        igm,=where(xn<0);
+        igp, = where(0 <= xn)
+        igm, = where(xn < 0)
 
         if ga!=0:
-            np.put(xn,igp,-log1p(-ga*xn[igp])/ga)
+            np.put(xn, igp, -log1p(-ga*xn[igp])/ga)
 
         if gb!=0:
-            np.put(xn,igm,-log1p(-gb*xn[igm])/gb)
-
+            np.put(xn, igm, -log1p(-gb*xn[igm])/gb)
 
         return  sigma*xn+ma
 
+def main():
+    import pylab
+    g = TrHermite(skew=0.1,kurt=3.01)
+    g.dist2gauss()
+    #g = TrOchi(skew=0.56)
+    x = np.linspace(-5,5)
+    y = g(x)
+    pylab.plot(np.abs(x-g.gauss2dat(y)))
+    #pylab.plot(x,y,x,x,':',g.gauss2dat(y),y,'r')
 
+    pylab.show()
+    np.disp('finito')
+    
 if __name__=='__main__':
     if False:
         import doctest
         doctest.testmod()
     else:
-        import pylab
-        g = TrHermite(skew=0.1,kurt=3.01)
-        g.dist2gauss()
-        #g = TrOchi(skew=0.56)
-        x = np.linspace(-5,5)
-        y = g(x)
-        pylab.plot(np.abs(x-g.gauss2dat(y)))
-        #pylab.plot(x,y,x,x,':',g.gauss2dat(y),y,'r')
-
-        pylab.show()
-        np.disp('finito')
+       main()
 
 
 

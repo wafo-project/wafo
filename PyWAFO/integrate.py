@@ -2,11 +2,11 @@ from __future__ import division
 import warnings
 import copy
 import numpy as np
+from numpy import pi, sqrt, ones, zeros
 from scipy import integrate as intg
 import scipy.special.orthogonal as ort
 from scipy import special as sp
 import matplotlib
-
 import pylab as plb
 matplotlib.interactive(True)
 _POINTS_AND_WEIGHTS = {}
@@ -58,14 +58,16 @@ def dea3(v0, v1, v2):
 
      >>> import numpy as np
      >>> Ei= np.zeros(3)
-     >>> linfun = lambda k : np.linspace(0,np.pi/2.,2.**(k+5)+1)
-     >>> for k in np.arange(3): x = linfun(k); Ei[k] = np.trapz(np.sin(x),x)
-     >>> [En, err] = dea3(Ei[0],Ei[1],Ei[2])
-     >>> truErr = Ei-1.
-     >>> (truErr, err, En)
-     (array([ -2.00805680e-04,  -5.01999079e-05,  -1.25498825e-05]),
-      array([ 0.00020081]),
-      array([ 1.]))
+     >>> linfun = lambda k : np.linspace(0, np.pi/2., 2.**(k+5)+1)
+     >>> for k in np.arange(3): 
+     ...     x = linfun(k)
+     ...     Ei[k] = np.trapz(np.sin(x),x)
+     >>> En, err = dea3(Ei[0],Ei[1],Ei[2])
+     >>> En, err
+     (array([ 1.]), array([ 0.00020081]))
+     >>> TrueErr = Ei-1.
+     >>> TrueErr
+     array([ -2.00805680e-04,  -5.01999079e-05,  -1.25498825e-05])
 
      See also
      --------
@@ -82,9 +84,8 @@ def dea3(v0, v1, v2):
     E0, E1, E2 = np.atleast_1d(v0, v1, v2)
     abs = np.abs
     max = np.maximum
-    zeros = np.zeros
     ten = 10.0
-    one = np.ones(1)
+    one = ones(1)
     small = np.finfo(float).eps  #1.0e-16 #spacing(one)
     delta2 = E2 - E1
     delta1 = E1 - E0
@@ -138,7 +139,8 @@ def clencurt(fun,a,b,n0=5,trace=False,*args):
     Q     = evaluated integral
     tol   = Estimate of the approximation error
 
-
+    Notes
+    -----
     CLENCURT approximates the integral of f(x) from a to b
     using an 2*n+1 points Clenshaw-Curtis formula.
     The error estimate is usually a conservative estimate of the
@@ -148,8 +150,10 @@ def clencurt(fun,a,b,n0=5,trace=False,*args):
     Example
     -------
     >>> import numpy as np
-    >>> clencurt(np.exp,0,2)
-    (array([ 6.3890561]), array([  3.02355097e-11]))
+    >>> val,err = clencurt(np.exp,0,2)
+    >>> abs(val-np.expm1(2))< err, err<1e-10
+    (array([ True], dtype=bool), array([ True], dtype=bool))
+    
 
     See also
     --------
@@ -168,38 +172,38 @@ def clencurt(fun,a,b,n0=5,trace=False,*args):
 
 
     #% make sure n is even
-    n = 2*n0;
+    n = 2*n0
     a,b = np.atleast_1d(a,b)
     a_shape = a.shape
     af = a.ravel()
     bf = b.ravel()
 
-    Na = np.prod(a_shape);
+    Na = np.prod(a_shape)
 
     s  = np.r_[0:n+1]
     s2 = np.r_[0:n+1:2]
     s2.shape = (-1,1)
     x1 = np.cos(np.pi*s/n)
     x1.shape = (-1,1)
-    x = x1*(b-a)/2.+(b+a)/2
+    x = x1*(bf-af)/2.+(bf+af)/2
 
     if hasattr(fun,'__call__'):
         f = fun(x)
     else:
-        x0 = flipud(fun[:,0]);
-        n  = length(x0)-1;
-        if abs(x-x0)>1e-8:
+        x0 = np.flipud(fun[:, 0])
+        n  = len(x0)-1
+        if abs(x-x0) > 1e-8:
             raise ValueError('Input vector x must equal cos(pi*s/n)*(b-a)/2+(b+a)/2')
 
-        f = np.flipud(fun[:,1::]);
+        f = np.flipud(fun[:, 1::])
 
     if trace:
-        plb.plot(x,f,'+')
+        plb.plot(x, f,'+')
 
     # using a Gauss-Lobatto variant, i.e., first and last
     # term f(a) and f(b) is multiplied with 0.5
-    f[0,:]   = f[0,:]/2;
-    f[n,:] = f[n,:]/2;
+    f[0, :] = f[0, :]/2
+    f[n, :] = f[n, :]/2
 
 ##    % x = cos(pi*0:n/n)
 ##    % f = f(x)
@@ -208,29 +212,29 @@ def clencurt(fun,a,b,n0=5,trace=False,*args):
 ##    %  c(k) = (2/N) sum  f''(n)*cos(pi*(2*k-2)*(n-1)/N), 1 <= k <= N/2+1.
 ##    %               n=1
     fft = np.fft.fft
-    tmp = np.real(fft(f[:n,:],axis=0));
-    c   = 2/n*(tmp[0:n/2+1,:]+np.cos(np.pi*s2)*f[n,:]);
+    tmp = np.real(fft(f[:n, :], axis=0))
+    c   = 2/n*(tmp[0:n/2+1, :]+np.cos(np.pi*s2)*f[n, :])
 ##    % old call
-##    %  c = 2/n * cos(s2*s'*pi/n) * f;
-    c[0,:]   = c[0,:]/2
-    c[n/2,:] = c[n/2,:]/2
+##    %  c = 2/n * cos(s2*s'*pi/n) * f
+    c[0, :]   = c[0, :]/2
+    c[n/2, :] = c[n/2, :]/2
 
 ##    % alternative call
-##    % c = dct(f);
+##    % c = dct(f)
 
 
-    c = c[0:n/2+1,:]/((s2-1)*(s2+1));
-    Q = (a-b)*np.sum(c,axis=0);
-    #Q = (a-b).*sum( c(1:n/2+1,:)./repmat((s2-1).*(s2+1),1,Na));
+    c = c[0:n/2+1, :]/((s2-1)*(s2+1))
+    Q = (af-bf)*np.sum(c,axis=0)
+    #Q = (a-b).*sum( c(1:n/2+1,:)./repmat((s2-1).*(s2+1),1,Na))
 
-    abserr = (b-a)*np.abs(c[n/2,:])
+    abserr = (bf-af)*np.abs(c[n/2, :])
 
     if Na>1:
-        abserr = np.reshape(abserr,a_shape)
-        Q = reshape(Q,a_shape)
+        abserr = np.reshape(abserr, a_shape)
+        Q = np.reshape(Q, a_shape)
     return Q, abserr
 
-def romberg(fun, a, b, releps=1e-3, abseps=1e-4):
+def romberg(fun, a, b, releps=1e-3, abseps=1e-3):
     '''
     Numerical integration with the Romberg method
 
@@ -238,12 +242,10 @@ def romberg(fun, a, b, releps=1e-3, abseps=1e-4):
     ----------
     fun : callable
         function to integrate
-    a,b : scalars
+    a, b : real scalars
         lower and upper integration limits,  respectively.
-    releps : scalar
-        requested relative error.
-    abseps : scalar
-        requested absolute error.
+    releps, abseps : scalar, optional
+        requested relative and absolute error, respectively.
 
     Returns
     -------
@@ -260,7 +262,7 @@ def romberg(fun, a, b, releps=1e-3, abseps=1e-4):
     Example
     -------
     >>> import numpy as np
-    >>> [q,err] = romberg(np.sqrt,0,10,1e-4,);
+    >>> [q,err] = romberg(np.sqrt,0,10,1e-4,)
     >>> q,err
     (array([ 21.08185107]), array([  6.61635466e-05]))
 
@@ -271,19 +273,19 @@ def romberg(fun, a, b, releps=1e-3, abseps=1e-4):
     # Max size of extrapolation table
     tableLimit = max(min(np.round(np.log2(h/hMin)),30),3)
 
-    rom = np.zeros((2,tableLimit))
+    rom = zeros((2,tableLimit))
 
     rom[0,0] = h * (fun(a)+fun(b))/2
     ipower = 1
-    fp = np.ones(tableLimit)*4
+    fp = ones(tableLimit)*4
 
-    #Ih1 = 0;
+    #Ih1 = 0
     Ih2 = 0.
     Ih4 = rom[0,0]
     abserr = Ih4
-    #%epstab = zeros(1,decdigs+7);
-    #%newflg = 1;
-    #%[res,abserr,epstab,newflg] = dea(newflg,Ih4,abserr,epstab);
+    #%epstab = zeros(1,decdigs+7)
+    #%newflg = 1
+    #%[res,abserr,epstab,newflg] = dea(newflg,Ih4,abserr,epstab)
     two = 1
     one = 0
     for i in xrange(1,tableLimit):
@@ -295,9 +297,9 @@ def romberg(fun, a, b, releps=1e-3, abseps=1e-4):
         rom[two,0] = 0.5 * rom[one,0] + Un5
 
         fp[i] = 4 * fp[i-1]
-        #!     Richardson extrapolation
+        #   Richardson extrapolation
         for k in xrange(i):
-            #%rom(2,k+1)=(fp(k)*rom(2,k)-rom(1,k))/(fp(k)-1);
+            #rom(2,k+1)=(fp(k)*rom(2,k)-rom(1,k))/(fp(k)-1)
             rom[two,k+1] = rom[two,k]+(rom[two,k]-rom[one,k])/(fp[k]-1)
 
         Ih1 = Ih2
@@ -307,11 +309,11 @@ def romberg(fun, a, b, releps=1e-3, abseps=1e-4):
 
         if (2<=i):
             [res,abserr] = dea3(Ih1,Ih2,Ih4)
-            #%Ih4 = res;
-            if (abserr <= min(abseps,releps*abs(res)) ):
+            #%Ih4 = res
+            if (abserr <= max(abseps,releps*abs(res)) ):
                 break
 
-        #%rom(1,1:i) = rom(2,1:i);
+        #%rom(1,1:i) = rom(2,1:i)
         two = one
         one = (one+1) % 2
         ipower *= 2
@@ -365,10 +367,10 @@ def h_roots(n, method='newton'):
         return ort.h_roots(n)
     else:
         sqrt = np.sqrt
-        MAXIT = 10
+        max_iter = 10
         releps = 3e-14
         C = [9.084064e-01, 5.214976e-02, 2.579930e-03, 3.986126e-03]
-        #PIM4=0.7511255444649425_dp
+        #PIM4=0.7511255444649425
         PIM4 = np.pi**(-1./4)
 
         # The roots are symmetric about the origin, so we have to
@@ -383,10 +385,10 @@ def h_roots(n, method='newton'):
         theta = r3*(C[0]+r2*(C[1]+r2*(C[2]+r2*C[3])))
         z = sqrt(anu)*np.cos(theta)
 
-        L = np.zeros((3,len(z)))
+        L = zeros((3,len(z)))
         k0  = 0
         kp1 = 1
-        for its in xrange(MAXIT):
+        for its in xrange(max_iter):
             #Newtons method carried out simultaneously on the roots.
             L[k0,:]  = 0
             L[kp1,:] = PIM4
@@ -474,7 +476,7 @@ def j_roots(n, alpha, beta, method='newton'):
         [x,w] = ort.j_roots(n,alpha,beta)
     else:
 
-        MAXIT  = 10
+        max_iter  = 10
         releps = 3e-14
 
         # Initial approximations to the roots go into z.
@@ -483,10 +485,10 @@ def j_roots(n, alpha, beta, method='newton'):
 
         z = np.cos( np.pi*(np.arange(1,n+1) -0.25+0.5*alpha)/( n +0.5 *(alfbet+1) ))
 
-        L = np.zeros((3,len(z)))
+        L = zeros((3,len(z)))
         k0  = 0
         kp1 = 1
-        for its in xrange(MAXIT):
+        for its in xrange(max_iter):
             #Newton's method carried out simultaneously on the roots.
             tmp = 2 + alfbet
             L[k0,:]  = 1
@@ -576,8 +578,7 @@ def la_roots(n, alpha=0, method='newton'):
     if not method.startswith('n'):
         return ort.la_roots(n,alpha)
     else:
-        sqrt = np.sqrt
-        MAXIT=10
+        max_iter = 10
         releps = 3e-14
         C = [9.084064e-01, 5.214976e-02, 2.579930e-03, 3.986126e-03]
 
@@ -589,14 +590,14 @@ def la_roots(n, alpha=0, method='newton'):
         theta = r3*(C[0]+r2*(C[1]+r2*(C[2]+r2*C[3])))
         z = anu*np.cos(theta)**2
 
-        dz = np.zeros(len(z))
-        L  = np.zeros((3,len(z)))
-        Lp = np.zeros((1,len(z)))
-        pp = np.zeros((1,len(z)))
+        dz = zeros(len(z))
+        L  = zeros((3,len(z)))
+        Lp = zeros((1,len(z)))
+        pp = zeros((1,len(z)))
         k0  = 0
         kp1 = 1
         k = slice(len(z))
-        for its in xrange(MAXIT):
+        for its in xrange(max_iter):
             #%Newton's method carried out simultaneously on the roots.
             L[k0,k]  = 0.
             L[kp1,k] = 1.
@@ -698,14 +699,14 @@ def p_roots(n,method='newton', a=-1, b=1):
 
 
             #% Legendre-Gauss Polynomials
-            L = np.zeros((3,m))
+            L = zeros((3,m))
 
             # Derivative of LGP
-            Lp = np.zeros((m,))
-            dx = np.zeros((m,))
+            Lp = zeros((m,))
+            dx = zeros((m,))
 
             releps = 1e-15
-            MAXIT = 100
+            max_iter = 100
             #% Compute the zeros of the N+1 Legendre Polynomial
             #% using the recursion relation and the Newton-Raphson method
 
@@ -714,7 +715,7 @@ def p_roots(n,method='newton', a=-1, b=1):
             k   = slice(m)
             k0  = 0
             kp1 = 1
-            for ix in xrange(MAXIT):
+            for ix in xrange(max_iter):
                 L[k0,k]  = 1
                 L[kp1,k] = xo[k]
 
@@ -855,7 +856,7 @@ def qrule(n, wfun=1, alpha=0, beta=0):
         [bp,wf] = j_roots(n,alpha,beta)
     elif wfun==5: # p(x)=1/sqrt((x-a)*(b-x)), a=-1 and b=1 (default)
         jj = np.arange(1,n+1)
-        wf = np.ones(n) * np.pi / n
+        wf = ones(n) * np.pi / n
         bp = np.cos( (2*jj-1)*np.pi / (2*n) )
 
     elif wfun==6: # p(x)=sqrt((x-a)*(b-x)),   a=-1 and b=1
@@ -882,7 +883,7 @@ def qrule(n, wfun=1, alpha=0, beta=0):
         wf = 2*bp1[k]**2*wf1[k]
         bp = 1-bp1[k]**2
     else:
-      raise ValueError('unknown weight function')
+        raise ValueError('unknown weight function')
     return bp, wf
 
 
@@ -893,32 +894,39 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
 
     Parameters
     ----------
-       Fun = callable.
-       a,b = lower and upper integration limits, respectively.
-    reltol = relative tolerance (default 1e-3).
-      wfun = integer defining the weight function, p(x). (default wfun = 1)
-           1 : p(x) = 1                       a =-1,   b = 1   Gauss-Legendre
-           2 : p(x) = exp(-x^2)               a =-inf, b = inf Hermite
-           3 : p(x) = x^alpha*exp(-x)         a = 0,   b = inf Laguerre
-           4 : p(x) = (x-a)^alpha*(b-x)^beta  a =-1,   b = 1 Jacobi
-           5 : p(x) = 1/sqrt((x-a)*(b-x)),    a =-1,   b = 1 Chebyshev 1'st kind
-           6 : p(x) = sqrt((x-a)*(b-x)),      a =-1,   b = 1 Chebyshev 2'nd kind
-           7 : p(x) = sqrt((x-a)/(b-x)),      a = 0,   b = 1
-           8 : p(x) = 1/sqrt(b-x),            a = 0,   b = 1
-           9 : p(x) = sqrt(b-x),              a = 0,   b = 1
-    trace = for non-zero TRACE traces the function evaluations
-              with a point plot of the integrand (default 0).
-      gn = number of base points and weight points to start the
-            integration with (default 2).
-    alpha,
-    beta = Shape parameters of Laguerre or Jacobi weight function
-           (alpha,beta>-1) (default alpha=beta=0)
+    fun : callable
+    a,b : array-like 
+        lower and upper integration limits, respectively.
+    reltol, abstol : real scalars, optional
+        relative and absolute tolerance, respectively. (default reltol=abstool=1e-3).
+    wfun : scalar integer, optional
+        defining the weight function, p(x). (default wfun = 1)
+        1 : p(x) = 1                       a =-1,   b = 1   Gauss-Legendre
+        2 : p(x) = exp(-x^2)               a =-inf, b = inf Hermite
+        3 : p(x) = x^alpha*exp(-x)         a = 0,   b = inf Laguerre
+        4 : p(x) = (x-a)^alpha*(b-x)^beta  a =-1,   b = 1 Jacobi
+        5 : p(x) = 1/sqrt((x-a)*(b-x)),    a =-1,   b = 1 Chebyshev 1'st kind
+        6 : p(x) = sqrt((x-a)*(b-x)),      a =-1,   b = 1 Chebyshev 2'nd kind
+        7 : p(x) = sqrt((x-a)/(b-x)),      a = 0,   b = 1
+        8 : p(x) = 1/sqrt(b-x),            a = 0,   b = 1
+        9 : p(x) = sqrt(b-x),              a = 0,   b = 1
+    trace : bool, optional
+        If non-zero a point plot of the integrand (default False).
+    gn : scalar integer
+        number of base points to start the integration with (default 2).
+    alpha, beta : real scalars, optional
+        Shape parameters of Laguerre or Jacobi weight function
+        (alpha,beta>-1) (default alpha=beta=0)
 
     Returns
     -------
-    int = evaluated integral
-    err = error estimate, absolute tolerance abs(int-intold)
+    val : ndarray
+        evaluated integral
+    err : ndarray
+        error estimate, absolute tolerance abs(int-intold)
 
+    Notes
+    -----
     GAUSSQ numerically evaluate integral using a Gauss quadrature.
     The Quadrature integrates a (2m-1)th order polynomial exactly and the
     integral is of the form
@@ -927,58 +935,54 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
               a
     GAUSSQ is vectorized to accept integration limits A, B and
     coefficients P1,P2,...Pn, as matrices or scalars and the
-    result INT is the common size of A, B and P1,P2,...,Pn.
+    result is the common size of A, B and P1,P2,...,Pn.
 
     Examples
     ---------
-    integration of x.^2        from 0 to 2 and from 1 to 4
+    integration of x**2        from 0 to 2 and from 1 to 4
 
-    >>> from scitools import numpyutils as npu
+    >>> from scitools import numpyutils as npt
+    scitools.easyviz backend is gnuplot
     >>> A = [0, 1]; B = [2,4]
-    >>> fun = npu.wrap2callable('x**2')
+    >>> fun = npt.wrap2callable('x**2')
     >>> [val1,err1] = gaussq(fun,A,B)
     >>> val1
     array([  2.66666667,  21.        ])
     >>> err1
     array([  1.77635684e-15,   1.06581410e-14])
 
-
     Integration of x^2*exp(-x) from zero to infinity:
-    >>> fun2 = npu.wrap2callable('1')
-    >>> [val2,err2] = gaussq(fun2,0,npu.inf,wfun=3, alpha=2)
-    >>> [val3,err3] = gaussq(lambda x: x**2,0,npu.inf,wfun=3,alpha=0)
-    >>> val2,err2
+    >>> fun2 = npt.wrap2callable('1')
+    >>> val2, err2 = gaussq(fun2, 0, npt.inf, wfun=3, alpha=2)
+    >>> val3, err3 = gaussq(lambda x: x**2,0, npt.inf, wfun=3, alpha=0)
+    >>> val2, err2
     (array([ 2.]), array([  6.66133815e-15]))
-    >>> val3,err3
+    >>> val3, err3
     (array([ 2.]), array([  1.77635684e-15]))
 
     Integrate humps from 0 to 2 and from 1 to 4
-    >>> [val4,err4] = gaussq(humps,A,B)
+    >>> val4, err4 = gaussq(humps,A,B)
 
     See also
     --------
     qrule
     gaussq2d
     '''
-
-
     global _POINTS_AND_WEIGHTS
-    zeros = np.zeros
-    ones = np.ones
-    maxIter = 11
+    max_iter = 11
     gn = 2
     if not hasattr(fun,'__call__'):
         raise ValueError('Function must be callable')
 
-    A,B = np.atleast_1d(a,b)
+    A, B = np.atleast_1d(a,b)
     a_shape = np.atleast_1d(A.shape)
     b_shape = np.atleast_1d(B.shape)
 
     if np.prod(a_shape)==1: # make sure the integration limits have correct size
-        A = A*np.ones(b_shape)
+        A = A*ones(b_shape)
         a_shape = b_shape
     elif np.prod(b_shape)==1:
-        B = B*np.ones(a_shape)
+        B = B*ones(a_shape)
     elif any( a_shape!=b_shape):
         raise ValueError('The integration limits must have equal size!')
 
@@ -988,26 +992,24 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
     else:
         num_parameters = len(args)
         P0 = copy.deepcopy(args)
-    isvector1 = np.zeros(num_parameters)
+    isvector1 = zeros(num_parameters)
 
     nk    = np.prod(a_shape) #% # of integrals we have to compute
     for ix in xrange(num_parameters):
         if is_numlike(P0[ix]):
-            p0Size = np.shape(P0[ix])
-            Np0    = np.prod(p0Size)
+            p0_shape = np.shape(P0[ix])
+            Np0    = np.prod(p0_shape)
             isvector1[ix] = (Np0 > 1)
             if isvector1[ix]:
-                if  nk==1:
-                    aSize = p0Size
+                if nk == 1:
+                    a_shape = p0_shape
                     nk    = Np0
-                    A = A*np.ones(a_shape)
-                    B = B*np.ones(a_shape)
+                    A = A*ones(a_shape)
+                    B = B*ones(a_shape)
                 elif  nk!=Np0:
                     raise ValueError('The input must have equal size!')
 
                 P0[ix].shape = (-1,1) # make sure it is a column
-
-
 
 
     k       = np.arange(nk)
@@ -1016,15 +1018,13 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
     abserr  = zeros(nk)
 
 
-
-
     #setup mapping parameters
-    A.shape = (-1,1)
-    B.shape = (-1,1)
+    A.shape = (-1, 1)
+    B.shape = (-1, 1)
     jacob = (B-A)/2
 
     shift = 1
-    if wfun==1:# Gauss-legendre
+    if wfun == 1:# Gauss-legendre
         dx = jacob
     elif wfun==2 or wfun==3:
         shift = 0
@@ -1032,7 +1032,7 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
         A     = zeros((nk,1))
         dx    = jacob
     elif wfun==4:
-         dx = jacob**(alpha1+beta1+1)
+        dx = jacob**(alpha+beta+1)
     elif wfun==5:
         dx = ones((nk,1))
     elif wfun==6:
@@ -1055,13 +1055,13 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
     dx = dx.ravel()
 
     if trace:
-        x_trace = [0,]*maxIter
-        y_trace = [0,]*maxIter
+        x_trace = [0,]*max_iter
+        y_trace = [0,]*max_iter
 
 
     if num_parameters>0:
-        ixVector, = np.where(isvector1)
-        if len(ixVector):
+        ix_vec, = np.where(isvector1)
+        if len(ix_vec):
             P1 = copy.copy(P0)
 
     #% Break out of the iteration loop for three reasons:
@@ -1069,7 +1069,7 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
     #%  2) There are more than 11 iterations. This should NEVER happen.
 
 
-    for ix in xrange(maxIter):
+    for ix in xrange(max_iter):
         x_and_w = 'wfun%d_%d_%g_%g' % (wfun,gn,alpha,beta)
         if x_and_w in _POINTS_AND_WEIGHTS:
             xn,w = _POINTS_AND_WEIGHTS[x_and_w]
@@ -1083,15 +1083,14 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
 
         # calculate function values  y=fun(x,p1,p2,....,pn)
         if num_parameters>0:
-            if any(ixVector):
+            if len(ix_vec):
                 #% Expand vector to the correct size
-                for iy in ixVector:
+                for iy in ix_vec:
                     P1[iy] = P0[iy][k,:]
 
-                y  = fun(x,**P1)
+                y  = fun(x, **P1)
             else:
-                y  = fun(x,**P0)
-
+                y  = fun(x, **P0)
         else:
             y = fun(x)
 
@@ -1100,24 +1099,24 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
 
 
         if trace:
-            x_trace[ix] = x.ravel()
-            y_trace[ix] = y.ravel()
+            x_trace.append(x.ravel())
+            y_trace.append(y.ravel())
 
             hfig = plb.plot(x,y,'r.')
             #hold on
             #drawnow,shg
-            if trace>1:
-                pause
+            #if trace>1:
+            #    pause
 
             plb.setp(hfig,'color','b')
 
 
         abserr[k] = abs(val_old[k]-val[k]) #absolute tolerance
         if ix > 1:
-            k, = np.where(abserr > abs(reltol*val)) # abserr > abs(reltol))%indices to integrals which did not converge
-
-        if len(k) : # compute integrals again
-            nk         = len(k)# of integrals we have to compute again
+            
+            k, = np.where(abserr > np.maximum(abs(reltol*val),abstol)) # abserr > abs(abstol))%indices to integrals which did not converge
+        nk = len(k)# of integrals we have to compute again
+        if nk : 
             val_old[k] = val[k]
         else:
             break
@@ -1135,20 +1134,18 @@ def gaussq(fun, a, b, reltol=1e-3, abstol=1e-3, alpha=0, beta=0, wfun=1,
         warnings.warn(tmptxt)
 
     val.shape = a_shape # make sure int is the same size as the integration  limits
-
-    abserr.shape = copy.copy(a_shape)
-
+    abserr.shape = a_shape
 
     if trace>0:
-        clf
-        #plb.plot([x_trace{:}],[y_trace{:}],'+')
+        plb.clf()
+        plb.plot(np.hstack(x_trace), np.hstack(y_trace),'+')
     return val, abserr
 
 def richardson(Q,k):
     #% Richardson extrapolation with parameter estimation
     c = np.real((Q[k-1]-Q[k-2])/(Q[k]-Q[k-1])) - 1.
     #% The lower bound 0.07 admits the singularity x.^-0.9
-    c = max(c,0.07);
+    c = max(c,0.07)
     R = Q[k] + (Q[k] - Q[k-1])/c
     return R
 
@@ -1226,8 +1223,8 @@ def quadgr(fun,a,b,abseps=1e-5):
         else: #% -inf to inf
             fun1 = lambda t: fun(t/(1-t))/(1-t)**2
             fun2 = lambda t: fun(t/(1+t))/(1+t)**2
-            [Q1,err1] = quadgr(fun1,0,1,abseps/2);
-            [Q2,err2] = quadgr(fun2,-1,0,abseps/2);
+            [Q1,err1] = quadgr(fun1,0,1,abseps/2)
+            [Q2,err2] = quadgr(fun2,-1,0,abseps/2)
             Q = Q1 + Q2
             err = err1 + err2
 
@@ -1236,7 +1233,6 @@ def quadgr(fun,a,b,abseps=1e-5):
             Q = -Q
         return Q, err
 
-    zeros = np.zeros
     #% Gauss-Legendre quadrature (12-point)
     xq = np.asarray([0.12523340851146894, 0.36783149899818018, 0.58731795428661748,
           0.76990267419430469, 0.9041172563704748, 0.98156063424671924])
@@ -1247,22 +1243,22 @@ def quadgr(fun,a,b,abseps=1e-5):
     nq = len(xq)
 
     #% Initiate vectors
-    maxit = 17;                 # Max number of iterations
-    Q0 = zeros(maxit);       	# Quadrature
-    Q1 = zeros(maxit);       	# First Richardson extrapolation
-    Q2 = zeros(maxit);       	# Second Richardson extrapolation
+    max_iter = 17                 # Max number of iterations
+    Q0 = zeros(max_iter)       	# Quadrature
+    Q1 = zeros(max_iter)       	# First Richardson extrapolation
+    Q2 = zeros(max_iter)       	# Second Richardson extrapolation
 
     # One interval
-    hh = (b - a)/2;             # Half interval length
-    x = (a + b)/2 + hh*xq;      # Nodes
+    hh = (b - a)/2             # Half interval length
+    x = (a + b)/2 + hh*xq      # Nodes
     # Quadrature
     Q0[0] = hh*np.sum(wq*fun(x),axis=0)
 
     # Successive bisection of intervals
-    for k in xrange(1,maxit):
+    for k in xrange(1,max_iter):
 
         # Interval bisection
-        hh = hh/2;
+        hh = hh/2
         x = np.hstack([x + a, x + b])/2
         # Quadrature
         Q0[k] = hh*np.sum(wq*np.sum(np.reshape(fun(x),(-1,nq)),axis=0),axis=0)
@@ -1311,11 +1307,9 @@ def quadgr(fun,a,b,abseps=1e-5):
 
     return Q, err
 
-
-
-
 def qdemo(f,a,b):
-    '''Compares different quadrature rules.
+    '''
+    Compares different quadrature rules.
 
     Parameters
     ----------
@@ -1339,31 +1333,53 @@ def qdemo(f,a,b):
     -------
     >>> import numpy as np
     >>> qdemo(np.exp,0,3)
+    true value =  19.08553692
+     ftn         Trapezoid                  Simpsons                   Booles
+    evals    approx       error          approx       error           approx        error
+       3, 22.5366862979, 3.4511493747, 19.5061466023, 0.4206096791, 19.4008539142, 0.3153169910
+       5, 19.9718950387, 0.8863581155, 19.1169646189, 0.0314276957, 19.0910191534, 0.0054822302
+       9, 19.3086731081, 0.2231361849, 19.0875991312, 0.0020622080, 19.0856414320, 0.0001045088
+      17, 19.1414188470, 0.0558819239, 19.0856674267, 0.0001305035, 19.0855386464, 0.0000017232
+      33, 19.0995135407, 0.0139766175, 19.0855451052, 0.0000081821, 19.0855369505, 0.0000000273
+      65, 19.0890314614, 0.0034945382, 19.0855374350, 0.0000005118, 19.0855369236, 0.0000000004
+     129, 19.0864105817, 0.0008736585, 19.0855369552, 0.0000000320, 19.0855369232, 0.0000000000
+     257, 19.0857553393, 0.0002184161, 19.0855369252, 0.0000000020, 19.0855369232, 0.0000000000
+     513, 19.0855915273, 0.0000546041, 19.0855369233, 0.0000000001, 19.0855369232, 0.0000000000
+     ftn         Clenshaw                    Chebychev                    Gauss-L
+    evals    approx       error          approx       error           approx        error
+       3, 19.5061466023, 0.4206096791, 0.0000000000, 1.0000000000, 19.0803304585, 0.0052064647
+       5, 19.0834145766, 0.0021223465, 0.0000000000, 1.0000000000, 19.0855365951, 0.0000003281
+       9, 19.0855369150, 0.0000000082, 0.0000000000, 1.0000000000, 19.0855369232, 0.0000000000
+      17, 19.0855369232, 0.0000000000, 0.0000000000, 1.0000000000, 19.0855369232, 0.0000000000
+      33, 19.0855369232, 0.0000000000, 0.0000000000, 1.0000000000, 19.0855369232, 0.0000000000
+      65, 19.0855369232, 0.0000000000, 0.0000000000, 1.0000000000, 19.0855369232, 0.0000000000
+     129, 19.0855369232, 0.0000000000, 0.0000000000, 1.0000000000, 19.0855369232, 0.0000000000
+     257, 19.0855369232, 0.0000000000, 0.0000000000, 1.0000000000, 19.0855369232, 0.0000000000
+     513, 19.0855369232, 0.0000000000, 0.0000000000, 1.0000000000, 19.0855369232, 0.0000000000
+    
     '''
-    #pass
-
     # use quad8 with small tolerance to get "true" value
     #true1 = quad8(f,a,b,1e-10)
     #[true tol]= gaussq(f,a,b,1e-12)
     #[true tol] = agakron(f,a,b,1e-13)
-    true_val,tol = intg.quad(f,a,b)
+    true_val, tol = intg.quad(f, a, b)
     print('true value = %12.8f' % (true_val,))
     kmax = 9
-    neval = np.zeros(kmax,dtype=int)
-    qt = np.zeros(kmax)
-    qs = np.zeros(kmax)
-    qb = np.zeros(kmax)
-    qc = np.zeros(kmax)
-    qc2 = np.zeros(kmax)
-    qg = np.zeros(kmax)
+    neval = zeros(kmax,dtype=int)
+    qt = zeros(kmax)
+    qs = zeros(kmax)
+    qb = zeros(kmax)
+    qc = zeros(kmax)
+    qc2 = zeros(kmax)
+    qg = zeros(kmax)
 
-    et = np.ones(kmax)
-    es = np.ones(kmax)
-    eb = np.ones(kmax)
-    ec = np.ones(kmax)
-    ec2 = np.ones(kmax)
-    ec3 = np.ones(kmax)
-    eg = np.ones(kmax)
+    et = ones(kmax)
+    es = ones(kmax)
+    eb = ones(kmax)
+    ec = ones(kmax)
+    ec2 = ones(kmax)
+    ec3 = ones(kmax)
+    eg = ones(kmax)
     # try various approximations
 
     for k in xrange(kmax):
@@ -1376,23 +1392,23 @@ def qdemo(f,a,b):
         # trapezoid approximation
         q = np.trapz(y,x)
         #h*( (y(1)+y(n))/2 + sum(y(2:n-1)) )
-        qt[k] = q;
+        qt[k] = q
         et[k] = abs(q - true_val)
         # Simpson approximation
         q = intg.simps(y,x)
         #(h/3)*( y(1)+y(n) + 4*sum(y(2:2:n-1)) + 2*sum(y(3:2:n-2)) )
-        qs[k] = q;
+        qs[k] = q
         es[k] = abs(q - true_val)
         # Boole's rule
         #q = boole(x,y)
-        q=(2*h/45)*(7*(y[0]+y[-1]) + 12*np.sum(y[2:n-1:4])
+        q = (2*h/45)*(7*(y[0]+y[-1]) + 12*np.sum(y[2:n-1:4])
            + 32*np.sum(y[1:n-1:2]) + 14*np.sum(y[4:n-3:4]))
-        qb[k] = q;
+        qb[k] = q
         eb[k] = abs(q - true_val)
 
         # Clenshaw-Curtis
         [q, ec3[k]] = clencurt(f,a,b,(n-1)/2)
-        qc[k] = q;
+        qc[k] = q
         ec[k] = abs(q - true_val)
 
         # Chebychev
@@ -1406,25 +1422,29 @@ def qdemo(f,a,b):
         #x = (b-a)/2*x + (a+b)/2     % Transform base points X.
         #w = (b-a)/2*w               % Adjust weigths.
         #q = sum(feval(f,x).*w)
-        qg[k] = q;
+        qg[k] = q
         eg[k] = abs(q - true_val)
 
 
     #% display results
+    formats = ['%4.0f, ',] +  ['%10.10f, ',]*6
+    formats[-1] = formats[-1].split(',')[0]
     data = np.vstack((neval,qt,et,qs,es,qb,eb)).T
-    print(' ftn          Trapezoid                 Simpson''s                 Boole''s')
-    print('evals    approx      error         approx     error          approx      error')
+    print(' ftn         Trapezoid                  Simpson''s                   Boole''s')
+    print('evals    approx       error          approx       error           approx        error')
+   
     for k in xrange(kmax):
-        #print('%4g %12.8f %12.4e %12.8f %12.4e %12.8f %12.4e' % data[k])
-        print(data[k])
-
+        tmp = data[k].tolist()
+        print(''.join(fi % t for fi, t in zip(formats,tmp)))
+      
     # display results
     data = np.vstack((neval,qc,ec,qc2,ec2,qg,eg)).T
-    print(' ftn          Clenshaw                 Chebychev                 Gauss-L')
-    print('evals    approx      error         approx     error          approx      error')
+    print(' ftn         Clenshaw                    Chebychev                    Gauss-L')
+    print('evals    approx       error          approx       error           approx        error')
     for k in xrange(kmax):
-        #print('%4i %12.8f %12.4e %12.8f %12.4e %12.8f %12.4e' % (data[k,:]))
-        print(data[k])
+        tmp = data[k].tolist()
+        print(''.join(fi % t for fi, t in zip(formats,tmp)))
+      
 
     plb.loglog(neval,np.vstack((et,es,eb,ec,ec2,eg)).T)
     plb.xlabel('number of function evaluations')
@@ -1448,6 +1468,9 @@ def meshgrid(*xi,**kwargs):
         cartesian ('xy', default) or matrix ('ij') indexing of output
     sparse : True or False (default) (optional)
          If True a sparse grid is returned in order to conserve memory.
+    copy : True (default) or False (optional)
+        If False a view into the original arrays are returned in order to
+        conserve memory
 
     Returns
     -------
@@ -1467,8 +1490,8 @@ def meshgrid(*xi,**kwargs):
 
     Examples
     --------
-    >>> x=np.linspace(0,1,3)     # coordinates along x axis
-    >>> y=np.linspace(0,1,2)     # coordinates along y axis
+    >>> x = np.linspace(0,1,3)   # coordinates along x axis
+    >>> y = np.linspace(0,1,2)   # coordinates along y axis
     >>> xv, yv = meshgrid(x,y)   # extend x and y for a 2D xy grid
     >>> xv
     array([[ 0. ,  0.5,  1. ],
@@ -1484,24 +1507,23 @@ def meshgrid(*xi,**kwargs):
            [ 1.]])
 
     >>> meshgrid(x,y,sparse=True,indexing='ij')  # change to matrix indexing
-    (array([[ 0. ],
+    [array([[ 0. ],
            [ 0.5],
-           [ 1. ]]), array([[ 0.,  1.]]))
+           [ 1. ]]), array([[ 0.,  1.]])]
     >>> meshgrid(x,y,indexing='ij')
-    (array([[ 0. ,  0. ],
+    [array([[ 0. ,  0. ],
            [ 0.5,  0.5],
-           [ 1. ,  1. ]]),
-     array([[ 0.,  1.],
+           [ 1. ,  1. ]]), array([[ 0.,  1.],
            [ 0.,  1.],
-           [ 0.,  1.]]))
+           [ 0.,  1.]])]
 
     >>> meshgrid(0,1,5)  # just a 3D point
-    (array([[[0]]]), array([[[1]]]), array([[[5]]]))
+    [array([[[0]]]), array([[[1]]]), array([[[5]]])]
     >>> map(np.squeeze,meshgrid(0,1,5))  # just a 3D point
     [array(0), array(1), array(5)]
     >>> meshgrid(3)
     array([3])
-    >>> meshgrid(y)      # 1D grid; y is just returned
+    >>> meshgrid(y)      # 1D grid y is just returned
     array([ 0.,  1.])
 
     `meshgrid` is very useful to evaluate functions on a grid.
@@ -1511,23 +1533,21 @@ def meshgrid(*xi,**kwargs):
     >>> xx, yy = meshgrid(x, y, sparse=True)
     >>> z = np.sin(xx**2+yy**2)/(xx**2+yy**2)
     """
+    copy = kwargs.get('copy',True)
+    args = np.atleast_1d(*xi)
+    if not isinstance(args, list):
+        if args.size>0:
+            return args.copy() if copy else args
+        else:
+            raise TypeError('meshgrid() take 1 or more arguments (0 given)')
 
     sparse = kwargs.get('sparse',False)
     indexing = kwargs.get('indexing','xy') # 'ij'
 
-    args = np.atleast_1d(*xi)
-    if not isinstance(args, list):
-        args = [args,]
 
     ndim = len(args)
-    if ndim==0:
-        raise TypeError('meshgrid() take 1 or more arguments (0 given)')
-
     s0 = (1,)*ndim
     output = [x.reshape(s0[:i]+(-1,)+s0[i+1::]) for i, x in enumerate(args)]
-
-    if ndim==1:
-        return output[0].copy()
 
     shape = [x.size for x in output]
 
@@ -1538,11 +1558,26 @@ def meshgrid(*xi,**kwargs):
         shape[0],shape[1] = shape[1],shape[0]
 
     if sparse:
-        return tuple(x.copy() for x in output)
+        if copy:
+            return [x.copy() for x in output]
+        else:
+            return output
     else:
         # Return the full N-D matrix (not only the 1-D vector)
-        mult_fact = np.ones(shape,dtype=int)
-        return tuple(x*mult_fact for x in output)
+        if copy:
+            mult_fact = ones(shape,dtype=int)
+            return [x*mult_fact for x in output]
+        else:
+            return np.broadcast_arrays(*output)
+
+
+def ndgrid(*args,**kwargs):
+    """
+    Same as calling meshgrid with indexing='ij' (see meshgrid for
+    documentation).
+    """
+    kwargs['indexing'] = 'ij'
+    return meshgrid(*args,**kwargs)
 
 
 def main():

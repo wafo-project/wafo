@@ -1,3 +1,9 @@
+'''
+Transform Gaussian models
+-------------------------
+TrHermite
+TrOchi
+'''
 #-------------------------------------------------------------------------------
 # Name:        transform.models
 # Purpose:
@@ -101,7 +107,6 @@ class TrCommon(object):
         x : array-like
             transformed data to a non-linear scale
 
-
         See also
         --------
         dat2gauss
@@ -169,11 +174,16 @@ class TrHermite(TrCommon):
 
     Example:
     --------
-    # Simulate a Transformed Gaussian process:
-    Hm0=7;Tp=11
-    S = jonswap([],[Hm0 Tp])
-    g=hermitetr*Hm0/4
-    ys = spec2sdat(S,15000)   % Simulated in the Gaussian world
+    Simulate a Transformed Gaussian process:
+    >>> import numpy as np
+    >>> import wafo.spectrum.models as sm
+    >>> Sj = sm.Jonswap(Hm0=7, Tp=11)
+    >>> w = np.linspace(0,4,256)
+    >>> S = Sj.toSpecData(w) #Make spectrum object from numerical values
+    >>> ys = S.sim(ns=15000) # Simulated in the Gaussian world
+    >>> g = TrHermite(sigma=Hm0/4)
+    
+    ys = spec2sdat(S,15000)   
     xs = gaus2dat(ys,g)      % Transformed to the real world
 
     See also  spec2skew, ochitr, lc2tr, dat2tr
@@ -220,14 +230,14 @@ class TrHermite(TrCommon):
         else:
             # Winterstein et. al. 1994 parametrization intended to
             # apply for the range:  0 <= ga2 < 12 and 0<= skew^2 < 2*ga2/3
-            if skew**2>2*(ga2)/3:
+            if skew**2 > 2*(ga2)/3:
                 warnings.warn('Kurtosis too low compared to the skewness')
 
             if (ga2 < 0) or (12 < ga2):
                 warnings.warn('Kurtosis must be between 0 and 12')
 
             self._c3 = skew/6*(1-0.015*abs(skew)+0.3*skew**2)/(1+0.2*ga2)
-            if ga2==0.:
+            if ga2 == 0.:
                 self._c4=0.0
             else:
                 c41 = (1.-1.43*skew**2./ga2)**(1.-0.1*(ga2+3.)**0.8)
@@ -235,6 +245,7 @@ class TrHermite(TrCommon):
 
         if not np.isfinite(self._c3) or not np.isfinite(self._c4):
             raise ValueError('Unable to calculate the polynomial')
+        
     def set_poly(self):
 
         if self._c3 is None:
@@ -291,7 +302,7 @@ class TrHermite(TrCommon):
 
 
     def _dat2gauss(self,x):
-        x = np.atleast_1d(x)
+        x = atleast_1d(x)
         self.check_forward(x)
 
         xn = (x-self.mean)/self.sigma
@@ -304,7 +315,7 @@ class TrHermite(TrCommon):
             return self._forward(xn)
 
     def _gauss2dat(self,y):
-        y = np.atleast_1d(y)
+        y = atleast_1d(y)
         #self.check_forward(y)
 
         if self._backward is None:

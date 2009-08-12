@@ -2,8 +2,8 @@
 Models module
 -------------
 
-Dirspersion relation
---------------------
+Dispersion relation
+-------------------
 k2w - Translates from wave number to frequency
 w2k - Translates from frequency to wave number
 
@@ -41,33 +41,32 @@ Spreading - Directional spreading function.
 from __future__ import division
 
 import warnings
-from dispersion_relation import *
 from scipy.interpolate import interp1d
 import scipy.optimize as optimize
 import scipy.integrate as integrate
 import scipy.special as sp
 from scipy.fftpack import fft
-import numpy
-from numpy import inf, atleast_1d, logical_and, newaxis, any, \
-    exp, log, sqrt, where, pi, linspace, sin, cos, abs, sinh, \
-    expm1, tanh, cosh
+from scipy.misc import ppimport
+import numpy as np
+from numpy import (inf, atleast_1d, newaxis, any, 
+    exp, log, sqrt, where, pi, linspace, sin, cos, abs, sinh, 
+    expm1, tanh, cosh)
+from dispersion_relation import w2k
+ppimport.enable()
+_wafoobjects = ppimport.ppimport('wafo.objects')
+
 sech = lambda x: 1.0/cosh(x)
-np = numpy
+
 eps = np.finfo(float).eps
-#from wafo.objects import SpecData1D
-_SpecData1D = None
+
 
 __all__ = ['Bretschneider','Jonswap','Torsethaugen','Wallop','McCormick','OchiHubble',
             'Tmaspec','jonswap_peakfact','jonswap_seastate','spreading',
             'w2k','k2w','phi1']
 
-
-
-
-
 # Model spectra
 
-def _gengamspec(wn,N=5,M=4):
+def _gengamspec(wn, N=5, M=4):
     ''' Return Generalized gamma spectrum in dimensionless form
 
     Parameters
@@ -90,8 +89,8 @@ def _gengamspec(wn,N=5,M=4):
       S = G0.*wn.**(-N).*exp(-B*wn.**(-M))  for wn > 0
         = 0                              otherwise
     where
-        B  = N/M;
-        C  = (N-1)/M;
+        B  = N/M
+        C  = (N-1)/M
         G0 = B**C*M/gamma(C), Normalizing factor related to Bretschneider form
 
     Note that N = 5, M = 4 corresponds to a normalized
@@ -100,9 +99,8 @@ def _gengamspec(wn,N=5,M=4):
     Examples
     --------
     >>> import numpy as np
-    >>> wn = np.linspace(0,4,5);
-    >>> N = 6; M = 2;
-    >>> _gengamspec(wn,N,M)
+    >>> wn = np.linspace(0,4,5)
+    >>> _gengamspec(wn, N=6, M=2)
     array([ 0.        ,  1.16765216,  0.17309961,  0.02305179,  0.00474686])
 
     See also
@@ -118,7 +116,7 @@ def _gengamspec(wn,N=5,M=4):
     "Simplified Double Peak Spectral Model for Ocean Waves"
     In Proc. 14th ISOPE
     '''
-    w = np.atleast_1d(wn)
+    w = atleast_1d(wn)
     S = np.zeros_like(w)
 
     ##for w>0 # avoid division by zero
@@ -128,21 +126,19 @@ def _gengamspec(wn,N=5,M=4):
         C  = (N-1.0)/M
 
         #     # A = Normalizing factor related to Bretschneider form
-        #     A    = B**C*M/gamma(C);
-        #     S(k) = A*wn(k)**(-N)*exp(-B*wn(k)**(-M));
-        log = np.log
-        exp = np.exp
+        #     A    = B**C*M/gamma(C)
+        #     S(k) = A*wn(k)**(-N)*exp(-B*wn(k)**(-M))
         logwn = log(w.take(k))
         logA = (C*log(B)+log(M)-sp.gammaln(C))
         np.put(S,k,exp(logA-N*logwn-B*exp(-M*logwn)))
     return S
 
 class ModelSpectrum(object):
-    def __init__(self,Hm0=7.0,Tp=11.0,**kwds):
+    def __init__(self, Hm0=7.0, Tp=11.0, **kwds):
         self.Hm0 = Hm0
         self.Tp = Tp
         self.type = 'ModelSpectrum'
-    def toSpecData(self,w=None,wc=None,nw=257):
+    def toSpecData(self, w=None, wc=None, nw=257):
         ''' Return SpecData1D object from ModelSpectrum
 
         Parameter
@@ -164,10 +160,7 @@ class ModelSpectrum(object):
             if wc is None:
                 wc = 33./self.Tp
             w = np.linspace(0,wc,nw)
-        global _SpecData1D
-        if _SpecData1D is None:
-            from wafo.objects import SpecData1D as _SpecData1D
-        S = _SpecData1D(self.__call__(w),w)
+        S = _wafoobjects.SpecData1D(self.__call__(w),w)
         try:
             h = self.h
             S.h = h
@@ -176,6 +169,7 @@ class ModelSpectrum(object):
         S.labels.title = self.type + ' ' + S.labels.title
         S.workspace = self.__dict__.copy()
         return S
+    
     def chk_seastate(self):
         ''' Check if seastate is valid
         '''
@@ -193,7 +187,6 @@ class ModelSpectrum(object):
 
     def _chk_extra_param(self):
         pass
-
 
 class Bretschneider(ModelSpectrum):
     ''' Bretschneider spectral density model
@@ -247,7 +240,7 @@ class Bretschneider(ModelSpectrum):
     Jonswap,
     Torsethaugen
     '''
-    def __init__(self,Hm0=7.0,Tp=11.0,N=5,M=4,chk_seastate=True,**kwds):
+    def __init__(self, Hm0=7.0, Tp=11.0, N=5, M=4, chk_seastate=True, **kwds):
         self.type = 'Bretschneider'
         self.Hm0 = Hm0
         self.Tp = Tp
@@ -262,7 +255,7 @@ class Bretschneider(ModelSpectrum):
         '''
         w = np.atleast_1d(wi)
         if self.Hm0>0:
-            wp = 2*np.pi/self.Tp
+            wp = 2*pi/self.Tp
             wn = w/wp
             S = (self.Hm0/4.0)**2/wp * _gengamspec(wn,self.N,self.M)
         else:
@@ -285,8 +278,8 @@ def jonswap_peakfact(Hm0,Tp):
     -------
     A standard value for GAMMA is 3.3. However, a more correct approach is
     to relate GAMMA to Hm0 and Tp:
-         D = 0.036-0.0056*Tp/sqrt(Hm0);
-        gamma = exp(3.484*(1-0.1975*D*Tp**4/(Hm0**2)));
+         D = 0.036-0.0056*Tp/sqrt(Hm0)
+        gamma = exp(3.484*(1-0.1975*D*Tp**4/(Hm0**2)))
     This parameterization is based on qualitative considerations of deep water
     wave data from the North Sea, see Torsethaugen et. al. (1984)
     Here GAMMA is limited to 1..7.
@@ -299,17 +292,17 @@ def jonswap_peakfact(Hm0,Tp):
     >>> Tp,Hs = plb.meshgrid(range(4,8),range(2,6))
     >>> gam = jonswap_peakfact(Hs,Tp)
 
-    >>> Hm0 = plb.linspace(1,20);
-    >>> Tp = Hm0;
+    >>> Hm0 = plb.linspace(1,20)
+    >>> Tp = Hm0
     >>> [T,H] = plb.meshgrid(Tp,Hm0)
     >>> gam = jonswap_peakfact(H,T)
     >>> v = plb.arange(0,8)
     >>> h = plb.contourf(Tp,Hm0,gam,v);h=plb.colorbar()
 
-    >>> Hm0 = plb.arange(1,11);
-    >>> Tp  = plb.linspace(2,16);
-    >>> T,H = plb.meshgrid(Tp,Hm0);
-    >>> gam = jonswap_peakfact(H,T);
+    >>> Hm0 = plb.arange(1,11)
+    >>> Tp  = plb.linspace(2,16)
+    >>> T,H = plb.meshgrid(Tp,Hm0)
+    >>> gam = jonswap_peakfact(H,T)
     >>> h = plb.plot(Tp,gam.T)
     >>> h = plb.xlabel('Tp [s]')
     >>> h = plb.ylabel('Peakedness parameter')
@@ -320,7 +313,7 @@ def jonswap_peakfact(Hm0,Tp):
     --------
     jonswap
     '''
-    Hm0,Tp = np.atleast_1d(Hm0,Tp)
+    Hm0,Tp = atleast_1d(Hm0,Tp)
 
     x = Tp/np.sqrt(Hm0)
 
@@ -331,23 +324,24 @@ def jonswap_peakfact(Hm0,Tp):
         min = np.minimum
         exp = np.exp
         xk = x.take(k1)
-        D  = 0.036-0.0056*xk #; # approx 5.061*Hm0**2/Tp**4*(1-0.287*log(gam));
-        np.put(gam,k1,min(exp(3.484*( 1.0-0.1975*D*xk**4.0 ) ),7.0)) #; # gamma
+        D  = 0.036-0.0056*xk # # approx 5.061*Hm0**2/Tp**4*(1-0.287*log(gam))
+        np.put(gam,k1,min(exp(3.484*( 1.0-0.1975*D*xk**4.0 ) ),7.0)) # # gamma
 
     return gam
-def jonswap_seastate(u10,fetch=150000.,method='lewis',g=9.81,output='dict'):
-    '''Return Jonswap seastate from windspeed and fetch
+def jonswap_seastate(u10, fetch=150000., method='lewis', g=9.81, output='dict'):
+    '''
+    Return Jonswap seastate from windspeed and fetch
 
     Parameters
     ----------
-    U10 : scalar
+    U10 : real scalar
         windspeed at 10 m above mean water surface [m/s]
-    fetch :scalar
+    fetch : real scalar
         fetch [m]
     method : 'hasselman73' seastate according to Hasselman et. al. 1973
              'hasselman76' seastate according to Hasselman et. al. 1976
              'lewis'       seastate according to Lewis and Allos 1990
-    g : scalar
+    g : real scalar
         accelaration of gravity [m/s**2]
     output : 'dict' or 'list'
 
@@ -363,8 +357,8 @@ def jonswap_seastate(u10,fetch=150000.,method='lewis',g=9.81,output='dict'):
 
     Example
     --------
-    >>> fetch = 10000; u10   = 10;
-    >>> ss = jonswap_seastate(u10,fetch,output='dict')
+    >>> fetch = 10000; u10 = 10
+    >>> ss = jonswap_seastate(u10, fetch, output='dict')
     >>> ss
     {'Ag': 0.016257903375341734,
      'Hm0': 0.51083679198275533,
@@ -377,7 +371,7 @@ def jonswap_seastate(u10,fetch=150000.,method='lewis',g=9.81,output='dict'):
     0.51083679198275533
 
     # Alternatively
-    >>> ss1 = jonswap_seastate(u10,fetch,output='list')
+    >>> ss1 = jonswap_seastate(u10, fetch, output='list')
     >>> S1 = Jonswap(*ss1)
     >>> S1.Hm0
     0.51083679198275533
@@ -407,39 +401,38 @@ def jonswap_seastate(u10,fetch=150000.,method='lewis',g=9.81,output='dict'):
     # The following formulas are from Lewis and Allos 1990:
 
     zeta    = g*fetch/(u10**2) # dimensionless fetch, Table 1
-    #zeta = min(zeta, 2.414655013429281e+004);
+    #zeta = min(zeta, 2.414655013429281e+004)
     if method.startswith('h'):
         if method[-1]=='3': # Hasselman et.al (1973)
             A = 0.076*zeta**(-0.22)
             ny= 3.5*zeta**(-0.33)         # dimensionless peakfrequency, Table 1
-            epsilon1 = 9.91e-8*zeta**1.1; # dimensionless surface variance, Table 1
+            epsilon1 = 9.91e-8*zeta**1.1 # dimensionless surface variance, Table 1
         else: # Hasselman et.al (1976)
-            A = 0.0662*zeta**(-0.2);
-            ny = 2.84*zeta**(-0.3);  # dimensionless peakfrequency, Table 1
+            A = 0.0662*zeta**(-0.2)
+            ny = 2.84*zeta**(-0.3)  # dimensionless peakfrequency, Table 1
             epsilon1 = 1.6e-7*zeta      # dimensionless surface variance, Eq.4
 
-        sa  = 0.07;
-        sb  = 0.09;
-        gam = 3.3;
+        sa  = 0.07
+        sb  = 0.09
+        gam = 3.3
     else:
-        A = 0.074*zeta**(-0.22);     # Eq. 10
-        ny = 3.57*zeta**(-0.33);     # dimensionless peakfrequency, Eq. 11
-        epsilon1 = 3.512e-4*A*ny**(-4.)*zeta**(-0.1);  # dimensionless surface variance, Eq.12
-        sa  = 0.05468*ny**(-0.32);      # Eq. 13
-        sb  = 0.078314*ny**(-0.16);     # Eq. 14
-        gam = np.maximum(17.54*zeta**(-0.28384),1);     # Eq. 15
+        A = 0.074*zeta**(-0.22)     # Eq. 10
+        ny = 3.57*zeta**(-0.33)     # dimensionless peakfrequency, Eq. 11
+        epsilon1 = 3.512e-4*A*ny**(-4.)*zeta**(-0.1)  # dimensionless surface variance, Eq.12
+        sa  = 0.05468*ny**(-0.32)      # Eq. 13
+        sb  = 0.078314*ny**(-0.16)     # Eq. 14
+        gam = np.maximum(17.54*zeta**(-0.28384),1)     # Eq. 15
 
-    Tp = u10/(ny*g);                          # Table 1
-    Hm0 = 4*sqrt(epsilon1)*u10**2./g;            # Table 1
+    Tp = u10/(ny*g)                          # Table 1
+    Hm0 = 4*sqrt(epsilon1)*u10**2./g            # Table 1
     if output[0]=='l':
         return Hm0,Tp,gam,sa,sb,A
     else:
         return dict(Hm0=Hm0,Tp=Tp,gamma=gam,sigmaA=sa,sigmaB=sb,Ag=A)
 
-
-
 class Jonswap(ModelSpectrum):
-    ''' Jonswap spectral density model
+    ''' 
+    Jonswap spectral density model
 
     Member variables
     ----------------
@@ -493,10 +486,10 @@ class Jonswap(ModelSpectrum):
     ---------
     >>> import pylab as plb
     >>> S = Jonswap(Hm0=7, Tp=11,gamma=1)
-    >>> w = plb.linspace(0,5);
+    >>> w = plb.linspace(0,5)
     >>> h = plb.plot(w,S(w))
 
-    >>> S2 = Bretschneider(Hm0=7, Tp=11);
+    >>> S2 = Bretschneider(Hm0=7, Tp=11)
     >>> assert(all(abs(S(w)-S2(w))<1.e-7),'JONSWAP with gamma=1 differs from Bretscneider, should be equal!')
     >>> plb.close('all')
 
@@ -517,9 +510,9 @@ class Jonswap(ModelSpectrum):
      North Sea Project (JONSWAP).
      Ergansungsheft, Reihe A(8), Nr. 12, Deutschen Hydrografischen Zeitschrift.
     '''
-
-
-    def __init__(self,Hm0=7.0,Tp=11.0,gamma=None,sigmaA=0.07,sigmaB=0.09,Ag=None,N=5,M=4,method='integration',wnc=6.0,chk_seastate=True):
+    def __init__(self, Hm0=7.0, Tp=11.0, gamma=None, sigmaA=0.07, sigmaB=0.09,
+                 Ag=None, N=5, M=4, method='integration', wnc=6.0,
+                 chk_seastate=True):
 
         self.type = 'Jonswap'
         self.Hm0 = Hm0
@@ -547,10 +540,18 @@ class Jonswap(ModelSpectrum):
         gam = self.gamma
         outsideJonswapRange  = Tp>5*np.sqrt(Hm0) or Tp<3.6*np.sqrt(Hm0)
         if outsideJonswapRange:
-            warnings.warn('Hm0,Tp is outside the JONSWAP range \n The validity of the spectral density is questionable')
+            txt0 = '''
+            Hm0,Tp is outside the JONSWAP range.
+            The validity of the spectral density is questionable.
+            '''
+            warnings.warn(txt0)
 
         if gam<1 or 7 < gam:
-            warning.warn('The peakedness factor, gamma, is possibly too large. \n The validity of the spectral density is questionable')
+            txt = '''
+            The peakedness factor, gamma, is possibly too large. 
+            The validity of the spectral density is questionable.
+            '''
+            warnings.warn(txt)
 
 
     def _localspec(self,wn):
@@ -564,39 +565,39 @@ class Jonswap(ModelSpectrum):
             self.Ag = 1.0
             self.method = 'parametric'
         elif self.Ag != None:
-            self.method = 'custom';
+            self.method = 'custom'
             if self.Ag<=0:
                 raise ValueError('Ag must be larger than 0!')
         elif self.method[0]=='i':
             # normalizing by integration
-            self.method = 'integration';
+            self.method = 'integration'
             if self.wnc<1.0:
                 raise ValueError('Normalized cutoff frequency, wnc, must be larger than one!')
-            area1, abserr1 = integrate.quad(self._localspec,0,1)
-            area2, abserr2 = integrate.quad(self._localspec,1,self.wnc)
-            area = area1+area2
+            area1, abserr1 = integrate.quad(self._localspec, 0, 1)
+            area2, abserr2 = integrate.quad(self._localspec, 1, self.wnc)
+            area = area1 + area2
             self.Ag = 1.0/area
         elif self.method[1]=='p':
-            self.method = 'parametric';
+            self.method = 'parametric'
             ##   # Original normalization
             ##   # NOTE: that  Hm0**2/16 generally is not equal to intS(w)dw
             ##   #       with this definition of Ag if sa or sb are changed from the
             ##   #       default values
-            N = self.N;
-            M = self.M;
-            gammai = self.gamma;
+            N = self.N
+            M = self.M
+            gammai = self.gamma
             parametersOK = (3<=N and N<=50) or  (2<=M and M <=9.5) and (1<= gammai and gammai<=20)
             if parametersOK:
-                f1NM = 4.1*(N-2*M**0.28+5.3)**(-1.45*M**0.1+0.96);
-                f2NM = (2.2*M**(-3.3) + 0.57)*N**(-0.58*M**0.37+0.53)-1.04*M**(-1.9)+0.94;
-                self.Ag = (1+ f1NM*np.log(gammai)**f2NM)/gammai;
+                f1NM = 4.1*(N-2*M**0.28+5.3)**(-1.45*M**0.1+0.96)
+                f2NM = (2.2*M**(-3.3) + 0.57)*N**(-0.58*M**0.37+0.53)-1.04*M**(-1.9)+0.94
+                self.Ag = (1+ f1NM*np.log(gammai)**f2NM)/gammai
 
             ###    elseif N == 5 && M == 4,
-            ###      options.Ag = (1+1.0*log(gammai).**1.16)/gammai;
-            ###      #options.Ag = (1-0.287*log(gammai));
-            ###      options.normalizeMethod = 'Three';
+            ###      options.Ag = (1+1.0*log(gammai).**1.16)/gammai
+            ###      #options.Ag = (1-0.287*log(gammai))
+            ###      options.normalizeMethod = 'Three'
             ###    elseif  N == 4 && M == 4,
-            ###      options.Ag = (1+1.1*log(gammai).**1.19)/gammai;
+            ###      options.Ag = (1+1.1*log(gammai).**1.19)/gammai
             else:
                 raise ValueError('Not knowing the normalization because N, M or peakedness parameter is out of bounds!')
 
@@ -608,7 +609,7 @@ class Jonswap(ModelSpectrum):
     def peak_e_factor(self,wn):
         ''' PEAKENHANCEMENTFACTOR
         '''
-        w = np.maximum(np.atleast_1d(wn),0.0)
+        w = np.maximum(atleast_1d(wn),0.0)
         sab = np.where(w>1,self.sigmaB,self.sigmaA)
 
         wnm12 = 0.5*((w-1.0)/sab)**2.0
@@ -618,22 +619,22 @@ class Jonswap(ModelSpectrum):
     def  __call__(self,wi):
         ''' JONSWAP spectral density
         '''
-        w = np.atleast_1d(wi)
+        w = atleast_1d(wi)
         if (self.Hm0>0.0):
 
-            N   = self.N;
-            M   = self.M;
-            wp  = 2*np.pi/self.Tp;
+            N   = self.N
+            M   = self.M
+            wp  = 2*pi/self.Tp
             wn  = w/wp
-            Ag  = self.Ag;
-            Hm0 = self.Hm0;
-            Gf  = self.peak_e_factor(wn);
+            Ag  = self.Ag
+            Hm0 = self.Hm0
+            Gf  = self.peak_e_factor(wn)
             S   = ((Hm0/4.0)**2/wp*Ag)*Gf*_gengamspec(wn,N,M)
         else:
-            S = np.zeros_like(w);
+            S = np.zeros_like(w)
         return S
 
-def phi1(wi,h,g=9.81):
+def phi1(wi, h, g=9.81):
     ''' Factor transforming spectra to finite water depth spectra.
 
      CALL: tr = phi1(w,h)
@@ -668,16 +669,13 @@ def phi1(wi,h,g=9.81):
       J. Geophys. Res., Vol 90, No. C1, pp 975-986
 
     '''
-    w = np.atleast_1d(wi)
-    if h==inf: # % special case infinite water depth
-        return np.ones_like(w);
+    w = atleast_1d(wi)
+    if h == inf: # % special case infinite water depth
+        return np.ones_like(w)
 
-    tanh = np.tanh
-    cosh = np.cosh
-
-    k1 = w2k(w,0,inf,g=g)[0];
-    dw1 = 2.0*w/g  #; % dw/dk|h=inf
-    k2 = w2k(w,0,h,g=g)[0];
+    k1 = w2k(w,0,inf,g=g)[0]
+    dw1 = 2.0*w/g  # % dw/dk|h=inf
+    k2 = w2k(w,0,h,g=g)[0]
 
     k2h = k2*h
     dw2 = np.where(k1!=0,dw1/(tanh(k2h)+k2h/cosh(k2h)**2.0),0) # dw/dk|h=h0
@@ -756,7 +754,9 @@ class Tmaspec(Jonswap):
     Zeitschrift.
 
     '''
-    def __init__(self,Hm0=7.0,Tp=11.0,gamma=None,sigmaA=0.07,sigmaB=0.09,Ag=None,N=5,M=4,method='integration',wnc=6.0,chk_seastate=True,h=42,g=9.81):
+    def __init__(self, Hm0=7.0, Tp=11.0, gamma=None, sigmaA=0.07, sigmaB=0.09, 
+                 Ag=None, N=5, M=4, method='integration', wnc=6.0, 
+                 chk_seastate=True, h=42, g=9.81):
         self.g = g
         self.h = h
         super(Tmaspec, self).__init__(Hm0,Tp,gamma,sigmaA,sigmaB,Ag,N,M,method,wnc,chk_seastate)
@@ -774,7 +774,8 @@ class Tmaspec(Jonswap):
         return jonswap*self.phi(w,h,g)
 
 class Torsethaugen(ModelSpectrum):
-    ''' Torsethaugen  double peaked (swell + wind) spectrum model
+    ''' 
+    Torsethaugen  double peaked (swell + wind) spectrum model
 
     Member variables
     ----------------
@@ -846,7 +847,8 @@ class Torsethaugen(ModelSpectrum):
 
     '''
 
-    def __init__(self,Hm0=7,Tp=11,method='integration',wnc=6,gravity=9.81,chk_seastate=True,**kwds):
+    def __init__(self, Hm0=7, Tp=11, method='integration', wnc=6, gravity=9.81,
+                 chk_seastate=True, **kwds):
         self.type = 'Torsethaugen'
         self.Hm0 = Hm0
         self.Tp = Tp
@@ -869,24 +871,22 @@ class Torsethaugen(ModelSpectrum):
         Hm0 = self.Hm0
         Tp = self.Tp
         if Hm0>11 or Hm0>max((Tp/3.6)**2, (Tp-2)*12/11):
-            warnings.warn('Hm0 is outside the valid range.\n The validity of the spectral density is questionable')
+            txt0 = '''Hm0 is outside the valid range.
+                    The validity of the spectral density is questionable'''
+            warnings.warn(txt0)
 
         if Tp>20 or Tp<3:
-            warnings.warn('Tp is outside the valid range.\n The validity of the spectral density is questionable')
-
-
-
+            txt1 = '''Tp is outside the valid range.
+                    The validity of the spectral density is questionable'''
+            warnings.warn(txt1)
 
     def _init_spec(self):
         ''' Initialize swell and wind part of Torsethaugen spectrum
         '''
-        monitor = 0;
-        Hm0 = self.Hm0;
-        Tp  = self.Tp;
-        gravity1 = self.gravity; # m/s**2
-        sqrt =np.sqrt
-        exp = np.exp
-        pi = np.pi
+        monitor = 0
+        Hm0 = self.Hm0
+        Tp = self.Tp
+        gravity1 = self.gravity # m/s**2
 
         min = np.minimum
         max = np.maximum
@@ -894,55 +894,55 @@ class Torsethaugen(ModelSpectrum):
         # The parameter values below are found comparing the
         # model to average measured spectra for the Statfjord Field
         # in the Northern North Sea.
-        Af  = 6.6;   #m**(-1/3)*sec
-        AL  = 2;     #sec/sqrt(m)
-        Au  = 25;    #sec
-        KG  = 35;
-        KG0 = 3.5;
-        KG1 = 1;     # m
-        r   = 0.857; # 6/7
-        K0  = 0.5;   #1/sqrt(m)
-        K00 = 3.2;
+        Af = 6.6   #m**(-1/3)*sec
+        AL = 2     #sec/sqrt(m)
+        Au = 25    #sec
+        KG = 35
+        KG0 = 3.5
+        KG1 = 1     # m
+        r = 0.857 # 6/7
+        K0 = 0.5   #1/sqrt(m)
+        K00 = 3.2
 
-        M0  = 4;
-        B1  = 2;    #sec
-        B2  = 0.7;
-        B3  = 3.0;  #m
-        S0  = 0.08; #m**2*s
-        S1  = 3;    #m
+        M0 = 4
+        B1 = 2    #sec
+        B2 = 0.7
+        B3 = 3.0  #m
+        S0 = 0.08 #m**2*s
+        S1 = 3    #m
 
         # Preliminary comparisons with spectra from other areas indicate that
         # the parameters on the line below can be dependent on geographical location
-        A10 = 0.7; A1 = 0.5; A20 = 0.6; A2 = 0.3; A3 = 6;
+        A10 = 0.7; A1 = 0.5; A20 = 0.6; A2 = 0.3; A3 = 6
 
-        Tf = Af*(Hm0)**(1.0/3.0);
-        Tl = AL*sqrt(Hm0);   # lower limit
-        Tu = Au;             # upper limit
+        Tf = Af*(Hm0)**(1.0/3.0)
+        Tl = AL*sqrt(Hm0)   # lower limit
+        Tu = Au             # upper limit
 
         #Non-dimensional scales
         # New call pab April 2005
-        El = min(max((Tf-Tp)/(Tf-Tl),0),1); #wind sea
-        Eu = min(max((Tp-Tf)/(Tu-Tf),0),1); #Swell
+        El = min(max((Tf-Tp)/(Tf-Tl),0),1) #wind sea
+        Eu = min(max((Tp-Tf)/(Tu-Tf),0),1) #Swell
 
 
 
         if Tp<Tf: # Wind dominated seas
             # Primary peak (wind dominated)
-            Nw  = K0*sqrt(Hm0)+K00;             # high frequency exponent
-            Mw  = M0;                           # spectral width exponent
-            Rpw = min((1-A10)*exp(-(El/A1)**2)+A10,1);
-            Hpw = Rpw*Hm0;                      # significant waveheight wind
-            Tpw = Tp;                           # primary peak period
+            Nw  = K0*sqrt(Hm0)+K00             # high frequency exponent
+            Mw  = M0                           # spectral width exponent
+            Rpw = min((1-A10)*exp(-(El/A1)**2)+A10,1)
+            Hpw = Rpw*Hm0                      # significant waveheight wind
+            Tpw = Tp                           # primary peak period
             # peak enhancement factor
-            gammaw = KG*(1+KG0*exp(-Hm0/KG1))*(2*pi/gravity1*Rpw*Hm0/(Tp**2))**r;
-            gammaw = max(gammaw,1);
+            gammaw = KG*(1+KG0*exp(-Hm0/KG1))*(2*pi/gravity1*Rpw*Hm0/(Tp**2))**r
+            gammaw = max(gammaw,1)
             # Secondary peak (swell)
-            Ns  = Nw;                # high frequency exponent
-            Ms  = Mw;                # spectral width exponent
-            Rps = sqrt(1.0-Rpw**2.0);
-            Hps = Rps*Hm0;           # significant waveheight swell
-            Tps = Tf+B1;
-            gammas = 1.0;
+            Ns  = Nw                # high frequency exponent
+            Ms  = Mw                # spectral width exponent
+            Rps = sqrt(1.0-Rpw**2.0)
+            Hps = Rps*Hm0           # significant waveheight swell
+            Tps = Tf+B1
+            gammas = 1.0
 
             if monitor:
                 if Rps > 0.1:
@@ -952,34 +952,34 @@ class Torsethaugen(ModelSpectrum):
         else: #swell dominated seas
 
             # Primary peak (swell)
-            Ns  = K0*sqrt(Hm0)+K00;             #high frequency exponent
-            Ms  = M0;                           #spectral width exponent
-            Rps = min((1-A20)*exp(-(Eu/A2)**2)+A20,1);
-            Hps = Rps*Hm0;                      # significant waveheight swell
-            Tps = Tp;                           # primary peak period
+            Ns  = K0*sqrt(Hm0)+K00             #high frequency exponent
+            Ms  = M0                           #spectral width exponent
+            Rps = min((1-A20)*exp(-(Eu/A2)**2)+A20,1)
+            Hps = Rps*Hm0                      # significant waveheight swell
+            Tps = Tp                           # primary peak period
             # peak enhancement factor
-            gammas = KG*(1+KG0*exp(-Hm0/KG1))*(2*pi/gravity1*Hm0/(Tf**2))**r*(1+A3*Eu);
-            gammas = max(gammas,1);
+            gammas = KG*(1+KG0*exp(-Hm0/KG1))*(2*pi/gravity1*Hm0/(Tf**2))**r*(1+A3*Eu)
+            gammas = max(gammas,1)
 
             # Secondary peak (wind)
-            Nw   = Ns;                       # high frequency exponent
-            Mw   = M0*(1-B2*exp(-Hm0/B3));   # spectral width exponent
-            Rpw  = sqrt(1-Rps**2);
-            Hpw  = Rpw*Hm0;                  # significant waveheight wind
+            Nw   = Ns                       # high frequency exponent
+            Mw   = M0*(1-B2*exp(-Hm0/B3))   # spectral width exponent
+            Rpw  = sqrt(1-Rps**2)
+            Hpw  = Rpw*Hm0                  # significant waveheight wind
 
-            C = (Nw-1)/Mw;
-            B = Nw/Mw;
-            G0w    = B**C*Mw/sp.gamma(C);#normalizing factor
+            C = (Nw-1)/Mw
+            B = Nw/Mw
+            G0w    = B**C*Mw/sp.gamma(C)#normalizing factor
             #G0w = exp(C*log(B)+log(Mw)-gammaln(C))
-            #G0w  = Mw/((B)**(-C)*gamma(C));
+            #G0w  = Mw/((B)**(-C)*gamma(C))
 
             if Hpw>0:
-                Tpw  = (16*S0*(1-exp(-Hm0/S1))*(0.4)**Nw/( G0w*Hpw**2))**(-1.0/(Nw-1.0));
+                Tpw  = (16*S0*(1-exp(-Hm0/S1))*(0.4)**Nw/( G0w*Hpw**2))**(-1.0/(Nw-1.0))
             else:
-                Tpw = inf;
+                Tpw = inf
 
             #Tpw  = max(Tpw,2.5)
-            gammaw = 1;
+            gammaw = 1
             if monitor:
                 if Rpw > 0.1:
                     print('     Spectrum for swell dominated sea')
@@ -999,12 +999,14 @@ class Torsethaugen(ModelSpectrum):
             print('Tps = %g Tpw = %g' % (Tps, Tpw))
 
 
-        #G0s=Ms/((Ns/Ms)**(-(Ns-1)/Ms)*gamma((Ns-1)/Ms )); #normalizing factor
+        #G0s=Ms/((Ns/Ms)**(-(Ns-1)/Ms)*gamma((Ns-1)/Ms )) #normalizing factor
 
         # Wind part
-        self.wind  = Jonswap(Hm0=Hpw,Tp=Tpw,gamma=gammaw,N=Nw,M=Mw,method=self.method,chk_seastate=False)
+        self.wind  = Jonswap(Hm0=Hpw, Tp=Tpw, gamma=gammaw, N=Nw, M=Mw, 
+                             method=self.method, chk_seastate=False)
         # Swell part
-        self.swell = Jonswap(Hm0=Hps,Tp=Tps,gamma=gammas,N=Ns,M=Ms,method=self.method,chk_seastate=False);
+        self.swell = Jonswap(Hm0=Hps, Tp=Tps, gamma=gammas, N=Ns, M=Ms, 
+                             method=self.method, chk_seastate=False)
 
 class McCormick(Bretschneider):
     ''' McCormick spectral density model
@@ -1027,7 +1029,7 @@ class McCormick(Bretschneider):
     The McCormick spectrum parameterization is a modification of the Bretschneider
     spectrum and defined as
 
-        S(w) = (M+1)*(Hm0/4)^2/wp*(wp./w)^(M+1)*exp(-(M+1)/M*(wp/w)^M);
+        S(w) = (M+1)*(Hm0/4)^2/wp*(wp./w)^(M+1)*exp(-(M+1)/M*(wp/w)^M)
     where
         Tp/Tz=(1+1/M)^(1/M)/gamma(1+1/M)
 
@@ -1053,7 +1055,7 @@ class McCormick(Bretschneider):
     Marine Technology Society, Vol 33, No. 3, pp 27-32
     '''
 
-    def __init__(self,Hm0=7,Tp=11,Tz=None,M=None,chk_seastate=True):
+    def __init__(self, Hm0=7, Tp=11, Tz=None, M=None, chk_seastate=True):
         self.type = 'McCormick'
         self.Hm0 = Hm0
         self.Tp = Tp
@@ -1065,7 +1067,7 @@ class McCormick(Bretschneider):
             self.chk_seastate()
 
         if M==None and self.Hm0>0:
-            self._TpdTz = Tp/Tz;
+            self._TpdTz = Tp/Tz
             M = 1.0/optimize.fminbound(self._localoptfun,0.01,5)
         self.M = M
         self.N = M+1.0
@@ -1073,7 +1075,7 @@ class McCormick(Bretschneider):
     def _localoptfun(self,x):
         #LOCALOPTFUN Local function to optimize.
         y = 1.0+x
-        return (y**(x)/sp.gamma(y)-self._TpdTz)**2.0;
+        return (y**(x)/sp.gamma(y)-self._TpdTz)**2.0
 
 class OchiHubble(ModelSpectrum):
     ''' OchiHubble bimodal spectral density model.
@@ -1126,7 +1128,7 @@ class OchiHubble(ModelSpectrum):
 
     '''
 
-    def __init__(self,Hm0=7,par=1,chk_seastate=True):
+    def __init__(self, Hm0=7, par=1, chk_seastate=True):
         self.type = 'Ochi Hubble'
         self.Hm0 = Hm0
         self.Tp = 1
@@ -1188,21 +1190,17 @@ class OchiHubble(ModelSpectrum):
                         [4.50, 1.95,-0.082],
                         [6.40, 1.78,-0.069],
                         [0.70, 1.78,-0.069]])
-        Hm0 = self.Hm0;
-        pi = np.pi
-        exp = np.exp
+        Hm0 = self.Hm0
         Lpari = Lpar[self.par]
         Li = np.hstack((Lpari[0],Lpari[1]*exp(Lpari[2]*Hm0)))
 
-        Hm0i = hp[self.par]*Hm0;
-        Tpi  = 2*pi*exp(wb[self.par]*Hm0)/wa[self.par];
+        Hm0i = hp[self.par]*Hm0
+        Tpi  = 2*pi*exp(wb[self.par]*Hm0)/wa[self.par]
         Ni   = 4*Li+1
         Mi   = [4, 4]
 
-        self.swell = Bretschneider(Hm0=Hm0i[0],Tp=Tpi[0],N=Ni[0],M=Mi[0]);
-        self.wind  = Bretschneider(Hm0=Hm0i[1],Tp=Tpi[1],N=Ni[1],M=Mi[1]);
-
-
+        self.swell = Bretschneider(Hm0=Hm0i[0], Tp=Tpi[0], N=Ni[0], M=Mi[0])
+        self.wind  = Bretschneider(Hm0=Hm0i[1], Tp=Tpi[1], N=Ni[1], M=Mi[1])
 
     def _chk_extra_param(self):
         if self.par<0 or 10<self.par:
@@ -1234,7 +1232,7 @@ class Wallop(Bretschneider):
         A  = (Hm0/4)^2 / wp     (Normalization factor)
         wn = w/wp
         wp = 2*pi/Tp,  angular peak frequency
-        N  = abs((log(2*pi^2)+2*log(Hm0/4)-2*log(Lp))/log(2));
+        N  = abs((log(2*pi^2)+2*log(Hm0/4)-2*log(Lp))/log(2))
         Lp = wave length corresponding to the peak frequency, wp.
 
     If N=5 it becomes the same as the JONSWAP spectrum with
@@ -1261,28 +1259,26 @@ class Wallop(Bretschneider):
     J. Fluid Mechanics, Vol.112, pp 203-224
     '''
 
-    def __init__(self,Hm0=7,Tp=11,N=None,chk_seastate=True):
+    def __init__(self, Hm0=7, Tp=11, N=None, chk_seastate=True):
         self.type = 'Wallop'
-        self.Hm0=Hm0
+        self.Hm0 = Hm0
         self.Tp = Tp
         self.M = 4
-        if N==None:
-            pi = np.pi
-            wp=2.*pi/Tp;
+        if N is None:            
+            wp = 2.*pi/Tp
             log = np.log
-            kp=w2k(wp,0,inf)[0] # wavenumber at peak frequency
-            Lp=2.*pi/kp # wave length at the peak frequency
-            N=np.abs((log(2.*pi**2.)+2*log(Hm0/4)-2.0*log(Lp))/log(2))
+            kp = w2k(wp,0,inf)[0] # wavenumber at peak frequency
+            Lp = 2.*pi/kp # wave length at the peak frequency
+            N = np.abs((log(2.*pi**2.)+2*log(Hm0/4)-2.0*log(Lp))/log(2))
 
         self.N = N
 
         if chk_seastate:
             self.chk_seastate()
 
-
-
 class Spreading(object):
-    ''' Directional spreading function.
+    ''' 
+    Directional spreading function.
 
     Member variables
     ----------------
@@ -1368,7 +1364,7 @@ class Spreading(object):
     Examples :
 
     >>> import pylab as plb
-    >>> D = Spreading('cos2s',s_a=10.0);
+    >>> D = Spreading('cos2s',s_a=10.0)
 
     >>> w = plb.linspace(0,3,257)
     >>> theta = plb.linspace(-pi,pi,129)
@@ -1380,7 +1376,7 @@ class Spreading(object):
     >>> t = plb.contour(D2(theta,w)[0])
 
     # Plot all spreading functions
-    >>> alltypes = ('cos2s','box','mises','poisson','sech2','wrap_norm');
+    >>> alltypes = ('cos2s','box','mises','poisson','sech2','wrap_norm')
     >>> for ix in range(len(alltypes)):
     ...     D3 = Spreading(alltypes[ix])
     ...     t = plb.figure(ix)
@@ -1476,24 +1472,25 @@ class Spreading(object):
         self.wn_c = wn_c
         self.wn_up = wn_up
 
-        methods = dict(n=None,m='mitsuyasu',d='donelan',b='banner')
-        methodslist = (None,'mitsuyasu','donelan','banner')
+        methods = dict(n=None, m='mitsuyasu', d='donelan', b='banner')
+        methodslist = (None, 'mitsuyasu', 'donelan', 'banner')
 
         if isinstance(self.method,str):
             if not self.method[0] in methods:
                 raise ValueError('Unknown method')
             self.method = methods[self.method[0]]
-        elif self.method==None:
+        elif self.method == None:
             pass
         else:
             if method<0 or 3<method:
                 method = 2
             self.method = methodlist[method]
 
-        self._spreadfun = dict(c=self.cos2s,b=self.box,m=self.mises,
-                        p=self.poisson,s=self.sech2,w=self.wrap_norm)
-        self._fourierdispatch = dict(b=self.fourier2a,m=self.fourier2k,
-                                    p=self.fourier2x,s=self.fourier2b,w=self.fourier2d)
+        self._spreadfun = dict(c=self.cos2s, b=self.box, m=self.mises,
+                        p=self.poisson, s=self.sech2, w=self.wrap_norm)
+        self._fourierdispatch = dict(b=self.fourier2a, m=self.fourier2k,
+                                    p=self.fourier2x, s=self.fourier2b, 
+                                    w=self.fourier2d)
 
     def __call__(self,*args):
         spreadfun = self._spreadfun[self.type[0]]
@@ -1505,19 +1502,19 @@ class Spreading(object):
         CALL [s_par,TH,phi0,Nt] = inputchk(theta,w,wc)
         '''
 
-        wn = np.atleast_1d(w/wc)
+        wn = atleast_1d(w/wc)
         theta = theta.ravel()
-        Nt = len(theta);
+        Nt = len(theta)
 
         # Make sure theta is from -pi to pi
         phi0 = 0.0
-        theta = np.mod(theta+pi,2*pi)-pi;
+        theta = np.mod(theta+pi,2*pi)-pi
 
 
-        if callable(self.theta0):
+        if hasattr(self.theta0, '__call__'):
             th0 = self.theta0(wn.flatten())
         else:
-            th0 = np.atleast_1d(self.theta0).flatten()
+            th0 = atleast_1d(self.theta0).flatten()
 
         Nt0 = th0.size
         Nw  = w.size
@@ -1539,21 +1536,21 @@ class Spreading(object):
         s = self.spread_par_s(wn)
 
         if self.type[0]=='c': # cos2s
-            s_par = s;
+            s_par = s
         else:
-            r1 = abs(s/(s+1)); #% First Fourier coefficient of the directional spreading function.
+            r1 = abs(s/(s+1)) #% First Fourier coefficient of the directional spreading function.
             #% Find distribution parameter from first Fourier coefficient.
-            s_par = self.fourier2distpar(r1);
+            s_par = self.fourier2distpar(r1)
         if self.method!=None:
             s_par = s_par[newaxis,:]
         return s_par, TH, phi0, Nt
 
 
-    def  cos2s(self,theta,w=1,wc=1): # [D, phi0] =
+    def  cos2s(self, theta, w=1, wc=1): # [D, phi0] =
         ''' COS2S spreading function
 
-         CALL  [D, phi0] = cos2s(theta,w,wc);
-               [D, phi0] = cos2s(Nt,w);
+         CALL  [D, phi0] = cos2s(theta,w,wc)
+               [D, phi0] = cos2s(Nt,w)
 
            D    = matrix of directonal spreading function, COS2S, defined as
 
@@ -1566,8 +1563,7 @@ class Spreading(object):
           theta = vector of angles given in radians. Lenght Nt
           w     = vector of angular frequencies given rad/s. Length Nw.
         '''
-        [S,TH,phi0,Nt] = self.chk_input(theta,w,wc);
-
+        S, TH, phi0, Nt = self.chk_input(theta, w, wc)
 
 ##        if not self.method[0]=='n':
 ##            S = S[newaxis,:]
@@ -1581,7 +1577,7 @@ class Spreading(object):
     def  poisson(self,theta,w=1,wc=1): # [D,phi0] =
         ''' POISSON spreading function
 
-        CALL  [D, phi0] = poisson(theta,w,wc);
+        CALL  [D, phi0] = poisson(theta,w,wc)
 
         D    = matrix of directonal spreading function, POISSON, defined as
 
@@ -1596,7 +1592,7 @@ class Spreading(object):
         [X,TH,phi0,Nt] = self.chk_input(theta,w,wc)
 
 ##        if not self.method[0]=='n':
-##            X = X[newaxis,:];
+##            X = X[newaxis,:]
 
 
         D    = (1-X**2.)/(1.-(2.*cos(TH)-X)*X)/(2.*pi)
@@ -1606,7 +1602,7 @@ class Spreading(object):
     def wrap_norm(self,theta,w=1,wc=1):
         ''' Wrapped Normal spreading function
 
-        CALL  [D, phi0] = wnormal(theta,w,wc);
+        CALL  [D, phi0] = wnormal(theta,w,wc)
 
         D    = matrix of directonal spreading function, WNORMAL, defined as
 
@@ -1620,30 +1616,30 @@ class Spreading(object):
 
 
 
-        [par,TH,phi0,Nt] = self.chk_input(theta,w,wc);
+        [par,TH,phi0,Nt] = self.chk_input(theta,w,wc)
 
-        D1 = par**2./2.;
+        D1 = par**2./2.
 ##        if not self.method(1)=='n':
 ##            D1 = D1[newaxis,:]
 
 
-        ix  =  np.arange(1,Nt);
-        ix2 = ix**2;
-        Nd2 = D1.size;
-        Fcof = np.vstack( (np.ones((1,Nd2))/2, exp(-ix2[:,newaxis]*D1)))/pi;
+        ix  =  np.arange(1,Nt)
+        ix2 = ix**2
+        Nd2 = D1.size
+        Fcof = np.vstack( (np.ones((1,Nd2))/2, exp(-ix2[:,newaxis]*D1)))/pi
 
         cor = exp(1j*ix[:,newaxis]*TH[0,:])
-        Pcor = np.vstack( (np.ones((1,TH.shape[1]) ), cor ) ); # % correction term to get
+        Pcor = np.vstack( (np.ones((1,TH.shape[1]) ), cor ) ) # % correction term to get
         #% the correct integration limits
         Fcof = Fcof*Pcor.conj()
-        D = np.real(fft(Fcof,axis=0));
-        D[D<0]=0;
+        D = np.real(fft(Fcof,axis=0))
+        D[D<0]=0
         return D, phi0
 
     def sech2(self,theta,w=1,wc=1):
         '''Sech**2 spreading function
 
-        CALL  [D, phi0] = sech2(theta,w,wc);
+        CALL  [D, phi0] = sech2(theta,w,wc)
 
         D    = matrix of directonal spreading function, SECH2, defined as
 
@@ -1656,20 +1652,20 @@ class Spreading(object):
         '''
 
 
-        [B,TH,phi0,Nt] = self.chk_input(theta,w,wc);
-        NB = tanh(pi*B); #% Normalization factor.
+        [B,TH,phi0,Nt] = self.chk_input(theta,w,wc)
+        NB = tanh(pi*B) #% Normalization factor.
         NB = where(NB==0,1.0,NB) # Avoid division by zero
 ##        if not self.method[0]=='n':
-##            B = B[newaxis,:];
-##            NB = NB[newaxis,:];
+##            B = B[newaxis,:]
+##            NB = NB[newaxis,:]
 
-        D = 0.5*B*sech(B*TH)**2./NB;
+        D = 0.5*B*sech(B*TH)**2./NB
         return D, phi0
 
     def mises(self,theta,w=1,wc=1):
         '''Mises spreading function
 
-        CALL  [D, phi0] = mises(theta,w,wc);
+        CALL  [D, phi0] = mises(theta,w,wc)
 
         D    = matrix of directonal spreading function, MISES, defined as
 
@@ -1681,7 +1677,7 @@ class Spreading(object):
         phi0 = Parameter defining the actual principal direction of D.
         '''
 
-        [K,TH,phi0,Nt] = self.chk_input(theta,w,wc);
+        [K,TH,phi0,Nt] = self.chk_input(theta,w,wc)
 ##        if not self.method[0]=='n':
 ##            K = K[newaxis,:]
 
@@ -1693,7 +1689,7 @@ class Spreading(object):
     def box(self,theta,w=1,wc=1):
         ''' Box car spreading function
 
-        CALL  [D, phi0] = box(theta,w,wc);
+        CALL  [D, phi0] = box(theta,w,wc)
 
         D    = matrix of directonal spreading function, SECH2, defined as
 
@@ -1707,12 +1703,12 @@ class Spreading(object):
 
 
 
-        [A,TH,phi0,Nt] = self.chk_input(theta,w,wc);
+        [A,TH,phi0,Nt] = self.chk_input(theta,w,wc)
 
 ##        if not self.method[0]=='n':
 ##            A = A[np.newaxis,:]
 
-        D = ((-A<=TH) & (TH<=A))/(2.*A);
+        D = ((-A<=TH) & (TH<=A))/(2.*A)
         return D, phi0
 
 # Local sub functions
@@ -1765,38 +1761,39 @@ class Spreading(object):
 
         # Newton-Raphson
         da = np.ones_like(r1)
-        iy=0
-        max_count = 100;
+        iy = 0
+        max_count = 100
         ix = np.flatnonzero(A)
         for iy in range(max_count):
             Ai = A[ix]
             da[ix] = (sin(Ai) -Ai*r1[ix])/(cos(Ai)-r1[ix])
             Ai = Ai - da[ix]
             # Make sure that the current guess is larger than zero and less than pi
-            #x(ix) = xi + 0.1*(dx(ix) - 9*xi).*(xi<=0) + 0.38*(dx(ix)-6.2*xi +6.2).*(xi>pi) ;
+            #x(ix) = xi + 0.1*(dx(ix) - 9*xi).*(xi<=0) + 0.38*(dx(ix)-6.2*xi +6.2).*(xi>pi) 
             # Make sure that the current guess is larger than zero.
             A[ix] = Ai + 0.5*(da[ix] - Ai)*(Ai<=0.0)
 
-            ix = np.flatnonzero((abs(da) > sqrt(eps)*abs(A))*(abs(da) > sqrt(eps)));
+            ix = np.flatnonzero((abs(da) > sqrt(eps)*abs(A))*(abs(da) > sqrt(eps)))
             if ix.size==0:
                 if any(A>pi):
                     raise ValueError('BOX-CAR spreading: The A value must be less than pi')
                 return A.clip(min=1e-16,max=pi)
 
 
-        warnings.warn('Newton raphson method did not converge.');
+        warnings.warn('Newton raphson method did not converge.')
         return A.clip(min=1e-16) # Avoid division by zero
 
-    def fourier2k(self,r1):
-        ''' Returns the solution of R1 = besseli(1,K)/besseli(0,K),
+    def fourier2k(self, r1):
+        ''' 
+        Returns the solution of R1 = besseli(1,K)/besseli(0,K),
         '''
         K0 = np.hstack((linspace(0,10,513), linspace(10.00001,100)))
         fun0 = lambda x : sp.ive(1,x)/sp.ive(0,x)
         funK = interp1d(fun0(K0),K0)
         K0 = funK(r1.ravel())
-        k1 = np.flatnonzero(np.isnan(K0));
+        k1 = np.flatnonzero(np.isnan(K0))
         if (k1.size>0):
-            K0[k1] = 0.0;
+            K0[k1] = 0.0
             K0[k1] = np.max(K0)
 
         ix0 = np.flatnonzero(r1!=0.0)
@@ -1813,9 +1810,9 @@ class Spreading(object):
         funB = interp1d(self._r1ofsech2(B0),B0)
 
         B0 = funB(r1.ravel())
-        k1 = np.flatnonzero(np.isnan(B0));
+        k1 = np.flatnonzero(np.isnan(B0))
         if (k1.size>0):
-            B0[k1] = 0.0;
+            B0[k1] = 0.0
             B0[k1] = np.max(B0)
 
         ix0 = np.flatnonzero(r1!=0.0)
@@ -1850,17 +1847,16 @@ class Spreading(object):
         if self.method==None:
             # no frequency dependent spreading,
             # but possible frequency dependent direction
-            s =  np.atleast_1d(self.s_a)
+            s =  atleast_1d(self.s_a)
         else:
+            wn_lo = self.wn_lo
+            wn_up = self.wn_up
+            wn_c = self.wn_c
 
-            wn_lo= self.wn_lo
-            wn_up= self.wn_up
-            wn_c= self.wn_c
-
-            spa  = self.s_a;
-            spb  = self.s_b;
-            ma   = self.m_a;
-            mb   = self.m_b;
+            spa  = self.s_a
+            spb  = self.s_b
+            ma   = self.m_a
+            mb   = self.m_b
 
 
             # Mitsuyasu et. al and Hasselman et. al parametrization   of
@@ -1868,23 +1864,23 @@ class Spreading(object):
             s = np.where(wn<=wn_c,spa*wn**ma,spb*wn**mb)
             s[wn<=wn_lo] = 0.0
 
-            k = np.flatnonzero(wn_up<wn);
+            k = np.flatnonzero(wn_up<wn)
             if k.size>0:
                 if self.method[0]=='d':
                     # Donelan et. al. parametrization for B in SECH-2
-                    s[k] = spb*(wn_up)**mb;
+                    s[k] = spb*(wn_up)**mb
 
                     # Convert to S-paramater in COS-2S distribution
                     r1 = self.r1ofsech2(s)
-                    s  = r1/(1.-r1);
+                    s  = r1/(1.-r1)
 
                 elif self.method[0]=='b':
                     # Banner parametrization  for B in SECH-2
                     s3m   = spb*(wn_up)**mb
                     s3p   = donelan(wn_up)
-                    scale = s3m/s3p; #% Scale so that parametrization will be continous
+                    scale = s3m/s3p #% Scale so that parametrization will be continous
                     s[k]  = scale*self.donelan(wn[k])
-                    r1 = self.r1ofsech2(s);
+                    r1 = self.r1ofsech2(s)
 
                     #% Convert to S-paramater in COS-2S distribution
                     s  = r1/(1.-r1)
@@ -1896,15 +1892,13 @@ class Spreading(object):
         return s
 
 
-    def _donelan(self,wn):
+    def _donelan(self, wn):
         ''' High frequency decay of B of sech2 paramater
         '''
         return  10.0**(-0.4+0.8393*exp(-0.567*log(wn**2)))
 
-
-
-    def _r1ofsech2(self,B):
-        ''' R1OFSECH2   Computes R1 = pi./(2*B.*sinh(pi./(2*B)));
+    def _r1ofsech2(self, B):
+        ''' R1OFSECH2   Computes R1 = pi./(2*B.*sinh(pi./(2*B)))
         '''
         realmax = np.finfo(float).max
         tiny = 1./realmax
@@ -1935,7 +1929,7 @@ def test_some_spectra():
 
 
     import pylab as plb
-    #w = plb.linspace(0,3);
+    #w = plb.linspace(0,3)
     w,th = plb.ogrid[0:4,0:6]
     k,k2 = w2k(w,th)
     k1,k12 = w2k(w,th,h=20)
@@ -1949,22 +1943,22 @@ def test_some_spectra():
     plb.plot(w,S(w),w,S.wind(w),w,S.swell(w))
 
     S1 = Jonswap(Hm0=7, Tp=11,gamma=1)
-    w = plb.linspace(0,2,100);
+    w = plb.linspace(0,2,100)
     plb.plot(w,S1(w))
     plb.show()
     plb.close('all')
 
 
-    Hm0 = plb.arange(1,11);
-    Tp  = plb.linspace(2,16);
-    T,H = plb.meshgrid(Tp,Hm0);
-    gam = jonswap_peakfact(H,T);
+    Hm0 = plb.arange(1,11)
+    Tp  = plb.linspace(2,16)
+    T,H = plb.meshgrid(Tp,Hm0)
+    gam = jonswap_peakfact(H,T)
     plb.plot(Tp,gam.T)
     plb.xlabel('Tp [s]')
     plb.ylabel('Peakedness parameter')
 
-    Hm0 = plb.linspace(1,20);
-    Tp = Hm0;
+    Hm0 = plb.linspace(1,20)
+    Tp = Hm0
     [T,H] = plb.meshgrid(Tp,Hm0)
     gam = jonswap_peakfact(H,T)
     v = plb.arange(0,8)
@@ -1984,7 +1978,7 @@ def test_spreading():
     t = plb.contour(d1.squeeze())
 
     pi = plb.pi
-    D = Spreading('wrap_norm',s_a=10.0);
+    D = Spreading('wrap_norm',s_a=10.0)
 
     w = plb.linspace(0,3,257)
     theta = plb.linspace(-pi,pi,129)

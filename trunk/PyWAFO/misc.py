@@ -2,25 +2,24 @@
 Misc lsdkfalsdflasdfl
 '''
 import sys
-import numpy
-np = numpy
-from scipy import special
-from scipy import interpolate
-from numpy import (linspace, logical_and, log, asfarray, isscalar, pi, sqrt,
-    exp, atleast_1d, mod, ones, zeros, newaxis, any, inf, extract, arange)
+import numpy as np
+#from scipy import interpolate
+from numpy import (linspace, logical_and, log, isscalar, pi, sqrt,
+    exp, atleast_1d, mod, ones, zeros, any, inf, extract, arange)
 from scipy.special import gammaln
 import warnings
 try:
     import wafo.c_library as clib
 except:
     clib = None
+floatinfo = np.finfo(float) 
 
 
-__all__ = ['Dot_dict','Bunch','printf','sub_dict_select','parse_kwargs','ecross',
-            'findtc','findtp','findcross','findextrema','findrfc','rfcfilter','common_shape',
-            'argsreduce','stirlerr',
-            'getshipchar','betaloge','gravity',
-           'nextpow2','discretize','pol2cart','cart2pol']
+__all__ = ['Dot_dict', 'Bunch', 'printf', 'sub_dict_select', 'parse_kwargs',
+           'ecross', 'findtc', 'findtp', 'findcross', 'findextrema', 'findrfc',
+           'rfcfilter', 'common_shape', 'argsreduce', 'stirlerr',
+           'getshipchar', 'betaloge', 'gravity', 'nextpow2', 'discretize', 
+           'pol2cart', 'cart2pol']
 class Dot_dict(dict):
     ''' Implement dot access to dict values
 
@@ -116,11 +115,11 @@ def detrendma(x, L):
     Examples
     --------
     >>> import pylab as plb
-    >>> exp = plb.exp;cos=plb.cos;randn = plb.randn
+    >>> exp = plb.exp; cos = plb.cos; randn = plb.randn
     >>> x = plb.linspace(0,1,200)
     >>> y = exp(x)+cos(5*2*pi*x)+1e-1*randn(x.size)
-    >>> y0 = detrendma(y,20);tr = y-y0
-    >>> h = plb.plot(x,y,x,y0,'r',x,exp(x),'k',x,tr,'m')
+    >>> y0 = detrendma(y,20); tr = y-y0
+    >>> h = plb.plot(x, y, x, y0, 'r', x, exp(x), 'k', x, tr, 'm')
 
     >>> plb.close('all')
 
@@ -134,7 +133,7 @@ def detrendma(x, L):
     if L != round(L):
         raise ValueError('L must be an integer')
 
-    x1 = np.atleast_1d(x)
+    x1 = atleast_1d(x)
     if x1.shape[0]==1:
         x1 = x1.ravel()
 
@@ -182,7 +181,10 @@ def ecross(t,f,ind,v):
     >>> x = plb.sin(t)
     >>> ind = findcross(x,0.75)
     >>> t0 = ecross(t,x,ind,0.75)
-    >>> a = plb.plot(t,x,'.',t[ind],x[ind],'r.',t, ones(t.shape)*0.75, t0,ones(t0.shape)*0.75,'g.')
+    >>> a = plb.plot(t, x, '.', t[ind], x[ind], 'r.', t, ones(t.shape)*0.75, 
+    ...              t0, ones(t0.shape)*0.75, 'g.')
+    
+    >>> plb.close('all')
 
     See also
     --------
@@ -191,7 +193,7 @@ def ecross(t,f,ind,v):
     return t[ind]+(v-f[ind])*(t[ind+1]-t[ind])/(f[ind+1]-f[ind])
 
 
-def findcross(x,v=0.0,type_=None):
+def findcross(x, v=0.0, type_=None):
     '''
     Return indices to level v up and/or downcrossings of a vector
 
@@ -203,13 +205,13 @@ def findcross(x,v=0.0,type_=None):
         level v.
     type_ : string
         defines type of wave or crossing returned. Possible options are
-            'dw' : downcrossing wave
-            'uw' : upcrossing wave
-            'cw' : crest wave
-            'tw' : trough wave
-            'd'  : downcrossings only
-            'u'  : upcrossings only
-            None : All crossings will be returned
+        'dw' : downcrossing wave
+        'uw' : upcrossing wave
+        'cw' : crest wave
+        'tw' : trough wave
+        'd'  : downcrossings only
+        'u'  : upcrossings only
+        None : All crossings will be returned
 
     Returns
     -------
@@ -227,16 +229,14 @@ def findcross(x,v=0.0,type_=None):
     >>> t0 = plb.plot(t,x,'.',t[ind],x[ind],'r.', t, ones(t.shape)*v)
     >>> ind2 = findcross(x,v,'u')
     >>> t0 = plb.plot(t[ind2],x[ind2],'o')
-    >>> plb.close()
+    >>> plb.close('all')
 
     See also
     --------
     crossdef
     wavedef
     '''
-
-    xn = atleast_1d(x)
-    xn  = numpy.int8(numpy.sign(xn.ravel()-v))
+    xn = np.int8(np.sign(atleast_1d(x).ravel()-v))
     ind = np.zeros(0,dtype=np.int)
     n  = len(xn)
     if n>1:
@@ -250,7 +250,7 @@ def findcross(x,v=0.0,type_=None):
                         return ind
 
 
-                    diz = numpy.diff(iz)
+                    diz = np.diff(iz)
                     ix  = iz((diz>1).argmax())
                     if not any(ix):
                         ix = iz[-1]
@@ -266,7 +266,7 @@ def findcross(x,v=0.0,type_=None):
             #% indices to local level crossings ( without turningpoints)
             ind, = (xn[:n-1]*xn[1:] < 0).nonzero()
         else:
-            ind,m = clib.findcross(xn,v)
+            ind, m = clib.findcross(xn,0.0)
             ind = ind[:m]
 
     if ind.size==0 : #%added pab 12.06.2001
@@ -305,8 +305,8 @@ def findcross(x,v=0.0,type_=None):
             pass
         else:
             raise ValueError('Unknown wave/crossing definition!')
-
     return ind
+
 def findextrema(x):
     ''' Return indices to minima and maxima of a vector
 
@@ -326,28 +326,32 @@ def findextrema(x):
     >>> x = np.sin(t)
     >>> ind = findextrema(x)
     >>> a = pb.plot(t,x,'.',t[ind],x[ind],'r.')
-    >>> pb.close()
+    >>> pb.close('all')
 
     See also
     --------
     findcross
     crossdef
     '''
-    return findcross(np.diff(x.ravel()),0.0)+1
+    xn = atleast_1d(x).ravel()
+    return findcross(np.diff(xn),0.0) + 1
 
-def findrfc(tp,hmin=0.0):
-    '''Return indices to rainflow cycles of a sequence of TP.
+def findrfc(tp, hmin=0.0):
+    '''
+    Return indices to rainflow cycles of a sequence of TP.
 
     Parameters
     -----------
-    tp : vector of turningpoints (NB! Only values, not sampled times)
-    h  : a threshold, must be larger than zero.
-              if h>0, then all rainflow cycles with height
-              smaller than  h  are removed.
+    tp : array-like
+        vector of turningpoints (NB! Only values, not sampled times)
+    h : real scalar
+        rainflow threshold. If h>0, then all rainflow cycles with height
+        smaller than h are removed.
+        
     Returns
     -------
-    RFC_ind : indices to the rainflow cycles of the
-		original sequence TP.
+    ind : ndarray of int
+        indices to the rainflow cycles of the original sequence TP.
 
     Example:
     --------
@@ -355,11 +359,11 @@ def findrfc(tp,hmin=0.0):
     >>> t = pb.linspace(0,7*np.pi,250)
     >>> x = pb.sin(t)+0.1*np.sin(50*t)
     >>> ind = findextrema(x)
-    >>> ti, tp = t[ind],x[ind]
-    >>> a= pb.plot(t,x,'.',ti,tp,'r.')
+    >>> ti, tp = t[ind], x[ind]
+    >>> a = pb.plot(t,x,'.',ti,tp,'r.')
     >>> ind1 = findrfc(tp,0.3)
     >>> a = pb.plot(ti[ind1],tp[ind1])
-    >>> pb.close()
+    >>> pb.close('all')
 
     See also
     --------
@@ -368,8 +372,8 @@ def findrfc(tp,hmin=0.0):
     '''
     y1 = np.atleast_1d(tp).ravel()
     n = len(y1)
-    ind = np.zeros(0,dtype=np.int)
-    ix=0
+    ind = np.zeros(0, dtype=np.int)
+    ix = 0
     if y1[0] > y1[1]:
         #first is a max, ignore it
         y = y1[1::]
@@ -404,7 +408,7 @@ def findrfc(tp,hmin=0.0):
             xplus = y[2*i+2]
 
             if(i!=0):
-    	       j=i-1
+    	       j = i-1
     	       while ((j>=0) and (y[2*j+1]<=y[2*i+1])):
     	           if (y[2*j]<xminus):
     	               xminus = y[2*j]
@@ -454,7 +458,7 @@ def findrfc(tp,hmin=0.0):
             iy=i
         #  /* for i */
     else:
-        ind,ix = clib.findrfc(y,hmin)
+        ind, ix = clib.findrfc(y, hmin)
     return ind[:ix]
 
 
@@ -489,7 +493,7 @@ def rfcfilter(x,h,method=0):
     y = np.atleast_1d(x).ravel()
     n = len(y)
     t = np.zeros(n,dtype=np.int)
-    j=-1
+    j = -1
     t0 = 0
     y0 = y[t0]
 
@@ -600,103 +604,104 @@ def rfcfilter(x,h,method=0):
     #% Truncate indices, t
     return y[t[:j]]
 
-def findtp(x,h=0.0,wavetype=None):
-        '''
-        Return indices to turning points (tp) of data, optionally rainflowfiltered.
+def findtp(x, h=0.0, wavetype=None):
+    '''
+    Return indices to turning points (tp) of data, optionally rainflowfiltered.
 
-        Parameters
-        ----------
-        x : vector
-            signal
-        h : real, scalar
-            a threshold
-             if  h<0, then ind=range(len(x))
-             if  h=0, then  tp  is a sequence of turning points (default)
-             if  h>0, then all rainflow cycles with height smaller than
-                      h  are removed.
-        wavetype : string
-            defines the type of wave. Possible options are
-            'mw' 'Mw' or 'none'.
-            If None all rainflow filtered min and max
-            will be returned, otherwise only the rainflow filtered
-            min and max, which define a wave according to the
-            wave definition, will be returned.
+    Parameters
+    ----------
+    x : vector
+        signal
+    h : real, scalar
+        rainflow threshold
+         if  h<0, then ind=range(len(x))
+         if  h=0, then  tp  is a sequence of turning points (default)
+         if  h>0, then all rainflow cycles with height smaller than
+                  h  are removed.
+    wavetype : string
+        defines the type of wave. Possible options are
+        'mw' 'Mw' or 'none'.
+        If None all rainflow filtered min and max
+        will be returned, otherwise only the rainflow filtered
+        min and max, which define a wave according to the
+        wave definition, will be returned.
 
-        Returns
-        -------
-        ind : arraylike
-            indices to the turning points in the original sequence.
+    Returns
+    -------
+    ind : arraylike
+        indices to the turning points in the original sequence.
 
-        Example:
-        --------
-        >>> import wafo.data
-        >>> import pylab
-        >>> x = wafo.data.sea()
-        >>> x1 = x[0:200,:]
-        >>> itp = findtp(x1[:,1],0,'Mw')
-        >>> itph = findtp(x1[:,1],0.3,'Mw')
-        >>> tp = x1[itp,:]
-        >>> tph = x1[itph,:]
-        >>> a = pylab.plot(x1[:,0],x1[:,1],tp[:,0],tp[:,1],'ro',tph[:,1],tph[:,1],'k.')
-        >>> pylab.close('all')
+    Example:
+    --------
+    >>> import wafo.data
+    >>> import pylab
+    >>> x = wafo.data.sea()
+    >>> x1 = x[0:200,:]
+    >>> itp = findtp(x1[:,1],0,'Mw')
+    >>> itph = findtp(x1[:,1],0.3,'Mw')
+    >>> tp = x1[itp,:]
+    >>> tph = x1[itph,:]
+    >>> a = pylab.plot(x1[:,0],x1[:,1],tp[:,0],tp[:,1],'ro',tph[:,1],tph[:,1],'k.')
+    >>> pylab.close('all')
 
-        See also
-        ---------
-        findtc
-        findcross
-        findextrema
-        findrfc
-        '''
-        n = len(x)
-        if h<0.0:
-            ind = np.arange(n)
-            return ind
-
-        ind = findextrema(x)
-
-        if ind.size<2:
-            return None
-
-
-        #% In order to get the exact up-crossing intensity from rfc by
-        #% mm2lc(tp2mm(rfc))  we have to add the indices
-        #% to the last value (and also the first if the
-        #% sequence of turning points does not start with a minimum).
-
-        if  x[ind[0]]>x[ind[1]]:
-            #% adds indices to  first and last value
-            ind = np.r_[0, ind ,n-1]
-        else: # adds index to the last value
-            ind = np.r_[ind, n-1]
-
-        if h>0.0:
-            ind1 = findrfc(x[ind],h)
-            ind  = ind[ind1]
-
-        if wavetype in ('mw','Mw'):
-
-            xor = lambda a,b : a^b
-            #% make sure that the first is a Max if wdef == 'Mw'
-            #% or make sure that the first is a min if wdef == 'mw'
-            removeFirst = xor((x[ind[0]]>x[ind[1]]),wavetype.startswith('Mw'))
-            if removeFirst:
-                ind = ind[1::]
-
-            #% make sure the number of minima and Maxima are according to the wavedef.
-            #% i.e., make sure Nm=length(ind) is odd
-            if (mod(ind.size,2))!=1:
-                ind = ind[:-1]
+    See also
+    ---------
+    findtc
+    findcross
+    findextrema
+    findrfc
+    '''
+    n = len(x)
+    if h<0.0:
+        ind = np.arange(n)
         return ind
 
+    ind = findextrema(x)
 
-def findtc(x,v=None,wavetype=None):
-    """Return indices to troughs and crests of data.
+    if ind.size<2:
+        return None
+
+
+    #% In order to get the exact up-crossing intensity from rfc by
+    #% mm2lc(tp2mm(rfc))  we have to add the indices
+    #% to the last value (and also the first if the
+    #% sequence of turning points does not start with a minimum).
+
+    if  x[ind[0]]>x[ind[1]]:
+        #% adds indices to  first and last value
+        ind = np.r_[0, ind ,n-1]
+    else: # adds index to the last value
+        ind = np.r_[ind, n-1]
+
+    if h>0.0:
+        ind1 = findrfc(x[ind],h)
+        ind  = ind[ind1]
+
+    if wavetype in ('mw','Mw'):
+
+        xor = lambda a, b : a^b
+        #% make sure that the first is a Max if wdef == 'Mw'
+        #% or make sure that the first is a min if wdef == 'mw'
+        removeFirst = xor((x[ind[0]] > x[ind[1]]), wavetype.startswith('Mw'))
+        if removeFirst:
+            ind = ind[1::]
+
+        # make sure the number of minima and Maxima are according to the wavedef.
+        # i.e., make sure Nm=length(ind) is odd
+        if (mod(ind.size,2)) != 1:
+            ind = ind[:-1]
+    return ind
+
+
+def findtc(x, v=None, wavetype=None):
+    """
+    Return indices to troughs and crests of data.
 
     Parameters
     ----------
     x : vector
         surface elevation.
-    v : scalar
+    v : real scalar
         reference level (default  v = mean of x).
 
 	wavetype : string
@@ -720,7 +725,7 @@ def findtc(x,v=None,wavetype=None):
     >>> import pylab
     >>> x = wafo.data.sea()
     >>> x1 = x[0:200,:]
-    >>> itc,iv = findtc(x1[:,1],0,'dw')
+    >>> itc, iv = findtc(x1[:,1],0,'dw')
     >>> tc = x1[itc,:]
     >>> a = pylab.plot(x1[:,0],x1[:,1],tc[:,0],tc[:,1],'ro')
     >>> pylab.close('all')
@@ -733,13 +738,13 @@ def findtc(x,v=None,wavetype=None):
     """
 
     if v is None:
-        v=np.mean(x)
+        v = np.mean(x)
 
-    v_ind = findcross(x,v,wavetype)
+    v_ind = findcross(x, v, wavetype)
     Nc = v_ind.size
     if Nc<=2:
         warnings.warn('There are no waves!')
-        return zeros(0,dtype=np.int),zeros(0,dtype=np.int)
+        return zeros(0, dtype=np.int), zeros(0, dtype=np.int)
 
 
     #% determine the number of trough2crest (or crest2trough) cycles
@@ -749,38 +754,37 @@ def findtc(x,v=None,wavetype=None):
     else:
         Ntc=(Nc-2)/2
 
-
     #% allocate variables before the loop increases the speed
-    ind=zeros(Nc-1,dtype=np.int)
+    ind = zeros(Nc-1, dtype=np.int)
 
 
-    if (x[v_ind[0]]>x[v_ind[0]+1]): #,%%%% the first is a down-crossing
+    if (x[v_ind[0]] > x[v_ind[0]+1]): #,%%%% the first is a down-crossing
         for i in xrange(Ntc):
             #% trough
             j = 2*i
-            ind[j]=x[v_ind[j]+1:v_ind[j+1]+1].argmin()
+            ind[j] = x[v_ind[j]+1:v_ind[j+1]+1].argmin()
             #% crest
-            ind[j+1]=x[v_ind[j+1]+1:v_ind[j+2]+1].argmax()
+            ind[j+1] = x[v_ind[j+1]+1:v_ind[j+2]+1].argmax()
 
         if (2*Ntc+1<Nc) and (wavetype in (None,'tw')):
             #% trough
-            ind[Nc-2]= x[v_ind[Nc-2]+1:v_ind[Nc-1]].argmin()
+            ind[Nc-2] = x[v_ind[Nc-2]+1:v_ind[Nc-1]].argmin()
 
     else: # %%%% the first is a up-crossing
         for i in xrange(Ntc):
             #% trough
             j = 2*i
-            ind[j]=x[v_ind[j]+1:v_ind[j+1]+1].argmax()
+            ind[j] = x[v_ind[j]+1:v_ind[j+1]+1].argmax()
             #% crest
-            ind[j+1]=x[v_ind[j+1]+1:v_ind[j+2]+1].argmin()
+            ind[j+1] = x[v_ind[j+1]+1:v_ind[j+2]+1].argmin()
 
         if (2*Ntc+1<Nc) and (wavetype in (None,'cw')):
             #% trough
-            ind[Nc-2]= x[v_ind[Nc-2]+1:v_ind[Nc-1]].argmax()
+            ind[Nc-2] = x[v_ind[Nc-2]+1:v_ind[Nc-1]].argmax()
 
     return v_ind[:Nc-1]+ind+1, v_ind
 
-def findoutliers(x,zcrit=0.0,dcrit=None,ddcrit=None,verbose=False):
+def findoutliers(x, zcrit=0.0, dcrit=None, ddcrit=None, verbose=False):
     """
     Return indices to spurious points of data
 
@@ -812,7 +816,7 @@ def findoutliers(x,zcrit=0.0,dcrit=None,ddcrit=None,verbose=False):
     (All distances to be interpreted in the vertical direction.)
     Another good choice for dcrit and ddcrit are:
 
-        dcrit = 5*dT  and ddcrit = 9.81/2*dT^2
+        dcrit = 5*dT  and ddcrit = 9.81/2*dT**2
 
     where dT is the timestep between points.
 
@@ -860,21 +864,20 @@ def findoutliers(x,zcrit=0.0,dcrit=None,ddcrit=None,verbose=False):
     indg=[]
     indmiss = np.isnan(xn)
     if findNaN and indmiss.any():
-        ind,=np.nonzero(indmiss)
+        ind, = np.nonzero(indmiss)
         if verbose:
             np.disp('Found %d missing points' % ind.size)
         xn[indmiss]=0. #%set NaN's to zero
 
     if dcrit is None:
-        dcrit=1.5*xn.std()
+        dcrit = 1.5*xn.std()
         if verbose:
             np.disp('dcrit is set to %g' % dcrit)
 
     if ddcrit is None:
-        ddcrit=1.5*xn.std()
+        ddcrit = 1.5*xn.std()
         if verbose:
             np.disp('ddcrit is set to %g' % ddcrit)
-
 
     dxn = np.diff(xn)
     ddxn = np.diff(dxn)
@@ -897,9 +900,6 @@ def findoutliers(x,zcrit=0.0,dcrit=None,ddcrit=None,verbose=False):
         if verbose:
             np.disp('Found %d spurious two point (double) spikes' % tmp.size)
 
-
-
-
     if findjumpsDx: # ,% finding spurious jumps  in Dx
         tmp,= np.nonzero(dxn>dcrit)
         if verbose:
@@ -907,13 +907,11 @@ def findoutliers(x,zcrit=0.0,dcrit=None,ddcrit=None,verbose=False):
         if tmp.size>0:
             ind=np.hstack((ind,tmp+1)) #removing the point after the jump
 
-
         tmp, = np.nonzero(dxn<-dcrit)
         if verbose:
             np.disp('Found %d spurious negative jumps of Dx' % tmp.size)
         if tmp.size>0:
             ind=np.hstack((ind,tmp)) #removing the point before the jump
-
 
     if findjumpsD2x: # ,% finding spurious jumps in D^2x
         tmp,= np.nonzero(ddxn>ddcrit)
@@ -924,42 +922,37 @@ def findoutliers(x,zcrit=0.0,dcrit=None,ddcrit=None,verbose=False):
         if verbose:
             np.disp('Found %d spurious positive jumps of D^2x' % tmp.size)
 
-
-
         tmp, = np.nonzero(ddxn<-ddcrit)
-        if tmp.size>0:
+        if tmp.size > 0:
             tmp = tmp + 1
             ind = np.hstack((ind,tmp)) # removing the jump
 
         if verbose:
             np.disp('Found %d spurious negative jumps of D^2x' % tmp.size)
 
-
-
-    if zcrit>=0.:
+    if zcrit >= 0.0:
         #% finding consecutive values less than zcrit apart.
         indzeros = (np.abs(dxn)<=zcrit)
-        indz,= np.nonzero(indzeros)
+        indz, = np.nonzero(indzeros)
         if indz.size>0:
             indz = indz+1
              #%finding the beginning and end of consecutive equal values
-            indtr,=np.nonzero((np.diff(indzeros)))
+            indtr, = np.nonzero((np.diff(indzeros)))
             indtr = indtr +1
             #%indices to consecutive equal points
             if True : # removing the point before + all equal points + the point after
                 ind = np.hstack((ind,indtr-1,indz,indtr,indtr+1))
             else: # % removing all points + the point after
-                ind= np.hstack((ind,indz,indtr,indtr+1))
-
+                ind = np.hstack((ind,indz,indtr,indtr+1))
 
         if verbose:
-            if zcrit==0.:
+            if zcrit == 0.:
                 np.disp('Found %d consecutive equal values' % indz.size)
             else:
                 np.disp('Found %d consecutive values less than %g apart.' % (indz.size, zcrit))
-    indg = np.ones(xn.size,dtype=bool)
+    indg = ones(xn.size, dtype=bool)
 
-    if ind.size>1:
+    if ind.size > 1:
         ind = np.unique1d(ind)
         indg[ind] = 0
     indg, = np.nonzero(indg)
@@ -969,7 +962,7 @@ def findoutliers(x,zcrit=0.0,dcrit=None,ddcrit=None,verbose=False):
 
     return ind, indg
 
-def common_shape(*args,**kwds):
+def common_shape(*args, **kwds):
     ''' 
     Return the common shape of a sequence of arrays
 
@@ -1027,7 +1020,7 @@ def common_shape(*args,**kwds):
 
     # Check each dimension for compatibility. A dimension length of 1 is
     # accepted as compatible with any other length.
-    common_shape = []
+    c_shape = []
     for axis in range(biggest):
         lengths = [s[axis] for s in shapes]
         unique = set(lengths + [1])
@@ -1040,14 +1033,13 @@ def common_shape(*args,**kwds):
             # value.
             unique.remove(1)
             new_length = unique.pop()
-            common_shape.append(new_length)
+            c_shape.append(new_length)
         else:
             # Every array has a length of 1 on this axis. Strides can be left
             # alone as nothing is broadcasted.
-            common_shape.append(1)
+            c_shape.append(1)
 
-    return tuple(common_shape)
-
+    return tuple(c_shape)
 
 def argsreduce(condition, *args):
     """ Return the elements of each input array that satisfy some condition.
@@ -1122,14 +1114,6 @@ def stirlerr(n):
     S3 = 0.000595238095238095238095238 # /* 1/1680 */
     S4 = 0.0008417508417508417508417508  # /* 1/1188 */
 
-    logical_and = numpy.logical_and
-    atleast_1d = numpy.atleast_1d
-    gammaln = special.gammaln
-    pi = numpy.pi
-    exp = numpy.exp
-    sqrt = numpy.sqrt
-    log = numpy.log
-
     n1 = atleast_1d(n)
 
     y = gammaln(n1+1) - log(sqrt(2*pi*n1)*(n1/exp(1))**n1 )
@@ -1154,7 +1138,7 @@ def stirlerr(n):
 
     return y
 
-def getshipchar(value,prop="max_deadweight"):
+def getshipchar(value, property="max_deadweight"):
     '''
     Return ship characteristics from value of one ship-property
 
@@ -1164,8 +1148,8 @@ def getshipchar(value,prop="max_deadweight"):
         value to use in the estimation.
     property : string
         defining the ship property used in the estimation. Options are:
-           'max_deadweight','length','beam','draft','servicespeed',
-           'propellerdiameter'.
+           'max_deadweight','length','beam','draft','service_speed',
+           'propeller_diameter'.
            The length was found from statistics of 40 vessels of size 85 to
            100000 tonn. An exponential curve through 0 was selected, and the
            factor and exponent that minimized the standard deviation of the relative
@@ -1209,52 +1193,51 @@ def getshipchar(value,prop="max_deadweight"):
     "Source level model for propeller blade rate radiation for the world's merchant
     fleet", Bolt Beranek and Newman Technical Memorandum No. 458.
     '''
-    valid_props = ('length','beam','draught','max_deadweigth','service_speed','propeller_diameter')
-    chkfun = lambda x:x[0]==prop[0]
-    prop = valid_props[map(chkfun,valid_props).index(1)]
+    valid_props = dict(l='length', b='beam', d='draught', m='max_deadweigth',
+                       s='service_speed', p='propeller_diameter')
+    prop = valid_props[property[0]]
+
     prop2max_dw = dict(length=lambda x: (x/3.45)**(2.5),
                    beam=lambda x: ((x/1.78)**(1/0.27)),
                    draught=lambda x: ((x/0.8)**(1/0.24)),
                    service_speed=lambda x: ((x/1.14)**(1/0.21)),
                    propeller_diameter=lambda x: (((x/0.12)**(4/3)/3.45)**(2.5)))
 
-
-
     max_deadweight = prop2max_dw.get(prop, lambda x : x)(value)
     propertySTD = prop + 'STD'
 
+    length    = round(3.45*max_deadweight**0.40)
+    length_err = length**0.13
 
-    L    = round(3.45*max_deadweight**0.40)
-    Lerr = L**0.13
+    beam    = round(1.78*max_deadweight**0.27*10)/10
+    beam_err = beam*0.10
 
-    W    = round(1.78*max_deadweight**0.27*10)/10
-    Werr = W*0.10
+    draught    = round(0.80*max_deadweight**0.24*10)/10
+    draught_err = draught*0.22
 
-    D    = round(0.80*max_deadweight**0.24*10)/10
-    Derr = D*0.22
-
-    #S    = round(2/3*(L).^0.525)
-    S    = round(1.14*max_deadweight**0.21*10)/10
-    Serr = S*0.10
+    #S    = round(2/3*(L)**0.525)
+    speed    = round(1.14*max_deadweight**0.21*10)/10
+    speed_err = speed*0.10
 
 
-    Pdiam     = 0.12*L**(3.0/4.0)
-    Pdiam_err = 0.12*Lerr**(3.0/4.0)
+    p_diam     = 0.12*length**(3.0/4.0)
+    p_diam_err = 0.12*length_err**(3.0/4.0)
 
     max_deadweight = round(max_deadweight)
     max_deadweightSTD = 0.1*max_deadweight
 
     shipchar = {'max_deadweight':max_deadweight, 'max_deadweightSTD':max_deadweightSTD,
-                    'length':L, 'lengthSTD':Lerr, 'beam':W, 'beamSTD':Werr,
-                    'draught':D,'draughtSTD':Derr,
-                    'service_speed':S, 'service_speedSTD':Serr,
-                    'propeller_diameter':Pdiam, 'propeller_diameterSTD':Pdiam_err }
+                    'length':length, 'lengthSTD':length_err, 'beam':beam, 'beamSTD':beam_err,
+                    'draught':draught,'draughtSTD':draught_err,
+                    'service_speed':speed, 'service_speedSTD':speed_err,
+                    'propeller_diameter':p_diam, 'propeller_diameterSTD':p_diam_err }
 
     shipchar[propertySTD] = 0
     return shipchar
 
-def betaloge(z,w):
-    ''' Natural Logarithm of beta function.
+def betaloge(z, w):
+    ''' 
+    Natural Logarithm of beta function.
 
     CALL betaloge(z,w)
 
@@ -1271,7 +1254,7 @@ def betaloge(z,w):
     This implementation is more accurate than the BETALN implementation
     for large arguments
 
-        Example
+    Example
 
 
 
@@ -1280,15 +1263,13 @@ def betaloge(z,w):
     betaln, beta
     '''
     # y = gammaln(z)+gammaln(w)-gammaln(z+w)
-    log = numpy.log
-    pi = numpy.pi
     zpw = z+w
-    y = stirlerr(z) + stirlerr(w) +0.5*log(2*pi)+(w-0.5)*log(w)+(z-0.5)*log(z)-stirlerr(zpw)-(zpw-0.5)*log(zpw)
-
+    return (stirlerr(z) + stirlerr(w) + 0.5*log(2*pi) + (w-0.5)*log(w) 
+         + (z-0.5)*log(z)-stirlerr(zpw)-(zpw-0.5)*log(zpw))
 
     # stirlings approximation:
     #  (-(zpw-0.5).*log(zpw) +(w-0.5).*log(w)+(z-0.5).*log(z) +0.5*log(2*pi))
-    return y
+    #return y
 
 def gravity(phi=45):
     ''' Returns the constant acceleration of gravity
@@ -1307,16 +1288,8 @@ def gravity(phi=45):
 
     Returns
     --------
-    g :
+    g : ndarray
         acceleration of gravity [m/s**2]
-
-    References
-    ----------
-    .. [1] Irgens, Fridtjov (1987)
-            "Formelsamling i mekanikk:
-            statikk, fasthetsl?re, dynamikk fluidmekanikk"
-            tapir forlag, University of Trondheim,
-            ISBN 82-519-0786-1, pp 19
 
     Examples
     --------
@@ -1328,9 +1301,18 @@ def gravity(phi=45):
     See also
     --------
     wdensity
+    
+    References
+    ----------
+    .. [1] Irgens, Fridtjov (1987)
+            "Formelsamling i mekanikk:
+            statikk, fasthetsl?re, dynamikk fluidmekanikk"
+            tapir forlag, University of Trondheim,
+            ISBN 82-519-0786-1, pp 19
+
     '''
     sin = np.sin
-    phir=phi*np.pi/180. # change from degrees to radians
+    phir = phi*pi/180. # change from degrees to radians
     return 9.78049*(1.+0.0052884*sin(phir)**2.-0.0000059*sin(2*phir)**2.)
 
 def nextpow2(x):
@@ -1344,11 +1326,11 @@ def nextpow2(x):
     >>> nextpow2(np.arange(5))
     3
     '''
-    t = numpy.isscalar(x) or len(x)
+    t = isscalar(x) or len(x)
     if (t > 1):
-        f, n = numpy.frexp(t)
+        f, n = np.frexp(t)
     else:
-        f, n = numpy.frexp(abs(x))
+        f, n = np.frexp(abs(x))
 
     if (f == 0.5):
         n = n - 1
@@ -1385,11 +1367,11 @@ def discretize(fun, a, b, tol=0.005, n=5):
     >>> plb.close('all')
 
     '''
+    tiny = floatinfo.tiny
     max = np.max
     abs = np.abs
     interp = np.interp
-    linspace = np.linspace
-    small = np.finfo(float).tiny
+    
 
     x = linspace(a, b, n)
     y = fun(x)
@@ -1405,11 +1387,11 @@ def discretize(fun, a, b, tol=0.005, n=5):
         x = linspace (a, b, n)
         y = fun(x)
         y00 = interp(x,x0,y0)
-        err = 0.5 * max(abs((y00 - y) / (abs(y00 + y)+small)))
+        err = 0.5 * max(abs((y00 - y) / (abs(y00 + y)+tiny)))
     return x, y
 
 
-def pol2cart(theta,rho):
+def pol2cart(theta, rho):
     ''' Transform polar coordinates into 2D cartesian coordinates.
 
     Returns
@@ -1423,7 +1405,7 @@ def pol2cart(theta,rho):
     '''
     return rho*np.cos(theta), rho*np.sin(theta)
 
-def cart2pol(x,y):
+def cart2pol(x, y):
     ''' Transform 2D cartesian coordinates into polar coordinates.
 
     Returns
@@ -1440,13 +1422,13 @@ def cart2pol(x,y):
     return np.arctan2(y, x), np.hypot(x, y)
 
 
-def trangood(x,f,min_n=None,min_x=None,max_x=None,max_n=inf):
+def trangood(x, f, min_n=None, min_x=None, max_x=None, max_n=inf):
     """
     Make sure transformation is efficient.
 
     Parameters
     ------------
-    x,f : array_like
+    x, f : array_like
         input transform function, (x,f(x)).
     min_n : scalar, int
         minimum number of points in the good transform.
@@ -1460,7 +1442,7 @@ def trangood(x,f,min_n=None,min_x=None,max_x=None,max_n=inf):
               (default inf)
     Returns
     -------
-    x,f : array_like
+    x, f : array_like
         the good transform function.
 
     TRANGOOD interpolates f linearly  and optionally
@@ -1472,27 +1454,27 @@ def trangood(x,f,min_n=None,min_x=None,max_x=None,max_n=inf):
     tranproc,
     numpy.interp
     """
-    x,f = atleast_1d(x,f)
-    n = x.size
-    if (x.ndim!=1):
+    xo, fo = atleast_1d(x, f)
+    n = xo.size
+    if (xo.ndim!=1):
         raise ValueError('x must be a vector.')
-    if (f.ndim!=1):
+    if (fo.ndim!=1):
         raise ValueError('f  must be a vector.')
 
-    i = x.argsort()
-    x = x[i]
-    f = f[i]
+    i = xo.argsort()
+    xo = xo[i]
+    fo = fo[i]
     del i
-    dx    = np.diff(x)
+    dx    = np.diff(xo)
     if ( any(dx<=0)):
         raise ValueError('Duplicate x-values not allowed.')
 
-    nf = f.shape[0]
+    nf = fo.shape[0]
 
     if max_x is None:
-        max_x = x[-1]
+        max_x = xo[-1]
     if min_x is None:
-        min_x = x[0]
+        min_x = xo[0]
     if min_n is None:
         min_n = nf
     if (min_n < 2):
@@ -1501,10 +1483,10 @@ def trangood(x,f,min_n=None,min_x=None,max_x=None,max_n=inf):
         max_n = 2
 
     ddx = np.diff(dx)
-    xn = x[-1]
-    x0 = x[0]
+    xn = xo[-1]
+    x0 = xo[0]
     L = float(xn-x0)
-    eps = np.finfo(float).eps
+    eps = floatinfo.eps
     if ( (nf < min_n) or (max_n < nf) or any(abs(ddx) > 10*eps*(L)) ):
 ##  % pab 07.01.2001: Always choose the stepsize df so that
 ##  % it is an exactly representable number.
@@ -1514,28 +1496,26 @@ def trangood(x,f,min_n=None,min_x=None,max_x=None,max_n=inf):
         dx = (dx+2.)-2.
         xi = arange(x0, xn+dx/2., dx)
         #% New call pab 11.11.2000: This is much quicker
-        f = np.interp(xi, x, f)
-        x = xi
+        fo = np.interp(xi, xo, fo)
+        xo = xi
 
     # x is now uniformly spaced
-    dx = x[1] - x[0]
+    dx = xo[1] - xo[0]
 
     # Extrapolate linearly outside the range of ff
-    if (min_x < x[0]):
-        x1 = dx*np.arange(np.floor((min_x-x[0])/dx),-2)
-        f2 = f[0]+x1*(f[1]-f[0])/(x[1]-x[0])
-        f = np.hstack((f2,f))
-        x = np.hstack((x1+x[0],x))
+    if (min_x < xo[0]):
+        x1 = dx*np.arange(np.floor((min_x-xo[0])/dx),-2)
+        f2 = fo[0]+x1*(fo[1]-fo[0])/(xo[1]-xo[0])
+        fo = np.hstack((f2,fo))
+        xo = np.hstack((x1+xo[0],xo))
 
-    if (max_x > x[-1]):
-        x1 = dx*np.arange(1,np.ceil((max_x-x[-1])/dx)+1)
-        f2 = f[-1]+x1*(f[-1]-f[-2])/(x[-1]-x[-2])
-        f = np.hstack((f,f2))
-        x = np.hstack((x,x1+x[-1]))
+    if (max_x > xo[-1]):
+        x1 = dx*np.arange(1,np.ceil((max_x-xo[-1])/dx)+1)
+        f2 = f[-1]+x1*(f[-1]-f[-2])/(xo[-1]-xo[-2])
+        fo = np.hstack((fo,f2))
+        xo = np.hstack((xo,x1+xo[-1]))
 
-    return x, f
-
-
+    return xo, fo
 
 def tranproc(x, f, x0, *xi):
     """
@@ -1567,15 +1547,17 @@ def tranproc(x, f, x0, *xi):
 
     Example
     --------
-    # Derivative of g and the transformed Gaussian model.
+    Derivative of g and the transformed Gaussian model.
     >>> import pylab as plb
-    >>> x = linspace(-5,5,501)
-    >>> g = hermitetr(x)
-    >>> gder = tranproc(np.vstack(g[:,0], ones(g.shape[0])).T,g)
-    >>> gder[:,0] = g[:,0]
-    >>> plb.plot(g[:,0],g[:,1],g[:,0],gder[:,1])
-    >>> plb.plot(g[:,0],pdfnorm(g[:,1])*gder[:,1],g[:,0],pdfnorm(g[:,0]))
-    >>> plb.legend('Transformed model','Gaussian model')
+    >>> import wafo.transform.models as wtm
+    >>> tr = wtm.TrHermite()
+    >>> x = linspace(-5,5,501) 
+    >>> g = tr(x)
+    >>> gder = tranproc(x, g, x, ones(g.shape[0]))
+    >>> h = plb.plot(x, g, x, gder[1])
+    
+    plb.plot(x,pdfnorm(g)*gder[1],x,pdfnorm(x))
+    plb.legend('Transformed model','Gaussian model')
 
     >>> plb.close('all')
 
@@ -1584,37 +1566,37 @@ def tranproc(x, f, x0, *xi):
     trangood.
     """
 
-    eps = np.finfo(float).eps
-    x,f,x0 = atleast_1d(x,f,x0)
+    eps = floatinfo.eps
+    xo, fo, x0 = atleast_1d(x, f, x0)
     xi = atleast_1d(*xi)
     if not isinstance(xi,list):
         xi = [xi,]
     N = len(xi) # N = number of derivatives
-    nmax = np.ceil((x.ptp())*10**(7./max(N,1)))
-    x,f = trangood(x, f, min_x=min(x0), max_x=max(x0), max_n=nmax)
+    nmax = np.ceil((xo.ptp())*10**(7./max(N, 1)))
+    xo, fo = trangood(xo, fo, min_x=min(x0), max_x=max(x0), max_n=nmax)
 
     n  = f.shape[0]
     y  = x0.copy()
-    xu = (n-1)*(x0-x[0])/(x[-1]-x[0])
+    xu = (n-1)*(x0-xo[0])/(xo[-1]-xo[0])
 
     fi = np.asarray(np.floor(xu),dtype=int)
     fi = np.where(fi==n-1,fi-1,fi)
 
     xu = xu-fi
-    y0 = f[fi]+(f[fi+1]-f[fi])*xu
+    y0 = fo[fi]+(fo[fi+1]-fo[fi])*xu
 
     y = y0
 
     if N > 0:
         y = [y0]
-        hn = x[1]-x[0]
+        hn = xo[1]-xo[0]
         if hn**N<sqrt(eps):
             np.disp('Numerical problems may occur for the derivatives in tranproc.')
             warnings.warn('The sampling of the transformation may be too small.')
 
         #% Transform X with the derivatives of  f.
         fxder = zeros((N,x0.size))
-        fder  = np.vstack((x,f)).T
+        fder  = np.vstack((xo,fo)).T
         for k in range(N): #% Derivation of f(x) using a difference method.
             n = fder.shape[0]
             #%fder = [(fder(1:n-1,1)+fder(2:n,1))/2 diff(fder(:,2))./diff(fder(:,1))]
@@ -1653,24 +1635,22 @@ def tranproc(x, f, x0, *xi):
 
 def test_common_shape():
 
-    A = np.ones((4,1))
+    A = ones((4,1))
     B = 2
-    C = np.ones((1,5))*5
+    C = ones((1,5))*5
     common_shape(A,B,C)
 
     common_shape(A,B,C,shape=(3,4,1))
 
-    A = np.ones((4,1))
+    A = ones((4,1))
     B = 2
-    C = np.ones((1,5))*5
+    C = ones((1,5))*5
     common_shape(A,B,C,shape=(4,5))
 
-
-
 def _testfun():
-    import wafo.transform.models as wm
-    tr = wm.TrHermite()
-    x = np.linspace(-5,5,501)
+    import wafo.transform.models as wtm
+    tr = wtm.TrHermite()
+    x = np.linspace(-5, 5, 501)
     g = tr(x)
     gder = tranproc(x,g,x, np.ones(g.size))
     #>>> gder(:,1) = g(:,1)
@@ -1705,8 +1685,6 @@ def _testfun():
     plb.show()
 
     plb.close('all')
-
-    linspace = numpy.linspace
 
     x = linspace(1,5,6)
     print stirlerr(x)

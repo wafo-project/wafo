@@ -273,8 +273,6 @@ class Plotter_2d(Plotter_1d):
         contour (default)
         mesh
         surf
-
-
     """
 
     def __init__(self,plotmethod='contour'):
@@ -309,22 +307,25 @@ class TrGauss(WafoData):
         Gaussian values, Y
     args : array-like
         non-Gaussian values, X
-    mean, sigma : real, scalar
+    ymean, ysigma : real, scalars (default ymean=0, ysigma=1)
+        mean and standard-deviation, respectively, of the process in Gaussian world.
+    xmean, xsigma : real, scalars
         mean and standard-deviation, respectively, of the non-Gaussian process. 
         Default: 
-        mean = self.gauss2dat(0), 
-        sigma = (self.gauss2dat(1)-self.gauss2dat(-1))/2
+        xmean = self.gauss2dat(ymean), 
+        xsigma = (self.gauss2dat(ysigma)-self.gauss2dat(-ysigma))/2
     
     Example
     -------
-    Construct a linear transformation
+    Construct a linear transformation model
     >>> import numpy as np
-    >>> x = np.linspace(-5,5); y = x
-    >>> g = TrGauss(x,y)
-    >>> g.mean
-    array([ 0.])
-    >>> g.sigma
+    >>> xsigma = 5; xmean = 1
+    >>> u = np.linspace(-5,5); x = xsigma*u+xmean; y = u
+    >>> g = TrGauss(y,x)
+    >>> g.xmean
     array([ 1.])
+    >>> g.xsigma
+    array([ 5.])
     
     Check that the departure from a Gaussian model is zero
     >>> g.dist2gauss()<1e-16
@@ -335,12 +336,18 @@ class TrGauss(WafoData):
         self.labels.title = 'Transform'
         self.labels.ylab = 'g(u)'
         self.labels.xlab = 'u'
-        self.mean = kwds.get('mean', None)
-        self.sigma = kwds.get('sigma', None)
-        if self.mean is None: 
-            self.mean = self.gauss2dat(0)
-        if self.sigma is None:
-            self.sigma = (self.gauss2dat(1)-self.gauss2dat(-1))/2.
+        self.ymean = kwds.get('ymean', 0e0)
+        self.ysigma = kwds.get('ysigma', 1e0)
+        self.xmean = kwds.get('xmean', None)
+        self.xsigma = kwds.get('xsigma', None)
+        
+        if self.xmean is None: 
+            #self.xmean = np.mean(self.args) # 
+            self.xmean = self.gauss2dat(self.ymean)
+        if self.xsigma is None:
+            yp = self.ymean+self.ysigma
+            ym = self.ymean-self.ysigma
+            self.xsigma = (self.gauss2dat(yp)-self.gauss2dat(ym))/2.
 
     def  dist2gauss(self, x=None, xnmin=-5, xnmax=5, n=513):
         """
@@ -364,12 +371,12 @@ class TrGauss(WafoData):
         """
         if x is None:
             xn = np.linspace(xnmin, xnmax, n)
-            x = self.sigma*xn + self.mean
+            x = self.xsigma*xn + self.xmean
         else:    
-            xn = (x-self.mean)/self.sigma
+            xn = (x-self.xmean)/self.xsigma
 
-        y = self.dat2gauss(x)
-        t0 = trapz(xn, (xn-y)**2.)
+        yn = (self.dat2gauss(x)-self.ymean)/self.ysigma
+        t0 = trapz(xn, (xn-yn)**2.)
         return t0
 
     def gauss2dat(self, y, *yi):
@@ -422,7 +429,9 @@ class LevelCrossings(WafoData):
     Member variables
     ----------------
     data : array_like
+        number of upcrossings
     args : vector for 1D
+        crossing levels
 
     '''
     def __init__(self,*args,**kwds):
@@ -470,15 +479,26 @@ class LevelCrossings(WafoData):
 
         Example
         -------
-        n = 10000
-        S = jonswap(7)
-        alpha = spec2char(S,'alpha')
-        xs  = spec2sdat(S,n)
-        lc  = dat2lc(xs)
-        xs2 = lc2sdat(lc,n,alpha)
-        Se  = dat2spec(xs2)
-        plotspec(S),hold on
-        plotspec(Se,'r'), hold off
+        >>> import wafo.spectrum.models as sm
+        >>> Sj = sm.Jonswap(Hm0=7)
+        >>> S = Sj.toSpecData()   #Make spectrum object from numerical values
+        >>> alpha = S.characteristic('alpha')[0]
+        >>> n = 10000
+        >>> xs = S.sim(ns=n)
+        >>> ts = mat2timeseries(xs)
+        >>> tp = ts.turning_points()
+        >>> mm = tp.cycle_pairs()
+        >>> lc = mm.level_crossings()  
+        
+        xs2 = lc.sim(n,alpha)
+        ts2 = mat2timeseries(xs2)
+        Se  = ts2.tospec()
+        
+        S.plot('b')
+        Se.plot('r')
+        alpha2 = Se.characteristic('alpha')[0]
+        alpha-alpha2
+        
         spec2char(Se,'alpha')
         lc2  = dat2lc(xs2)
         figure(gcf+1)
@@ -511,8 +531,8 @@ class LevelCrossings(WafoData):
         L0 = randn(1)
         L0 = np.vstack((L0,r1*L0+sqrt(1-r2**2)*randn(1)))
         #%Simulate the process, starting in L0
-        filter = scipy.signal.lfilter
-        L = filter(1,[1, a1, a2],e,filter([1, a1, a2],1,L0))
+        lfilter = scipy.signal.lfilter
+        L = lfilter(1,[1, a1, a2],e,lfilter([1, a1, a2],1,L0))
 
         epsilon = 1.01
         min_L   = min(L)
@@ -575,8 +595,228 @@ class LevelCrossings(WafoData):
 ##        %funplot_4(lc,param,mu)
 
 
-    def trgauss(self):
+    def trgauss2(self, mean=None, sigma=None, **options):
+        '''
+        Estimate transformation, g, from observed crossing intensity, version2.
+
+        Assumption: a Gaussian process, Y, is related to the
+                    non-Gaussian process, X, by Y = g(X). 
+
+        Parameters
+        ----------        
+           options = structure with the fields:
+          csm, gsm  - defines the smoothing of the crossing intensity and the
+                     transformation g. Valid values must be
+                    0<=csm,gsm<=1. (default csm = 0.9 gsm=0.05)
+                     Smaller values gives smoother functions.
+             param - vector which defines the region of variation of the data X.
+                     (default [-5 5 513]). 
+           
+          monitor            monitor development of estimation
+         linextrap - 0 use a regular smoothing spline 
+                     1 use a smoothing spline with a constraint on the ends to 
+                       ensure linear extrapolation outside the range of the data.
+                       (default)
+         cvar      - Variances for the crossing intensity. (default 1)
+         gvar      - Variances for the empirical transformation, g. (default  1) 
+         ne        - Number of extremes (maxima & minima) to remove from the
+                      estimation of the transformation. This makes the
+                      estimation more robust against outliers. (default 7)
+         Ntr        - Maximum length of empirical crossing intensity.
+                      The empirical crossing intensity is interpolated
+                      linearly  before smoothing if the length exceeds Ntr.
+                      A reasonable NTR will significantly speed up the
+                      estimation for long time series without loosing any
+                      accuracy. NTR should be chosen greater than
+                      PARAM(3). (default 1000)
+        Returns
+        -------
+        gs, ge : TrGauss objects 
+            smoothed and empirical estimate of the transformation g.     
+             ma,sa = mean and standard deviation of the process
+        
+        Notes
+        -----
+        The empirical crossing intensity is usually very irregular.
+        More than one local maximum of the empirical crossing intensity
+        may cause poor fit of the transformation. In such case one
+        should use a smaller value of GSM or set a larger variance for GVAR. 
+        If X(t) is likely to cross levels higher than 5 standard deviations  
+        then the vector param has to be modified.  For example if X(t) is 
+        unlikely to cross a level of 7 standard deviations one can use 
+        param = [-7 7 513].
+        
+        Example
+        -------
+        Hm0 = 7
+        S = jonswap([],Hm0); g=ochitr([],[Hm0/4]); 
+         S.tr = g; S.tr(:,2)=g(:,2)*Hm0/4;
+         xs = spec2sdat(S,2^13);
+         lc = dat2lc(xs)
+         g0 = lc2tr2(lc,0,Hm0/4,'plot','iter');         % Monitor the development
+         g1 = lc2tr2(lc,0,Hm0/4,troptset('gvar', .5 )); % Equal weight on all points
+         g2 = lc2tr2(lc,0,Hm0/4,'gvar', [3.5 .5 3.5]);  % Less weight on the ends
+         hold on, trplot(g1,g)                          % Check the fit
+         trplot(g2)
+        
+         See also  troptset, dat2tr, trplot, findcross, smooth
+        
+         NB! the transformated data will be N(0,1)
+        
+        Reference
+        --------- 
+        Rychlik , I., Johannesson, P., and Leadbetter, M.R. (1997)
+        "Modelling and statistical analysis of ocean wavedata 
+        using a transformed Gaussian process",
+        Marine structures, Design, Construction and Safety, 
+        Vol 10, pp 13--47
+        ''' 
+        
+        
+        # Tested on: Matlab 5.3, 5.2, 5.1
+        # History:
+        # by pab 29.12.2000
+        # based on lc2tr, but the inversion is faster.
+        # by IR and PJ
         pass
+        
+#        opt = troptset('chkder','on','plotflag','off','csm',.9,'gsm',.05,....
+#            'param',[-5 5 513],'delay',2,'linextrap','on','ntr',1000,'ne',7,'cvar',1,'gvar',1);
+#        # If just 'defaults' passed in, return the default options in g
+#        if nargin==1 && nargout <= 1 && isequal(cross,'defaults')
+#          g = opt; 
+#          return
+#        end
+#        error(nargchk(3,inf,nargin)) 
+#        if nargin>=4 ,  opt  = troptset(opt,varargin{:}); end
+#        csm2 = opt.gsm;
+#        param = opt.param;
+#        ptime = opt.delay;
+#        Ne  = opt.ne;
+#        switch opt.chkder;
+#          case 'off', chkder = 0;
+#          case 'on',  chkder = 1;
+#          otherwise,  chkder = opt.chkder;
+#        end
+#        switch opt.linextrap;
+#          case 'off', def = 0;
+#          case 'on',  def = 1;
+#          otherwise,  def = opt.linextrap;
+#        end
+#        switch opt.plotflag
+#          case {'none','off'},   plotflag = 0;
+#          case 'final', plotflag = 1;
+#          case 'iter',  plotflag = 2;
+#          otherwise,    plotflag = opt.plotflag;
+#        end
+#        ncr = length(cross);
+#        if ncr>opt.ntr && opt.ntr>0,
+#           x0 = linspace(cross(1+Ne,1),cross(end-Ne,1),opt.ntr)';
+#           cros = [ x0,interp1q(cross(:,1),cross(:,2),x0)];
+#           Ne = 0;
+#           Ner = opt.ne;
+#           ncr = opt.ntr;
+#         else
+#           Ner = 0;
+#          cros=cross;
+#        end
+#        
+#        ng = length(opt.gvar);
+#        if ng==1
+#          gvar = opt.gvar(ones(ncr,1));
+#        else
+#          gvar = interp1(linspace(0,1,ng)',opt.gvar(:),linspace(0,1,ncr)','*linear');  
+#        end
+#        ng = length(opt.cvar);
+#        if ng==1
+#          cvar = opt.cvar(ones(ncr,1));
+#        else
+#          cvar = interp1(linspace(0,1,ng)',opt.cvar(:),linspace(0,1,ncr)','*linear');  
+#        end
+#        
+#        g = zeros(param(3),2);
+#        
+#        uu = levels(param);
+#        
+#        g(:,1) = sa*uu' + ma;
+#        
+#        g2   = cros;
+#        
+#        if Ner>0, # Compute correction factors
+#         cor1 = trapz(cross(1:Ner+1,1),cross(1:Ner+1,2));
+#         cor2 = trapz(cross(end-Ner-1:end,1),cross(end-Ner-1:end,2));
+#        else
+#          cor1 = 0;
+#          cor2 = 0;
+#        end
+#        cros(:,2) = cumtrapz(cros(:,1),cros(:,2))+cor1;
+#        cros(:,2) = (cros(:,2)+.5)/(cros(end,2) + cor2 +1);
+#        cros(:,1) = (cros(:,1)-ma)/sa;
+#        
+#        # find the mode
+#        [tmp,imin]= min(abs(cros(:,2)-.15));
+#        [tmp,imax]= min(abs(cros(:,2)-.85));
+#        inde = imin:imax;
+#        tmp =  smooth(cros(inde,1),g2(inde,2),opt.csm,cros(inde,1),def,cvar(inde));
+#        
+#        [tmp imax] = max(tmp);
+#        u0 = cros(inde(imax),1);
+#        #u0 = interp1q(cros(:,2),cros(:,1),.5)
+#        
+#        
+#        cros(:,2) = invnorm(cros(:,2),-u0,1);
+#        
+#        g2(:,2)   = cros(:,2);
+#        # NB! the smooth function does not always extrapolate well outside the edges
+#        # causing poor estimate of g  
+#        # We may alleviate this problem by: forcing the extrapolation
+#        # to be linear outside the edges or choosing a lower value for csm2.
+#        
+#        inds = 1+Ne:ncr-Ne;# indices to points we are smoothing over
+#        scros2 = smooth(cros(inds,1),cros(inds,2),csm2,uu,def,gvar(inds));
+#        
+#        g(:,2) = scros2';#*sa; #multiply with stdev 
+#        
+#        if chkder~=0
+#           for ix = 1:5
+#            dy = diff(g(:,2));
+#            if any(dy<=0)
+#              warning('WAFO:LCTR2','The empirical crossing spectrum is not sufficiently smoothed.')
+#              disp('        The estimated transfer function, g, is not ')
+#              disp('        a strictly increasing function.')
+#              dy(dy>0)=eps;
+#              gvar = -([dy;0]+[0;dy])/2+eps;
+#              g(:,2) = smooth(g(:,1),g(:,2),1,g(:,1),def,ix*gvar);
+#            else 
+#              break
+#            end
+#          end
+#        end
+#        if 0,  #either
+#          test = sqrt((param(2)-param(1))/(param(3)-1)*sum((uu-scros2).^2));
+#        else # or
+#          #test=sqrt(simpson(uu,(uu-scros2).^2));
+#        # or
+#          test=sqrt(trapz(uu,(uu-scros2).^2));
+#        end 
+#        
+#        
+#        if plotflag>0, 
+#          trplot(g ,g2,ma,sa)
+#          #legend(['Smoothed (T='  num2str(test) ')'],'g(u)=u','Not smoothed',0)
+#          #ylabel('Transfer function g(u)')
+#          #xlabel('Crossing level u')
+#          
+#          if plotflag>1,pause(ptime),end
+#        end
+
+
+
+
+
+
+
+
 
 class CyclePairs(WafoData):
     '''
@@ -681,8 +921,8 @@ class CyclePairs(WafoData):
         LevelCrossings
         """
 
-        if isinstance(type_,str):
-            t = dict(u=0,uM=1,umM=2,um=3)
+        if isinstance(type_, str):
+            t = dict(u=0, uM=1, umM=2, um=3)
             defnr = t.get(type_,1)
         else:
             defnr = type_
@@ -692,7 +932,7 @@ class CyclePairs(WafoData):
 
         index,=np.nonzero(self.args <= self.data)
         if index.size==0:
-            index,=np.nonzero(self.args >= self.data)
+            index, = np.nonzero(self.args >= self.data)
             M = self.args[index]
             m = self.data[index]
         else:
@@ -727,14 +967,14 @@ class CyclePairs(WafoData):
         #[xx nx]=max(extr(:,1))
         nx = extr[0].argmax()+1
         levels = extr[0,0:nx]
-        if defnr == 2: #% This are upcrossings + maxima
+        if defnr == 2: ## This are upcrossings + maxima
             dcount = cumsum(extr[1,0:nx]) + extr[2,0:nx]-extr[3,0:nx]
-        elif defnr == 4: # % This are upcrossings + minima
+        elif defnr == 4: # # This are upcrossings + minima
             dcount = cumsum(extr[1,0:nx])
             dcount[nx-1] = dcount[nx-2]
-        elif defnr == 1: #% This are only upcrossings
+        elif defnr == 1: ## This are only upcrossings
             dcount = cumsum(extr[1,0:nx]) - extr[3,0:nx]
-        elif defnr == 3: #% This are upcrossings + minima + maxima
+        elif defnr == 3: ## This are upcrossings + minima + maxima
             dcount = cumsum(extr[1,0:nx]) + extr[2,0:nx]
         return LevelCrossings(dcount,levels,stdev=self.stdev)
 
@@ -798,28 +1038,28 @@ def qtf(w, h=inf, g=9.81):
         Hd = (-p3/p4*(w1m2)*cosh((k1m2)*h)/g-
             (k12*g**2+w12**2)/(4*g*w12)+(w1**2.+w2**2.)/(4.*g))
 
-    else: #  % Marthinsen & Winterstein
+    else: #  # Marthinsen & Winterstein
         tmp1 = 0.5*g*k12/w12
         tmp2 = 0.25/g*(w1**2.+w2**2.+w12)
         Hs   = (tmp1-tmp2+0.25*g*(w1*k2**2.+w2*k1**2)/
-                (w12*(w1p2)))/(1.-g*(k1p2)/(w1p2)**2.*tanh((k1p2)*h))+tmp2-0.5*tmp1 #% OK
+                (w12*(w1p2)))/(1.-g*(k1p2)/(w1p2)**2.*tanh((k1p2)*h))+tmp2-0.5*tmp1 ## OK
 
-        tmp2 = 0.25/g*(w1**2+w2**2-w12) # %OK
+        tmp2 = 0.25/g*(w1**2+w2**2-w12) # #OK
         Hd   = (tmp1-tmp2-0.25*g*(w1*k2**2-w2*k1**2)/
-            (w12*(w1m2)))/(1.-g*(k1m2)/(w1m2)**2.*tanh((k1m2)*h))+tmp2-0.5*tmp1 # % OK
+            (w12*(w1m2)))/(1.-g*(k1m2)/(w1m2)**2.*tanh((k1m2)*h))+tmp2-0.5*tmp1 # # OK
 
 
-    #%tmp1 = 0.5*g*kw./(w.*sqrt(g*h))
-    #%tmp2 = 0.25*w.^2/g
+    ##tmp1 = 0.5*g*kw./(w.*sqrt(g*h))
+    ##tmp2 = 0.25*w.^2/g
 
 
-    Cg = 0.5*g*(tanh(kw*h) +kw*h*(1.0- tanh(kw*h)**2))/w # %Wave group velocity
+    Cg = 0.5*g*(tanh(kw*h) +kw*h*(1.0- tanh(kw*h)**2))/w # #Wave group velocity
     Hdii = (0.5*(0.5*g*(kw/w)**2.-0.5*w**2/g+g*kw/(w*Cg))
-            /(1.-g*h/Cg**2.)-0.5*kw/sinh(2*kw*h) )# % OK
+            /(1.-g*h/Cg**2.)-0.5*kw/sinh(2*kw*h) )# # OK
     Hd.flat[0::Nw+1] = Hdii
 
-    #%k    = find(w1==w2)
-    #%Hd(k) = Hdii
+    ##k    = find(w1==w2)
+    ##Hd(k) = Hdii
 
     #% The NaN's occur due to division by zero. => Set the isnans to zero
     isnan = np.isnan
@@ -3331,7 +3571,7 @@ class TurningPoints(WafoData):
             self.args = np.ravel(self.args)
         self.data= np.ravel(self.data)
 
-    def cycle_pairs(self,type_='min2max'):
+    def cycle_pairs(self, type_='min2max'):
         """ Return min2Max or Max2min cycle pairs from turning points
 
         Parameters
@@ -3441,6 +3681,8 @@ class TimeSeries(WafoData):
         N = np.size(self.args)-1
         T = self.args[-1]-self.args[0]
         dt = T/N
+        if abs(dt-dt1) > 1e-10:
+            warnings.warn('Data is not uniformly sampled!')
         return dt
 
     def tocov(self, lag=None, flag='biased', norm=False, dt = None):
@@ -4005,6 +4247,53 @@ def sensortype(*sensorids):
     #except:
     #    raise ValueError('Input must be an integer!')
 
+def main0():
+    import wafo
+    ts = wafo.objects.mat2timeseries(wafo.data.sea())
+    tp = ts.turning_points()
+    mm = tp.cycle_pairs()
+    lc = mm.level_crossings()
+    lc.plot()
+    T = ts.wave_periods(vh=0.0,pdef='c2c')
+    import wafo.spectrum.models as sm
+    Sj = sm.Jonswap()
+    S = Sj.toSpecData()
+    me,va,sk,ku = S.stats_nl(moments='mvsk')
+    import wafo.data
+    x = wafo.data.sea()
+    ts = mat2timeseries(x)
+    rf = ts.tocov(lag=150)
+    rf.plot()
+    #main()
+    import wafo.spectrum.models as sm
+    Sj = sm.Jonswap()
+    S = Sj.toSpecData()
+
+    R = S.tocov()
+    x = R.sim(ns=1000,dt=0.2)
+    S.characteristic(['hm0','tm02'])
+    ns = 1000 
+    dt = .2
+    x1 = S.sim(ns,dt=dt)
+
+    ts = TimeSeries(x1[:,1],x1[:,0])
+    tp = ts.turning_points(0.0)
+
+    x = np.arange(-2,2,0.2)
+
+    # Plot 2 objects in one call
+    d2 = WafoData(np.sin(x),x,xlab='x',ylab='sin',title='sinus')
+
+
+    d0 = d2.copy()
+    d0.data = d0.data*0.9
+    d1 = d2.copy()
+    d1.data = d1.data*1.2
+    d1.children = [d0]
+    d2.children = [d1]
+
+    d2.plot()
+    print 'Done'
 
 def main():
     import matplotlib
@@ -4059,49 +4348,4 @@ if __name__ == '__main__':
         doctest.testmod()
     else:
         main()
-        import wafo
-        ts = wafo.objects.mat2timeseries(wafo.data.sea())
-        tp = ts.turning_points()
-        mm = tp.cycle_pairs()
-        lc = mm.level_crossings()
-        lc.plot()
-        T = ts.wave_periods(vh=0.0,pdef='c2c')
-        import wafo.spectrum.models as sm
-        Sj = sm.Jonswap()
-        S = Sj.toSpecData()
-        me,va,sk,ku = S.stats_nl(moments='mvsk')
-        import wafo.data
-        x = wafo.data.sea()
-        ts = mat2timeseries(x)
-        rf = ts.tocov(lag=150)
-        rf.plot()
-        #main()
-        import wafo.spectrum.models as sm
-        Sj = sm.Jonswap()
-        S = Sj.toSpecData()
-
-        R = S.tocov()
-        x = R.sim(ns=1000,dt=0.2)
-        S.characteristic(['hm0','tm02'])
-        ns = 1000 
-        dt = .2
-        x1 = S.sim(ns,dt=dt)
-
-        ts = TimeSeries(x1[:,1],x1[:,0])
-        tp = ts.turning_points(0.0)
-
-        x = np.arange(-2,2,0.2)
-
-        # Plot 2 objects in one call
-        d2 = WafoData(np.sin(x),x,xlab='x',ylab='sin',title='sinus')
-
-
-        d0 = d2.copy()
-        d0.data = d0.data*0.9
-        d1 = d2.copy()
-        d1.data = d1.data*1.2
-        d1.children = [d0]
-        d2.children = [d1]
-
-        d2.plot()
-        print 'Done'
+       

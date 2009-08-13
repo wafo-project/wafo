@@ -85,7 +85,7 @@ except:
 from plotbackend import plotbackend
 
 __all__ = ['SpecData1D','SpecData2D','WafoData', 'AxisLabels','CovData1D',
-    'TimeSeries','TrGauss','LevelCrossings','CyclePairs','TurningPoints',
+    'TimeSeries','TrData','LevelCrossings','CyclePairs','TurningPoints',
     'sensortypeid','sensortype']
 
 def empty_copy(obj):
@@ -160,7 +160,7 @@ class WafoData(object):
             plotbackend.hold('on')
             tmp = []
             for child in self.children:
-                tmp1 = child.plot(*args,**kwds)
+                tmp1 = child.plot(*args, **kwds)
                 if tmp1 !=None:
                     tmp.append(tmp1)
             if len(tmp)==0:
@@ -281,7 +281,7 @@ class Plotter_2d(Plotter_1d):
         super(Plotter_2d,self).__init__(plotmethod)
         #self.plotfun = plotbackend.__dict__[plotmethod]
 
-class TrGauss(WafoData):
+class TrData(WafoData):
     """
     Non-parametric Transformation model, g.
 
@@ -309,11 +309,11 @@ class TrGauss(WafoData):
         non-Gaussian values, X
     ymean, ysigma : real, scalars (default ymean=0, ysigma=1)
         mean and standard-deviation, respectively, of the process in Gaussian world.
-    xmean, xsigma : real, scalars
+    mean, sigma : real, scalars
         mean and standard-deviation, respectively, of the non-Gaussian process. 
         Default: 
-        xmean = self.gauss2dat(ymean), 
-        xsigma = (self.gauss2dat(ysigma)-self.gauss2dat(-ysigma))/2
+        mean = self.gauss2dat(ymean), 
+        sigma = (self.gauss2dat(ysigma)-self.gauss2dat(-ysigma))/2
     
     Example
     -------
@@ -321,33 +321,33 @@ class TrGauss(WafoData):
     >>> import numpy as np
     >>> xsigma = 5; xmean = 1
     >>> u = np.linspace(-5,5); x = xsigma*u+xmean; y = u
-    >>> g = TrGauss(y,x)
-    >>> g.xmean
+    >>> g = TrData(y,x)
+    >>> g.mean
     array([ 1.])
-    >>> g.xsigma
+    >>> g.sigma
     array([ 5.])
     
     Check that the departure from a Gaussian model is zero
     >>> g.dist2gauss()<1e-16
     True
     """
-    def __init__(self,*args,**kwds):
-        super(TrGauss, self).__init__(*args,**kwds)
+    def __init__(self, *args, **kwds):
+        super(TrData, self).__init__(*args, **kwds)
         self.labels.title = 'Transform'
         self.labels.ylab = 'g(u)'
         self.labels.xlab = 'u'
         self.ymean = kwds.get('ymean', 0e0)
         self.ysigma = kwds.get('ysigma', 1e0)
-        self.xmean = kwds.get('xmean', None)
-        self.xsigma = kwds.get('xsigma', None)
+        self.mean = kwds.get('mean', None)
+        self.sigma = kwds.get('sigma', None)
         
-        if self.xmean is None: 
+        if self.mean is None: 
             #self.xmean = np.mean(self.args) # 
-            self.xmean = self.gauss2dat(self.ymean)
-        if self.xsigma is None:
+            self.mean = self.gauss2dat(self.ymean)
+        if self.sigma is None:
             yp = self.ymean+self.ysigma
             ym = self.ymean-self.ysigma
-            self.xsigma = (self.gauss2dat(yp)-self.gauss2dat(ym))/2.
+            self.sigma = (self.gauss2dat(yp)-self.gauss2dat(ym))/2.
 
     def  dist2gauss(self, x=None, xnmin=-5, xnmax=5, n=513):
         """
@@ -371,9 +371,9 @@ class TrGauss(WafoData):
         """
         if x is None:
             xn = np.linspace(xnmin, xnmax, n)
-            x = self.xsigma*xn + self.xmean
+            x = self.sigma*xn + self.mean
         else:    
-            xn = (x-self.xmean)/self.xsigma
+            xn = (x-self.mean)/self.sigma
 
         yn = (self.dat2gauss(x)-self.ymean)/self.ysigma
         t0 = trapz(xn, (xn-yn)**2.)
@@ -481,7 +481,7 @@ class LevelCrossings(WafoData):
         -------
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap(Hm0=7)
-        >>> S = Sj.toSpecData()   #Make spectrum object from numerical values
+        >>> S = Sj.tospecdata()   #Make spectrum object from numerical values
         >>> alpha = S.characteristic('alpha')[0]
         >>> n = 10000
         >>> xs = S.sim(ns=n)
@@ -492,7 +492,7 @@ class LevelCrossings(WafoData):
         
         xs2 = lc.sim(n,alpha)
         ts2 = mat2timeseries(xs2)
-        Se  = ts2.tospec()
+        Se  = ts2.tospecdata()
         
         S.plot('b')
         Se.plot('r')
@@ -595,7 +595,7 @@ class LevelCrossings(WafoData):
 ##        %funplot_4(lc,param,mu)
 
 
-    def trgauss2(self, mean=None, sigma=None, **options):
+    def TrData2(self, mean=None, sigma=None, **options):
         '''
         Estimate transformation, g, from observed crossing intensity, version2.
 
@@ -631,7 +631,7 @@ class LevelCrossings(WafoData):
                       PARAM(3). (default 1000)
         Returns
         -------
-        gs, ge : TrGauss objects 
+        gs, ge : TrData objects 
             smoothed and empirical estimate of the transformation g.     
              ma,sa = mean and standard deviation of the process
         
@@ -1089,7 +1089,7 @@ class SpecData1D(WafoData):
     >>> import wafo.spectrum.models as sm
     >>> Sj = sm.Jonswap(Hm0=3)
     >>> w = np.linspace(0,4,256)
-    >>> S1 = Sj.toSpecData(w)   #Make spectrum object from numerical values
+    >>> S1 = Sj.tospecdata(w)   #Make spectrum object from numerical values
     >>> S = SpecData1D(Sj(w),w) # Alternatively do it manually
 
     See also
@@ -1143,7 +1143,7 @@ class SpecData1D(WafoData):
         -------
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap()
-        >>> S = Sj.toSpecData()
+        >>> S = Sj.tospecdata()
         >>> R = S.tocov_matrix(nr=3, nt=256, dt=0.1)
         >>> R[:2,:]
         array([[ 3.06075987,  0.        , -1.67750289,  0.        ],
@@ -1195,7 +1195,7 @@ class SpecData1D(WafoData):
         S2 = self.copy()
         S2.resample(dt)
 
-        R2 = S2.tocov(nr, nt, rate=1)
+        R2 = S2.tocovdata(nr, nt, rate=1)
         R = np.zeros((nt+1,nr+1),dtype=float)
         R[:,0] = R2.data[0:nt+1]
         fieldname = 'R' + lagtype*nr
@@ -1219,7 +1219,7 @@ class SpecData1D(WafoData):
             np.disp(msg2)
         return R
 
-    def tocov(self, nr=0, nt=None, rate=None):
+    def tocovdata(self, nr=0, nt=None, rate=None):
         '''
         Computes covariance function and its derivatives
 
@@ -1256,11 +1256,11 @@ class SpecData1D(WafoData):
         Example:
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap()
-        >>> S = Sj.toSpecData()
+        >>> S = Sj.tospecdata()
         >>> S.data[0:40] = 0.0
         >>> S.data[100:-1] = 0.0
         >>> Nt = len(S.data)-1
-        >>> R = S.tocov(nr=0,nt=Nt)
+        >>> R = S.tocovdata(nr=0,nt=Nt)
 
         R   = spec2cov(S,0,Nt)
         win = parzen(2*Nt+1)
@@ -1374,7 +1374,7 @@ class SpecData1D(WafoData):
         >>> from wafo.spectrum import models as sm
         >>> w = np.linspace(0,3,100)
         >>> Sj = sm.Jonswap()
-        >>> S = Sj.toSpecData()
+        >>> S = Sj.tospecdata()
         >>> f = S.to_t_pdf(pdef='Tc', paramt=(0, 10, 51), speed=7) 
         >>> h = f.plot()
      
@@ -1385,7 +1385,9 @@ class SpecData1D(WafoData):
     
         See also  
         --------
-        Rind, spec2cov2, specnorm, dat2tr, dat2gaus, perioddef, wavedef
+        Rind, spec2cov2, specnorm, dat2tr, dat2gaus, 
+        definitions.wave_periods, 
+        definitions.waves
 
         '''
 
@@ -1417,7 +1419,7 @@ class SpecData1D(WafoData):
        
         if self.tr is None:
             y = np.linspace(-5,5,513)
-            g = TrGauss(y,sqrt(m[0])*y)
+            g = TrData(y,sqrt(m[0])*y)
         else:
             g = self.tr
         
@@ -1615,7 +1617,7 @@ class SpecData1D(WafoData):
 
         Example:
         >>> import wafo.spectrum.models as sm
-        >>> Sj = sm.Jonswap();S = Sj.toSpecData()
+        >>> Sj = sm.Jonswap();S = Sj.tospecdata()
         >>> ns =100; dt = .2
         >>> x1 = S.sim(ns,dt=dt)
 
@@ -1669,7 +1671,7 @@ class SpecData1D(WafoData):
         if method in 'exact':
 
             #nr=0,Nt=None,dt=None
-            R = S.tocov(nr=0)
+            R = S.tocovdata(nr=0)
             T = Nt*dT
             ix = np.flatnonzero(R.args>T)
 
@@ -1858,10 +1860,7 @@ class SpecData1D(WafoData):
 
 
         # TODO % Check the methods: 'apdeterministic' and 'adeterministic'
-
-        from wafo.spectrum import dispersion_relation as sm
-
-        Hm0,Tm02 = self.characteristic(['Hm0','Tm02'])[0].tolist()
+        Hm0, Tm02 = self.characteristic(['Hm0', 'Tm02'])[0].tolist()
         #Hm0 = self.characteristic('Hm0')[0]
         #Tm02 = self.characteristic('Tm02')[0]
 
@@ -1895,8 +1894,6 @@ class SpecData1D(WafoData):
         Smax = max(Si)
         waterDepth = min(abs(S.h),10.**30)
 
-        zeros = np.zeros
-
         x = zeros((ns,cases+1))
 
         df = 1/(ns*dT)
@@ -1906,7 +1903,7 @@ class SpecData1D(WafoData):
         f = np.arange(1,ns/2.)*df
         Fs = np.hstack((0., fi, df*ns/2.))
         w = 2.*np.pi*np.hstack((0., f, df*ns/2.))
-        kw = sm.w2k(w ,0.,waterDepth,g)[0]
+        kw = w2k(w ,0.,waterDepth,g)[0]
         Su = np.hstack((0., np.abs(Si)/2., 0.))
 
 
@@ -1921,7 +1918,9 @@ class SpecData1D(WafoData):
         # -----------------------------------------------------------
         randn = np.random.randn
         Zr = randn((ns/2)+1,cases)
-        Zi = np.vstack((zeros((1,cases)), randn((ns/2)-1,cases), zeros((1,cases))))
+        Zi = np.vstack((zeros((1,cases)), 
+                        randn((ns/2)-1,cases), 
+                        zeros((1,cases))))
 
         A                = zeros((ns,cases),dtype=complex)
         A[0:(ns/2+1),:]  = Zr - 1j*Zi
@@ -1950,7 +1949,7 @@ class SpecData1D(WafoData):
             # stochastic amplitude
             A    = A*Ssqr[:,np.newaxis]
         # Deterministic amplitude
-        #A     =  sqrt(2)*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)))
+        #A = sqrt(2)*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)))
         del( Su, Ssqr)
 
 
@@ -1964,17 +1963,13 @@ class SpecData1D(WafoData):
         # If the spectrum does not decay rapidly enough towards zero, the
         # contribution from the wave components at the  upper tail can be very
         # large and unphysical.
-        # To ensure convergence of the perturbation series, the upper tail of the
-        # spectrum is truncated in the calculation of sum and difference
+        # To ensure convergence of the perturbation series, the upper tail of 
+        # the spectrum is truncated in the calculation of sum and difference
         # frequency effects.
         # Find the critical wave frequency to ensure convergence.
 
-        sqrt = np.sqrt
-        log = np.log
-        pi = np.pi
-        tanh = np.tanh
         numWaves = 1000. # Typical number of waves in 3 hour seastate
-        kbar = sm.w2k(2.*np.pi/Tm02,0.,waterDepth)[0]
+        kbar = w2k(2.*np.pi/Tm02,0.,waterDepth)[0]
         Amax = sqrt(2*log(numWaves))*Hm0/4 #% Expected maximum amplitude for 1000 waves seastate
 
         fLimitUp = fnlimit*sqrt(g*tanh(kbar*waterDepth)/Amax)/(2*pi)
@@ -2065,7 +2060,7 @@ class SpecData1D(WafoData):
         #Simulate a Transformed Gaussian process:
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap()
-        >>> S = Sj.toSpecData()
+        >>> S = Sj.tospecdata()
         >>> me,va,sk,ku = S.stats_nl(moments='mvsk')
 
 
@@ -2110,7 +2105,7 @@ class SpecData1D(WafoData):
                S = S/(2.*pi)
         #m0 = self.moment(nr=0)
         m0 = simps(S,w)
-        sa = np.sqrt(m0)
+        sa = sqrt(m0)
         Nw = w.size
 
         Hs, Hd,Hdii = qtf(w,h,g)
@@ -2188,15 +2183,9 @@ class SpecData1D(WafoData):
 ##            sa   = sqrt(sum(C2)+2*sum(E2))    % standard deviation
 ##            skew = sum((6*C2+8*E2).*E)/sa^3   % skewness
 ##            kurt = 3+48*sum((C2+E2).*E2)/sa^4 % kurtosis
-
-
         return output
 
-
-
-
-
-    def moment(self,nr=2,even=True,j=0):
+    def moment(self, nr=2, even=True, j=0):
         ''' Calculates spectral moments from spectrum
 
         Parameters
@@ -2248,7 +2237,6 @@ class SpecData1D(WafoData):
         Baxevani A. et al. (2001)
         Velocities for Random Surfaces
         '''
-        pi= np.pi
         one_dim_spectra = ['freq','enc','k1d']
         if self.type not in one_dim_spectra:
             raise ValueError('Unknown spectrum type!')
@@ -2310,8 +2298,9 @@ class SpecData1D(WafoData):
         dt = wmdt/wm #sampling interval = 1/Fs
         return dt
 
-    def resample(self,dt=None,Nmin=0,Nmax=2**13+1,method='stineman'):
-        ''' Interpolate and zero-padd spectrum to change Nyquist freq.
+    def resample(self, dt=None, Nmin=0, Nmax=2**13+1, method='stineman'):
+        ''' 
+        Interpolate and zero-padd spectrum to change Nyquist freq.
 
         Parameters
         ----------
@@ -2341,7 +2330,6 @@ class SpecData1D(WafoData):
         --------
         spec2cov, spec2sdat, covinterp, spec2dt
         '''
-
 
         ftype = self.freqtype
         w     = self.args.ravel()
@@ -2380,24 +2368,24 @@ class SpecData1D(WafoData):
 
             dw = min(np.diff(w))
 
-            if dWn>0:
+            if dWn > 0:
                 #% add a zero just above old max-freq, and a zero at new max-freq
                 #% to get correct interpolation there
                 Nz = 1  + (dWn>dw) # % Number of zeros to add
-                if Nz==2:
+                if Nz == 2:
                     w = np.hstack((w, wnOld+dw, wnNew))
                 else:
                     w = np.hstack((w, wnNew))
 
                 S1 = np.hstack((S1, np.zeros(Nz)))
 
-            if w[0]>0:
+            if w[0] > 0:
                 #% add a zero at freq 0, and, if there is space, a zero just below min-freq
                 Nz = 1 + (w[0]>dw) #% Number of zeros to add
-                if Nz==2:
-                    w=np.hstack((0, w[0]-dw, w))
+                if Nz == 2:
+                    w = np.hstack((0, w[0]-dw, w))
                 else:
-                    w=np.hstack((0, w))
+                    w = np.hstack((0, w))
 
                 S1 = np.hstack((zeros(Nz), S1))
 
@@ -2410,10 +2398,8 @@ class SpecData1D(WafoData):
             wnc = wnNew
             specfun = lambda xi : stineman_interp(xi,w,S1)
 
-
-            x,y = discretize(specfun,0,wnc)
+            x, y = discretize(specfun,0,wnc)
             dwMin = np.minimum(min(np.diff(x)),dwMin)
-
 
             newNfft = 2**nextpow2(np.ceil(wnNew/dwMin))+1
             if newNfft>nfft:
@@ -2421,8 +2407,6 @@ class SpecData1D(WafoData):
                     warnings.warn('Spectrum matrix is very large (>33k). Memory problems may occur.')
 
                 nfft = newNfft
-
-
             self.args = np.linspace(0,wnNew,nfft)
             if method=='stineman':
                 self.data = stineman_interp(self.args,w,S1)
@@ -2482,9 +2466,9 @@ class SpecData1D(WafoData):
             self.g = gravity*sqrt(m0*m20)/m2
         self.A = A
         self.norm = True
-        #S.date=datestr(now)
+        self.date = now()
 
-    def bandwidth(self,factors=0):
+    def bandwidth(self, factors=0):
         ''' 
         Return some spectral bandwidth and irregularity factors
 
@@ -2598,7 +2582,7 @@ class SpecData1D(WafoData):
         >>> import numpy as np
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap(Hm0=5)
-        >>> S = Sj.toSpecData() #Make spectrum ob
+        >>> S = Sj.tospecdata() #Make spectrum ob
         >>> S.characteristic(1)
         (array([ 8.59007646]), array([[ 0.03040216]]), ['Tm01'])
 
@@ -2706,11 +2690,7 @@ class SpecData1D(WafoData):
         eps4   = sqrt(1.-alpha1**2) #          % sqrt(1-m(3)^2/m(1)/m(5))
         Qp     = 2./m[0]**2*simps(f*S1**2,f)
 
-
-
-
         ch = np.r_[Hm0, Tm01, Tm02, Tm24, Tm_10, Tp, Ss, Sp, Ka, Rs, Tp2, alpha1, eps2, eps4, Qp]
-
 
         #% Select the appropriate values
         ch     = ch[nfact]
@@ -2962,7 +2942,7 @@ class SpecData2D(WafoData):
 ##        Nv = len(vari)
 ##
 ##        if not self.type.endswith('dir'):
-##            S1 = self.tospec(self.type[:-2]+'dir')
+##            S1 = self.tospecdata(self.type[:-2]+'dir')
 ##        else:
 ##            S1 = self
 ##        w = np.ravel(S1.args[0])
@@ -3243,7 +3223,7 @@ class CovData1D(WafoData):
 ##        wdata = CovData1D(**kwds)
 ##        return wdata
 
-    def tospec(self,rate=None,method='linear',nugget=0.0,trunc=1e-5,fast=True):
+    def tospecdata(self,rate=None,method='linear',nugget=0.0,trunc=1e-5,fast=True):
         '''
         Computes spectral density from the auto covariance function
 
@@ -3285,12 +3265,12 @@ class CovData1D(WafoData):
         >>> win = st.parzen(41)
         >>> R[0:21] = win[20:41]
         >>> R0 = CovData1D(R,t)
-        >>> S0 = R0.tospec()
+        >>> S0 = R0.tospecdata()
 
         >>> Sj = sm.Jonswap()
-        >>> S = Sj.toSpecData()
-        >>> R2 = S.tocov()
-        >>> S1 = R2.tospec()
+        >>> S = Sj.tospecdata()
+        >>> R2 = S.tocovdata()
+        >>> S1 = R2.tospecdata()
         >>> assert(all(abs(S1.data-S.data)<1e-4) ,'COV2SPEC')
 
         See also
@@ -3409,8 +3389,8 @@ class CovData1D(WafoData):
         Example:
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap()
-        >>> S = Sj.toSpecData()   #Make spec
-        >>> R = S.tocov()
+        >>> S = Sj.tospecdata()   #Make spec
+        >>> R = S.tocovdata()
         >>> x = R.sim(ns=1000,dt=0.2)
 
         See also
@@ -3647,7 +3627,7 @@ class TimeSeries(WafoData):
     >>> import wafo.data
     >>> x = wafo.data.sea()
     >>> ts = mat2timeseries(x)
-    >>> rf = ts.tocov(lag=150)
+    >>> rf = ts.tocovdata(lag=150)
     >>> h = rf.plot()
 
     '''
@@ -3685,7 +3665,7 @@ class TimeSeries(WafoData):
             warnings.warn('Data is not uniformly sampled!')
         return dt
 
-    def tocov(self, lag=None, flag='biased', norm=False, dt = None):
+    def tocovdata(self, lag=None, flag='biased', norm=False, dt = None):
         ''' 
         Return auto covariance function from data.
 
@@ -3723,7 +3703,7 @@ class TimeSeries(WafoData):
          >>> import wafo.data
          >>> x = wafo.data.sea()
          >>> ts = mat2timeseries(x)
-         >>> acf = ts.tocov(150)
+         >>> acf = ts.tocovdata(150)
          >>> h = acf.plot()
         '''
         n = len(self.data)
@@ -3767,7 +3747,7 @@ class TimeSeries(WafoData):
         acf.norm = norm
         return acf
 
-    def tospec(self,*args,**kwargs):
+    def tospecdata(self,*args,**kwargs):
         """ 
         Return power spectral density by Welches average periodogram method.
 
@@ -4257,19 +4237,19 @@ def main0():
     T = ts.wave_periods(vh=0.0,pdef='c2c')
     import wafo.spectrum.models as sm
     Sj = sm.Jonswap()
-    S = Sj.toSpecData()
+    S = Sj.tospecdata()
     me,va,sk,ku = S.stats_nl(moments='mvsk')
     import wafo.data
     x = wafo.data.sea()
     ts = mat2timeseries(x)
-    rf = ts.tocov(lag=150)
+    rf = ts.tocovdata(lag=150)
     rf.plot()
     #main()
     import wafo.spectrum.models as sm
     Sj = sm.Jonswap()
-    S = Sj.toSpecData()
+    S = Sj.tospecdata()
 
-    R = S.tocov()
+    R = S.tocovdata()
     x = R.sim(ns=1000,dt=0.2)
     S.characteristic(['hm0','tm02'])
     ns = 1000 
@@ -4302,7 +4282,7 @@ def main():
     sensortype(range(21))
     w = np.linspace(0,3,100)
     Sj = sm.Jonswap()
-    S = Sj.toSpecData()
+    S = Sj.tospecdata()
     
     f = S.to_t_pdf(pdef='Tc', paramt=(0, 10, 51), speed=7)
     f.err
@@ -4316,14 +4296,14 @@ def main():
     
     
     #S = SpecData1D(Sj(w),w)
-    R = S.tocov(nr=1)
+    R = S.tocovdata(nr=1)
     S1 = S.copy()
-    Si = R.tospec()
+    Si = R.tospecdata()
     ns =5000
     dt = .2
-    x1 = S.sim_nl(ns= ns,dt=dt)
+    x1 = S.sim_nl(ns= ns, dt=dt)
     x2 = TimeSeries(x1[:,1],x1[:,0])
-    R = x2.tocov(lag=100)
+    R = x2.tocovdata(lag=100)
     R.plot()
 
     S.plot('ro')

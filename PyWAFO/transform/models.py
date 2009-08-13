@@ -17,127 +17,32 @@ TrOchi
 #!/usr/bin/env python
 
 from scipy.optimize import brentq
-from scipy.integrate import trapz
 from numpy import (sqrt, atleast_1d, abs, imag, sign, where, cos, arccos, ceil,
     expm1, log1p, pi)
 import numpy as np
 import warnings
-
+from core import TrCommon
 __all__=['TrHermite','TrOchi']
-class TrCommon(object):
-    """
-    <generic> transformation model, g, from the moments of the process.
 
-    Information about the moments of the process can be obtained by site
-    specific data, laboratory measurements or by resort to theoretical models.
-
-    Assumption
-    ----------
-    The Gaussian process, Y, distributed N(0,1) is related to the
-    non-Gaussian process, X, by Y = g(X).
-
-    Methods
-    -------
-    dist2gauss : Returns a measure of departure from the Gaussian model, i.e.,
-                int (g(x)-xn)^2 dx  where int. limits are given by X.
-    dat2gauss : Transform non-linear data to Gaussian scale
-    gauss2dat : Transform Gaussian data to non-linear scale
-
-    Member variables
-    ----------------
-    mean, sigma, skew, kurt : real, scalar
-        mean, standard-deviation, skewness and kurtosis, respectively, of the
-        non-Gaussian process. Default mean=0, sigma=1, skew=0.16, kurt=3.04.
-        skew=kurt-3=0 for a Gaussian process.
-    """
-    def __init__(self, mean=0.0, var=1.0, skew=0.16, kurt=3.04, sigma=None,
-                 *args, **kwds):
-        if sigma is None:
-            sigma = sqrt(var)
-        self.mean = mean
-        self.sigma = sigma
-        self.skew = skew
-        self.kurt = kurt
-
-    def __call__(self, x):
-        return self._dat2gauss(x)
-
-    def dist2gauss(self, x=None, xnmin=-5, xnmax=5, n=513):
-        """
-        Return a measure of departure from the Gaussian model.
-
-        Parameters
-        ----------
-        x : vector  (default sigma*linspace(xnmin,xnmax,n)+mean)
-        xnmin : real, scalar
-            minimum on normalized scale
-        xnmax : real, scalar
-            maximum on normalized scale
-        n : integer, scalar
-            number of evaluation points
-
-
-        Returns
-        -------
-        t0 : real, scalar
-            a measure of departure from the Gaussian model calculated as
-            trapz(xn,(xn-g(x))**2.) where int. limits is given by X.
-        """
-        if x is None:
-            xn = np.linspace(xnmin, xnmax, n)
-            x = self.sigma*xn+self.mean
-        else:
-            xn = (x-self.mean)/self.sigma
-
-        g = self._dat2gauss(x)
-        t0 = trapz(xn,(xn-g)**2.)
-        return t0
-
-    def gauss2dat(self,y):
-        """
-        Transforms Gaussian data, y, to non-linear scale.
-
-        Parameters
-        ----------
-        y : array-like
-            input vector with Gaussian data values.
-
-        Returns
-        -------
-        x : array-like
-            transformed data to a non-linear scale
-
-        See also
-        --------
-        dat2gauss
-        tranproc.
-        """
-        return self._gauss2dat(y)
-    def _gauss2dat(self, y):
-        pass
-    def dat2gauss(self, x):
-        """
-        Transforms non-linear data, x, to Gaussian scale.
-
-        Parameters
-        ----------
-        x : array-like
-            input vector with non-linear data values.
-
-        Returns
-        -------
-        y : array-like
-            transformed data to a Gaussian scale
-
-        See also
-        --------
-        gauss2dat
-        tranproc.
-        """
-        return self._dat2gauss(x)
-    def _dat2gauss(self, x):
-        pass
+_example = '''
+    >>> std = 7./4
+    >>> g = <generic>(sigma=std, ysigma=std)
+    >>> g.dist2gauss()
+    3.9858776379926808
     
+    Simulate a Transformed Gaussian process:
+    >>> import numpy as np
+    >>> import wafo.spectrum.models as sm
+    >>> Sj = sm.Jonswap(Hm0=4*std, Tp=11)
+    >>> w = np.linspace(0,4,256)
+    >>> S = Sj.tospecdata(w) #Make spectrum object from numerical values
+    >>> ys = S.sim(ns=15000) # Simulated in the Gaussian world
+    
+    >>> me, va, sk, ku = S.stats_nl(moments='mvsk')
+    >>> g2 = <generic>(mean=me, var=va, skew=sk, kurt=ku, ysigma=std)
+    >>> xs = g2.gauss2dat(ys[:,1:]) # Transformed to the real world 
+    '''
+
 class TrHermite(TrCommon):
     __doc__ = TrCommon.__doc__.replace('<generic>','Hermite') + """
     pardef : scalar, integer
@@ -174,19 +79,11 @@ class TrHermite(TrCommon):
 
     Example:
     --------
-    Simulate a Transformed Gaussian process:
-    >>> import numpy as np
-    >>> import wafo.spectrum.models as sm
-    >>> Sj = sm.Jonswap(Hm0=7, Tp=11)
-    >>> w = np.linspace(0,4,256)
-    >>> S = Sj.toSpecData(w) #Make spectrum object from numerical values
-    >>> ys = S.sim(ns=15000) # Simulated in the Gaussian world
-    >>> g = TrHermite(sigma=Hm0/4)
+    """ + _example.replace('<generic>','TrHermite') + """
     
-    ys = spec2sdat(S,15000)   
-    xs = gaus2dat(ys,g)      % Transformed to the real world
-
-    See also  spec2skew, ochitr, lc2tr, dat2tr
+    See also
+    --------  
+    spec2skew, ochitr, lc2tr, dat2tr
 
     References
     ----------
@@ -199,14 +96,9 @@ class TrHermite(TrCommon):
            'Nonlinear vibration models for extremes and fatigue.'
            J. Engng. Mech., ASCE, Vol 114, No 10, pp 1772-1790
     """
-    def __init__(self,mean=0.0,var=1.0,skew=0.16,kurt=3.04,sigma=None,pardef=0):
-        if sigma==None:
-            sigma = sqrt(var)
-        self.sigma = sigma
-        self.skew = skew
-        self.kurt = kurt
-        self.mean = mean
-        self.pardef = pardef
+    def __init__(self,*args, **kwds):
+        super(TrHermite, self).__init__(*args, **kwds)
+        self.pardef = kwds.get('pardef',1)
         self._c3 = None
         self._c4 = None
         self._forward = None
@@ -217,11 +109,11 @@ class TrHermite(TrCommon):
     def _poly_par_from_stats(self):
         skew = self.skew
         ga2 = self.kurt-3.0
-        if ga2<=0:
+        if ga2 <= 0:
             self._c4 = ga2/24.
             self._c3 = skew/6.
-        elif self.pardef==2:
-            #% Winterstein 1988 parametrization
+        elif self.pardef == 2:
+            # Winterstein 1988 parametrization
             if skew**2>8*(ga2+3.)/9.:
                 warnings.warn('Kurtosis too low compared to the skewness')
 
@@ -238,7 +130,7 @@ class TrHermite(TrCommon):
 
             self._c3 = skew/6*(1-0.015*abs(skew)+0.3*skew**2)/(1+0.2*ga2)
             if ga2 == 0.:
-                self._c4=0.0
+                self._c4 = 0.0
             else:
                 c41 = (1.-1.43*skew**2./ga2)**(1.-0.1*(ga2+3.)**0.8)
                 self._c4 = 0.1*((1.+1.25*ga2)**(1./3.)-1.)*c41
@@ -247,6 +139,9 @@ class TrHermite(TrCommon):
             raise ValueError('Unable to calculate the polynomial')
         
     def set_poly(self):
+        '''
+        Set poly function from stats (i.e., mean, sigma, skew and kurt) 
+        '''
 
         if self._c3 is None:
             self._poly_par_from_stats()
@@ -280,13 +175,13 @@ class TrHermite(TrCommon):
                 self._x_limit = r
             else:
                 self._x_limit = sa*p(r)+ma
-
-            txt1 = 'The polynomial is not a strictly increasing function.'
-            txt2 = 'The derivative of g(x) is infinite at x = %g' % self._x_limit
-            warnings.warn('%s \n %s ' % (txt1,txt2))
+            txt1 = ''' 
+                The polynomial is not a strictly increasing function.
+                The derivative of g(x) is infinite at x = %g''' % self._x_limit
+            warnings.warn(txt1)
         return
-    def check_forward(self,x):
-         if not (self._x_limit is None):
+    def check_forward(self, x):
+        if not (self._x_limit is None):
             x00 = self._x_limit
             txt2 = 'for the given interval x = [%g, %g]' % (x[0],x[-1])
 
@@ -301,30 +196,35 @@ class TrHermite(TrCommon):
             np.disp('However, successfully inverted the polynomial\n %s' % txt2)
 
 
-    def _dat2gauss(self,x):
-        x = atleast_1d(x)
-        self.check_forward(x)
+    def _dat2gauss(self,x, *xi):
+        if len(xi)>0:
+            raise ValueError('Transforming derivatives is not implemented!')
+        xn = atleast_1d(x)
+        self.check_forward(xn)
 
-        xn = (x-self.mean)/self.sigma
+        xn = (xn-self.mean)/self.sigma
 
         if self._forward is None:
-            #% Inverting the polynomial
-            #%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            return self._poly_inv(self._backward,xn)
+            #Inverting the polynomial
+            yn = self._poly_inv(self._backward,xn)
         else:
-            return self._forward(xn)
+            yn = self._forward(xn)
+        return yn*self.ysigma + self.ymean
 
-    def _gauss2dat(self,y):
-        y = atleast_1d(y)
+    def _gauss2dat(self, y, *yi):
+        if len(yi)>0:
+            raise ValueError('Transforming derivatives is not implemented!')
+        yn = (atleast_1d(y)-self.mean)/self.ysigma
         #self.check_forward(y)
 
         if self._backward is None:
             #% Inverting the polynomial
             #%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            xn = self._poly_inv(self._forward,y)
+            xn = self._poly_inv(self._forward,yn)
         else:
-            xn = self._backward(y)
+            xn = self._backward(yn)
         return self.sigma*xn + self.mean
+    
     def _poly_inv(self, p, xn):
         '''
         Invert polynomial
@@ -422,13 +322,8 @@ class TrOchi(TrCommon):
 
     Example
     -------
-    #Simulate a Transformed Gaussian process:
-    Hm0=7;Tp=11
-    S = jonswap([],[Hm0 Tp]); [sk ku ma]=spec2skew(S)
-    g = ochitr([],[Hm0/4,sk,ma]); g2=[g(:,1), g(:,2)*Hm0/4]
-    ys = spec2sdat(S,15000)   % Simulated in the Gaussian world
-    xs = gaus2dat(ys,g2)      % Transformed to the real world
-
+    """ + _example.replace('<generic>','TrOchi') + """
+  
     See also
     --------
     spec2skew, hermitetr, lc2tr, dat2tr
@@ -444,36 +339,34 @@ class TrOchi(TrCommon):
     OCEAN TECHNOLOGY series 6, Cambridge, pp 255-275.
     """
 
-    def __init__(self,mean=0.0,var=1.0,skew=0.16,sigma=None):
-        if sigma is None:
-            sigma = sqrt(var)
-        self.mean = mean
-        self.sigma = sigma
-        self.skew = skew
-        self.phat = None
-        if abs(self.skew)>2.82842712474619:
-            raise ValueError('Skewness must be less than 2.82842')
-
-
+    def __init__(self, *args, **kwds):
+        super(TrOchi, self).__init__(*args, **kwds)
+        self.kurt = None
+        self._phat = None
+        self._par_from_stats()
+        
     def _par_from_stats(self):
         skew = self.skew
-        ma = self.mean
-        sig1 = self.sigma
+        if abs(skew)>2.82842712474619:
+            raise ValueError('Skewness must be less than 2.82842')
+        
+        mean1 = self.mean
+        sigma1 = self.sigma
 
         if skew==0:
-            self.phat = [0, 0, sig1, ma,1, 0]
+            self._phat = [sigma1, mean1, 0, 0, 1, 0]
             return
 
-        #% Solve the equations to obtain the gamma parameters:
-        #%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        #%          a*(sig2^2+ma2^2)+ma2 = 0
-        #%           sig2^2-2*a^2*sig2^4 = E(y^2) % =1
-        #%   2*a*sig2^4*(3-8*a^2*sig2^2) = E(y^3) % = skew
+        # Solve the equations to obtain the gamma parameters:
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #          a*(sig2^2+ma2^2)+ma2 = 0
+        #           sig2^2-2*a^2*sig2^4 = E(y^2) % =1
+        #   2*a*sig2^4*(3-8*a^2*sig2^2) = E(y^3) % = skew
 
-        #% Let x = [a sig2^2 ]
-        #% Set up the 2D non-linear equations for a and sig2^2:
-        #g1='[x(2)-2.*x(1).^2.*x(2).^2-P1, 2.*x(1).*x(2).^2.*(3-8.*x(1).^2.*x(2))-P2  ]'
-        #% Or solve the following 1D non-linear equation for sig2^2:
+        # Let x = [a sig2^2 ]
+        # Set up the 2D non-linear equations for a and sig2^2:
+        # g1='[x(2)-2.*x(1).^2.*x(2).^2-P1, 2.*x(1).*x(2).^2.*(3-8.*x(1).^2.*x(2))-P2  ]'
+        # Or solve the following 1D non-linear equation for sig2^2:
         g2 = lambda x: -sqrt(abs(x-1)*2)*(3.*x-4*abs(x-1))+abs(skew)
 
 
@@ -481,41 +374,45 @@ class TrOchi(TrCommon):
         a2 = 2.
 
         sig22 = brentq(g2,a1,a2) #% smallest solution for sig22
-        a  =   sign(skew)*sqrt(abs(sig22-1)/2/sig22**2)
-
-        sig2 = sqrt(sig22)
+        a  =   sign(skew)*sqrt(abs(sig22-1)/2)/sig22
+        gam_a = 1.28*a
+        gam_b = 3*a
+        sigma2 = sqrt(sig22)
 
         #% Solve the following 2nd order equation to obtain ma2
         #%        a*(sig2^2+ma2^2)+ma2 = 0
         my2 =  (-1.-sqrt(1.-4.*a**2*sig22))/a  #% Largest mean
-        ma2 = a*sig22/my2                   #% choose the smallest mean
+        mean2 = a*sig22/my2                   #% choose the smallest mean
 
-        gam_a = 1.28*a
-        gam_b = 3*a
-        # this is valid for processes with very strong
-        # nonlinear characteristics
-        self.phat = [gam_a, gam_b, sig1, ma, sig2, ma2]
-
+        self._phat = [sigma1, mean1, gam_a, gam_b, sigma2, mean2]
         return
-
-
-
-    def _dat2gauss(self,x):
-
-        if self.phat is None:
+    
+    def _get_par(self):
+        '''
+        Returns ga, gb, sigma2, mean2
+        '''
+        if (self._phat is None or self.sigma!=self._phat[0] 
+            or self.mean!=self._phat[1]): 
             self._par_from_stats()
+        #sigma1 = self._phat[0]
+        #mean1 = self._phat[1]
+        ga = self._phat[2]
+        gb = self._phat[3]
+        sigma2 = self._phat[4]
+        mean2 = self._phat[5]
+        return ga, gb, sigma2, mean2
 
-        ga = self.phat[0]
-        gb = self.phat[1]
-        sigma = self.phat[2]
-        ma = self.phat[3]
-        sigma2 = self.phat[4]
-        ma2 = self.phat[5]
-
-        igp, = where(ma<=x)
-        igm, = where(x<ma)
-
-        xn = (x-ma)/sigma
+    def _dat2gauss(self,x, *xi):
+        if len(xi)>0:
+            raise ValueError('Transforming derivatives is not implemented!')
+        ga, gb, sigma2, mean2 = self._get_par()
+        mean = self.mean
+        sigma = self.sigma
+        xn = atleast_1d(x)
+        xn = (xn-mean)/sigma
+        igp, = where(0 <= xn)
+        igm, = where(xn < 0)
+        
         g = xn.copy()
 
         if ga!=0:
@@ -524,20 +421,18 @@ class TrOchi(TrCommon):
         if gb!=0:
             np.put(g,igm,(-expm1(-gb*xn[igm]))/gb)
 
-        return (g-ma2)/sigma2
+        return (g-mean2)*self.ysigma/sigma2 + self.ymean
 
-    def _gauss2dat(self,yn):
-        if self.phat is None:
-            self._par_from_stats()
-
-        ga  =self.phat[0]
-        gb  = self.phat[1]
-        sigma  = self.phat[2]
-        ma  = self.phat[3]
-        sigma2 = self.phat[4]
-        ma2 = self.phat[5]
-
-        xn = sigma2*yn+ma2
+    def _gauss2dat(self,y, *yi):
+        if len(yi)>0:
+            raise ValueError('Transforming derivatives is not implemented!')
+        
+        ga, gb, sigma2, mean2 = self._get_par()
+        mean = self.mean
+        sigma = self.sigma
+        
+        yn = (atleast_1d(y)-self.ymean)/self.ysigma
+        xn = sigma2*yn+mean2
 
         igp, = where(0 <= xn)
         igm, = where(xn < 0)
@@ -548,7 +443,7 @@ class TrOchi(TrCommon):
         if gb!=0:
             np.put(xn, igm, -log1p(-gb*xn[igm])/gb)
 
-        return  sigma*xn+ma
+        return  sigma*xn + mean
 
 def main():
     import pylab
@@ -564,7 +459,7 @@ def main():
     np.disp('finito')
     
 if __name__=='__main__':
-    if False:
+    if True : # False: #
         import doctest
         doctest.testmod()
     else:

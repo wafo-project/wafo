@@ -3,4 +3,6 @@ Transform package in WAFO Toolbox.
 
 """
 
-import wafo.transform.models
+from core import *
+import models
+

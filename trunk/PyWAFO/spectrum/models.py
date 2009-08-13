@@ -138,8 +138,9 @@ class ModelSpectrum(object):
         self.Hm0 = Hm0
         self.Tp = Tp
         self.type = 'ModelSpectrum'
-    def toSpecData(self, w=None, wc=None, nw=257):
-        ''' Return SpecData1D object from ModelSpectrum
+    def tospecdata(self, w=None, wc=None, nw=257):
+        ''' 
+        Return SpecData1D object from ModelSpectrum
 
         Parameter
         ---------
@@ -189,7 +190,8 @@ class ModelSpectrum(object):
         pass
 
 class Bretschneider(ModelSpectrum):
-    ''' Bretschneider spectral density model
+    ''' 
+    Bretschneider spectral density model
 
     Member variables
     ----------------
@@ -1913,7 +1915,7 @@ def test_some_spectra():
 
     w = np.arange(3.0)
     S(w)*phi1(w,30.0)
-    S1 = S.toSpecData(w)
+    S1 = S.tospecdata(w)
     S1.plot()
 
 

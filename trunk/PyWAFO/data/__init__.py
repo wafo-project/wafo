@@ -1,3 +1,4 @@
 
 from info import __doc__
-from wafo.data.info import *
+from info import *
+#from wafo.data.info import *

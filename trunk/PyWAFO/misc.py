@@ -2,6 +2,7 @@
 Misc lsdkfalsdflasdfl
 '''
 import sys
+import types
 import numpy as np
 #from scipy import interpolate
 from numpy import (linspace, logical_and, log, isscalar, pi, sqrt,
@@ -15,11 +16,36 @@ except:
 floatinfo = np.finfo(float) 
 
 
-__all__ = ['Dot_dict', 'Bunch', 'printf', 'sub_dict_select', 'parse_kwargs',
-           'ecross', 'findtc', 'findtp', 'findcross', 'findextrema', 'findrfc',
-           'rfcfilter', 'common_shape', 'argsreduce', 'stirlerr',
-           'getshipchar', 'betaloge', 'gravity', 'nextpow2', 'discretize', 
-           'pol2cart', 'cart2pol']
+__all__ = ['JITImport', 'Dot_dict', 'Bunch', 'printf', 'sub_dict_select', 
+           'parse_kwargs', 'ecross', 'findtc', 'findtp', 'findcross', 
+           'findextrema', 'findrfc', 'rfcfilter', 'common_shape', 'argsreduce', 
+           'stirlerr', 'getshipchar', 'betaloge', 'gravity', 'nextpow2', 
+           'discretize', 'pol2cart', 'cart2pol', 'ndgrid', 'meshgrid']
+
+class JITImport(object):
+    ''' 
+    Just In Time Import of module
+
+    Example
+    -------
+    >>> np = JITImport('numpy')
+    >>> np.exp(0)==1.0
+    True
+    '''
+    def __init__(self, module_name):
+        self._module_name = module_name
+        self._module = None
+    def __getattr__(self, attr):
+        try:
+            return getattr(self._module, attr)
+        except:
+            if self._module is None:
+                self._module = __import__(self._module_name, None, None, ['*'])
+                assert(isinstance(self._module, types.ModuleType),'module')
+                return getattr(self._module, attr)
+            else:
+                raise
+                    
 class Dot_dict(dict):
     ''' Implement dot access to dict values
 
@@ -239,13 +265,13 @@ def findcross(x, v=0.0, type_=None):
     xn = np.int8(np.sign(atleast_1d(x).ravel()-v))
     ind = np.zeros(0,dtype=np.int)
     n  = len(xn)
-    if n>1:
+    if n > 1:
         if clib is None:
             iz, = (xn==0).nonzero()
             if any(iz):
                 # Trick to avoid turning points on the crossinglevel.
-                if iz[0]==0:
-                    if len(iz)==n:
+                if iz[0] == 0:
+                    if len(iz) == n:
                         warnings.warn('All values are equal to crossing level!')
                         return ind
 
@@ -269,39 +295,39 @@ def findcross(x, v=0.0, type_=None):
             ind, m = clib.findcross(xn,0.0)
             ind = ind[:m]
 
-    if ind.size==0 : #%added pab 12.06.2001
+    if ind.size == 0 : #%added pab 12.06.2001
         warnings.warn('No level v = %0.5g crossings found in x' % v)
         return ind
 
-    xor = lambda a,b : a^b
+    xor = lambda a, b : a^b
     if type_ is not None:
-        if type_=='d': #downcrossings only
+        if type_ == 'd': #downcrossings only
             if xn[ind[0]+1]>0:
-                ind =ind[1::2]
+                ind = ind[1::2]
             else:
-                ind =ind[0::2]
-        elif type_== 'u': #upcrossings  only
+                ind = ind[0::2]
+        elif type_ == 'u': #upcrossings  only
             if xn[ind[0]+1]<0:
-                ind =ind[1::2]
+                ind = ind[1::2]
             else:
-                ind =ind[0::2]
+                ind = ind[0::2]
         elif type_ in ('dw','uw','tw','cw'):
             #% make sure that the first is a level v down-crossing if wdef == 'dw'
             #% or make sure that the first is a level v up-crossing if wdef == 'uw'
             #% make sure that the first is a level v down-crossing if wdef == 'tw'
             #% or make sure that the first is a level v up-crossing if wdef == 'cw'
 
-            if xor(((xn[ind[0]]>xn[ind[0]+1])),type_ in ('dw','tw')):
+            if xor(((xn[ind[0]]>xn[ind[0]+1])), type_ in ('dw','tw')):
                 ind = ind[1::]
 
-            Nc=ind.size # % number of level v crossings
+            Nc = ind.size # % number of level v crossings
             #% make sure the number of troughs and crests are according to the
             #% wavedef, i.e., make sure length(ind) is odd if dw or du
             # and even if tw or cw
-            if xor(np.mod(Nc,2),type_ in ('dw','uw')):
+            if xor(np.mod(Nc,2), type_ in ('dw','uw')):
                 ind = ind[:-1]
 
-        elif type_ in ['du','all',None]:
+        elif type_ in ('du', 'all', None):
             pass
         else:
             raise ValueError('Unknown wave/crossing definition!')
@@ -1392,7 +1418,8 @@ def discretize(fun, a, b, tol=0.005, n=5):
 
 
 def pol2cart(theta, rho):
-    ''' Transform polar coordinates into 2D cartesian coordinates.
+    ''' 
+    Transform polar coordinates into 2D cartesian coordinates.
 
     Returns
     -------
@@ -1421,6 +1448,132 @@ def cart2pol(x, y):
     '''
     return np.arctan2(y, x), np.hypot(x, y)
 
+def meshgrid(*xi,**kwargs):
+    """
+    Return coordinate matrices from one or more coordinate vectors.
+
+    Make N-D coordinate arrays for vectorized evaluations of
+    N-D scalar/vector fields over N-D grids, given
+    one-dimensional coordinate arrays x1, x2,..., xn.
+
+    Parameters
+    ----------
+    x1, x2,..., xn : array_like
+        1-D arrays representing the coordinates of a grid.
+    indexing : 'xy' or 'ij' (optional)
+        cartesian ('xy', default) or matrix ('ij') indexing of output
+    sparse : True or False (default) (optional)
+         If True a sparse grid is returned in order to conserve memory.
+    copy : True (default) or False (optional)
+        If False a view into the original arrays are returned in order to
+        conserve memory
+
+    Returns
+    -------
+    X1, X2,..., XN : ndarray
+        For vectors `x1`, `x2`,..., 'xn' with lengths ``Ni=len(xi)`` ,
+        return ``(N1, N2, N3,...Nn)`` shaped arrays if indexing='ij'
+        or ``(N2, N1, N3,...Nn)`` shaped arrays if indexing='xy'
+        with the elements of `xi` repeated to fill the matrix along
+        the first dimension for `x1`, the second for `x2` and so on.
+
+    See Also
+    --------
+    index_tricks.mgrid : Construct a multi-dimensional "meshgrid"
+                     using indexing notation.
+    index_tricks.ogrid : Construct an open multi-dimensional "meshgrid"
+                     using indexing notation.
+
+    Examples
+    --------
+    >>> x = np.linspace(0,1,3)   # coordinates along x axis
+    >>> y = np.linspace(0,1,2)   # coordinates along y axis
+    >>> xv, yv = meshgrid(x,y)   # extend x and y for a 2D xy grid
+    >>> xv
+    array([[ 0. ,  0.5,  1. ],
+           [ 0. ,  0.5,  1. ]])
+    >>> yv
+    array([[ 0.,  0.,  0.],
+           [ 1.,  1.,  1.]])
+    >>> xv, yv = meshgrid(x,y, sparse=True)  # make sparse output arrays
+    >>> xv
+    array([[ 0. ,  0.5,  1. ]])
+    >>> yv
+    array([[ 0.],
+           [ 1.]])
+
+    >>> meshgrid(x,y,sparse=True,indexing='ij')  # change to matrix indexing
+    [array([[ 0. ],
+           [ 0.5],
+           [ 1. ]]), array([[ 0.,  1.]])]
+    >>> meshgrid(x,y,indexing='ij')
+    [array([[ 0. ,  0. ],
+           [ 0.5,  0.5],
+           [ 1. ,  1. ]]), array([[ 0.,  1.],
+           [ 0.,  1.],
+           [ 0.,  1.]])]
+
+    >>> meshgrid(0,1,5)  # just a 3D point
+    [array([[[0]]]), array([[[1]]]), array([[[5]]])]
+    >>> map(np.squeeze,meshgrid(0,1,5))  # just a 3D point
+    [array(0), array(1), array(5)]
+    >>> meshgrid(3)
+    array([3])
+    >>> meshgrid(y)      # 1D grid y is just returned
+    array([ 0.,  1.])
+
+    `meshgrid` is very useful to evaluate functions on a grid.
+
+    >>> x = np.arange(-5, 5, 0.1)
+    >>> y = np.arange(-5, 5, 0.1)
+    >>> xx, yy = meshgrid(x, y, sparse=True)
+    >>> z = np.sin(xx**2+yy**2)/(xx**2+yy**2)
+    """
+    copy = kwargs.get('copy',True)
+    args = np.atleast_1d(*xi)
+    if not isinstance(args, list):
+        if args.size>0:
+            return args.copy() if copy else args
+        else:
+            raise TypeError('meshgrid() take 1 or more arguments (0 given)')
+
+    sparse = kwargs.get('sparse',False)
+    indexing = kwargs.get('indexing','xy') # 'ij'
+
+
+    ndim = len(args)
+    s0 = (1,)*ndim
+    output = [x.reshape(s0[:i]+(-1,)+s0[i+1::]) for i, x in enumerate(args)]
+
+    shape = [x.size for x in output]
+
+    if indexing == 'xy':
+        # switch first and second axis
+        output[0].shape = (1,-1) + (1,)*(ndim-2)
+        output[1].shape = (-1, 1) + (1,)*(ndim-2)
+        shape[0],shape[1] = shape[1],shape[0]
+
+    if sparse:
+        if copy:
+            return [x.copy() for x in output]
+        else:
+            return output
+    else:
+        # Return the full N-D matrix (not only the 1-D vector)
+        if copy:
+            mult_fact = ones(shape,dtype=int)
+            return [x*mult_fact for x in output]
+        else:
+            return np.broadcast_arrays(*output)
+
+
+def ndgrid(*args,**kwargs):
+    """
+    Same as calling meshgrid with indexing='ij' (see meshgrid for
+    documentation).
+    """
+    kwargs['indexing'] = 'ij'
+    return meshgrid(*args,**kwargs)
 
 def trangood(x, f, min_n=None, min_x=None, max_x=None, max_n=inf):
     """
@@ -1646,6 +1799,34 @@ def test_common_shape():
     B = 2
     C = ones((1,5))*5
     common_shape(A,B,C,shape=(4,5))
+
+def test_meshgrid():
+    x = np.array([-1,-0.5,1,4,5], float)
+    y = np.array([0,-2,-5], float)
+    xv, yv = meshgrid(x, y, sparse=False)
+    print(xv)
+    print(yv)
+    xv, yv = meshgrid(x,y, sparse=True)  # make sparse output arrays
+    print(xv)
+    print(yv)
+    print(meshgrid(0,1,5, sparse=True))  # just a 3D point
+    print(meshgrid([0,1,5], sparse=True))  # just a 3D point
+    xv,yv = meshgrid(y,y)
+    yv[0,0] = 10
+    print(xv)
+    print(yv)
+##    >>> xv
+##    array([[ 0. ,  0.5,  1. ]])
+##    >>> yv
+##    array([[ 0.],
+##           [ 1.]])
+##    array([[-1. , -0.5,  1. ,  4. ,  5. ],
+##           [-1. , -0.5,  1. ,  4. ,  5. ],
+##           [-1. , -0.5,  1. ,  4. ,  5. ]])
+##
+##    array([[ 0.,  0.,  0.,  0.,  0.],
+##           [-2., -2., -2., -2., -2.],
+##           [-5., -5., -5., -5., -5.]])
 
 def _testfun():
     import wafo.transform.models as wtm

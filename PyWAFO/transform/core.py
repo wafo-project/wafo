@@ -1,9 +1,10 @@
 ''' 
 '''
+from __future__ import division
 import numpy as np
 from numpy import trapz, sqrt
 
-from wafo.objects import WafoData
+from wafo.wafodata import WafoData
 from wafo.misc import tranproc #, trangood
 
 __all__ = ['TrData', 'TrCommon']

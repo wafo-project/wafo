@@ -52,9 +52,9 @@ from numpy import (inf, atleast_1d, newaxis, any,
     exp, log, sqrt, where, pi, linspace, sin, cos, abs, sinh, 
     expm1, tanh, cosh)
 from dispersion_relation import w2k
-ppimport.enable()
-_wafoobjects = ppimport.ppimport('wafo.objects')
-
+#ppimport.enable()
+#_wafospectrum = ppimport.ppimport('wafo.spectrum')
+from core import SpecData1D
 sech = lambda x: 1.0/cosh(x)
 
 eps = np.finfo(float).eps
@@ -161,7 +161,7 @@ class ModelSpectrum(object):
             if wc is None:
                 wc = 33./self.Tp
             w = np.linspace(0,wc,nw)
-        S = _wafoobjects.SpecData1D(self.__call__(w),w)
+        S = SpecData1D(self.__call__(w),w)
         try:
             h = self.h
             S.h = h

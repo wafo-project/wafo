@@ -1,47 +1,4 @@
-"""
-Class objects for data, spectrum, covariance function and time series in WAFO
 
-To represent data, spectra, covariance functions and time series
-in WAFO, the classes WafoData, SpecData1D, CovData1D and TimeSeries are used.
-Here follows a list of their attributes:
-
-WafoData
---------
-data : array_like
-args : vector for 1D, list of vectors for 2D, 3D, ...
-date : Date and time of creation or change.
-labels : AxisLabels
-children : list of WafoData objects
-
-SpecData1D
-----------
-data : One sided Spectrum values
-args : freguency values of freqtype
-type :String: 'freq', 'dir', 'k2d', k1d', 'encdir' or 'enc'.
-freqtype :'w' OR 'f' OR 'k' Frequency/wave number lag, length nf.
-tr : Transformation function (default (none)).
-h : Water depth (default inf).
-norm : Normalization flag, Logical 1 if S is normalized, 0 if not
-date : Date and time of creation or change.
-v :  Ship speed, if .type = 'enc' or 'encdir'.
-phi   angle of rotation of the coordinate system
-           (counter-clocwise) e.g. azymuth of a ship.
-
-CovData1D
----------
-data : Covariance function values. Size [ny nx nt], all singleton dim. removed.
-args : Lag of first space dimension, length nx.
-h : Water depth.
-tr : Transformation function.
-type : 'enc', 'rot' or 'none'.
-v : Ship speed, if .type='enc'
-phi : Rotation of coordinate system, e.g.  direction of ship
-norm : Normalization flag, Logical 1 if autocorrelation, 0 if covariance.
-Rx, ... ,Rtttt :  Obvious derivatives of .R.
-note : Memorandum string.
-date : Date and time of creation or change.
-
-"""
 #-------------------------------------------------------------------------------
 # Name:        module1
 # Purpose:
@@ -786,7 +743,7 @@ class TimeSeries(WafoData):
         norm : bool
             True if normalize output to one
         dt : scalar
-            time-step between data points (default xn(2,1)-xn(1,1) or 1 Hz).
+            time-step between data points (default see sampling_period).
 
         Return
         -------
@@ -1174,9 +1131,9 @@ class TimeSeries(WafoData):
             Number of subplots in each figure. By default nsub is such that 
             there are about 20 mean down crossing waves in each subplot. 
             If nfig is not given and nsub is larger than 6 then nsub is           
-            changed to nsub=min(6,ceil(Nsub/Nf))
+            changed to nsub=min(6,ceil(nsub/nfig))
         nfig : scalar integer
-            Number of figures. By default Nf=ceil(Nsub/6). 
+            Number of figures. By default nfig=ceil(Nsub/6). 
         stdev : real scalar
             standard deviation of data. 
         vfact : real scalar
@@ -1189,7 +1146,7 @@ class TimeSeries(WafoData):
         >>> import wafo
         >>> x = wafo.data.sea()
         >>> ts150 = wafo.objects.mat2timeseries(x[:150,:])
-        >>> h = ts150.plot_wave('r-',sym2='bo') 
+        >>> h = ts150.plot_wave('r-', sym2='bo') 
         
         See also
         --------  
@@ -1197,11 +1154,11 @@ class TimeSeries(WafoData):
         ''' 
         nw = 20
         tn = self.args
-        xn = self.data
+        xn = self.data.ravel()
         indmiss = np.isnan(xn) # indices to missing points
-        
+        indg = np.where(1-indmiss)[0]
         if ts is None:
-            tc_ix = findtc(xn[1-indmiss],0,'tw')[0]
+            tc_ix = findtc(xn[indg],0,'tw')[0]
             xn2 = xn[tc_ix]
             tn2 = tn[tc_ix] 
         else:
@@ -1209,7 +1166,7 @@ class TimeSeries(WafoData):
             tn2 = ts.args 
         
         if stdev is None:
-            stdev = np.std(xn[1-indmiss])
+            stdev = np.std(xn[indg])
             
         if nsub is None:
             nsub = int(np.floor(len(xn2)/(2*nw)))+1 # about Nw mdc waves in each plot
@@ -1230,15 +1187,13 @@ class TimeSeries(WafoData):
         dT = 1
         timespan = tn[ind[-1]]-tn[ind[0]] 
         if abs(timespan)>18000: # more than 5 hours
-            dT = 1/(60*60);
+            dT = 1/(60*60)
             XlblTxt = 'Time (hours)'
         elif abs(timespan)>300:# more than 5 minutes
             dT = 1/60
             XlblTxt = 'Time (minutes)'   
          
-        
-        
-        if np.max(abs(xn[1-indmiss]))>5*stdev:
+        if np.max(abs(xn[indg]))>5*stdev:
             XlblTxt = XlblTxt +' (Spurious data since max > 5 std.)'
         
         plot = plotbackend.plot
@@ -1251,16 +1206,16 @@ class TimeSeries(WafoData):
                 if nsub>1:
                     subplot(nsub,1,ix)
                 
-                h_scale = np.array([tn[ind[0]], xn[ind[-1]]])
-                ind2 = (h_scale[0]<=tn2) & (tn2<=h_scale[1])
+                h_scale = np.array([tn[ind[0]], tn[ind[-1]]])
+                ind2 = np.where((h_scale[0]<=tn2) & (tn2<=h_scale[1]))[0]
                 plot(tn[ind]*dT, xn[ind], sym1)
-                if np.any(ind2): 
-                    plot(tn2[ind2]*dT,xn2[ind],sym2) 
-                plot(h_scale*dT,[0, 0],'k')
+                if len(ind2)>0: 
+                    plot(tn2[ind2]*dT,xn2[ind2],sym2) 
+                plot(h_scale*dT, [0, 0], 'k-')
                 #plotbackend.axis([h_scale*dT, v_scale])
           
                 for iy in [-2, 2]:
-                    plot(h_scale*dT,iy*stdev*np.ones(2),'--')
+                    plot(h_scale*dT, iy*stdev*np.ones(2), ':')
               
                 ind = ind + Ns
             #end

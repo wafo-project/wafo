@@ -22,9 +22,9 @@ Statistics
 -Kernel density estimation
 -Hidden markov models
 
- WAFO consists of several modules (directories) with short descriptions below.
- The modules SPEC, TRGAUSS, WAVEMODELS, and MULTIDIM are mainly for 
- oceanographic applications.
+ WAFO consists of several modules with short descriptions below.
+ The modules SPECTRUM, COVARIANCE, TRANSFORM, WAVEMODELS, and MULTIDIM are 
+ mainly for oceanographic applications.
  The modules CYCLES, MARKOV, and DAMAGE are mainly for fatigue problems. 
  The contents file for each module is shown by typing 'help module-name' 
  Type 'help fatigue' for a presentation of all routines related to fatigue.
@@ -32,19 +32,25 @@ Statistics
  The paths to the modules are initiated by the function 'initwafo'.
 
  ONEDIM     - Data analysis of time series. Example: extraction of 
-              turning points, estimation of spectrum, covariance function.
- SPEC       - Computation of spectral moments and covariance functions. 
+              turning points, estimation of spectrum and covariance function. 
+              Estimation transformation used in transformed Gaussian model.
+ COVARIANCE - Computation of spectral functions, linear 
+              and non-linear time series simulation. 
+ SPECTRUM   - Computation of spectral moments and covariance functions, linear 
+              and non-linear time series simulation. 
               Ex: common spectra implemented, directional spectra, 
-              bandwidth measures
- TRGAUSS    - Modelling with linear, Gaussian waves. Ex: exact 
-              distributions for wave characteristics, transformed
-              Gaussian processes
+              bandwidth measures, exact distributions for wave characteristics.
+ TRANSFORM  - Modelling with linear or transformed Gaussian waves. Ex: 
+              
  WAVEMODELS - Models for distributions of wave characteristics found in 
               the literature. Ex: parametric models for breaking 
               limited wave heights.
  MULTIDIM   - Multi-dimensional time series analysis.  (Under construction)
- CYCLES     - Cycle counting, discretization, and crossings. Ex: Rainflow 
-              cycles and matrix, discretization of loads.
+ CYCLES     - Cycle counting, discretization, and crossings, calculation of 
+              damage. Simulation of discrete Markov chains, switching Markov
+              chains, harmonic oscillator. Ex:  Rainflow cycles and matrix, 
+              discretization of loads. Damage of a rainflow count or 
+              matrix, damage matrix, S-N plot.
  MARKOV     - Routines for Markov loads, switching Markov loads, and 
               their connection to rainflow cycles.
  DAMAGE     - Calculation of damage. Ex: Damage of a rainflow count or 

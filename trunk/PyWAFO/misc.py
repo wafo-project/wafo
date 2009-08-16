@@ -1,14 +1,17 @@
 '''
 Misc lsdkfalsdflasdfl
 '''
+from __future__ import division
+import numpy as np
+import warnings
+
 import sys
 import types
-import numpy as np
 #from scipy import interpolate
 from numpy import (linspace, logical_and, log, isscalar, pi, sqrt,
     exp, atleast_1d, mod, ones, zeros, any, inf, extract, arange)
 from scipy.special import gammaln
-import warnings
+
 try:
     import wafo.c_library as clib
 except:
@@ -296,6 +299,7 @@ def findcross(x, v=0.0, type_=None):
             ind = ind[:m]
 
     if ind.size == 0 : #%added pab 12.06.2001
+        #raise ValueError('No level v = %0.5g crossings found in x' % v)
         warnings.warn('No level v = %0.5g crossings found in x' % v)
         return ind
 
@@ -489,7 +493,8 @@ def findrfc(tp, hmin=0.0):
 
 
 def rfcfilter(x,h,method=0):
-    """ Rainflow filter a signal.
+    """ 
+    Rainflow filter a signal.
 
     Parameters
     -----------

@@ -61,7 +61,7 @@ class WafoData(object):
     specdata,
     covdata
     '''
-    def __init__(self,data=None,args=None,**kwds):
+    def __init__(self, data=None, args=None,**kwds):
         self.data = data
         self.args = args
         self.date = now()

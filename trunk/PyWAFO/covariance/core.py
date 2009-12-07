@@ -16,8 +16,12 @@ date : Date and time of creation or change.
 
 from __future__ import division
 import warnings
-import numpy as np
-from numpy import (zeros, sqrt, random, dot, newaxis)
+#import numpy as np
+from numpy import (zeros, sqrt, dot, newaxis, inf, where, pi, nan, #@UnresolvedImport
+                   atleast_1d, hstack, vstack, r_, linspace, flatnonzero, size, #@UnresolvedImport
+                   isnan, finfo, diag, ceil, floor, random) #@UnresolvedImport
+from numpy.fft import fft
+from numpy.random import randn
 import scipy.interpolate as interpolate
 from scipy.linalg import toeplitz, sqrtm, svd, cholesky, diagsvd, pinv
 from scipy import sparse
@@ -38,63 +42,64 @@ def _set_seed(iseed):
         except:
             random.seed(iseed)
 
-def rndnormnd(cov, mean=0.0, cases=1, method='svd'):
-    '''
-    Random vectors from a multivariate Normal distribution
-    
-    Parameters
-    ----------
-    mean, cov : array-like
-         mean and covariance, respectively.
-    cases : scalar integer
-        number of sample vectors
-    method : string
-        defining squareroot method for covariance
-        'svd' : Singular value decomp.  (stable, quite fast) (default)
-        'chol' : Cholesky decomposition (fast, but unstable) 
-        'sqrtm' :  sqrtm                (stable and slow) 
-     
-    Returns
-    -------
-    r : matrix of random numbers from the multivariate normal
-        distribution with the given mean and covariance matrix.
-        
-    The covariance must be a symmetric, semi-positive definite matrix with shape
-    equal to the size of the mean. METHOD used for calculating the square root 
-    of COV is either svd, cholesky or sqrtm. (cholesky is fastest but least accurate.)
-    When cholesky is chosen and S is not positive definite, the svd-method 
-    is used instead.
-    
-    Example
-    -------
-    mu = [0, 5]
-    S = [[1 0.45], [0.45 0.25]]
-    r = rndnormnd(S, mu, 1)
-    plot(r(:,1),r(:,2),'.')
-    
-       d = 40; rho = 2*rand(1,d)-1;
-       mu = zeros(0,d);
-       S = (rho.'*rho-diag(rho.^2))+eye(d);
-       r = rndnormnd(S,mu,100,'genchol')'; 
-    
-    See also
-    --------
-    chol, svd, sqrtm, genchol
-    '''
-    sa = np.atleast_2d(cov)
-    mu = np.atleast_1d(mean).ravel() 
-    m, n = sa.shape
-    if m != n:
-        raise ValueError('Covariance must be square')
-    def svdfun(sa):
-        u, s, vh = svd(sa, full_matrices=False)
-        sqt = diagsvd(sqrt(s))
-        return dot(u, dot(sqt, vh))
-     
-    sqrtfuns = dict(sqrtm=sqrtm, svd=svdfun, cholesky=cholesky)
-    sqrtfun = sqrtfuns[method] 
-    std = sqrtfun(sa)
-    return dot(std,random.randn(n, cases)) + mu[:,newaxis]
+
+#def rndnormnd(cov, mean=0.0, cases=1, method='svd'):
+#    '''
+#    Random vectors from a multivariate Normal distribution
+#    
+#    Parameters
+#    ----------
+#    mean, cov : array-like
+#         mean and covariance, respectively.
+#    cases : scalar integer
+#        number of sample vectors
+#    method : string
+#        defining squareroot method for covariance
+#        'svd' : Singular value decomp.  (stable, quite fast) (default)
+#        'chol' : Cholesky decomposition (fast, but unstable) 
+#        'sqrtm' :  sqrtm                (stable and slow) 
+#     
+#    Returns
+#    -------
+#    r : matrix of random numbers from the multivariate normal
+#        distribution with the given mean and covariance matrix.
+#        
+#    The covariance must be a symmetric, semi-positive definite matrix with shape
+#    equal to the size of the mean. METHOD used for calculating the square root 
+#    of COV is either svd, cholesky or sqrtm. (cholesky is fastest but least accurate.)
+#    When cholesky is chosen and S is not positive definite, the svd-method 
+#    is used instead.
+#    
+#    Example
+#    -------
+#    mu = [0, 5]
+#    S = [[1 0.45], [0.45 0.25]]
+#    r = rndnormnd(S, mu, 1)
+#    plot(r(:,1),r(:,2),'.')
+#    
+#       d = 40; rho = 2*rand(1,d)-1;
+#       mu = zeros(0,d);
+#       S = (rho.'*rho-diag(rho.^2))+eye(d);
+#       r = rndnormnd(S,mu,100,'genchol')'; 
+#    
+#    See also
+#    --------
+#    chol, svd, sqrtm, genchol
+#    '''
+#    sa = np.atleast_2d(cov)
+#    mu = np.atleast_1d(mean).ravel() 
+#    m, n = sa.shape
+#    if m != n:
+#        raise ValueError('Covariance must be square')
+#    def svdfun(sa):
+#        u, s, vh = svd(sa, full_matrices=False)
+#        sqt = diagsvd(sqrt(s))
+#        return dot(u, dot(sqt, vh))
+#     
+#    sqrtfuns = dict(sqrtm=sqrtm, svd=svdfun, cholesky=cholesky)
+#    sqrtfun = sqrtfuns[method] 
+#    std = sqrtfun(sa)
+#    return dot(std,random.randn(n, cases)) + mu[:,newaxis]
 
 
 class CovData1D(WafoData):
@@ -131,7 +136,7 @@ class CovData1D(WafoData):
         self.name = 'WAFO Covariance Object'
         self.type = 'time'
         self.lagtype = 't'
-        self.h = np.inf
+        self.h = inf
         self.tr = None
         self.phi = 0.
         self.v = 0.
@@ -235,7 +240,7 @@ class CovData1D(WafoData):
         dT = self.sampling_period()
         # dT = time-step between data points.
 
-        ACF, ti = np.atleast_1d(self.data, self.args)
+        ACF, unused_ti = atleast_1d(self.data, self.args)
 
         if self.lagtype in 't':
             spectype = 'freq'
@@ -256,27 +261,26 @@ class CovData1D(WafoData):
         n = ACF.size
         # embedding a circulant vector and Fourier transform
         if fast:
-          nfft = 2**nextpow2(2*n-2)
+            nfft = 2**nextpow2(2*n-2)
         else:
-          nfft = 2*n-2
+            nfft = 2*n-2
 
         nf   = nfft/2 ## number of frequencies
-        fft = np.fft.fft
-        ACF  = np.r_[ACF,np.zeros(nfft-2*n+2),ACF[n-1:0:-1]]
+        ACF  = r_[ACF,zeros(nfft-2*n+2),ACF[n-1:0:-1]]
 
         Rper = (fft(ACF,nfft).real).clip(0) ## periodogram
         RperMax = Rper.max()
-        Rper = np.where(Rper<trunc*RperMax,0,Rper)
-        pi = np.pi
-        S = np.abs(Rper[0:(nf+1)])*dT/pi
-        w = np.linspace(0,pi/dT,nf+1)
+        Rper = where(Rper<trunc*RperMax,0,Rper)
+        pi = pi
+        S = abs(Rper[0:(nf+1)])*dT/pi
+        w = linspace(0,pi/dT,nf+1)
         So = _wafospec.SpecData1D(S, w, type=spectype, freqtype=ftype)
         So.tr = self.tr
         So.h = self.h
         So.norm = self.norm
 
         if rate > 1:
-            So.args = np.linspace(0, pi/dT, nf*rate)
+            So.args = linspace(0, pi/dT, nf*rate)
             if method=='stineman':
                 So.data = stineman_interp(So.args, w, S)
             else:
@@ -297,7 +301,7 @@ class CovData1D(WafoData):
             [m] otherwise
         '''
         dt1 = self.args[1]-self.args[0]
-        n = np.size(self.args)-1
+        n = size(self.args)-1
         t = self.args[-1]-self.args[0]
         dt = t/n
         if abs(dt-dt1) > 1e-10:
@@ -381,9 +385,7 @@ class CovData1D(WafoData):
 
         dT = self.sampling_period()
 
-        fft = np.fft.fft
-
-        x = np.zeros((ns, cases+1))
+        x = zeros((ns, cases+1))
 
         if derivative:
             xder = x.copy()
@@ -395,23 +397,23 @@ class CovData1D(WafoData):
         ## Fast and exact simulation of simulation of stationary
         ## Gaussian process throug circulant embedding of the
         ## Covariance matrix
-        floatinfo = np.finfo(float)
+        floatinfo = finfo(float)
         if (abs(ACF[-1]) > floatinfo.eps): ## assuming ACF(n+1)==0
             m2 = 2*n-1
             nfft = 2**nextpow2(max(m2, 2*ns))
-            ACF = np.r_[ACF, np.zeros((nfft-m2,1)), ACF[-1:0:-1,:]]
+            ACF = r_[ACF, zeros((nfft-m2,1)), ACF[-1:0:-1,:]]
             #disp('Warning: I am now assuming that ACF(k)=0 ')
             #disp('for k>MAXLAG.')
         else: # # ACF(n)==0
             m2 = 2*n-2
             nfft = 2**nextpow2(max(m2, 2*ns))
-            ACF = np.r_[ACF, np.zeros((nfft-m2, 1)), ACF[n-1:1:-1, :]]
+            ACF = r_[ACF, zeros((nfft-m2, 1)), ACF[n-1:1:-1, :]]
 
         ##m2=2*n-2
         S = fft(ACF,nfft,axis=0).real ## periodogram
 
         I = S.argmax()
-        k = np.flatnonzero(S<0)
+        k = flatnonzero(S<0)
         if k.size>0:
             #disp('Warning: Not able to construct a nonnegative circulant ')
             #disp('vector from the ACF. Apply the parzen windowfunction ')
@@ -423,7 +425,7 @@ class CovData1D(WafoData):
 
             S[k] = 0.
 
-            ix = np.flatnonzero(k>2*I)
+            ix = flatnonzero(k>2*I)
             if ix.size>0:
 ##    # truncating all oscillating values above 2 times the peak
 ##    # frequency to zero to ensure that
@@ -433,38 +435,38 @@ class CovData1D(WafoData):
                 S[ix0:-ix0] =0.0
 
 
-        sqrt = np.sqrt
+       
         trunc = 1e-5
         maxS = S[I]
-        k = np.flatnonzero(S[I:-I]<maxS*trunc)
+        k = flatnonzero(S[I:-I]<maxS*trunc)
         if k.size>0:
             S[k+I]=0.
             ## truncating small values to zero to ensure that
             ## that high frequency noise is not added to
             ## the simulated timeseries
 
-        cases1 = np.floor(cases/2)
-        cases2 = np.ceil(cases/2)
+        cases1 = floor(cases/2)
+        cases2 = ceil(cases/2)
 # Generate standard normal random numbers for the simulations
 
-        randn = np.random.randn
+        #randn = np.random.randn
         epsi = randn(nfft,cases2)+1j*randn(nfft,cases2)
         Ssqr = sqrt(S/(nfft)) # #sqrt(S(wn)*dw )
         ephat = epsi*Ssqr #[:,np.newaxis]
         y = fft(ephat,nfft,axis=0)
-        x[:, 1:cases+1] = np.hstack((y[2:ns+2, 0:cases2].real, y[2:ns+2, 0:cases1].imag))
+        x[:, 1:cases+1] = hstack((y[2:ns+2, 0:cases2].real, y[2:ns+2, 0:cases1].imag))
 
-        x[:, 0] = np.linspace(0,(ns-1)*dT,ns) ##(0:dT:(dT*(np-1)))'
+        x[:, 0] = linspace(0,(ns-1)*dT,ns) ##(0:dT:(dT*(np-1)))'
 
         if derivative:
-            Ssqr = Ssqr*np.r_[0:(nfft/2+1), -(nfft/2-1):0]*2*np.pi/nfft/dT
-            ephat = epsi*Ssqr #[:,np.newaxis]
+            Ssqr = Ssqr*r_[0:(nfft/2+1), -(nfft/2-1):0]*2*pi/nfft/dT
+            ephat = epsi*Ssqr #[:,newaxis]
             y = fft(ephat,nfft,axis=0)
-            xder[:, 1:(cases+1)] = np.hstack((y[2:ns+2, 0:cases2].imag -y[2:ns+2, 0:cases1].real))
+            xder[:, 1:(cases+1)] = hstack((y[2:ns+2, 0:cases2].imag -y[2:ns+2, 0:cases1].real))
             xder[:, 0] = x[:,0]
 
         if self.tr is not None:
-            np.disp('   Transforming data.')
+            print('   Transforming data.')
             g = self.tr
             if derivative:
                 for ix in range(cases):
@@ -535,6 +537,8 @@ class CovData1D(WafoData):
         reconstructed data"
         in Proceedings of 9th ISOPE Conference, Vol III, pp 66-73
         """     
+        # TODO does not work yet.
+        
         # secret methods:
         #         'dec1-3': different decomposing algorithm's 
         #                   which is only correct for a variables
@@ -544,8 +548,8 @@ class CovData1D(WafoData):
         #                   Pros: 1 is slow, 2 is quite fast and 3 is very fast
         #                   Note: (mu1oStd is not given for method ='dec3')
         compute_sigma = True
-        x = np.atleast_1d(xo).ravel()
-        acf = np.atleast_1d(self.data).ravel()
+        x = atleast_1d(xo).ravel()
+        acf = atleast_1d(self.data).ravel()
         
         N = len(x)
         n = len(acf)
@@ -556,8 +560,8 @@ class CovData1D(WafoData):
         
         
         if not inds is None:
-              x[inds] = np.nan
-        inds = np.where(np.isnan(x))[0]  #indices to the unknown observations
+            x[inds] = nan
+        inds = where(isnan(x))[0]  #indices to the unknown observations
         
         Ns = len(inds) # # missing values
         if Ns == 0:
@@ -570,7 +574,7 @@ class CovData1D(WafoData):
             warnings.warn(txt)
             return self.sim(ns=N, cases=cases), zeros(Ns), zeros(Ns)
         
-        indg = np.where(1-np.isnan(x))[0] #indices to the known observations
+        indg = where(1-isnan(x))[0] #indices to the known observations
         
         #initializing variables
         mu1o = zeros(Ns, 1)
@@ -584,7 +588,7 @@ class CovData1D(WafoData):
         if method.startswith('dec1'):
             # only correct for variables having the Markov property
             # but still seems to give a reasonable answer. Slow procedure.
-            Sigma = sptoeplitz(np.hstack((acf, zeros(N-n))))
+            Sigma = sptoeplitz(hstack((acf, zeros(N-n))))
          
             #Soo=Sigma(~inds,~inds); # covariance between known observations
             #S11=Sigma(inds,inds); # covariance between unknown observations
@@ -596,7 +600,7 @@ class CovData1D(WafoData):
             if compute_sigma:
                 #standard deviation of the expected surface
                 #mu1o_std=sqrt(diag(S11-tmp*S1o'));
-                mu1o_std = sqrt(np.diag(Sigma[inds, inds]-tmp*Sigma[indg, inds]))
+                mu1o_std = sqrt(diag(Sigma[inds, inds]-tmp*Sigma[indg, inds]))
             
             
             #expected surface conditioned on the known observations from x
@@ -611,13 +615,13 @@ class CovData1D(WafoData):
             # but still seems to give a reasonable answer
             # approximating the expected surfaces conditioned on 
             # the known observations from x and xs by only using the closest points
-            Sigma = sptoeplitz(np.hstack((acf,zeros(n))))
-            n2 = int(np.floor(n/2))
-            idx = np.r_[0:2*n] + max(0,inds[0]-n2) # indices to the points used
-            tmpinds = np.zeros(N,dtype=bool)
+            Sigma = sptoeplitz(hstack((acf,zeros(n))))
+            n2 = int(floor(n/2))
+            idx = r_[0:2*n] + max(0,inds[0]-n2) # indices to the points used
+            tmpinds = zeros(N,dtype=bool)
             tmpinds[inds] = True # temporary storage of indices to missing points
-            tinds = np.where(tmpinds[idx])[0] # indices to the points used
-            tindg = np.where(1-tmpinds[idx])[0]
+            tinds = where(tmpinds[idx])[0] # indices to the points used
+            tindg = where(1-tmpinds[idx])[0]
             ns = len(tinds); # number of missing data in the interval
             nprev = 0; # number of previously simulated points
             xsinds = xs[inds,:]
@@ -626,9 +630,9 @@ class CovData1D(WafoData):
                 if compute_sigma:
                     #standard deviation of the expected surface
                     #mu1o_std=sqrt(diag(S11-tmp*S1o'));
-                    ix = slize(nprev+1,nprev+ns+1)
+                    ix = slice(nprev+1,nprev+ns+1)
                     mu1o_std[ix] = max(mu1o_std[ix], 
-                            sqrt(np.diag(Sigma[tinds, tinds]-tmp*Sigma[tindg,tinds])))
+                            sqrt(diag(Sigma[tinds, tinds]-tmp*Sigma[tindg,tinds])))
                 #end
               
                 #expected surface conditioned on the closest known observations
@@ -645,11 +649,11 @@ class CovData1D(WafoData):
         
                     nw = sum(tmpinds[idx[-n2:]])# # data which we want to simulate once 
                     tmpinds[idx[:-n2]] = False # removing indices to data ..
-                                          # which has been simulated
+                    # which has been simulated
                     nprev = nprev+ns-nw # update # points simulated so far
                               
                     if (nw==0) and (nprev<Ns): 
-                        idx= np.r_[0:2*n]+(inds[nprev+1]-n2) # move to the next missing data
+                        idx= r_[0:2*n]+(inds[nprev+1]-n2) # move to the next missing data
                     else:
                         idx = idx+n
                     #end
@@ -658,8 +662,8 @@ class CovData1D(WafoData):
                         idx = idx+tmp
                     #end
                     # find new interval with missing data
-                    tinds = np.where(tmpinds[idx])[0]
-                    tindg = np.where(1-tmpinds[idx])[0]
+                    tinds = where(tmpinds[idx])[0]
+                    tindg = where(1-tmpinds[idx])[0]
                     ns = len(tinds);# # missing data
                 #end  
             #end
@@ -677,8 +681,8 @@ class CovData1D(WafoData):
             sample = mu1o + (xs[inds,:]-mu1os) 
         
         elif method.startswith('exac') or method.startswith('pseu'):
-             # exact but slow. It also may not return any result
-            Sigma = sptoeplitz(np.hstack((acf,np.zeros(N-n))))
+            # exact but slow. It also may not return any result
+            Sigma = sptoeplitz(hstack((acf,zeros(N-n))))
             #Soo=Sigma(~inds,~inds); # covariance between known observations
             #S11=Sigma(inds,inds); # covariance between unknown observations
             #S1o=Sigma(inds,~inds);# covariance between known and unknown observations
@@ -712,13 +716,13 @@ class CovData1D(WafoData):
             
             Nsig = 2*n;
             
-            Sigma = sptoeplitz(np.hstack((ACF,zeros(Nsig-n))))
+            Sigma = sptoeplitz(hstack((ACF,zeros(Nsig-n))))
             n2 = floor(Nsig/4)
-            idx = np.r_[0:Nsig]+max(0,inds[0]-n2) # indices to the points used
-            tmpinds = np.zeros(N,dtype=bool)
+            idx = r_[0:Nsig]+max(0,inds[0]-n2) # indices to the points used
+            tmpinds = zeros(N,dtype=bool)
             tmpinds[inds] = True # temporary storage of indices to missing points
-            tinds = np.where(tmpinds[idx])[0] # indices to the points used
-            tindg = np.where(1-tmpinds[idx])[0]
+            tinds = where(tmpinds[idx])[0] # indices to the points used
+            tindg = where(1-tmpinds[idx])[0]
             ns = len(tinds) # number of missing data in the interval
             
             nprev = 0  # number of previously simulated points
@@ -751,7 +755,7 @@ class CovData1D(WafoData):
                     nprev = nprev+ns-nw # update # points simulated so far
             
                     if (nw==0) and (nprev<Ns):
-                        idx = np.r_[0:Nsig]+(inds[nprev+1]-n2) # move to the next missing data
+                        idx = r_[0:Nsig]+(inds[nprev+1]-n2) # move to the next missing data
                     else:
                         idx = idx+n
                     #end
@@ -760,9 +764,9 @@ class CovData1D(WafoData):
                         idx = idx + tmp
                     #end
                     # find new interval with missing data
-                    tinds = np.where(tmpinds[idx])[0]
-                    tindg = np.where(1-tmpinds[idx])[0]
-                    ns= len(tinds);# # missing data in the interval
+                    tinds = where(tmpinds[idx])[0]
+                    tindg = where(1-tmpinds[idx])[0]
+                    ns = len(tinds);# # missing data in the interval
               #end
             #end
         #end
@@ -781,7 +785,7 @@ class CovData1D(WafoData):
 #          #axis([1300 1325 -1 1])
         
 def sptoeplitz(x):
-    k = np.where(x.ravel())[0]
+    k = where(x.ravel())[0]
     n = len(x)
     if len(k)>0.3*n:
         return toeplitz(x)

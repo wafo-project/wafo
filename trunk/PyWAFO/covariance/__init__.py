@@ -1,8 +1,5 @@
 """
-Spectrum package in WAFO Toolbox.
-
-    Readme               - Readme file for module SPEC in WAFO Toolbox
-
+Covariance package in WAFO Toolbox.
 """
 
 from core import CovData1D

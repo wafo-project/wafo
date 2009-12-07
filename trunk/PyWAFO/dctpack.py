@@ -1,5 +1,6 @@
-__all__=['dct','idct']
-def dct(x,n=None):
+import numpy as np
+__all__ = ['dct', 'idct']
+def dct(x, n=None):
     """
     Discrete Cosine Transform
 
@@ -27,29 +28,29 @@ def dct(x,n=None):
     if n is None:
         n = x.shape[-1]
 
-    if x.shape[-1]<n:
-        n_shape = x.shape[:-1] + (n-x.shape[-1],)
-        xx = np.hstack((x,np.zeros(n_shape)))
+    if x.shape[-1] < n:
+        n_shape = x.shape[:-1] + (n - x.shape[-1],)
+        xx = np.hstack((x, np.zeros(n_shape)))
     else:
-        xx = x[...,:n]
+        xx = x[..., :n]
 
     real_x = np.all(np.isreal(xx))
-    if (real_x and (np.remainder(n,2) == 0)):
-        xp = 2 * fft(np.hstack( (xx[...,::2], xx[...,::-2]) ))
+    if (real_x and (np.remainder(n, 2) == 0)):
+        xp = 2 * fft(np.hstack((xx[..., ::2], xx[..., ::-2])))
     else:
-        xp = fft(np.hstack((xx, xx[...,::-1])))
-        xp = xp[...,:n]
+        xp = fft(np.hstack((xx, xx[..., ::-1])))
+        xp = xp[..., :n]
 
-    w = np.exp(-1j * np.arange(n) * np.pi/(2*n))
+    w = np.exp(-1j * np.arange(n) * np.pi / (2 * n))
 
-    y = xp*w
+    y = xp * w
 
     if real_x:
         return y.real
     else:
         return y
 
-def idct(x,n=None):
+def idct(x, n=None):
     """
     Inverse Discrete Cosine Transform
 
@@ -81,24 +82,24 @@ def idct(x,n=None):
     if n is None:
         n = x.shape[-1]
 
-    w = np.exp(1j * np.arange(n) * np.pi/(2*n))
+    w = np.exp(1j * np.arange(n) * np.pi / (2 * n))
 
-    if x.shape[-1]<n:
-        n_shape = x.shape[:-1] + (n-x.shape[-1],)
-        xx = np.hstack((x,np.zeros(n_shape)))*w
+    if x.shape[-1] < n:
+        n_shape = x.shape[:-1] + (n - x.shape[-1],)
+        xx = np.hstack((x, np.zeros(n_shape))) * w
     else:
-        xx = x[...,:n]*w
+        xx = x[..., :n] * w
 
     real_x = np.all(np.isreal(x))
-    if (real_x and (np.remainder(n,2) == 0)):
-        xx[...,0] = xx[...,0]*0.5
+    if (real_x and (np.remainder(n, 2) == 0)):
+        xx[..., 0] = xx[..., 0] * 0.5
         yp = ifft(xx)
-        y  = np.zeros(xx.shape,dtype=complex)
-        y[...,::2] = yp[...,:n/2]
-        y[...,::-2] = yp[...,n/2::]
+        y = np.zeros(xx.shape, dtype=complex)
+        y[..., ::2] = yp[..., :n / 2]
+        y[..., ::-2] = yp[..., n / 2::]
     else:
-        yp = ifft(np.hstack((xx, np.zeros_like(xx[...,0]), np.conj(xx[...,:0:-1]))))
-        y = yp[...,:n]
+        yp = ifft(np.hstack((xx, np.zeros_like(xx[..., 0]), np.conj(xx[..., :0:-1]))))
+        y = yp[..., :n]
 
     if real_x:
         return y.real

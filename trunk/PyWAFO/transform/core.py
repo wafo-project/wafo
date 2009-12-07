@@ -1,8 +1,8 @@
 ''' 
 '''
 from __future__ import division
-import numpy as np
-from numpy import trapz, sqrt
+#import numpy as np
+from numpy import trapz, sqrt, linspace #@UnresolvedImport
 
 from wafo.wafodata import WafoData
 from wafo.misc import tranproc #, trangood
@@ -73,7 +73,7 @@ class TrCommon(object):
             trapz(xn,(xn-g(x))**2.) where int. limits is given by X.
         """
         if x is None:
-            xn = np.linspace(xnmin, xnmax, n)
+            xn = linspace(xnmin, xnmax, n)
             x = self.sigma*xn+self.mean
         else:
             xn = (x-self.mean)/self.sigma

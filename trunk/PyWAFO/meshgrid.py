@@ -80,7 +80,6 @@ def meshgrid(*xi,**kwargs):
     >>> y = np.arange(-5, 5, 0.1)
     >>> xx, yy = meshgrid(x, y, sparse=True)
     >>> z = np.sin(xx**2+yy**2)/(xx**2+yy**2)
-    
     """
     copy = kwargs.get('copy',True)
     args = np.atleast_1d(*xi)

@@ -1,4 +1,6 @@
 import numpy as np
+from numpy import (r_, minimum, maximum, atleast_1d, atleast_2d, mod, zeros, #@UnresolvedImport
+        ones, floor, random, eye, nonzero, repeat, sqrt, inf, diag, triu) #@UnresolvedImport
 from scipy.special import ndtri as invnorm
 import rindmod
 
@@ -224,10 +226,10 @@ class Rind(object):
         '''
         if speed is None:
             return
-        self.speed =  min(max(speed, 1), 13)
+        self.speed = min(max(speed, 1), 13)
  
         self.maxpts = 10000
-        self.quadno = np.r_[1:4]+ (10-min(speed, 9)) + (speed==1)
+        self.quadno = r_[1:4] + (10 - min(speed, 9)) + (speed == 1)
         if speed in (11, 12, 13):
             self.abseps = 1e-1
         elif speed == 10:
@@ -242,9 +244,9 @@ class Rind(object):
             self.abseps = 1e-4
   
         if speed < 12:
-            tmp = max(abs(11-abs(speed)), 1)
-            expon = np.mod(tmp+1, 3)+1
-            self.coveps = self.abseps*((1.0e-1)**expon)
+            tmp = max(abs(11 - abs(speed)), 1)
+            expon = mod(tmp + 1, 3) + 1
+            self.coveps = self.abseps * ((1.0e-1) ** expon)
         elif speed < 13:
             self.coveps = 0.1
         else:
@@ -256,37 +258,37 @@ class Rind(object):
             # This gives approximately the same accuracy as when using 
             # RINDDND and RINDNIT    
             #    xCutOff= MIN(MAX(xCutOff+0.5d0,4.d0),5.d0)
-            self.abseps = self.abseps*1.e-1
-        trunc_error      = 0.05 * max(0, self.abseps)
+            self.abseps = self.abseps * 1.0e-1
+        trunc_error = 0.05 * max(0, self.abseps)
         self.xcutoff = max(min(abs(invnorm(trunc_error)), 7), 1.2)
-        self.abseps  = max(self.abseps - trunc_error, 0)
+        self.abseps = max(self.abseps - trunc_error, 0)
 
     def set_constants(self):
         if self.xcutoff is None:
-            trunc_error = 0.1* self.abseps
+            trunc_error = 0.1 * self.abseps
             self.nc1c2 = max(1, self.nc1c2)
-            xcut  = abs(invnorm(trunc_error/(self.nc1c2*2)))
+            xcut = abs(invnorm(trunc_error / (self.nc1c2 * 2)))
             self.xcutoff = max(min(xcut, 8.5), 1.2)
             #self.abseps  = max(self.abseps- truncError,0);
             #self.releps  = max(self.releps- truncError,0);
 
         if self.method > 0:
-            names = ['method', 'xcscale', 'abseps', 'releps', 'coveps', 
+            names = ['method', 'xcscale', 'abseps', 'releps', 'coveps',
                     'maxpts', 'minpts', 'nit', 'xcutoff', 'nc1c2', 'quadno',
                     'xsplit']
 
             constants = [getattr(self, name) for name in names]
-            constants[0] = np.mod(constants[0], 10)
-            rindmod.set_constants(*constants)
+            constants[0] = mod(constants[0], 10)
+            rindmod.set_constants(*constants) #@UndefinedVariable
         
     def __call__(self, cov, m, ab, bb, indI=None, xc=None, nt=None, **kwds):
         if any(kwds):
             self.__dict__.update(**kwds)
             self.set_constants()
         if xc is None:
-            xc = np.zeros((0, 1))
+            xc = zeros((0, 1))
         
-        BIG, Blo, Bup, xc = np.atleast_2d(cov, ab, bb, xc)
+        BIG, Blo, Bup, xc = atleast_2d(cov, ab, bb, xc)
         Blo = Blo.copy()
         Bup = Bup.copy()
         
@@ -295,18 +297,18 @@ class Rind(object):
         if nt is None:
             nt = Ntdc - Nc
 
-        Mb, Nb = Blo.shape
-        Nd = Ntdc-nt-Nc
-        Ntd = nt+Nd
+        unused_Mb, Nb = Blo.shape
+        Nd = Ntdc - nt - Nc
+        Ntd = nt + Nd
 
         if indI is None:
-            if Nb!=Ntd:
+            if Nb != Ntd:
                 raise ValueError('Inconsistent size of Blo and Bup')
-            indI = np.r_[-1:Ntd]
+            indI = r_[-1:Ntd]
 
-        Ex, indI = np.atleast_1d(m, indI)
+        Ex, indI = atleast_1d(m, indI)
         if self.seed is None:
-            seed = int(np.floor(np.random.rand(1)*1e10))
+            seed = int(floor(random.rand(1) * 1e10)) #@UndefinedVariable
         else:
             seed = int(self.seed)
 
@@ -316,44 +318,44 @@ class Rind(object):
         #            if INFIN(I) = 1, Ith limits are [Hlo(I), infinity);
         #            if INFIN(I) = 2, Ith limits are [Hlo(I), Hup(I)].
         infinity = 37
-        dev = np.sqrt(np.diag(BIG))  # std
-        ind = np.nonzero(indI[1:]>-1)[0]
-        infin = np.repeat(2, len(indI)-1)
-        infin[ind] = (2 - (Bup[0, ind] > infinity*dev[indI[ind+1]]) 
-                      - 2*(Blo[0, ind] < -infinity*dev[indI[ind+1]]))
+        dev = sqrt(diag(BIG))  # std
+        ind = nonzero(indI[1:] > -1)[0]
+        infin = repeat(2, len(indI) - 1)
+        infin[ind] = (2 - (Bup[0, ind] > infinity * dev[indI[ind + 1]]) 
+                      - 2 * (Blo[0, ind] < -infinity * dev[indI[ind + 1]]))
 
-        Bup[0, ind] = np.minimum(Bup[0, ind], infinity*dev[indI[ind+1]])
-        Blo[0, ind] = np.maximum(Blo[0, ind], -infinity*dev[indI[ind+1]])
-        ind2 = indI+1
-        return rindmod.rind(BIG, Ex, xc, nt, ind2, Blo, Bup, infin, seed)
+        Bup[0, ind] = minimum(Bup[0, ind], infinity * dev[indI[ind + 1]])
+        Blo[0, ind] = maximum(Blo[0, ind], -infinity * dev[indI[ind + 1]])
+        ind2 = indI + 1
+        return rindmod.rind(BIG, Ex, xc, nt, ind2, Blo, Bup, infin, seed) #@UndefinedVariable
               
 def test_rind():
     ''' Small test function
     '''
     n = 5
-    Blo = -np.inf
+    Blo = -inf
     Bup = -1.2
-    indI = [-1, n-1]  # Barriers
+    indI = [-1, n - 1]  # Barriers
 #    A = np.repeat(Blo, n)
 #    B = np.repeat(Bup, n)  # Integration limits
-    m = np.zeros(n)
+    m = zeros(n)
     rho = 0.3
-    Sc = (np.ones((n, n))-np.eye(n))*rho+np.eye(n)
+    Sc = (ones((n, n)) - eye(n)) * rho + eye(n)
     rind = Rind()
     E0 = rind(Sc, m, Blo, Bup, indI)  #  exact prob. 0.001946  A)    
     print(E0)
     
-    A = np.repeat(Blo, n) 
-    B = np.repeat(Bup, n)  # Integration limits
-    E1  = rind(np.triu(Sc), m, A, B)   #same as E0
+    A = repeat(Blo, n) 
+    B = repeat(Bup, n)  # Integration limits
+    E1 = rind(triu(Sc), m, A, B)   #same as E0
     
-    xc = np.zeros((0,1))
+    xc = zeros((0, 1))
     infinity = 37
-    dev = np.sqrt(np.diag(Sc))  # std
-    ind = np.nonzero(indI[1:])[0]
-    Bup, Blo = np.atleast_2d(Bup, Blo)
-    Bup[0,ind] = np.minimum(Bup[0,ind], infinity*dev[indI[ind+1]])
-    Blo[0,ind] = np.maximum(Blo[0,ind], -infinity*dev[indI[ind+1]])
+    dev = sqrt(diag(Sc))  # std
+    ind = nonzero(indI[1:])[0]
+    Bup, Blo = atleast_2d(Bup, Blo)
+    Bup[0, ind] = minimum(Bup[0, ind], infinity * dev[indI[ind + 1]])
+    Blo[0, ind] = maximum(Blo[0, ind], -infinity * dev[indI[ind + 1]])
     E3 = rind(Sc, m, Blo, Bup, indI, xc, nt=1)
 
        

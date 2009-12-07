@@ -2,7 +2,7 @@ from __future__ import division
 import warnings
 import copy
 import numpy as np
-from numpy import pi, sqrt, ones, zeros
+from numpy import pi, sqrt, ones, zeros #@UnresolvedImport
 from scipy import integrate as intg
 import scipy.special.orthogonal as ort
 from scipy import special as sp
@@ -262,12 +262,10 @@ def romberg(fun, a, b, releps=1e-3, abseps=1e-3):
     Example
     -------
     >>> import numpy as np
-    >>> [q,err] = romberg(np.sqrt,0,10,1e-4,)
+    >>> [q,err] = romberg(np.sqrt,0,10,0,1e-4)
     >>> q,err
     (array([ 21.08185107]), array([  6.61635466e-05]))
-
     '''
-
     h = b-a
     hMin = 1.0e-9
     # Max size of extrapolation table
@@ -710,7 +708,6 @@ def p_roots(n,method='newton', a=-1, b=1):
             #% Compute the zeros of the N+1 Legendre Polynomial
             #% using the recursion relation and the Newton-Raphson method
 
-            ix = 0
             #% Iterate until new points are uniformly within epsilon of old points
             k   = slice(m)
             k0  = 0

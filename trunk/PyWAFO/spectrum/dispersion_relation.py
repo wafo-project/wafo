@@ -6,8 +6,8 @@ w2k - Translates from frequency to wave number
 """
 import warnings
 #import numpy as np
-from numpy import (atleast_1d, sqrt, zeros_like, arctan2, where, tanh, any, 
-    sin, cos, sign, inf, flatnonzero, finfo, cosh, abs)
+from numpy import (atleast_1d, sqrt, zeros_like, arctan2, where, tanh, any, #@UnresolvedImport
+    sin, cos, sign, inf, flatnonzero, finfo, cosh, abs) #@UnresolvedImport
 
 __all__  = ['k2w', 'w2k']
 

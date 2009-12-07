@@ -16,8 +16,11 @@ from __future__ import division
 import warnings
 import numpy as np
 
-from numpy import (inf, pi, zeros, sqrt, where, log, exp, sin, arcsin, 
-                   newaxis, linspace, sort)
+from numpy import (inf, pi, zeros, ones, sqrt, where, log, exp, sin, arcsin, mod, #@UnresolvedImport
+                   newaxis, linspace, arange, sort, all, abs, linspace, vstack, hstack, atleast_1d, #@UnresolvedImport
+                   polyfit, r_, nonzero, cumsum, ravel, size, isnan,  nan, floor, ceil, diff, array) #@UnresolvedImport
+from numpy.fft import fft
+from numpy.random import randn
 from scipy.integrate import trapz
 from pylab import stineman_interp
 from matplotlib.mlab import psd
@@ -32,6 +35,7 @@ from plotbackend import plotbackend
 import matplotlib
 matplotlib.interactive(True)
 _wafocov = JITImport('wafo.covariance')
+_wafospec = JITImport('wafo.spectrum')
 
 __all__ = ['TimeSeries','LevelCrossings','CyclePairs','TurningPoints',
     'sensortypeid','sensortype']
@@ -66,7 +70,7 @@ class LevelCrossings(WafoData):
                 logcmin = logcros[icmax]
                 logcros = sqrt(2*abs(logcros-logcmin))
                 logcros[0:icmax+1] = 2*logcros[icmax]-logcros[0:icmax+1]
-                p = np.polyfit(self.args[10:-9], logcros[10:-9],1) #least square fit
+                p = polyfit(self.args[10:-9], logcros[10:-9],1) #least square fit
                 if self.stdev is None:
                     self.stdev = 1.0/p[0] #estimated standard deviation of x
                 if self.mean is None:
@@ -125,12 +129,12 @@ class LevelCrossings(WafoData):
         """
 
         # TODO % add a good example
-        f = np.linspace(0,0.49999,1000)
+        f = linspace(0,0.49999,1000)
         rho_st = 2.*sin(f*pi)**2-1.
         tmp = alpha*arcsin(sqrt((1.+rho_st)/2))
         tmp = sin(tmp)**2
         a2  = (tmp-rho_st)/(1-tmp)
-        y   = np.vstack((a2+rho_st,1-a2)).min(axis=0)
+        y   = vstack((a2+rho_st,1-a2)).min(axis=0)
         maxidx = y.argmax()
         #[maximum,maxidx]=max(y)
 
@@ -141,11 +145,11 @@ class LevelCrossings(WafoData):
         r1 = -a1/(1.+a2)
         r2 = (a1**2-a2-a2**2)/(1+a2)
         sigma2 = r0+a1*r1+a2*r2
-        randn = np.random.randn
+        #randn = np.random.randn
         e = randn(ns)*sqrt(sigma2)
         e[:1] = 0.0
         L0 = randn(1)
-        L0 = np.vstack((L0,r1*L0+sqrt(1-r2**2)*randn(1)))
+        L0 = vstack((L0,r1*L0+sqrt(1-r2**2)*randn(1)))
         #%Simulate the process, starting in L0
         lfilter = scipy.signal.lfilter
         L = lfilter(1,[1, a1, a2],e,lfilter([1, a1, a2],1,L0))
@@ -153,14 +157,14 @@ class LevelCrossings(WafoData):
         epsilon = 1.01
         min_L   = min(L)
         max_L   = max(L)
-        maxi    = max(abs(np.r_[min_L, max_L]))*epsilon
+        maxi    = max(abs(r_[min_L, max_L]))*epsilon
         mini    = -maxi
 
-        u = np.linspace(mini,maxi,101)
+        u = linspace(mini,maxi,101)
         G = (1+erf(u/sqrt(2)))/2
         G = G*(1-G)
 
-        x = np.linspace(0,r1,100)
+        x = linspace(0,r1,100)
         factor1 = 1./sqrt(1-x**2)
         factor2 = 1./(1+x)
         integral = zeros(u.shape, dtype=float)
@@ -211,7 +215,7 @@ class LevelCrossings(WafoData):
 ##        %funplot_4(lc,param,mu)
 
 
-    def TrData2(self, mean=None, sigma=None, **options):
+    def trdata(self, mean=None, sigma=None, **options):
         '''
         Estimate transformation, g, from observed crossing intensity, version2.
 
@@ -438,11 +442,11 @@ class CyclePairs(WafoData):
 
 
     '''
-    def __init__(self,*args,**kwds):
-        super(CyclePairs, self).__init__(*args,**kwds)
-        self.type_ = kwds.get('type_','max2min')
-        self.stdev = kwds.get('stdev',None)
-        self.mean = kwds.get('mean',None)
+    def __init__(self, *args, **kwds):
+        super(CyclePairs, self).__init__(*args, **kwds)
+        self.type_ = kwds.get('type_', 'max2min')
+        self.stdev = kwds.get('stdev', None)
+        self.mean = kwds.get('mean', None)
 
         self.labels.title = self.type_+ ' cycle pairs'
         self.labels.xlab = 'min'
@@ -491,10 +495,10 @@ class CyclePairs(WafoData):
         --------
         SurvivalCycleCount
         """
-        amp = np.abs(self.amplitudes())
-        return np.atleast_1d([K*np.sum(amp**betai) for betai in beta])
+        amp = abs(self.amplitudes())
+        return atleast_1d([K*np.sum(amp**betai) for betai in beta])
 
-    def level_crossings(self,type_='uM'):
+    def level_crossings(self, type_='uM'):
         """ Return number of upcrossings from a cycle count.
 
         Parameters
@@ -532,16 +536,16 @@ class CyclePairs(WafoData):
 
         if isinstance(type_, str):
             t = dict(u=0, uM=1, umM=2, um=3)
-            defnr = t.get(type_,1)
+            defnr = t.get(type_, 1)
         else:
             defnr = type_
 
         if ((defnr<0) or (defnr>3)):
             raise ValueError('type_ must be one of (1,2,3,4).')
 
-        index,=np.nonzero(self.args <= self.data)
-        if index.size==0:
-            index, = np.nonzero(self.args >= self.data)
+        index, = nonzero(self.args <= self.data)
+        if index.size == 0:
+            index, = nonzero(self.args >= self.data)
             M = self.args[index]
             m = self.data[index]
         else:
@@ -552,42 +556,40 @@ class CyclePairs(WafoData):
 #  error('Error in input cc.')
 #end
         ncc = len(m)
-        ones = np.ones
-        zeros = np.zeros
-        cumsum = np.cumsum
-        minima = np.vstack((m, ones(ncc), zeros(ncc), ones(ncc)))
-        maxima = np.vstack((M, -ones(ncc), ones(ncc), zeros(ncc)))
+        #ones = np.ones
+        #zeros = np.zeros
+        #cumsum = np.cumsum
+        minima = vstack((m, ones(ncc), zeros(ncc), ones(ncc)))
+        maxima = vstack((M, -ones(ncc), ones(ncc), zeros(ncc)))
 
-        extremes = np.hstack((maxima, minima))
+        extremes = hstack((maxima, minima))
         index = extremes[0].argsort()
-        extremes = extremes[:,index]
+        extremes = extremes[:, index]
 
         ii = 0
         n = extremes.shape[1]
-        extr = zeros((4,n))
-        extr[:,0] = extremes[:,0]
-        for i in xrange(1,n):
-            if extremes[0,i]==extr[0,ii]:
-                extr[1:4,ii]=extr[1:4,ii]+extremes[1:4,i]
+        extr = zeros((4, n))
+        extr[:, 0] = extremes[:, 0]
+        for i in xrange(1, n):
+            if extremes[0, i] == extr[0, ii]:
+                extr[1:4, ii] = extr[1:4, ii] + extremes[1:4, i]
             else:
                 ii += 1
-                extr[:,ii] = extremes[:,i]
+                extr[:, ii] = extremes[:, i]
 
         #[xx nx]=max(extr(:,1))
         nx = extr[0].argmax()+1
-        levels = extr[0,0:nx]
+        levels = extr[0, 0:nx]
         if defnr == 2: ## This are upcrossings + maxima
-            dcount = cumsum(extr[1,0:nx]) + extr[2,0:nx]-extr[3,0:nx]
+            dcount = cumsum(extr[1, 0:nx]) + extr[2, 0:nx]-extr[3, 0:nx]
         elif defnr == 4: # # This are upcrossings + minima
-            dcount = cumsum(extr[1,0:nx])
+            dcount = cumsum(extr[1, 0:nx])
             dcount[nx-1] = dcount[nx-2]
         elif defnr == 1: ## This are only upcrossings
-            dcount = cumsum(extr[1,0:nx]) - extr[3,0:nx]
+            dcount = cumsum(extr[1, 0:nx]) - extr[3, 0:nx]
         elif defnr == 3: ## This are upcrossings + minima + maxima
-            dcount = cumsum(extr[1,0:nx]) + extr[2,0:nx]
-        return LevelCrossings(dcount,levels,stdev=self.stdev)
-
-
+            dcount = cumsum(extr[1, 0:nx]) + extr[2, 0:nx]
+        return LevelCrossings(dcount, levels, stdev=self.stdev)
 
 class TurningPoints(WafoData):
     '''
@@ -600,19 +602,19 @@ class TurningPoints(WafoData):
 
 
     '''
-    def __init__(self,*args,**kwds):
-        super(TurningPoints, self).__init__(*args,**kwds)
+    def __init__(self, *args, **kwds):
+        super(TurningPoints, self).__init__(*args, **kwds)
         self.name='WAFO TurningPoints Object'
         somekeys = ['name']
-        self.__dict__.update(sub_dict_select(kwds,somekeys))
+        self.__dict__.update(sub_dict_select(kwds, somekeys))
 
         #self.setlabels()
         if not any(self.args):
             n = len(self.data)
-            self.args = xrange(0,n)
+            self.args = range(0, n)
         else:
-            self.args = np.ravel(self.args)
-        self.data= np.ravel(self.data)
+            self.args = ravel(self.args)
+        self.data= ravel(self.data)
 
     def cycle_pairs(self, type_='min2max'):
         """ Return min2Max or Max2min cycle pairs from turning points
@@ -642,8 +644,6 @@ class TurningPoints(WafoData):
         TurningPoints
         SurvivalCycleCount
         """
-
-
         if self.data[0]>self.data[1]:
             im = 1
             iM = 0
@@ -652,7 +652,7 @@ class TurningPoints(WafoData):
             iM = 1
 
         # Extract min-max and max-min cycle pairs
-        n = len(self.data)
+        #n = len(self.data)
         if type_.lower().startswith('min2max'):
             m = self.data[im:-1:2]
             M = self.data[im+1::2]
@@ -661,14 +661,14 @@ class TurningPoints(WafoData):
             M = self.data[iM:-1:2]
             m = self.data[iM+1::2]
 
-        return CyclePairs(M,m,type=type_)
+        return CyclePairs(M, m, type=type_)
 
 def mat2timeseries(x):
     """
     Convert 2D arrays to TimeSeries object
         assuming 1st column is time and the remaining columns contain data.
     """
-    return TimeSeries(x[:,1::],x[:,0].ravel())
+    return TimeSeries(x[:, 1::], x[:, 0].ravel())
 
 class TimeSeries(WafoData):
     '''
@@ -694,18 +694,18 @@ class TimeSeries(WafoData):
     >>> h = rf.plot()
 
     '''
-    def __init__(self,*args,**kwds):
-        super(TimeSeries, self).__init__(*args,**kwds)
-        self.name='WAFO TimeSeries Object'
-        self.sensortypes=['n',]
-        self.position = np.zeros(3)
+    def __init__(self, *args, **kwds):
+        super(TimeSeries, self).__init__(*args, **kwds)
+        self.name = 'WAFO TimeSeries Object'
+        self.sensortypes = ['n', ]
+        self.position = zeros(3)
         somekeys = ['sensortypes', 'position']
-        self.__dict__.update(sub_dict_select(kwds,somekeys))
+        self.__dict__.update(sub_dict_select(kwds, somekeys))
 
         #self.setlabels()
         if not any(self.args):
             n = len(self.data)
-            self.args = xrange(0,n)
+            self.args = range(0, n)
 
     def sampling_period(self):
         '''
@@ -721,7 +721,7 @@ class TimeSeries(WafoData):
         See also
         '''
         dt1 = self.args[1]-self.args[0]
-        n = np.size(self.args)-1
+        n = size(self.args)-1
         t = self.args[-1]-self.args[0]
         dt = t/n
         if abs(dt-dt1) > 1e-10:
@@ -774,18 +774,18 @@ class TimeSeries(WafoData):
             lag = n-1
 
         x = self.data.flatten()
-        indnan = np.isnan(x)
+        indnan = isnan(x)
         if any(indnan):
-            x = x - np.mean(x[1-indnan]) # remove the mean pab 09.10.2000
+            x = x - x[1-indnan].mean() # remove the mean pab 09.10.2000
             #indnan = find(indnan)
             Ncens = n - sum(indnan)
             x[indnan] = 0. # pab 09.10.2000 much faster for censored samples
         else:
             indnan = None
             Ncens = n
-            x = x - np.mean(x)
+            x = x - x.mean()
 
-        fft = np.fft.fft
+        #fft = np.fft.fft
         nfft = 2**nextpow2(n)
         Rper = abs(fft(x,nfft))**2/Ncens # Raw periodogram
 
@@ -793,7 +793,7 @@ class TimeSeries(WafoData):
         lags = range(0,lag+1)
         if flag.startswith('unbiased'):
             # unbiased result, i.e. divide by n-abs(lag)
-            R = R[lags]*Ncens/np.arange(Ncens, Ncens-lag, -1)
+            R = R[lags]*Ncens/arange(Ncens, Ncens-lag, -1)
         #else  % biased result, i.e. divide by n
         #  r=r(1:L+1)*Ncens/Ncens
 
@@ -802,10 +802,10 @@ class TimeSeries(WafoData):
             R = R/c0
         if dt is None:
             dt = self.sampling_period()
-        t = np.linspace(0,lag*dt,lag+1)
-        cumsum = np.cumsum
+        t = linspace(0,lag*dt,lag+1)
+        #cumsum = np.cumsum
         acf = _wafocov.CovData1D(R[lags],t)
-        acf.stdev=np.sqrt(np.r_[ 0, 1 ,1+2*cumsum(R[1:]**2)]/Ncens)
+        acf.stdev=sqrt(r_[ 0, 1 ,1+2*cumsum(R[1:]**2)]/Ncens)
         acf.children = [WafoData(-2.*acf.stdev[lags],t),WafoData(2.*acf.stdev[lags],t)]
         acf.norm = norm
         return acf
@@ -851,7 +851,7 @@ class TimeSeries(WafoData):
         S, f = psd(self.data.ravel(), Fs=fs, *args, **kwargs)
         fact = 2.0*pi
         w = fact*f
-        return SpecData1D(S/fact, w)
+        return _wafospec.SpecData1D(S/fact, w)
 
     def turning_points(self,h=0.0,wavetype=None):
         ''' 
@@ -895,7 +895,7 @@ class TimeSeries(WafoData):
         findrfc
         findtp
         '''
-        ind = findtp(self.data,np.max(h,0.0), wavetype)
+        ind = findtp(self.data, max(h,0.0), wavetype)
         try:
             t = self.args[ind]
         except:
@@ -1020,7 +1020,7 @@ class TimeSeries(WafoData):
 ##%		end
 
         if rate>1: #% interpolate with spline
-            n = np.ceil(self.data.size*rate)
+            n = ceil(self.data.size*rate)
             ti = linspace(self.args[0], self.args[-1], n)
             x = stineman_interp(ti, self.args, self.data)
         else:
@@ -1031,10 +1031,10 @@ class TimeSeries(WafoData):
         if vh is None:
             if pdef[0] in ('m','M'):
                 vh = 0
-                np.disp('   The minimum rfc height, h,  is set to: %g' % vh)
+                print('   The minimum rfc height, h,  is set to: %g' % vh)
             else:
                 vh = x.mean()
-                np.disp('   The level l is set to: %g' % vh)
+                print('   The level l is set to: %g' % vh)
 
 
         if index is None:
@@ -1046,7 +1046,7 @@ class TimeSeries(WafoData):
                 index = findtc(x,vh,wdef)[0]
             elif pdef in ('d2t','t2u', 'u2c', 'c2d','all'):
                 index, v_ind = findtc(x, vh, wdef)
-                index = sort(np.r_[index, v_ind]) #% sorting crossings and tp in sequence
+                index = sort(r_[index, v_ind]) #% sorting crossings and tp in sequence
             else:
                 raise ValueError('Unknown pdef option!')
 
@@ -1152,11 +1152,12 @@ class TimeSeries(WafoData):
         --------  
         findtc, plot
         ''' 
+        # TODO: finish reconstruct
         nw = 20
         tn = self.args
         xn = self.data.ravel()
-        indmiss = np.isnan(xn) # indices to missing points
-        indg = np.where(1-indmiss)[0]
+        indmiss = isnan(xn) # indices to missing points
+        indg = where(1-indmiss)[0]
         if ts is None:
             tc_ix = findtc(xn[indg],0,'tw')[0]
             xn2 = xn[tc_ix]
@@ -1166,21 +1167,21 @@ class TimeSeries(WafoData):
             tn2 = ts.args 
         
         if stdev is None:
-            stdev = np.std(xn[indg])
+            stdev = xn[indg].std()
             
         if nsub is None:
-            nsub = int(np.floor(len(xn2)/(2*nw)))+1 # about Nw mdc waves in each plot
+            nsub = int(floor(len(xn2)/(2*nw)))+1 # about Nw mdc waves in each plot
         if nfig is None:
-            nfig = int(np.ceil(nsub/6)) 
-            nsub = min(6,int(np.ceil(nsub/nfig)))
+            nfig = int(ceil(nsub/6)) 
+            nsub = min(6,int(ceil(nsub/nfig)))
         
         n = len(xn)
-        Ns = int(np.floor(n/(nfig*nsub)))
-        ind = np.r_[0:Ns]
-        if np.all(xn>=0):
+        Ns = int(floor(n/(nfig*nsub)))
+        ind = r_[0:Ns]
+        if all(xn>=0):
             vscale = [0, 2*stdev*vfact]
         else:
-            vscale = np.array([-1, 1])*vfact*stdev
+            vscale = array([-1, 1])*vfact*stdev
         
         
         XlblTxt = 'Time [sec]'
@@ -1206,8 +1207,8 @@ class TimeSeries(WafoData):
                 if nsub>1:
                     subplot(nsub,1,ix)
                 
-                h_scale = np.array([tn[ind[0]], tn[ind[-1]]])
-                ind2 = np.where((h_scale[0]<=tn2) & (tn2<=h_scale[1]))[0]
+                h_scale = array([tn[ind[0]], tn[ind[-1]]])
+                ind2 = where((h_scale[0]<=tn2) & (tn2<=h_scale[1]))[0]
                 plot(tn[ind]*dT, xn[ind], sym1)
                 if len(ind2)>0: 
                     plot(tn2[ind2]*dT,xn2[ind2],sym2) 
@@ -1215,7 +1216,7 @@ class TimeSeries(WafoData):
                 #plotbackend.axis([h_scale*dT, v_scale])
           
                 for iy in [-2, 2]:
-                    plot(h_scale*dT, iy*stdev*np.ones(2), ':')
+                    plot(h_scale*dT, iy*stdev*ones(2), ':')
               
                 ind = ind + Ns
             #end
@@ -1248,11 +1249,11 @@ class TimeSeries(WafoData):
         --------
         plot_wave, findtc
         """
-        wave_idx = np.atleast_1d(wave_idx_).flatten()
+        wave_idx = atleast_1d(wave_idx_).flatten()
         if tz_idx is None:
             tc_ind, tz_idx = findtc(self.data,0,'tw') # finding trough to trough waves
 
-        dw = np.nonzero(np.abs(np.diff(wave_idx))>1)[0]
+        dw = nonzero(abs(diff(wave_idx))>1)[0]
         Nsub = dw.size+1
         Nwp = zeros(Nsub, dtype=int)
         if Nsub>1:
@@ -1271,14 +1272,14 @@ class TimeSeries(WafoData):
         #end
 
         Nsub = min(6,Nsub)
-        Nfig = int(np.ceil(Nsub/6))
-        Nsub = min(6,int(np.ceil(Nsub/Nfig)))
+        Nfig = int(ceil(Nsub/6))
+        Nsub = min(6,int(ceil(Nsub/Nfig)))
         figs = []
         for iy in range(Nfig):
             figs.append(plotbackend.figure())
             for ix in range(Nsub):
-                plotbackend.subplot(Nsub,1,np.mod(ix,Nsub)+1)
-                ind = np.r_[tz_idx[2*wave_idx[ix]-1]:tz_idx[2*wave_idx[ix]+2*Nwp[ix]-1]]
+                plotbackend.subplot(Nsub,1,mod(ix,Nsub)+1)
+                ind = r_[tz_idx[2*wave_idx[ix]-1]:tz_idx[2*wave_idx[ix]+2*Nwp[ix]-1]]
                 ## indices to wave
                 plotbackend.plot(self.args[ind],self.data[ind],*args,**kwds)
                 plotbackend.hold('on')
@@ -1340,7 +1341,7 @@ def sensortypeid(*sensortypes):
         n_yy=6, n_xy=7, p=8, u=9, v=10, w=11, u_t=12,
         v_t=13, w_t=14, x_p=15, y_p=16, z_p=17)
     try:
-        return [sensorid_table.get(name.lower(), np.NAN) for name in sensortypes]
+        return [sensorid_table.get(name.lower(), nan) for name in sensortypes]
     except:
         raise ValueError('Input must be a string!')
 
@@ -1387,10 +1388,10 @@ def sensortype(*sensorids):
     '''
     valid_names = ('n', 'n_t', 'n_tt', 'n_x', 'n_y', 'n_xx', 'n_yy', 'n_xy',
                   'p', 'u', 'v', 'w', 'u_t', 'v_t', 'w_t', 'x_p', 'y_p', 'z_p',
-                  np.NAN)
-    ids = np.atleast_1d(*sensorids)
+                  nan)
+    ids = atleast_1d(*sensorids)
     if isinstance(ids, list):
-        ids = np.hstack(ids)
+        ids = hstack(ids)
     n = len(valid_names) - 1
     ids = where(((ids<0) | (n<ids)), n , ids)
     

@@ -46,18 +46,19 @@ import scipy.optimize as optimize
 import scipy.integrate as integrate
 import scipy.special as sp
 from scipy.fftpack import fft
-from scipy.misc import ppimport
-import numpy as np
-from numpy import (inf, atleast_1d, newaxis, any, 
-    exp, log, sqrt, where, pi, linspace, sin, cos, abs, sinh, 
-    expm1, tanh, cosh)
+#from scipy.misc import ppimport
+#import numpy as np
+from numpy import (inf, atleast_1d, newaxis, any, minimum, maximum, array, #@UnresolvedImport
+    asarray, exp, log, sqrt, where, pi, arange, linspace, sin, cos, abs, sinh, #@UnresolvedImport
+    isfinite, mod, expm1, tanh, cosh, finfo, ones, ones_like, isnan, #@UnresolvedImport
+    zeros_like, flatnonzero, sinc, hstack, vstack, real, flipud, clip) #@UnresolvedImport
 from dispersion_relation import w2k
 #ppimport.enable()
 #_wafospectrum = ppimport.ppimport('wafo.spectrum')
 from core import SpecData1D
 sech = lambda x: 1.0/cosh(x)
 
-eps = np.finfo(float).eps
+eps = finfo(float).eps
 
 
 __all__ = ['Bretschneider','Jonswap','Torsethaugen','Wallop','McCormick','OchiHubble',
@@ -117,10 +118,10 @@ def _gengamspec(wn, N=5, M=4):
     In Proc. 14th ISOPE
     '''
     w = atleast_1d(wn)
-    S = np.zeros_like(w)
+    S = zeros_like(w)
 
     ##for w>0 # avoid division by zero
-    k = np.flatnonzero(w>0.0)
+    k = flatnonzero(w>0.0)
     if k.size>0:
         B  = N/M
         C  = (N-1.0)/M
@@ -130,7 +131,7 @@ def _gengamspec(wn, N=5, M=4):
         #     S(k) = A*wn(k)**(-N)*exp(-B*wn(k)**(-M))
         logwn = log(w.take(k))
         logA = (C*log(B)+log(M)-sp.gammaln(C))
-        np.put(S,k,exp(logA-N*logwn-B*exp(-M*logwn)))
+        S.put(k,exp(logA-N*logwn-B*exp(-M*logwn)))
     return S
 
 class ModelSpectrum(object):
@@ -160,7 +161,7 @@ class ModelSpectrum(object):
         if w is None:
             if wc is None:
                 wc = 33./self.Tp
-            w = np.linspace(0,wc,nw)
+            w = linspace(0,wc,nw)
         S = SpecData1D(self.__call__(w),w)
         try:
             h = self.h
@@ -255,13 +256,13 @@ class Bretschneider(ModelSpectrum):
     def __call__(self,wi):
         ''' Return Bretschnieder spectrum
         '''
-        w = np.atleast_1d(wi)
+        w = atleast_1d(wi)
         if self.Hm0>0:
             wp = 2*pi/self.Tp
             wn = w/wp
             S = (self.Hm0/4.0)**2/wp * _gengamspec(wn,self.N,self.M)
         else:
-            S = np.zeros_like(w)
+            S = zeros_like(w)
         return S
 
 def jonswap_peakfact(Hm0,Tp):
@@ -317,17 +318,15 @@ def jonswap_peakfact(Hm0,Tp):
     '''
     Hm0,Tp = atleast_1d(Hm0,Tp)
 
-    x = Tp/np.sqrt(Hm0)
+    x = Tp/sqrt(Hm0)
 
-    gam = np.ones_like(x)
+    gam = ones_like(x)
 
-    k1 = np.flatnonzero(x<=5.14285714285714)
+    k1 = flatnonzero(x<=5.14285714285714)
     if k1.size>0: # #limiting gamma to [1 7]
-        min = np.minimum
-        exp = np.exp
         xk = x.take(k1)
         D  = 0.036-0.0056*xk # # approx 5.061*Hm0**2/Tp**4*(1-0.287*log(gam))
-        np.put(gam,k1,min(exp(3.484*( 1.0-0.1975*D*xk**4.0 ) ),7.0)) # # gamma
+        gam.put(k1,minimum(exp(3.484*( 1.0-0.1975*D*xk**4.0 ) ),7.0)) # # gamma
 
     return gam
 def jonswap_seastate(u10, fetch=150000., method='lewis', g=9.81, output='dict'):
@@ -423,7 +422,7 @@ def jonswap_seastate(u10, fetch=150000., method='lewis', g=9.81, output='dict'):
         epsilon1 = 3.512e-4*A*ny**(-4.)*zeta**(-0.1)  # dimensionless surface variance, Eq.12
         sa  = 0.05468*ny**(-0.32)      # Eq. 13
         sb  = 0.078314*ny**(-0.16)     # Eq. 14
-        gam = np.maximum(17.54*zeta**(-0.28384),1)     # Eq. 15
+        gam = maximum(17.54*zeta**(-0.28384),1)     # Eq. 15
 
     Tp = u10/(ny*g)                          # Table 1
     Hm0 = 4*sqrt(epsilon1)*u10**2./g            # Table 1
@@ -528,7 +527,7 @@ class Jonswap(ModelSpectrum):
         self.method = method
         self.wnc = wnc
 
-        if self.gamma==None or not np.isfinite(self.gamma) or self.gamma<1:
+        if self.gamma==None or not isfinite(self.gamma) or self.gamma<1:
             self.gamma = jonswap_peakfact(Hm0,Tp)
 
         self._preCalculateAg()
@@ -540,7 +539,7 @@ class Jonswap(ModelSpectrum):
         Tp = self.Tp
         Hm0 = self.Hm0
         gam = self.gamma
-        outsideJonswapRange  = Tp>5*np.sqrt(Hm0) or Tp<3.6*np.sqrt(Hm0)
+        outsideJonswapRange  = Tp>5*sqrt(Hm0) or Tp<3.6*sqrt(Hm0)
         if outsideJonswapRange:
             txt0 = '''
             Hm0,Tp is outside the JONSWAP range.
@@ -575,8 +574,8 @@ class Jonswap(ModelSpectrum):
             self.method = 'integration'
             if self.wnc<1.0:
                 raise ValueError('Normalized cutoff frequency, wnc, must be larger than one!')
-            area1, abserr1 = integrate.quad(self._localspec, 0, 1)
-            area2, abserr2 = integrate.quad(self._localspec, 1, self.wnc)
+            area1, unused_err1 = integrate.quad(self._localspec, 0, 1)
+            area2, unused_err2 = integrate.quad(self._localspec, 1, self.wnc)
             area = area1 + area2
             self.Ag = 1.0/area
         elif self.method[1]=='p':
@@ -592,7 +591,7 @@ class Jonswap(ModelSpectrum):
             if parametersOK:
                 f1NM = 4.1*(N-2*M**0.28+5.3)**(-1.45*M**0.1+0.96)
                 f2NM = (2.2*M**(-3.3) + 0.57)*N**(-0.58*M**0.37+0.53)-1.04*M**(-1.9)+0.94
-                self.Ag = (1+ f1NM*np.log(gammai)**f2NM)/gammai
+                self.Ag = (1+ f1NM*log(gammai)**f2NM)/gammai
 
             ###    elseif N == 5 && M == 4,
             ###      options.Ag = (1+1.0*log(gammai).**1.16)/gammai
@@ -611,11 +610,11 @@ class Jonswap(ModelSpectrum):
     def peak_e_factor(self,wn):
         ''' PEAKENHANCEMENTFACTOR
         '''
-        w = np.maximum(atleast_1d(wn),0.0)
-        sab = np.where(w>1,self.sigmaB,self.sigmaA)
+        w = maximum(atleast_1d(wn),0.0)
+        sab = where(w>1,self.sigmaB,self.sigmaA)
 
         wnm12 = 0.5*((w-1.0)/sab)**2.0
-        Gf    = self.gamma**(np.exp(-wnm12))
+        Gf    = self.gamma**(exp(-wnm12))
         return Gf
 
     def  __call__(self,wi):
@@ -633,7 +632,7 @@ class Jonswap(ModelSpectrum):
             Gf  = self.peak_e_factor(wn)
             S   = ((Hm0/4.0)**2/wp*Ag)*Gf*_gengamspec(wn,N,M)
         else:
-            S = np.zeros_like(w)
+            S = zeros_like(w)
         return S
 
 def phi1(wi, h, g=9.81):
@@ -673,16 +672,16 @@ def phi1(wi, h, g=9.81):
     '''
     w = atleast_1d(wi)
     if h == inf: # % special case infinite water depth
-        return np.ones_like(w)
+        return ones_like(w)
 
     k1 = w2k(w,0,inf,g=g)[0]
     dw1 = 2.0*w/g  # % dw/dk|h=inf
     k2 = w2k(w,0,h,g=g)[0]
 
     k2h = k2*h
-    dw2 = np.where(k1!=0,dw1/(tanh(k2h)+k2h/cosh(k2h)**2.0),0) # dw/dk|h=h0
+    dw2 = where(k1!=0,dw1/(tanh(k2h)+k2h/cosh(k2h)**2.0),0) # dw/dk|h=h0
 
-    return np.where(k1!=0,(k1/k2)**3.0*dw2/dw1,0)
+    return where(k1!=0,(k1/k2)**3.0*dw2/dw1,0)
 
 class Tmaspec(Jonswap):
     ''' JONSWAP spectrum for finite water depth
@@ -890,8 +889,8 @@ class Torsethaugen(ModelSpectrum):
         Tp = self.Tp
         gravity1 = self.gravity # m/s**2
 
-        min = np.minimum
-        max = np.maximum
+        min = minimum
+        max = maximum
 
         # The parameter values below are found comparing the
         # model to average measured spectra for the Statfjord Field
@@ -1148,7 +1147,7 @@ class OchiHubble(ModelSpectrum):
 
     def _init_spec(self):
 
-        hp = np.array([[0.84, 0.54],
+        hp = array([[0.84, 0.54],
                         [0.84, 0.54],
                         [0.84, 0.54],
                         [0.84, 0.54],
@@ -1159,7 +1158,7 @@ class OchiHubble(ModelSpectrum):
                         [0.77, 0.64],
                         [0.73,0.68],
                         [0.92, 0.39]])
-        wa = np.array([ [0.7, 1.15],
+        wa = array([ [0.7, 1.15],
                         [0.93, 1.5],
                         [0.41, 0.88],
                         [0.74, 1.3],
@@ -1170,7 +1169,7 @@ class OchiHubble(ModelSpectrum):
                         [0.54, 0.61],
                         [0.70, 0.99],
                         [0.70, 1.37]])
-        wb = np.array([ [0.046, 0.039],
+        wb = array([ [0.046, 0.039],
                         [0.056, 0.046],
                         [0.016, 0.026],
                         [0.052, 0.039],
@@ -1181,7 +1180,7 @@ class OchiHubble(ModelSpectrum):
                         [0.039, 0.000],
                         [0.046, 0.039],
                         [0.046, 0.039]])
-        Lpar = np.array([[3.00, 1.54,-0.062],
+        Lpar = array([[3.00, 1.54,-0.062],
                         [3.00, 2.77,-0.112],
                         [2.55, 1.82,-0.089],
                         [2.65, 3.90,-0.085],
@@ -1194,7 +1193,7 @@ class OchiHubble(ModelSpectrum):
                         [0.70, 1.78,-0.069]])
         Hm0 = self.Hm0
         Lpari = Lpar[self.par]
-        Li = np.hstack((Lpari[0],Lpari[1]*exp(Lpari[2]*Hm0)))
+        Li = hstack((Lpari[0],Lpari[1]*exp(Lpari[2]*Hm0)))
 
         Hm0i = hp[self.par]*Hm0
         Tpi  = 2*pi*exp(wb[self.par]*Hm0)/wa[self.par]
@@ -1268,10 +1267,9 @@ class Wallop(Bretschneider):
         self.M = 4
         if N is None:            
             wp = 2.*pi/Tp
-            log = np.log
             kp = w2k(wp,0,inf)[0] # wavenumber at peak frequency
             Lp = 2.*pi/kp # wave length at the peak frequency
-            N = np.abs((log(2.*pi**2.)+2*log(Hm0/4)-2.0*log(Lp))/log(2))
+            N = abs((log(2.*pi**2.)+2*log(Hm0/4)-2.0*log(Lp))/log(2))
 
         self.N = N
 
@@ -1461,7 +1459,7 @@ class Spreading(object):
 ##% By es, jr 1999.11.25
 
 
-    def __init__(self,type='cos2s',theta0=0,method='mitsuyasu',s_a=15.,s_b=15.,m_a=5.,m_b=-2.5,wn_lo=0.0,wn_c=1.,wn_up=np.inf):
+    def __init__(self,type='cos2s',theta0=0,method='mitsuyasu',s_a=15.,s_b=15.,m_a=5.,m_b=-2.5,wn_lo=0.0,wn_c=1.,wn_up=inf):
 
         self.type = type
         self.theta0 = theta0
@@ -1486,7 +1484,7 @@ class Spreading(object):
         else:
             if method<0 or 3<method:
                 method = 2
-            self.method = methodlist[method]
+            self.method = methodslist[method]
 
         self._spreadfun = dict(c=self.cos2s, b=self.box, m=self.mises,
                         p=self.poisson, s=self.sech2, w=self.wrap_norm)
@@ -1510,7 +1508,7 @@ class Spreading(object):
 
         # Make sure theta is from -pi to pi
         phi0 = 0.0
-        theta = np.mod(theta+pi,2*pi)-pi
+        theta = mod(theta+pi,2*pi)-pi
 
 
         if hasattr(self.theta0, '__call__'):
@@ -1525,11 +1523,11 @@ class Spreading(object):
             # frequency dependent spreading and/or
             # frequency dependent direction
             # make sure -pi<=TH<pi
-            TH = np.mod(theta[:,newaxis]-th0[newaxis,:]+pi,2*pi)-pi
+            TH = mod(theta[:,newaxis]-th0[newaxis,:]+pi,2*pi)-pi
         elif Nt0!=1:
             raise ValueError('The length of theta0 must equal to 1 or the length of w')
         else:
-            TH = np.mod(theta-th0+pi,2*pi)-pi  # make sure -pi<=TH<pi
+            TH = mod(theta-th0+pi,2*pi)-pi  # make sure -pi<=TH<pi
             if self.method!=None: # frequency dependent spreading
                 TH = TH[:,newaxis]
 
@@ -1565,13 +1563,13 @@ class Spreading(object):
           theta = vector of angles given in radians. Lenght Nt
           w     = vector of angular frequencies given rad/s. Length Nw.
         '''
-        S, TH, phi0, Nt = self.chk_input(theta, w, wc)
+        S, TH, phi0, unused_Nt = self.chk_input(theta, w, wc)
 
 ##        if not self.method[0]=='n':
 ##            S = S[newaxis,:]
         gammaln = sp.gammaln
 
-        D = (np.exp(gammaln(S+1)-gammaln(S+1.0/2.0))/(2*sqrt(pi)))*np.cos(TH/2.0)**(2.0*S)
+        D = (exp(gammaln(S+1)-gammaln(S+1.0/2.0))/(2*sqrt(pi)))*cos(TH/2.0)**(2.0*S)
         return D, phi0
 
 
@@ -1591,7 +1589,7 @@ class Spreading(object):
         phi0 = Parameter defining the actual principal direction of D.
 
         '''
-        [X,TH,phi0,Nt] = self.chk_input(theta,w,wc)
+        [X, TH, phi0, unused_Nt] = self.chk_input(theta,w,wc)
 
 ##        if not self.method[0]=='n':
 ##            X = X[newaxis,:]
@@ -1625,16 +1623,16 @@ class Spreading(object):
 ##            D1 = D1[newaxis,:]
 
 
-        ix  =  np.arange(1,Nt)
+        ix  =  arange(1,Nt)
         ix2 = ix**2
         Nd2 = D1.size
-        Fcof = np.vstack( (np.ones((1,Nd2))/2, exp(-ix2[:,newaxis]*D1)))/pi
+        Fcof = vstack( (ones((1,Nd2))/2, exp(-ix2[:,newaxis]*D1)))/pi
 
         cor = exp(1j*ix[:,newaxis]*TH[0,:])
-        Pcor = np.vstack( (np.ones((1,TH.shape[1]) ), cor ) ) # % correction term to get
+        Pcor = vstack( (ones((1,TH.shape[1]) ), cor ) ) # % correction term to get
         #% the correct integration limits
         Fcof = Fcof*Pcor.conj()
-        D = np.real(fft(Fcof,axis=0))
+        D = real(fft(Fcof,axis=0))
         D[D<0]=0
         return D, phi0
 
@@ -1654,7 +1652,7 @@ class Spreading(object):
         '''
 
 
-        [B,TH,phi0,Nt] = self.chk_input(theta,w,wc)
+        [B, TH, phi0, unused_Nt] = self.chk_input(theta,w,wc)
         NB = tanh(pi*B) #% Normalization factor.
         NB = where(NB==0,1.0,NB) # Avoid division by zero
 ##        if not self.method[0]=='n':
@@ -1679,7 +1677,7 @@ class Spreading(object):
         phi0 = Parameter defining the actual principal direction of D.
         '''
 
-        [K,TH,phi0,Nt] = self.chk_input(theta,w,wc)
+        [K, TH, phi0, unused_Nt] = self.chk_input(theta,w,wc)
 ##        if not self.method[0]=='n':
 ##            K = K[newaxis,:]
 
@@ -1705,10 +1703,10 @@ class Spreading(object):
 
 
 
-        [A,TH,phi0,Nt] = self.chk_input(theta,w,wc)
+        [A,TH,phi0,unused_Nt] = self.chk_input(theta,w,wc)
 
 ##        if not self.method[0]=='n':
-##            A = A[np.newaxis,:]
+##            A = A[newaxis,:]
 
         D = ((-A<=TH) & (TH<=A))/(2.*A)
         return D, phi0
@@ -1756,17 +1754,17 @@ class Spreading(object):
     def fourier2a(self,r1):
         ''' Returns the solution of R1 = sin(A)/A.
         '''
-        A0 = np.flipud(linspace(0,pi+0.1,1025))
-        funA = interp1d(np.sinc(A0/pi),A0)
+        A0 = flipud(linspace(0,pi+0.1,1025))
+        funA = interp1d(sinc(A0/pi),A0)
         A0 = funA(r1.ravel())
-        A  = np.asarray(A0)
+        A  = asarray(A0)
 
         # Newton-Raphson
-        da = np.ones_like(r1)
-        iy = 0
+        da = ones_like(r1)
+        
         max_count = 100
-        ix = np.flatnonzero(A)
-        for iy in range(max_count):
+        ix = flatnonzero(A)
+        for unused_iy in range(max_count):
             Ai = A[ix]
             da[ix] = (sin(Ai) -Ai*r1[ix])/(cos(Ai)-r1[ix])
             Ai = Ai - da[ix]
@@ -1775,7 +1773,7 @@ class Spreading(object):
             # Make sure that the current guess is larger than zero.
             A[ix] = Ai + 0.5*(da[ix] - Ai)*(Ai<=0.0)
 
-            ix = np.flatnonzero((abs(da) > sqrt(eps)*abs(A))*(abs(da) > sqrt(eps)))
+            ix = flatnonzero((abs(da) > sqrt(eps)*abs(A))*(abs(da) > sqrt(eps)))
             if ix.size==0:
                 if any(A>pi):
                     raise ValueError('BOX-CAR spreading: The A value must be less than pi')
@@ -1789,17 +1787,17 @@ class Spreading(object):
         ''' 
         Returns the solution of R1 = besseli(1,K)/besseli(0,K),
         '''
-        K0 = np.hstack((linspace(0,10,513), linspace(10.00001,100)))
+        K0 = hstack((linspace(0,10,513), linspace(10.00001,100)))
         fun0 = lambda x : sp.ive(1,x)/sp.ive(0,x)
         funK = interp1d(fun0(K0),K0)
         K0 = funK(r1.ravel())
-        k1 = np.flatnonzero(np.isnan(K0))
+        k1 = flatnonzero(isnan(K0))
         if (k1.size>0):
             K0[k1] = 0.0
-            K0[k1] = np.max(K0)
+            K0[k1] = K0.max()
 
-        ix0 = np.flatnonzero(r1!=0.0)
-        K = np.zeros_like(r1)
+        ix0 = flatnonzero(r1!=0.0)
+        K = zeros_like(r1)
         fun = lambda x : fun0(x)-r1[ix]
         for ix in ix0:
             K[ix] = optimize.fsolve(fun,K0[ix])
@@ -1808,17 +1806,17 @@ class Spreading(object):
     def fourier2b(self,r1):
         ''' Returns the solution of R1 = pi/(2*B*sinh(pi/(2*B)).
         '''
-        B0 = np.hstack((linspace(eps,5,513), linspace(5.0001,100)))
+        B0 = hstack((linspace(eps,5,513), linspace(5.0001,100)))
         funB = interp1d(self._r1ofsech2(B0),B0)
 
         B0 = funB(r1.ravel())
-        k1 = np.flatnonzero(np.isnan(B0))
+        k1 = flatnonzero(isnan(B0))
         if (k1.size>0):
             B0[k1] = 0.0
-            B0[k1] = np.max(B0)
+            B0[k1] = max(B0)
 
-        ix0 = np.flatnonzero(r1!=0.0)
-        B = np.zeros_like(r1)
+        ix0 = flatnonzero(r1!=0.0)
+        B = zeros_like(r1)
         fun = lambda x : 0.5*pi/(sinh(.5*pi/x))-x*r1[ix]
         for ix in ix0:
             B[ix] = abs(optimize.fsolve(fun,B0[ix]))
@@ -1827,8 +1825,8 @@ class Spreading(object):
     def fourier2d(self,r1):
         ''' Returns the solution of R1 = exp(-D**2/2).
         '''
-        r = np.clip(r1,0.,1.0)
-        return where(r<=0,inf,sqrt(-2.0*np.log(r)))
+        r = clip(r1,0.,1.0)
+        return where(r<=0,inf,sqrt(-2.0*log(r)))
 
 
 
@@ -1863,10 +1861,10 @@ class Spreading(object):
 
             # Mitsuyasu et. al and Hasselman et. al parametrization   of
             # frequency dependent spreading
-            s = np.where(wn<=wn_c,spa*wn**ma,spb*wn**mb)
+            s = where(wn<=wn_c,spa*wn**ma,spb*wn**mb)
             s[wn<=wn_lo] = 0.0
 
-            k = np.flatnonzero(wn_up<wn)
+            k = flatnonzero(wn_up<wn)
             if k.size>0:
                 if self.method[0]=='d':
                     # Donelan et. al. parametrization for B in SECH-2
@@ -1879,7 +1877,7 @@ class Spreading(object):
                 elif self.method[0]=='b':
                     # Banner parametrization  for B in SECH-2
                     s3m   = spb*(wn_up)**mb
-                    s3p   = donelan(wn_up)
+                    s3p   = self._donelan(wn_up)
                     scale = s3m/s3p #% Scale so that parametrization will be continous
                     s[k]  = scale*self.donelan(wn[k])
                     r1 = self.r1ofsech2(s)
@@ -1887,7 +1885,7 @@ class Spreading(object):
                     #% Convert to S-paramater in COS-2S distribution
                     s  = r1/(1.-r1)
                 else:
-                     s[k] = 0.0
+                    s[k] = 0.0
 
         if any(s<0):
             raise ValueError('The COS2S spread parameter, S(w), value must be larger than 0')
@@ -1902,10 +1900,10 @@ class Spreading(object):
     def _r1ofsech2(self, B):
         ''' R1OFSECH2   Computes R1 = pi./(2*B.*sinh(pi./(2*B)))
         '''
-        realmax = np.finfo(float).max
+        realmax = finfo(float).max
         tiny = 1./realmax
-        x = np.clip(2.*B,tiny,realmax)
-        xk = np.pi/x
+        x = clip(2.*B,tiny,realmax)
+        xk = pi/x
         return where(x<100.,xk/sinh(xk),-2.*xk/(exp(xk)*expm1(-2.*xk)))
 
 
@@ -1913,7 +1911,7 @@ class Spreading(object):
 def test_some_spectra():
     S = Jonswap()
 
-    w = np.arange(3.0)
+    w = arange(3.0)
     S(w)*phi1(w,30.0)
     S1 = S.tospecdata(w)
     S1.plot()

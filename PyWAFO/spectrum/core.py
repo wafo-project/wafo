@@ -1,8 +1,13 @@
 from __future__ import division
 import warnings
 import numpy as np
-from numpy import (pi, sqrt, inf, meshgrid, zeros, tanh, sinh, where, exp, 
-                   ceil, floor, round, zeros, log, arctan2)
+from numpy import (pi, inf, meshgrid, zeros, ones, where, nonzero, #@UnresolvedImport
+           flatnonzero, ceil, sqrt, exp, log, arctan2, #@UnresolvedImport
+           tanh, cosh, sinh, random, atleast_1d, maximum, #@UnresolvedImport
+           minimum, diff, isnan, any, r_, conj, mod, #@UnresolvedImport
+           hstack, vstack, interp, ravel, finfo, linspace, #@UnresolvedImport
+           arange, array, nan, newaxis, fliplr, sign) #@UnresolvedImport
+from numpy.fft import fft
 from scipy.integrate import simps, trapz
 from scipy.special import erf
 from scipy.linalg import toeplitz
@@ -14,18 +19,21 @@ from wafo.wafodata import WafoData, now
 from wafo.misc import sub_dict_select, nextpow2, discretize, JITImport
 from wafo.gaussian import Rind
 from wafo.transform import TrData
+from wafo.plotbackend import plotbackend
+from wafo import c_library
 # Trick to avoid error due to circular import
-_wafocov = JITImport('wafo.covariance')
+_WAFOCOV = JITImport('wafo.covariance')
 
 
 __all__ = ['SpecData1D', 'SpecData2D']
 
 def _set_seed(iseed):
+    '''Set seed of random generator'''
     if iseed != None:
         try:
-            np.random.set_state(iseed)
+            random.set_state(iseed)
         except:
-            np.random.seed(iseed)
+            random.seed(iseed)
 
 def qtf(w, h=inf, g=9.81):
     """
@@ -42,81 +50,87 @@ def qtf(w, h=inf, g=9.81):
 
     Returns
     -------
-    Hs   = sum frequency effects
-    Hd   = difference frequency effects
-    Hdii = diagonal of Hd
+    h_s   = sum frequency effects
+    h_d   = difference frequency effects
+    h_dii = diagonal of h_d
     """
-    w = np.atleast_1d(w)
-    Nw = w.size
+    w = atleast_1d(w)
+    num_w = w.size
 
-    kw = w2k(w,theta=0,h=h,g=g)
-    kw = kw[0]
-    k1, k2 = meshgrid(kw,kw)
+    k_w = w2k(w, theta=0, h=h, g=g)[0]
+    
+    k_1, k_2 = meshgrid(k_w, k_w)
 
-    if h==inf: # go here for faster calculations
-        Hs   = 0.25*(abs(k1)+abs(k2))
-        Hd   = -0.25*abs(abs(k1)-abs(k2))
-        Hdii = np.zeros(Nw)
-        return Hs, Hd ,Hdii
+    if h == inf: # go here for faster calculations
+        h_s = 0.25 * (abs(k_1) + abs(k_2))
+        h_d = -0.25 * abs(abs(k_1) - abs(k_2))
+        h_dii = zeros(num_w)
+        return h_s, h_d , h_dii
 
-    [w1, w2]= meshgrid(w,w)
+    [w_1, w_2] = meshgrid(w, w)
 
 
 
-    w12  = (w1*w2)
-    w1p2 = (w1+w2)
-    w1m2 = (w1-w2)
-    k12  = (k1*k2)
-    k1p2 = (k1+k2)
-    k1m2 = abs(k1-k2)
-    cosh = np.cosh
-    sinh = np.sinh
+    w12 = (w_1 * w_2)
+    w1p2 = (w_1 + w_2)
+    w1m2 = (w_1 - w_2)
+    k12 = (k_1 * k_2)
+    k1p2 = (k_1 + k_2)
+    k1m2 = abs(k_1 - k_2)
+    
     if 0: # Langley
-        p1 = (-2*w1p2*(k12*g**2.-w12**2.)+
-            w1*(w2**4.-g**2*k2**2)+w2*(w1**4-g*2.*k1**2))/(4.*w12)
-        p2= w1p2**2.*cosh((k1p2)*h)-g*(k1p2)*sinh((k1p2)*h)
+        p_1 = (-2 * w1p2 * (k12 * g ** 2. - w12 ** 2.) + 
+            w_1 * (w_2 ** 4. - g ** 2 * k_2 ** 2) + 
+            w_2 * (w_1 ** 4 - g * 2. * k_1 ** 2)) / (4. * w12)
+        p_2 = w1p2 ** 2. * cosh((k1p2) * h) - g * (k1p2) * sinh((k1p2) * h)
 
-        Hs = (-p1/p2*w1p2*cosh((k1p2)*h)/g-
-            (k12*g**2-w12**2.)/(4*g*w12)+(w1**2+w2**2)/(4*g))
+        h_s = (-p_1 / p_2 * w1p2 * cosh((k1p2) * h) / g - 
+            (k12 * g ** 2 - w12 ** 2.) / (4 * g * w12) + 
+            (w_1 ** 2 + w_2 ** 2) / (4 * g))
 
-        p3 = (-2*w1m2*(k12*g**2+w12**2)-
-            w1*(w2**4-g**2*k2**2)+w2*(w1**4-g**2*k1**2))/(4.*w12)
-        p4= w1m2**2.*cosh(k1m2*h)-g*(k1m2)*sinh((k1m2)*h)
+        p_3 = (-2 * w1m2 * (k12 * g ** 2 + w12 ** 2) - 
+            w_1 * (w_2 ** 4 - g ** 2 * k_2 ** 2) + 
+            w_2 * (w_1 ** 4 - g ** 2 * k_1 ** 2)) / (4. * w12)
+        p_4 = w1m2 ** 2. * cosh(k1m2 * h) - g * (k1m2) * sinh((k1m2) * h)
 
 
-        Hd = (-p3/p4*(w1m2)*cosh((k1m2)*h)/g-
-            (k12*g**2+w12**2)/(4*g*w12)+(w1**2.+w2**2.)/(4.*g))
+        h_d = (-p_3 / p_4 * (w1m2) * cosh((k1m2) * h) / g - 
+            (k12 * g ** 2 + w12 ** 2) / (4 * g * w12) + 
+            (w_1 ** 2. + w_2 ** 2.) / (4. * g))
 
     else: #  # Marthinsen & Winterstein
-        tmp1 = 0.5*g*k12/w12
-        tmp2 = 0.25/g*(w1**2.+w2**2.+w12)
-        Hs   = (tmp1-tmp2+0.25*g*(w1*k2**2.+w2*k1**2)/
-                (w12*(w1p2)))/(1.-g*(k1p2)/(w1p2)**2.*tanh((k1p2)*h))+tmp2-0.5*tmp1 ## OK
+        tmp1 = 0.5 * g * k12 / w12
+        tmp2 = 0.25 / g * (w_1 ** 2. + w_2 ** 2. + w12)
+        h_s = (tmp1 - tmp2 + 0.25 * g * (w_1 * k_2 ** 2. + w_2 * k_1 ** 2) / 
+                (w12 * (w1p2))) / (1. - g * (k1p2) / (w1p2) ** 2. * 
+                                   tanh((k1p2) * h)) + tmp2 - 0.5 * tmp1 ## OK
 
-        tmp2 = 0.25/g*(w1**2+w2**2-w12) # #OK
-        Hd   = (tmp1-tmp2-0.25*g*(w1*k2**2-w2*k1**2)/
-            (w12*(w1m2)))/(1.-g*(k1m2)/(w1m2)**2.*tanh((k1m2)*h))+tmp2-0.5*tmp1 # # OK
+        tmp2 = 0.25 / g * (w_1 ** 2 + w_2 ** 2 - w12) # #OK
+        h_d = (tmp1 - tmp2 - 0.25 * g * (w_1 * k_2 ** 2 - w_2 * k_1 ** 2) / 
+            (w12 * (w1m2))) / (1. - g * (k1m2) / (w1m2) ** 2. * 
+                               tanh((k1m2) * h)) + tmp2 - 0.5 * tmp1 # # OK
 
 
-    ##tmp1 = 0.5*g*kw./(w.*sqrt(g*h))
+    ##tmp1 = 0.5*g*k_w./(w.*sqrt(g*h))
     ##tmp2 = 0.25*w.^2/g
 
+# Wave group velocity
+    c_g = 0.5 * g * (tanh(k_w * h) + k_w * h * (1.0 - tanh(k_w * h) ** 2)) / w 
+    h_dii = (0.5 * (0.5 * g * (k_w / w) ** 2. - 0.5 * w ** 2 / g + 
+                    g * k_w / (w * c_g))
+            / (1. - g * h / c_g ** 2.) - 0.5 * k_w / sinh(2 * k_w * h))# # OK
+    h_d.flat[0::num_w + 1] = h_dii
 
-    Cg = 0.5*g*(tanh(kw*h) +kw*h*(1.0- tanh(kw*h)**2))/w # #Wave group velocity
-    Hdii = (0.5*(0.5*g*(kw/w)**2.-0.5*w**2/g+g*kw/(w*Cg))
-            /(1.-g*h/Cg**2.)-0.5*kw/sinh(2*kw*h) )# # OK
-    Hd.flat[0::Nw+1] = Hdii
-
-    ##k    = find(w1==w2)
-    ##Hd(k) = Hdii
+    ##k    = find(w_1==w_2)
+    ##h_d(k) = h_dii
 
     #% The NaN's occur due to division by zero. => Set the isnans to zero
-    isnan = np.isnan
-    Hdii = where(isnan(Hdii),0,Hdii)
-    Hd = where(isnan(Hd),0,Hd)
-    Hs = where(isnan(Hs),0,Hs)
+    
+    h_dii = where(isnan(h_dii), 0, h_dii)
+    h_d = where(isnan(h_d), 0, h_d)
+    h_s = where(isnan(h_s), 0, h_s)
 
-    return Hs, Hd ,Hdii
+    return h_s, h_d , h_dii
 
 class SpecData1D(WafoData):
     """ 
@@ -157,18 +171,19 @@ class SpecData1D(WafoData):
     CovData
     """
 
-    def __init__(self,*args,**kwds):
-        super(SpecData1D, self).__init__(*args,**kwds)
+    def __init__(self, *args, **kwds):
+        super(SpecData1D, self).__init__(*args, **kwds)
         self.name = 'WAFO Spectrum Object'
         self.type = 'freq'
         self.freqtype = 'w'
         self.angletype = ''
-        self.h = np.inf
+        self.h = inf
         self.tr = None
         self.phi = 0.0
         self.v = 0.0
         self.norm = False
-        somekeys = ['angletype', 'phi', 'name', 'h', 'tr', 'freqtype', 'v', 'type', 'norm']
+        somekeys = ['angletype', 'phi', 'name', 'h', 'tr', 'freqtype', 'v',
+                    'type', 'norm']
 
         self.__dict__.update(sub_dict_select(kwds, somekeys))
 
@@ -184,14 +199,14 @@ class SpecData1D(WafoData):
             number of derivatives in output, nr<=4          (default 0)
         nt : scalar integer
             number in time grid, i.e., number of time-lags.
-            (default rate*(n-1)) where rate = round(1/(2*f(end)*dt)) or
-                     rate = round(pi/(w(n)*dt)) depending on S.
+            (default rate*(n_f-1)) where rate = round(1/(2*f(end)*dt)) or
+                     rate = round(pi/(w(n_f)*dt)) depending on S.
         dt : real scalar
-            time spacing for R
+            time spacing for acfmat
 
         Returns
         -------
-        R : [R0, R1,...Rnr], shape Nt+1 x Nr+1 
+        acfmat : [R0, R1,...Rnr], shape Nt+1 x Nr+1 
             matrix with autocovariance and its derivatives, i.e., Ri (i=1:nr) 
             are column vectors with the 1'st to nr'th derivatives of R0.  
 
@@ -203,8 +218,8 @@ class SpecData1D(WafoData):
         >>> import wafo.spectrum.models as sm
         >>> Sj = sm.Jonswap()
         >>> S = Sj.tospecdata()
-        >>> R = S.tocov_matrix(nr=3, nt=256, dt=0.1)
-        >>> R[:2,:]
+        >>> acfmat = S.tocov_matrix(nr=3, nt=256, dt=0.1)
+        >>> acfmat[:2,:]
         array([[ 3.06075987,  0.        , -1.67750289,  0.        ],
                [ 3.05246132, -0.16662376, -1.66819445,  0.18634189]])
 
@@ -216,67 +231,62 @@ class SpecData1D(WafoData):
         '''
 
         ftype = self.freqtype # %options are 'f' and 'w' and 'k'
-        freq  = self.args
-        n     = len(freq)
+        freq = self.args
+        n_f = len(freq)
         dt_old = self.sampling_period()
         if dt is None:
             dt = dt_old
             rate = 1
         else:
-            rate = np.maximum(np.round(dt_old*1./dt),1.)
+            rate = max(round(dt_old * 1. / dt), 1.)
 
 
         if nt is None:
-            nt = rate*(n-1)
+            nt = rate * (n_f - 1)
         else: #%check if Nt is ok
-            nt = np.minimum(nt,rate*(n-1))
+            nt = minimum(nt, rate * (n_f - 1))
 
 
-        checkdt = 1.2*min(np.diff(freq))/2./np.pi
+        checkdt = 1.2 * min(diff(freq)) / 2. / pi
         if ftype in 'k':
             lagtype = 'x'
         else:
             lagtype = 't'
             if ftype in 'f':
-                checkdt = checkdt*2*np.pi
-        msg1 = 'The step dt = %g in computation of the density is too small.' % dt
-        msg2 = 'The step dt = %g step is small, may cause numerical inaccuracies.' % dt
+                checkdt = checkdt * 2 * pi
+        msg1 = 'Step dt = %g in computation of the density is too small.' % dt
+        msg2 = 'Step dt = %g is small, and may cause numerical inaccuracies.' % dt
 
-        if (checkdt < 2.**-16/dt):
-            np.disp(msg1)
-            np.disp('The computed covariance (by FFT(2^K)) may differ from the theoretical.')
-            np.disp('Solution:')
+        if (checkdt < 2. ** -16 / dt):
+            print(msg1)
+            print('The computed covariance (by FFT(2^K)) may differ from the')
+            print('theoretical. Solution:')
             raise ValueError('use larger dt or sparser grid for spectrum.')
 
 
-        #% Calculating covariances
-        #%~~~~~~~~~~~~~~~~~~~~~~~~
-        S2 = self.copy()
-        S2.resample(dt)
+        # Calculating covariances
+        #~~~~~~~~~~~~~~~~~~~~~~~~
+        spec = self.copy()
+        spec.resample(dt)
 
-        R2 = S2.tocovdata(nr, nt, rate=1)
-        R = np.zeros((nt+1,nr+1),dtype=float)
-        R[:,0] = R2.data[0:nt+1]
-        fieldname = 'R' + lagtype*nr
-        for ix in range(1,nr+1):
-            fn = fieldname[:ix+1]
-            Ri = getattr(R2,fn)
-            R[:,ix] = Ri[0:nt+1]
+        acf = spec.tocovdata(nr, nt, rate=1)
+        acfmat = zeros((nt + 1, nr + 1), dtype=float)
+        acfmat[:, 0] = acf.data[0:nt + 1]
+        fieldname = 'R' + lagtype * nr
+        for i in range(1, nr + 1):
+            fname = fieldname[:i + 1]
+            r_i = getattr(acf, fname)
+            acfmat[:, i] = r_i[0:nt + 1]
 
-
-        EPS0 = 0.0001
-        cc  = R[0,0]-R[1,0]*(R[1,0]/R[0,0])
-        if nt+1>=5:
-            #%cc1=R(1,1)-R(3,1)*(R(3,1)/R(1,1))+R(3,2)*(R(3,2)/R(1,3))
-            #%cc3=R(1,1)-R(5,1)*(R(5,1)/R(1,1))+R(5,2)*(R(5,2)/R(1,3))
-
-            cc2 = R[0,0]-R[4, 0]*(R[4, 0]/R[0, 0])
-            if (cc2<EPS0):
+        eps0 = 0.0001
+        if nt + 1 >= 5:
+            cc2 = acfmat[0, 0] - acfmat[4, 0] * (acfmat[4, 0] / acfmat[0, 0])
+            if (cc2 < eps0):
                 warnings.warn(msg1)
-
-        if (cc<EPS0):
-            np.disp(msg2)
-        return R
+        cc1 = acfmat[0, 0] - acfmat[1, 0] * (acfmat[1, 0] / acfmat[0, 0])
+        if (cc1 < eps0):
+            warnings.warn(msg2)
+        return acfmat
 
     def tocovdata(self, nr=0, nt=None, rate=None):
         '''
@@ -286,7 +296,7 @@ class SpecData1D(WafoData):
         ----------
         nr : number of derivatives in output, nr<=4 (default = 0).
         nt : number in time grid, i.e., number of time-lags
-              (default rate*(length(S.S)-1)).
+              (default rate*(length(S.data)-1)).
         rate = 1,2,4,8...2**r, interpolation rate for R
                (default = 1, no interpolation)
 
@@ -296,19 +306,19 @@ class SpecData1D(WafoData):
             auto covariance function
 
         The input 'rate' gives together with the spectrum
-        the t-grid-spacing: dt=pi/(S.w(end)*rate), S.w(end) is the Nyquist freq.
-        This results in the t-grid: 0:dt:Nt*dt.
+        the time-grid-spacing: dt=pi/(S.w[-1]*rate), S.w[-1] is the Nyquist freq.
+        This results in the time-grid: 0:dt:Nt*dt.
 
         What output is achieved with different S and choices of Nt,Nx and Ny:
-        1) S.type='freq' or 'dir', Nt set, Nx,Ny not set: then result R(t) (one-dim)
+        1) S.type='freq' or 'dir', Nt set, Nx,Ny not set: then result R(time) (one-dim)
         2) S.type='k1d' or 'k2d', Nt set, Nx,Ny not set: then result R(x) (one-dim)
-        3) Any type, Nt and Nx set =>R(x,t); Nt and Ny set =>R(y,t)
-        4) Any type, Nt, Nx and Ny set => R(x,y,t)
+        3) Any type, Nt and Nx set =>R(x,time); Nt and Ny set =>R(y,time)
+        4) Any type, Nt, Nx and Ny set => R(x,y,time)
         5) Any type, Nt not set, Nx and/or Ny set => Nt set to default, goto 3) or 4)
 
         NB! This routine requires that the spectrum grid is equidistant
          starting from zero frequency.
-        NB! If you are using a model spectrum, S, with sharp edges
+        NB! If you are using a model spectrum, spec, with sharp edges
          to calculate covariances then you should probably round off the sharp
          edges like this:
 
@@ -319,20 +329,20 @@ class SpecData1D(WafoData):
         >>> S.data[0:40] = 0.0
         >>> S.data[100:-1] = 0.0
         >>> Nt = len(S.data)-1
-        >>> R = S.tocovdata(nr=0,nt=Nt)
+        >>> acf = S.tocovdata(nr=0, nt=Nt)
 
-        R   = spec2cov(S,0,Nt)
+        R   = spec2cov(spec,0,Nt)
         win = parzen(2*Nt+1)
-        R.R = R.R.*win(Nt+1:end)
-        S1  = cov2spec(R)
+        R.data = R.data.*win(Nt+1:end)
+        S1  = cov2spec(acf)
         R2  = spec2cov(S1)
         figure(1)
         plotspec(S),hold on, plotspec(S1,'r')
         figure(2)
         covplot(R), hold on, covplot(R2,[],[],'r')
         figure(3)
-        semilogy(abs(R2.R-R.R)), hold on,
-        semilogy(abs(S1.S-S.S)+1e-7,'r')
+        semilogy(abs(R2.data-R.data)), hold on,
+        semilogy(abs(S1.data-S.data)+1e-7,'r')
 
         See also
         --------
@@ -340,63 +350,291 @@ class SpecData1D(WafoData):
         '''
 
         freq = self.args
-        n = len(freq)
+        n_f = len(freq)
 
-        if freq[0]>0:
-            raise ValueError('Spectrum does not start at zero frequency/wave number.\n Correct it with resample, for example.')
-        dw = np.abs(np.diff(freq,n=2,axis=0))
-        if np.any(dw>1.0e-8):
-            raise ValueError('Not equidistant frequencies/wave numbers in spectrum.\n Correct it with resample, for example.')
+        if freq[0] > 0:
+            txt = '''Spectrum does not start at zero frequency/wave number.
+            Correct it with resample, for example.'''
+            raise ValueError(txt)
+        d_w = abs(diff(freq, n_f=2, axis=0))
+        if any(d_w > 1.0e-8):
+            txt = '''Not equidistant frequencies/wave numbers in spectrum. 
+            Correct it with resample, for example.'''
+            raise ValueError(txt)
 
 
         if rate is None:
-            rate=1 # %interpolation rate
-        elif rate>16:
+            rate = 1 # %interpolation rate
+        elif rate > 16:
             rate = 16
         else: # make sure rate is a power of 2
-            rate = 2**nextpow2(rate)
+            rate = 2 ** nextpow2(rate)
 
         if nt is None:
-            nt = rate*(n-1)
+            nt = rate * (n_f - 1)
         else: #check if Nt is ok
-            nt = np.minimum(nt, rate*(n-1))
+            nt = minimum(nt, rate * (n_f - 1))
 
-        S = self.copy()
+        spec = self.copy()
 
         if self.freqtype in 'k':
             lagtype = 'x'
         else:
-            lagtype = 't'
+            lagtype = 'time'
 
-        dT = S.sampling_period()
-        #normalize spec so that sum(specn)/(n-1)=R(0)=var(X)
-        specn = S.data*freq[-1]
-        if S.freqtype in 'f':
-            w = freq*2*np.pi
+        d_t = spec.sampling_period()
+        #normalize spec so that sum(specn)/(n_f-1)=acf(0)=var(X)
+        specn = spec.data * freq[-1]
+        if spec.freqtype in 'f':
+            w = freq * 2 * pi
         else:
             w = freq
 
-        nfft = rate*2**nextpow2(2*n-2)
+        nfft = rate * 2 ** nextpow2(2 * n_f - 2)
 
-        Rper = np.r_[specn, np.zeros(nfft-(2*n)+2) , np.conj(specn[n-1:0:-1])] # % periodogram
-        t    = np.r_[0:nt+1]*dT*(2*n-2)/nfft
+        # periodogram
+        rper = r_[specn, zeros(nfft - (2 * n_f) + 2), conj(specn[n_f - 1:0:-1])] 
+        time = r_[0:nt + 1] * d_t * (2 * n_f - 2) / nfft
 
-        fft = np.fft.fft
+        r = fft(rper, nfft).real / (2 * n_f - 2)
+        acf = _WAFOCOV.CovData1D(r[0:nt + 1], time, lagtype=lagtype)
+        acf.tr = spec.tr
+        acf.h = spec.h
+        acf.norm = spec.norm
 
-        r   = fft(Rper,nfft).real/(2*n-2)
-        R = _wafocov.CovData1D(r[0:nt+1], t, lagtype=lagtype)
-        R.tr   = S.tr
-        R.h    = S.h
-        R.norm = S.norm
+        if nr > 0:
+            w = r_[w , zeros(nfft - 2 * n_f + 2) , -w[n_f - 1:0:-1] ]
+            fieldname = 'R' + lagtype * nr 
+            for i in range(1, nr + 1):
+                rper = -1j * w * rper
+                d_acf = fft(rper, nfft).real / (2 * n_f - 2)
+                setattr(acf, fieldname[0:i + 1], d_acf[0:nt + 1])
+        return acf
+    
+    def to_linspec(self, ns=None, dt=None, cases=20, iseed=None, 
+                   fn_limit=sqrt(2), gravity=9.81):
+        '''
+        Split the linear and non-linear component from the Spectrum 
+            according to 2nd order wave theory
+        
+        Returns
+        -------
+        SL, SN : SpecData1D objects
+            with linear and non-linear components only, respectively.
+        
+        Parameters
+        ----------
+        ns : scalar integer
+            giving ns load points.  (default length(S)-1=n-1).
+            If np>n-1 it is assummed that S(k)=0 for all k>n-1
+        cases : scalar integer
+            number of cases (default=20) 
+        dt : real scalar
+            step in grid (default dt is defined by the Nyquist freq)
+        iseed : scalar integer
+            starting seed number for the random number generator 
+                  (default none is set)
+        fnLimit : real scalar
+            normalized upper frequency limit of spectrum for 2'nd order
+            components. The frequency is normalized with 
+                   sqrt(gravity*tanh(kbar*water_depth)/Amax)/(2*pi)
+            (default sqrt(2), i.e., Convergence criterion).
+            Generally this should be the same as used in the final
+                   non-linear simulation (see example below).
+        
+        SPEC2LINSPEC separates the linear and non-linear component of the 
+        spectrum according to 2nd order wave theory. This is useful when 
+        simulating non-linear waves because:
+        If the spectrum does not decay rapidly enough towards zero, the
+        contribution from the 2nd order wave components at the upper tail can
+        be very large and unphysical. Another option to ensure convergence of
+        the perturbation series in the simulation, is to truncate the upper tail
+        of the spectrum at FNLIMIT in the calculation of the 2nd order wave 
+        components, i.e., in the calculation of sum and difference frequency effects. 
+        
+        Example:
+        --------
+        np = 10000;
+          iseed = 1;
+          pflag = 2;
+          S  = jonswap(10);
+          fnLimit = inf;  
+          [SL,SN] = spec2linspec(S,np,[],[],fnLimit);
+          x0 = spec2nlsdat(SL,8*np,[],iseed,[],fnLimit);
+          x1 = spec2nlsdat(S,8*np,[],iseed,[],fnLimit); 
+          x2 = spec2nlsdat(S,8*np,[],iseed,[],sqrt(2));  
+          Se0 = dat2spec(x0);
+          Se1 = dat2spec(x1);
+          Se2 = dat2spec(x2); 
+          clf  
+          plotspec(SL,'r',pflag),  % Linear components
+           hold on
+          plotspec(S,'b',pflag)    % target spectrum for simulated data
+          plotspec(Se0,'m',pflag), % approx. same as S 
+          plotspec(Se1,'g',pflag)  % unphysical spectrum
+          plotspec(Se2,'k',pflag)  % approx. same as S
+          axis([0 10 -80 0])
+          hold off
+          
+        See also 
+        --------
+        spec2nlsdat
+        
+        References
+        ---------- 
+        P. A. Brodtkorb (2004), 
+        The probability of Occurrence of dangerous Wave Situations at Sea.
+        Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
+        Trondheim, Norway.
+          
+        Nestegaard, A  and Stokka T (1995)
+        A Third Order Random Wave model.
+        In proc.ISOPE conf., Vol III, pp 136-142.
+        
+        R. S Langley (1987)
+        A statistical analysis of non-linear random waves.
+        Ocean Engng, Vol 14, pp 389-407
+        
+        Marthinsen, T. and Winterstein, S.R (1992)
+        'On the skewness of random surface waves'
+        In proc. ISOPE Conf., San Francisco, 14-19 june.
+        '''
+        
+        # by pab 13.08.2002
+        
+        # TODO % Replace inputs with options structure
+        # TODO % Can be improved further.
+        
+        method = 'apstochastic'
+        trace = 1 #% trace the convergence
+        max_sim = 30
+        tolerance = 5e-4
+        
+        L = 200 #%maximum lag size of the window function used in
+                        #%spectral estimate
+        #ftype = self.freqtype #options are 'f' and 'w' and 'k'
+#        switch ftype
+#         case 'f', 
+#          ftype = 'w';
+#          S = ttspec(S,ftype);
+#        end
+        Hm0 = self.characteristic('Hm0')
+        Tm02 = self.characteristic('Tm02')
+        
+       
+        if not iseed is None: 
+            _set_seed(iseed) #% set the the seed
+             
+        n = len(self.data)
+        if ns is None:
+            ns = max(n - 1, 5000)
+        if dt is None:
+            S = self.interp(dt) # interpolate spectrum  
+        else:
+            S = self.copy()
+                                      
+        ns = ns + mod(ns, 2) # make sure np is even    
+        
+        water_depth = abs(self.h);
+        kbar = w2k(2 * pi / Tm02, 0, water_depth)[0]
+        
+        # Expected maximum amplitude for 1000 waves seastate
+        num_waves = 10000  
+        Amax = sqrt(2 * log(num_waves)) * Hm0 / 4 
+          
+        fLimitLo = sqrt(gravity * tanh(kbar * water_depth) * Amax / water_depth ** 3);
+        
+        
+        freq = S.args
+        eps = finfo(float).eps
+        freq[-1] = freq[-1] - sqrt(eps)
+        Hw2 = 0
+        
+        SL = S
+        
+        indZero = nonzero(freq < fLimitLo)[0]
+        if len(indZero):
+            SL.data[indZero] = 0
+        
+        maxS = max(S.data);
+        #Fs = 2*freq(end)+eps; % sampling frequency
+        
+        for ix in xrange(max_sim):
+            [x2, x1] = spec2nlsdat(SL, [np, cases], [], iseed, method, fnLimit)
+            #%x2(:,2:end) = x2(:,2:end) -x1(:,2:end);
+            S2 = dat2spec(x2, L)   
+            S1 = dat2spec(x1, L)
+            #%[tf21,fi] = tfe(x2(:,2),x1(:,2),1024,Fs,[],512);
+            #%Hw11 = interp1q(fi,tf21.*conj(tf21),freq);
+            if True:
+                Hw1 = exp(interp1q(S2.args, log(abs(S1.data / S2.data)), freq))  
+            else:
+                # Geometric mean
+                Hw1 = exp((interp1q(S2.args, log(abs(S1.data / S2.data)), freq) + log(Hw2)) / 2)  
+                #end
+            #Hw1  = (interp1q( S2.w,abs(S1.S./S2.S),freq)+Hw2)/2;
+            #plot(freq, abs(Hw11-Hw1),'g')
+            #title('diff')
+            #pause
+            #clf
+          
+            #d1 = interp1q( S2.w,S2.S,freq);;
+          
+            SL.data = (Hw1 * S.data)
+          
+            if len(indZero):
+                SL.data[indZero] = 0
+                #end
+            k = nonzero(SL.data < 0)[0]
+            if len(k): # Make sure that the current guess is larger than zero
+                #%k
+                #Hw1(k)
+                Hw1[k] = min(S1.data[k] * 0.9, S.data[k])
+                SL.data[k] = max(Hw1[k] * S.data[k], eps)
+                #end
+            Hw12 = Hw1 - Hw2
+            maxHw12 = max(abs(Hw12))
+            if trace == 1:
+                plotbackend.figure(1),
+                plotbackend.semilogy(freq, Hw1, 'r')
+                plotbackend.title('Hw')
+                plotbackend.figure(2),
+                plotbackend.semilogy(freq, abs(Hw12), 'r')
+                plotbackend.title('Hw-HwOld')
+            
+                #pause(3)
+                plotbackend.figure(1),
+                plotbackend.semilogy(freq, Hw1, 'b')
+                plotbackend.title('Hw')
+                plotbackend.figure(2),
+                plotbackend.semilogy(freq, abs(Hw12), 'b')
+                plotbackend.title('Hw-HwOld')
+                #figtile
+            #end
+           
+            print('Iteration : %d, Hw12 : %g  Hw12/maxS : %g' % (ix, maxHw12, (maxHw12 / maxS)))
+            if (maxHw12 < maxS * tolerance) and (Hw1[-1] < Hw2[-1]) :
+                break
+            #end
+            Hw2 = Hw1
+        #end
+        
+        #%Hw1(end)
+        #%maxS*1e-3
+        #%if Hw1(end)*S.>maxS*1e-3,
+        #%  warning('The Nyquist frequency of the spectrum may be too low')
+        #%end
+        
+        SL.date = now() #datestr(now)
+        #if nargout>1
+        SN = SL.copy()
+        SN.data = S.data - SL.data
+        SN.note = SN.note + ' non-linear component (spec2linspec)'
+        #end
+        SL.note = SL.note + ' linear component (spec2linspec)'
+        
+        return SL, SN
 
-        if nr>0:
-            w = np.r_[w , np.zeros(nfft-2*n+2) ,-w[n-1:0:-1] ]
-            fieldname = 'R' + lagtype*nr 
-            for ix in range(1,nr+1):
-                Rper = -1j*w*Rper
-                r    = fft(Rper,nfft).real/(2*n-2)
-                setattr(R,fieldname[0:ix+1],r[0:nt+1])
-        return R
 
     def to_t_pdf(self, u=None, pdef='Tc', paramt=None, **options):
         '''
@@ -452,11 +690,11 @@ class SpecData1D(WafoData):
 
         opts = dict(speed=9)
         opts.update(options)
-        if pdef[0] in ('l','L'):
-            if self.type!='k1d':
+        if pdef[0] in ('l', 'L'):
+            if self.type != 'k1d':
                 raise ValueError('Must be spectrum of type: k1d')
-        elif pdef[0] in ('t','T'):
-            if self.type!='freq':
+        elif pdef[0] in ('t', 'T'):
+            if self.type != 'freq':
                 raise ValueError('Must be spectrum of type: freq')
         else:
             raise ValueError('pdef must be Tc,Tt or Lc, Lt')
@@ -467,19 +705,19 @@ class SpecData1D(WafoData):
 #        else
 #          error('Unknown def')
 #        end
-        pdef2defnr = dict(tc=1, lc=1, tt=-1, lt=-1)
+        pdef2defnr = dict(tc=1, lc=1, tt= -1, lt= -1)
         defnr = pdef2defnr[pdef.lower()]
          
         S = self.copy()
         S.normalize()
-        m, mtxt = self.moment(nr=2, even=True)
-        A = sqrt(m[0]/m[1])
+        m, unused_mtxt = self.moment(nr=2, even=True)
+        A = sqrt(m[0] / m[1])
         
        
         if self.tr is None:
-            y = np.linspace(-5,5,513)
+            y = linspace(-5, 5, 513)
             #g = _wafotransform.
-            g = TrData(y,sqrt(m[0])*y)
+            g = TrData(y, sqrt(m[0]) * y)
         else:
             g = self.tr
         
@@ -494,54 +732,54 @@ class SpecData1D(WafoData):
         
         if paramt is None:
             #% z2 = u^2/2
-            z  = -np.sign(defnr)*un/sqrt(2)
-            expectedMaxPeriod = 2*ceil(2*pi*A*exp(z)*(0.5+erf(z)/2)) 
+            z = -sign(defnr) * un / sqrt(2)
+            expectedMaxPeriod = 2 * ceil(2 * pi * A * exp(z) * (0.5 + erf(z) / 2)) 
             paramt = [0, expectedMaxPeriod, 51]
         
-        t0     = paramt[0]
-        tn     = paramt[1]
-        Ntime  = paramt[2]
-        t      = np.linspace(0, tn/A, Ntime) #normalized times
-        Nstart = max(round(t0/tn*(Ntime-1)),1)  #% index to starting point to
+        t0 = paramt[0]
+        tn = paramt[1]
+        Ntime = paramt[2]
+        t = linspace(0, tn / A, Ntime) #normalized times
+        Nstart = max(round(t0 / tn * (Ntime - 1)), 1)  #% index to starting point to
                                              #% evaluate
                                     
         dt = t[1] - t[0]
         nr = 2
-        R = S.tocov_matrix(nr,Ntime-1,dt)
+        R = S.tocov_matrix(nr, Ntime - 1, dt)
         #R  = spec2cov2(S,nr,Ntime-1,dt)
         
                         
-        xc   = np.vstack((un, un))
-        indI = -np.ones(4, dtype=int)
-        Nd   = 2
-        Nc   = 2
-        XdInf = 100.e0*sqrt(-R[0,2])
-        XtInf = 100.e0*sqrt(R[0,0])
+        xc = vstack((un, un))
+        indI = -ones(4, dtype=int)
+        Nd = 2
+        Nc = 2
+        XdInf = 100.e0 * sqrt(-R[0, 2])
+        XtInf = 100.e0 * sqrt(R[0, 0])
         
-        B_up  = np.hstack([un+XtInf, XdInf, 0])
-        B_lo  = np.hstack([un,    0, -XdInf])
+        B_up = hstack([un + XtInf, XdInf, 0])
+        B_lo = hstack([un, 0, -XdInf])
         #%INFIN = [1 1 0]
         #BIG   = zeros((Ntime+2,Ntime+2))
-        ex    = zeros(Ntime+2, dtype=float)
+        ex = zeros(Ntime + 2, dtype=float)
         #%CC    = 2*pi*sqrt(-R(1,1)/R(1,3))*exp(un^2/(2*R(1,1)))
         #%  XcScale = log(CC)
-        opts['xcscale'] = log(2*pi*sqrt(-R[0, 0]/R[0, 2]))+(un**2/(2*R[0, 0]))
+        opts['xcscale'] = log(2 * pi * sqrt(-R[0, 0] / R[0, 2])) + (un ** 2 / (2 * R[0, 0]))
         
         f = zeros(Ntime, dtype=float)
         err = zeros(Ntime, dtype=float)
         
         rind = Rind(**opts)
         #h11 = fwaitbar(0,[],sprintf('Please wait ...(start at: %s)',datestr(now)))
-        for pt in xrange(Nstart,Ntime):
+        for pt in xrange(Nstart, Ntime):
             Nt = pt - Nd + 1
             Ntd = Nt + Nd
             Ntdc = Ntd + Nc
-            indI[1] = Nt-1
+            indI[1] = Nt - 1
             indI[2] = Nt
-            indI[3] = Ntd-1
+            indI[3] = Ntd - 1
             
             #% positive wave period  
-            BIG = self._covinput(pt,R) 
+            BIG = self._covinput(pt, R) 
           
             tmp = rind(BIG, ex[:Ntdc], B_lo, B_up, indI, xc, Nt)
             f[pt], err[pt] = tmp[:2]
@@ -550,23 +788,23 @@ class SpecData1D(WafoData):
         #close(h11)
         
         
-        titledict = dict(tc='Density of Tc',tt='Density of Tt',lc='Density of Lc',lt='Density of Lt')
+        titledict = dict(tc='Density of Tc', tt='Density of Tt', lc='Density of Lc', lt='Density of Lt')
         Htxt = titledict.get(pdef.lower())
         
-        if pdef[0].lower()=='l':
+        if pdef[0].lower() == 'l':
             xtxt = 'wave length [m]'
         else:
             xtxt = 'period [s]'
         
         Htxt = '%s_{v =%2.5g}' % (Htxt, u)
-        pdf = WafoData(f/A, t*A, title=Htxt, xlab=xtxt)
-        pdf.err = err/A
+        pdf = WafoData(f / A, t * A, title=Htxt, xlab=xtxt)
+        pdf.err = err / A
         pdf.u = u
         pdf.options = opts
         return pdf
 
 
-    def _covinput(self,pt,R):
+    def _covinput(self, pt, R):
         """
         Return covariance matrix for Tc or Tt period problems
     
@@ -604,29 +842,29 @@ class SpecData1D(WafoData):
     
         """
         # cov(Xd)
-        Sdd = -toeplitz(R[[0, pt],2])      
+        Sdd = -toeplitz(R[[0, pt], 2])      
         # cov(Xc)
-        Scc = toeplitz(R[[0, pt],0])    
+        Scc = toeplitz(R[[0, pt], 0])    
         # cov(Xc,Xd)
-        Scd = np.array([[0, R[pt,1]],[ -R[pt,1], 0]])
+        Scd = array([[0, R[pt, 1]], [ -R[pt, 1], 0]])
         
         if pt > 1 :
             #%cov(Xt)
-            Stt = toeplitz(R[:pt-1,0]) # Cov(X(tn),X(ts))  = r(ts-tn)   = r(|ts-tn|)
+            Stt = toeplitz(R[:pt - 1, 0]) # Cov(X(tn),X(ts))  = r(ts-tn)   = r(|ts-tn|)
             #%cov(Xc,Xt) 
-            Sct = R[1:pt,0]        # Cov(X(tn),X(ts))  = r(ts-tn)   = r(|ts-tn|)
-            Sct = np.vstack((Sct,Sct[::-1]))
+            Sct = R[1:pt, 0]        # Cov(X(tn),X(ts))  = r(ts-tn)   = r(|ts-tn|)
+            Sct = vstack((Sct, Sct[::-1]))
             #%Cov(Xd,Xt)
-            Sdt = -R[1:pt,1]         # Cov(X'(t1),X(ts)) = -r'(ts-t1) = r(|s-t|)
-            Sdt = np.vstack((Sdt, -Sdt[::-1]))
+            Sdt = -R[1:pt, 1]         # Cov(X'(t1),X(ts)) = -r'(ts-t1) = r(|s-t|)
+            Sdt = vstack((Sdt, -Sdt[::-1]))
             #N   = pt + 3
-            big = np.vstack((np.hstack((Stt, Sdt.T, Sct.T)),
-                             np.hstack((Sdt, Sdd, Scd.T)),
-                             np.hstack((Sct, Scd, Scc))))
+            big = vstack((hstack((Stt, Sdt.T, Sct.T)),
+                             hstack((Sdt, Sdd, Scd.T)),
+                             hstack((Sct, Scd, Scc))))
         else:
             #N = 4
-            big =  np.vstack((np.hstack((Sdd, Scd.T)),
-                                    np.hstack((Scd, Scc))))
+            big = vstack((hstack((Sdd, Scd.T)),
+                                    hstack((Scd, Scc))))
         return big
 
     def to_specnorm(self):
@@ -634,14 +872,14 @@ class SpecData1D(WafoData):
         S.normalize()
         return S
 
-    def sim(self,ns=None,cases=1,dt=None,iseed=None,method='random',derivative=False):
+    def sim(self, ns=None, cases=1, dt=None, iseed=None, method='random', derivative=False):
         ''' Simulates a Gaussian process and its derivative from spectrum
 
         Parameters
         ----------
         ns : scalar
-            number of simulated points.  (default length(S)-1=n-1).
-                     If ns>n-1 it is assummed that R(k)=0 for all k>n-1
+            number of simulated points.  (default length(spec)-1=n-1).
+                     If ns>n-1 it is assummed that acf(k)=0 for all k>n-1
         cases : scalar
             number of replicates (default=1)
         dt : scalar
@@ -700,146 +938,138 @@ class SpecData1D(WafoData):
 
         Reference
         -----------
-        C.R Dietrich and G. N. Newsam (1997)
+        C.S Dietrich and G. N. Newsam (1997)
         "Fast and exact simulation of stationary
         Gaussian process through circulant embedding
         of the Covariance matrix"
         SIAM J. SCI. COMPT. Vol 18, No 4, pp. 1088-1107
 
-        Hudspeth, R.T. and Borgman, L.E. (1979)
+        Hudspeth, S.T. and Borgman, L.E. (1979)
         "Efficient FFT simulation of Digital Time sequences"
         Journal of the Engineering Mechanics Division, ASCE, Vol. 105, No. EM2,
 
         '''
 
-        fft = np.fft.fft
-
-        S = self.copy()
+        spec = self.copy()
         if dt is not None:
-            S.resample(dt)
+            spec.resample(dt)
 
 
-        ftype = S.freqtype
-        freq  = S.args
+        ftype = spec.freqtype
+        freq = spec.args
 
-        dT = S.sampling_period()
+        d_t = spec.sampling_period()
         Nt = freq.size
 
         if ns is None:
-            ns=Nt-1
+            ns = Nt - 1
 
         if method in 'exact':
 
             #nr=0,Nt=None,dt=None
-            R = S.tocovdata(nr=0)
-            T = Nt*dT
-            ix = np.flatnonzero(R.args>T)
+            acf = spec.tocovdata(nr=0)
+            T = Nt * d_t
+            i = flatnonzero(acf.args > T)
 
             # Trick to avoid adding high frequency noise to the spectrum
-            if ix.size>0:
-                R.data[ix[0]::]=0.0
+            if i.size > 0:
+                acf.data[i[0]::] = 0.0
 
-            return R.sim(ns=ns, cases=cases, iseed=iseed, derivative=derivative)
+            return acf.sim(ns=ns, cases=cases, iseed=iseed, derivative=derivative)
 
         _set_seed(iseed)
 
-        ns = ns+np.mod(ns,2) # make sure it is even
+        ns = ns + mod(ns, 2) # make sure it is even
 
-        fi    = freq[1:-1]
-        Si    = S.data[1:-1]
-        if ftype in ('w','k'):
-            fact = 2.*np.pi
-            Si = Si*fact
-            fi = fi/fact
+        f_i = freq[1:-1]
+        s_i = spec.data[1:-1]
+        if ftype in ('w', 'k'):
+            fact = 2. * pi
+            s_i = s_i * fact
+            f_i = f_i / fact
 
-        zeros = np.zeros
+        x = zeros((ns, cases + 1))
 
-        x = zeros((ns,cases+1))
-
-        df = 1/(ns*dT)
+        d_f = 1 / (ns * d_t)
 
 
-        # interpolate for freq.  [1:(N/2)-1]*df and create 2-sided, uncentered spectra
-        f = np.arange(1,ns/2.)*df
+        # interpolate for freq.  [1:(N/2)-1]*d_f and create 2-sided, uncentered spectra
+        f = arange(1, ns / 2.) * d_f
 
-        Fs = np.hstack((0., fi, df*ns/2.))
-        Su = np.hstack((0., np.abs(Si)/2., 0.))
+        f_u = hstack((0., f_i, d_f * ns / 2.))
+        s_u = hstack((0., abs(s_i) / 2., 0.))
 
 
-        Si = np.interp(f,Fs,Su)
-        Su=np.hstack((0., Si, 0, Si[(ns/2)-2::-1]))
-        del(Si, Fs)
+        s_i = interp(f, f_u, s_u)
+        s_u = hstack((0., s_i, 0, s_i[(ns / 2) - 2::-1]))
+        del(s_i, f_u)
 
         # Generate standard normal random numbers for the simulations
-        randn = np.random.randn
-        Zr = randn((ns/2)+1,cases)
-        Zi = np.vstack((zeros((1,cases)), randn((ns/2)-1,cases), zeros((1, cases))))
+        randn = random.randn
+        z_r = randn((ns / 2) + 1, cases)
+        z_i = vstack((zeros((1, cases)), randn((ns / 2) - 1, cases), zeros((1, cases))))
 
-        A = zeros((ns,cases), dtype=complex)
-        A[0:(ns/2+1), :] = Zr - 1j*Zi
-        del(Zr, Zi)
-        A[(ns/2+1):ns, :] = A[ns/2-1:0:-1, :].conj()
-        A[0, :] = A[0, :]*np.sqrt(2.)
-        A[(ns/2), :] = A[(ns/2), :]*np.sqrt(2.)
+        amp = zeros((ns, cases), dtype=complex)
+        amp[0:(ns / 2 + 1), :] = z_r - 1j *z_i
+        del(z_r, z_i)
+        amp[(ns / 2 + 1):ns, :] = amp[ns / 2 - 1:0:-1, :].conj()
+        amp[0, :] = amp[0, :]*sqrt(2.)
+        amp[(ns / 2), :] = amp[(ns / 2), :]*sqrt(2.)
 
 
         # Make simulated time series
-        T    = (ns-1)*dT
-        Ssqr = np.sqrt(Su*df/2.)
+        T = (ns - 1) * d_t
+        Ssqr = sqrt(s_u * d_f / 2.)
 
         # stochastic amplitude
-        A    = A*Ssqr[:,np.newaxis]
+        amp = amp * Ssqr[:, newaxis]
 
 
         # Deterministic amplitude
-        #A = sqrt[1]*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)))
-        del( Su, Ssqr)
+        #amp = sqrt[1]*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(amp),real(amp)))
+        del(s_u, Ssqr)
 
 
-        x[:, 1::] = fft(A,axis=0).real
-        x[:, 0] = np.linspace(0, T, ns) #' %(0:dT:(np-1)*dT).'
+        x[:, 1::] = fft(amp, axis=0).real
+        x[:, 0] = linspace(0, T, ns) #' %(0:d_t:(np-1)*d_t).'
 
 
         if derivative:
-            xder=np.zeros(ns,cases+1)
-            w = 2.*np.pi*np.hstack((0, f, 0.,-f[-1::-1]))
-            A = -1j*A*w[:,newaxis]
-            xder[:,1:(cases+1)] = fft(A,axis=0).real
-            xder[:,0]           = x[:,0]
+            xder = zeros(ns, cases + 1)
+            w = 2. * pi * hstack((0, f, 0., -f[-1::-1]))
+            amp = -1j * amp * w[:, newaxis]
+            xder[:, 1:(cases + 1)] = fft(amp, axis=0).real
+            xder[:, 0] = x[:, 0]
 
-
-
-        if S.tr is not None:
-            np.disp('   Transforming data.')
-            g = S.tr
-            G=np.fliplr(g) #% the invers of g
+        if spec.tr is not None:
+            print('   Transforming data.')
+            g = spec.tr
+            G = fliplr(g) #% the invers of g
             if derivative:
-                for ix in range(cases):
-                    tmp=tranproc(np.hstack((x[:,ix+1], xder[:,ix+1])),G)
-                    x[:,ix+1]=tmp[:,0]
-                    xder[:,ix+1]=tmp[:,1]
+                for i in range(cases):
+                    tmp = tranproc(hstack((x[:, i + 1], xder[:, i + 1])), G)
+                    x[:, i + 1] = tmp[:, 0]
+                    xder[:, i + 1] = tmp[:, 1]
 
             else:
-                for ix in range(cases):
-                    x[:,ix+1]=tranproc(x[:,ix+1],G)
-
-
+                for i in range(cases):
+                    x[:, i + 1] = tranproc(x[:, i + 1], G)
 
         if derivative:
-            return x,xder
+            return x, xder
         else:
             return x
 
-# function [x2,x,svec,dvec,A]=spec2nlsdat(S,np,dt,iseed,method,truncationLimit)
-    def sim_nl(self,ns=None,cases=1,dt=None,iseed=None,method='random',
-        fnlimit=1.4142,reltol=1e-3,g=9.81):
+# function [x2,x,svec,dvec,amp]=spec2nlsdat(spec,np,dt,iseed,method,truncationLimit)
+    def sim_nl(self, ns=None, cases=1, dt=None, iseed=None, method='random',
+        fnlimit=1.4142, reltol=1e-3, g=9.81):
         """ 
         Simulates a Randomized 2nd order non-linear wave X(t)
 
         Parameters
         ----------
         ns : scalar
-            number of simulated points.  (default length(S)-1=n-1).
+            number of simulated points.  (default length(spec)-1=n-1).
             If ns>n-1 it is assummed that R(k)=0 for all k>n-1
         cases : scalar
             number of replicates (default=1)
@@ -852,10 +1082,10 @@ class SpecData1D(WafoData):
             'apStochastic'    : Random amplitude and phase (default)
             'aDeterministic'  : Deterministic amplitude and random phase
             'apDeterministic' : Deterministic amplitude and phase
-        fnLimit : scalar
+        fnlimit : scalar
             normalized upper frequency limit of spectrum for 2'nd order
             components. The frequency is normalized with
-            sqrt(gravity*tanh(kbar*waterDepth)/Amax)/(2*pi)
+            sqrt(gravity*tanh(kbar*water_depth)/amp_max)/(2*pi)
             (default sqrt(2), i.e., Convergence criterion [1]_).
             Other possible values are:
             sqrt(1/2)  : No bump in trough criterion
@@ -905,116 +1135,108 @@ class SpecData1D(WafoData):
 
         References
         ----------
-        .. [1] Nestegaard, A  and Stokka T (1995)
-                A Third Order Random Wave model.
+        .. [1] Nestegaard, amp  and Stokka T (1995)
+                amp Third Order Random Wave model.
                 In proc.ISOPE conf., Vol III, pp 136-142.
 
-        .. [2] R. S Langley (1987)
-                A statistical analysis of non-linear random waves.
+        .. [2] R. spec Langley (1987)
+                amp statistical analysis of non-linear random waves.
                 Ocean Engng, Vol 14, pp 389-407
 
-        .. [3] Marthinsen, T. and Winterstein, S.R (1992)
+        .. [3] Marthinsen, T. and Winterstein, spec.R (1992)
                 'On the skewness of random surface waves'
                 In proc. ISOPE Conf., San Francisco, 14-19 june.
         """
 
-
         # TODO % Check the methods: 'apdeterministic' and 'adeterministic'
         Hm0, Tm02 = self.characteristic(['Hm0', 'Tm02'])[0].tolist()
-        #Hm0 = self.characteristic('Hm0')[0]
-        #Tm02 = self.characteristic('Tm02')[0]
-
-
+        
         _set_seed(iseed)
-        fft = np.fft.fft
-
-        S = self.copy()
+        
+        spec = self.copy()
         if dt is not None:
-            S.resample(dt)
+            spec.resample(dt)
 
 
-        ftype = S.freqtype
-        freq  = S.args
+        ftype = spec.freqtype
+        freq = spec.args
 
-        dT = S.sampling_period()
+        d_t = spec.sampling_period()
         Nt = freq.size
 
         if ns is None:
-            ns = Nt-1
+            ns = Nt - 1
 
-        ns = ns+np.mod(ns,2) # make sure it is even
+        ns = ns + mod(ns, 2) # make sure it is even
 
-        fi    = freq[1:-1]
-        Si    = S.data[1:-1]
-        if ftype in ('w','k'):
-            fact = 2.*np.pi
-            Si = Si*fact
-            fi = fi/fact
+        f_i = freq[1:-1]
+        s_i = spec.data[1:-1]
+        if ftype in ('w', 'k'):
+            fact = 2. * pi
+            s_i = s_i * fact
+            f_i = f_i / fact
 
-        Smax = max(Si)
-        waterDepth = min(abs(S.h),10.**30)
+        s_max = max(s_i)
+        water_depth = min(abs(spec.h), 10. ** 30)
 
-        x = zeros((ns,cases+1))
+        x = zeros((ns, cases + 1))
 
-        df = 1/(ns*dT)
+        df = 1 / (ns * d_t)
 
         # interpolate for freq.  [1:(N/2)-1]*df and create 2-sided, uncentered spectra
-        # ----------------------------------------------------------------------------
-        f = np.arange(1,ns/2.)*df
-        Fs = np.hstack((0., fi, df*ns/2.))
-        w = 2.*np.pi*np.hstack((0., f, df*ns/2.))
-        kw = w2k(w ,0.,waterDepth,g)[0]
-        Su = np.hstack((0., np.abs(Si)/2., 0.))
+        f = arange(1, ns / 2.) * df
+        f_u = hstack((0., f_i, df * ns / 2.))
+        w = 2. * pi * hstack((0., f, df * ns / 2.))
+        kw = w2k(w , 0., water_depth, g)[0]
+        s_u = hstack((0., abs(s_i) / 2., 0.))
 
 
 
-        Si = np.interp(f,Fs,Su)
-        nmin  = (Si>Smax*reltol).argmax()
-        nmax  = np.flatnonzero(Si>0).max()
-        Su = np.hstack((0., Si,0, Si[(ns/2)-2::-1]))
-        del(Si, Fs)
+        s_i = interp(f, f_u, s_u)
+        nmin = (s_i > s_max * reltol).argmax()
+        nmax = flatnonzero(s_i > 0).max()
+        s_u = hstack((0., s_i, 0, s_i[(ns / 2) - 2::-1]))
+        del(s_i, f_u)
 
         # Generate standard normal random numbers for the simulations
-        # -----------------------------------------------------------
-        randn = np.random.randn
-        Zr = randn((ns/2)+1,cases)
-        Zi = np.vstack((zeros((1,cases)), 
-                        randn((ns/2)-1,cases), 
-                        zeros((1,cases))))
+        randn = random.randn
+        z_r = randn((ns / 2) + 1, cases)
+        z_i = vstack((zeros((1, cases)),
+                        randn((ns / 2) - 1, cases),
+                        zeros((1, cases))))
 
-        A                = zeros((ns,cases),dtype=complex)
-        A[0:(ns/2+1),:]  = Zr - 1j*Zi
-        del(Zr, Zi)
-        A[(ns/2+1):ns,:] = A[ns/2-1:0:-1,:].conj()
-        A[0,:]           = A[0,:]*np.sqrt(2.)
-        A[(ns/2),:]    = A[(ns/2),:]*np.sqrt(2.)
+        amp = zeros((ns, cases), dtype=complex)
+        amp[0:(ns / 2 + 1), :] = z_r - 1j * z_i
+        del(z_r, z_i)
+        amp[(ns / 2 + 1):ns, :] = amp[ns / 2 - 1:0:-1, :].conj()
+        amp[0, :] = amp[0, :]*sqrt(2.)
+        amp[(ns / 2), :] = amp[(ns / 2), :]*sqrt(2.)
 
 
         # Make simulated time series
-        # --------------------------
 
-        T    = (ns-1)*dT
-        Ssqr = np.sqrt(Su*df/2.)
+        T = (ns - 1) * d_t
+        Ssqr = sqrt(s_u * df / 2.)
 
 
         if method.startswith('apd') : # apdeterministic
             # Deterministic amplitude and phase
-            A[1:(ns/2),:]    = A[1,0]
-            A[(ns/2+1):ns,:] = A[1,0].conj()
-            A = sqrt(2)*Ssqr[:,np.newaxis]*exp(1J*arctan2(A.imag,A.real))
+            amp[1:(ns / 2), :] = amp[1, 0]
+            amp[(ns / 2 + 1):ns, :] = amp[1, 0].conj()
+            amp = sqrt(2) * Ssqr[:, newaxis] * exp(1J * arctan2(amp.imag, amp.real))
         elif method.startswith('ade'): # adeterministic
             # Deterministic amplitude and random phase
-            A = sqrt(2)*Ssqr[:,np.newaxis]*exp(1J*arctan2(A.imag,A.real))
+            amp = sqrt(2) * Ssqr[:, newaxis] * exp(1J * arctan2(amp.imag, amp.real))
         else:
             # stochastic amplitude
-            A    = A*Ssqr[:,np.newaxis]
+            amp = amp * Ssqr[:, newaxis]
         # Deterministic amplitude
-        #A = sqrt(2)*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(A),real(A)))
-        del( Su, Ssqr)
+        #amp = sqrt(2)*Ssqr(:,ones(1,cases)).*exp(sqrt(-1)*atan2(imag(amp),real(amp)))
+        del(s_u, Ssqr)
 
 
-        x[:,1::] = fft(A,axis=0).real
-        x[:,0] = np.linspace(0,T,ns) #' %(0:dT:(np-1)*dT).'
+        x[:, 1::] = fft(amp, axis=0).real
+        x[:, 0] = linspace(0, T, ns) #' %(0:d_t:(np-1)*d_t).'
 
 
 
@@ -1028,28 +1250,28 @@ class SpecData1D(WafoData):
         # frequency effects.
         # Find the critical wave frequency to ensure convergence.
 
-        numWaves = 1000. # Typical number of waves in 3 hour seastate
-        kbar = w2k(2.*np.pi/Tm02,0.,waterDepth)[0]
-        Amax = sqrt(2*log(numWaves))*Hm0/4 #% Expected maximum amplitude for 1000 waves seastate
+        num_waves = 1000. # Typical number of waves in 3 hour seastate
+        kbar = w2k(2. * pi / Tm02, 0., water_depth)[0]
+        amp_max = sqrt(2 * log(num_waves)) * Hm0 / 4 #% Expected maximum amplitude for 1000 waves seastate
 
-        fLimitUp = fnlimit*sqrt(g*tanh(kbar*waterDepth)/Amax)/(2*pi)
-        fLimitLo = sqrt(g*tanh(kbar*waterDepth)*Amax/waterDepth)/(2*pi*waterDepth)
+        f_limit_up = fnlimit * sqrt(g * tanh(kbar * water_depth) / amp_max) / (2 * pi)
+        f_limit_lo = sqrt(g * tanh(kbar * water_depth) * amp_max / water_depth) / (2 * pi * water_depth)
 
-        nmax   = min(np.flatnonzero(f<=fLimitUp).max(),nmax)+1
-        nmin   = max(np.flatnonzero(fLimitLo<=f).min(),nmin)+1
+        nmax = min(flatnonzero(f <= f_limit_up).max(), nmax) + 1
+        nmin = max(flatnonzero(f_limit_lo <= f).min(), nmin) + 1
 
         #if isempty(nmax),nmax = np/2end
         #if isempty(nmin),nmin = 2end % Must always be greater than 1
-        fLimitUp = df*nmax
-        fLimitLo = df*nmin
+        f_limit_up = df * nmax
+        f_limit_lo = df * nmin
 
-        print('2nd order frequency Limits = %g,%g'% (fLimitLo, fLimitUp))
+        print('2nd order frequency Limits = %g,%g' % (f_limit_lo, f_limit_up))
 
 
 
 ##        if nargout>3,
 ##        %compute the sum and frequency effects separately
-##        [svec, dvec] = disufq((A.'),w,kw,min(h,10^30),g,nmin,nmax)
+##        [svec, dvec] = disufq((amp.'),w,kw,min(h,10^30),g,nmin,nmax)
 ##        svec = svec.'
 ##        dvec = dvec.'
 ##
@@ -1059,16 +1281,16 @@ class SpecData1D(WafoData):
 ##        % 1'st order + 2'nd order component.
 ##        x2(:,2:end) =x(:,2:end)+ real(x2s(1:np,:))+real(x2d(1:np,:))
 ##        else
-        A = A.T
-        rvec,ivec = c_library.disufq(A.real,A.imag,w,kw,waterDepth,g,nmin,nmax,cases,ns)
+        amp = amp.T
+        rvec, ivec = c_library.disufq(amp.real, amp.imag, w, kw, water_depth, g, nmin, nmax, cases, ns)
 
-        svec = rvec + 1J*ivec
-        svec.shape = (cases,ns)
-        x2o  = fft(svec,axis=1).T # 2'nd order component
+        svec = rvec + 1J * ivec
+        svec.shape = (cases, ns)
+        x2o = fft(svec, axis=1).T # 2'nd order component
 
 
         # 1'st order + 2'nd order component.
-        x2[:,1::] = x[:,1::]+ x2o[0:ns,:].real
+        x2[:, 1::] = x[:, 1::] + x2o[0:ns, :].real
 
         return x2, x
 
@@ -1156,42 +1378,42 @@ class SpecData1D(WafoData):
             h = self.h
 
         #S = ttspec(S,'w')
-        w = np.ravel(self.args)
-        S = np.ravel(self.data)
-        if self.freqtype in ['f','w']:
+        w = ravel(self.args)
+        S = ravel(self.data)
+        if self.freqtype in ['f', 'w']:
             vari = 't'
-            if self.freqtype=='f':
-               w = 2.*pi*w
-               S = S/(2.*pi)
+            if self.freqtype == 'f':
+                w = 2. * pi * w
+                S = S / (2. * pi)
         #m0 = self.moment(nr=0)
-        m0 = simps(S,w)
+        m0 = simps(S, w)
         sa = sqrt(m0)
         Nw = w.size
 
-        Hs, Hd, Hdii = qtf(w,h,g)
+        Hs, Hd, Hdii = qtf(w, h, g)
 
         #%return
         #%skew=6/sqrt(m0)^3*simpson(S.w,simpson(S.w,(Hs+Hd).*S1(:,ones(1,Nw))).*S1.')
 
-        Hspd = trapz(trapz((Hs+Hd)*S[np.newaxis,:],w)*S,w)
+        Hspd = trapz(trapz((Hs + Hd) * S[newaxis, :], w) * S, w)
         output = []
         if method[0] == 'a': # %approx : Marthinsen, T. and Winterstein, S.R (1992) method
             if 'm' in moments:
-                output.append( 2.*trapz(Hdii*S,w))
+                output.append(2. * trapz(Hdii * S, w))
             if 'v' in moments:
                 output.append(m0)
-            skew =6./sa**3*Hspd
+            skew = 6. / sa ** 3 * Hspd
             if 's' in moments:
                 output.append(skew)
             if 'k' in moments:
-                output.append( (4.*skew/3.)**2.+3.)
+                output.append((4. * skew / 3.) ** 2. + 3.)
         else:
             raise ValueError('Unknown option!')
 
 ##        elif method[0]== 'q': #, #% quasi method
 ##            Fn = self.nyquist_freq()
 ##            dw = Fn/Nw
-##            tmp1 =sqrt(S[:,np.newaxis]*S[np.newaxis,:])*dw
+##            tmp1 =sqrt(S[:,newaxis]*S[newaxis,:])*dw
 ##            Hd = Hd*tmp1
 ##            Hs = Hs*tmp1
 ##            k = 6
@@ -1217,7 +1439,7 @@ class SpecData1D(WafoData):
 ##        elif method[0]== 'e': #, % Kac and Siegert eigenvalue analysis
 ##            Fn = self.nyquist_freq()
 ##            dw = Fn/Nw
-##            tmp1 =sqrt(S[:,np.newaxis]*S[np.newaxis,:])*dw
+##            tmp1 =sqrt(S[:,newaxis]*S[newaxis,:])*dw
 ##            Hd = Hd*tmp1
 ##            Hs = Hs*tmp1
 ##            k = 6
@@ -1297,29 +1519,29 @@ class SpecData1D(WafoData):
         Baxevani A. et al. (2001)
         Velocities for Random Surfaces
         '''
-        one_dim_spectra = ['freq','enc','k1d']
+        one_dim_spectra = ['freq', 'enc', 'k1d']
         if self.type not in one_dim_spectra:
             raise ValueError('Unknown spectrum type!')
 
-        f = np.ravel(self.args)
-        S = np.ravel(self.data)
-        if self.freqtype in ['f','w']:
+        f = ravel(self.args)
+        S = ravel(self.data)
+        if self.freqtype in ['f', 'w']:
             vari = 't'
-            if self.freqtype=='f':
-               f = 2.*pi*f
-               S = S/(2.*pi)
+            if self.freqtype == 'f':
+               f = 2. * pi * f
+               S = S / (2. * pi)
         else:
             vari = 'x'
-        S1=np.abs(S)**(j+1.)
-        m = [simps(S1,x=f)]
+        S1 = abs(S) ** (j + 1.)
+        m = [simps(S1, x=f)]
         mtxt = 'm%d' % j
         mtext = [mtxt]
-        step = np.mod(even,2)+1
-        df = f**step
-        for i in range(step,nr+1,step):
-            S1 = S1*df
-            m.append(simps(S1,x=f))
-            mtext.append(mtxt+vari*i)
+        step = mod(even, 2) + 1
+        df = f ** step
+        for i in range(step, nr + 1, step):
+            S1 = S1 * df
+            m.append(simps(S1, x=f))
+            mtext.append(mtxt + vari * i)
         return m, mtext
     
     def nyquist_freq(self):
@@ -1352,13 +1574,13 @@ class SpecData1D(WafoData):
         if self.freqtype in 'f':
             wmdt = 0.5  # Nyquist to sampling interval factor
         else: # ftype == w og ftype == k
-            wmdt = np.pi
+            wmdt = pi
 
         wm = self.args[-1] #Nyquist frequency
-        dt = wmdt/wm #sampling interval = 1/Fs
+        dt = wmdt / wm #sampling interval = 1/Fs
         return dt
 
-    def resample(self, dt=None, Nmin=0, Nmax=2**13+1, method='stineman'):
+    def resample(self, dt=None, Nmin=0, Nmax=2 ** 13 + 1, method='stineman'):
         ''' 
         Interpolate and zero-padd spectrum to change Nyquist freq.
 
@@ -1392,86 +1614,86 @@ class SpecData1D(WafoData):
         '''
 
         ftype = self.freqtype
-        w     = self.args.ravel()
-        n     = w.size
+        w = self.args.ravel()
+        n = w.size
 
         #%doInterpolate = 0
 
-        if ftype=='f':
+        if ftype == 'f':
             Cnf2dt = 0.5 # Nyquist to sampling interval factor
         else: #% ftype == w og ftype == k
-            Cnf2dt = np.pi
+            Cnf2dt = pi
 
         wnOld = w[-1]         # Old Nyquist frequency
-        dTold = Cnf2dt/wnOld # sampling interval=1/Fs
+        dTold = Cnf2dt / wnOld # sampling interval=1/Fs
 
 
         if dt is None:
             dt = dTold
 
         # Find how many points that is needed
-        nfft   = 2**nextpow2(max(n-1,Nmin-1))
-        dttest = dTold*(n-1)/nfft
+        nfft = 2 ** nextpow2(max(n - 1, Nmin - 1))
+        dttest = dTold * (n - 1) / nfft
 
-        while (dttest>dt) and (nfft<Nmax-1):
-            nfft   = nfft*2
-            dttest = dTold*(n-1)/nfft
+        while (dttest > dt) and (nfft < Nmax - 1):
+            nfft = nfft * 2
+            dttest = dTold * (n - 1) / nfft
 
-        nfft = nfft+1
+        nfft = nfft + 1
 
-        wnNew         = Cnf2dt/dt #% New Nyquist frequency
-        dWn           = wnNew-wnOld
-        doInterpolate = dWn>0 or w[1]>0 or (nfft!=n) or dt!=dTold or any(abs(np.diff(w,axis=0))>1.0e-8)
+        wnNew = Cnf2dt / dt #% New Nyquist frequency
+        dWn = wnNew - wnOld
+        doInterpolate = dWn > 0 or w[1] > 0 or (nfft != n) or dt != dTold or any(abs(diff(w, axis=0)) > 1.0e-8)
 
-        if doInterpolate>0:
+        if doInterpolate > 0:
             S1 = self.data
 
-            dw = min(np.diff(w))
+            dw = min(diff(w))
 
             if dWn > 0:
                 #% add a zero just above old max-freq, and a zero at new max-freq
                 #% to get correct interpolation there
-                Nz = 1  + (dWn>dw) # % Number of zeros to add
+                Nz = 1 + (dWn > dw) # % Number of zeros to add
                 if Nz == 2:
-                    w = np.hstack((w, wnOld+dw, wnNew))
+                    w = hstack((w, wnOld + dw, wnNew))
                 else:
-                    w = np.hstack((w, wnNew))
+                    w = hstack((w, wnNew))
 
-                S1 = np.hstack((S1, np.zeros(Nz)))
+                S1 = hstack((S1, zeros(Nz)))
 
             if w[0] > 0:
                 #% add a zero at freq 0, and, if there is space, a zero just below min-freq
-                Nz = 1 + (w[0]>dw) #% Number of zeros to add
+                Nz = 1 + (w[0] > dw) #% Number of zeros to add
                 if Nz == 2:
-                    w = np.hstack((0, w[0]-dw, w))
+                    w = hstack((0, w[0] - dw, w))
                 else:
-                    w = np.hstack((0, w))
+                    w = hstack((0, w))
 
-                S1 = np.hstack((zeros(Nz), S1))
+                S1 = hstack((zeros(Nz), S1))
 
 
             #% Do a final check on spacing in order to check that the gridding is
             #% sufficiently dense:
             #np1 = S1.size
-            dwMin = np.finfo(float).max
+            dwMin = finfo(float).max
             #%wnc = min(wnNew,wnOld-1e-5)
             wnc = wnNew
-            specfun = lambda xi : stineman_interp(xi,w,S1)
+            specfun = lambda xi : stineman_interp(xi, w, S1)
 
-            x, y = discretize(specfun,0,wnc)
-            dwMin = np.minimum(min(np.diff(x)),dwMin)
+            x, unused_y = discretize(specfun, 0, wnc)
+            dwMin = minimum(min(diff(x)), dwMin)
 
-            newNfft = 2**nextpow2(np.ceil(wnNew/dwMin))+1
-            if newNfft>nfft:
-                if (nfft<=2**15+1) and (newNfft>2**15+1):
+            newNfft = 2 ** nextpow2(ceil(wnNew / dwMin)) + 1
+            if newNfft > nfft:
+                if (nfft <= 2 ** 15 + 1) and (newNfft > 2 ** 15 + 1):
                     warnings.warn('Spectrum matrix is very large (>33k). Memory problems may occur.')
 
                 nfft = newNfft
-            self.args = np.linspace(0,wnNew,nfft)
-            if method=='stineman':
-                self.data = stineman_interp(self.args,w,S1)
+            self.args = linspace(0, wnNew, nfft)
+            if method == 'stineman':
+                self.data = stineman_interp(self.args, w, S1)
             else:
-                intfun = interpolate.interp1d(w,S1,kind=method)
+                intfun = interpolate.interp1d(w, S1, kind=method)
                 self.data = intfun(self.args)
             self.data = self.data.clip(0) # clip negative values to 0
 
@@ -1505,25 +1727,25 @@ class SpecData1D(WafoData):
         [Sn,mn4] = specnorm(S)
         mts = spec2mom(S,2)     % Should be equal to one!
         '''
-        mom, mtext = self.moment(nr=4, even=True)
+        mom, unused_mtext = self.moment(nr=4, even=True)
         m0 = mom[0] 
         m2 = mom[1] 
         m4 = mom[2]  
         
         SM0 = sqrt(m0)
         SM2 = sqrt(m2)  
-        A = SM0/SM2
-        B = SM2/(SM0*m0)
+        A = SM0 / SM2
+        B = SM2 / (SM0 * m0)
          
-        if self.freqtype=='f':
-            self.args = self.args*A/2/pi
-            self.data = self.data*B*2*pi  
-        elif self.freqtype=='w' :
-            self.args = self.args*A
-            self.data = self.data*B
-            m02 = m4/gravity**2
+        if self.freqtype == 'f':
+            self.args = self.args * A / 2 / pi
+            self.data = self.data * B * 2 * pi  
+        elif self.freqtype == 'w' :
+            self.args = self.args * A
+            self.data = self.data * B
+            m02 = m4 / gravity ** 2
             m20 = m02
-            self.g = gravity*sqrt(m0*m20)/m2
+            self.g = gravity * sqrt(m0 * m20) / m2
         self.A = A
         self.norm = True
         self.date = now()
@@ -1557,21 +1779,21 @@ class SpecData1D(WafoData):
         array([ 0.65354446,  0.3975428 ,  0.75688813,  2.00207912])
         '''
 
-        if self.freqtype in 'k':
-            vari = 'k'
-        else:
-            vari = 'w'
+#        if self.freqtype in 'k':
+#            vari = 'k'
+#        else:
+#            vari = 'w'
 
-        m, mtxt = self.moment(nr=4, even=False)
-        sqrt = np.sqrt
-        fact = np.atleast_1d(factors)
-        alpha = m[2]/sqrt(m[0]*m[4])
-        eps2 = sqrt(m[0]*m[2]/m[1]**2.-1.)
-        eps4 = sqrt(1.-m[2]**2./m[0]/m[4])
+        m, unused_mtxt = self.moment(nr=4, even=False)
+        
+        fact = atleast_1d(factors)
+        alpha = m[2] / sqrt(m[0] * m[4])
+        eps2 = sqrt(m[0] * m[2] / m[1] ** 2. - 1.)
+        eps4 = sqrt(1. - m[2] ** 2. / m[0] / m[4])
         f = self.args
         S = self.data
-        Qp = 2/m[0]**2.*simps(f*S**2,x=f)
-        bw = np.array([alpha,eps2,eps4,Qp])
+        Qp = 2 / m[0] ** 2. * simps(f * S ** 2, x=f)
+        bw = array([alpha, eps2, eps4, Qp])
         return bw[fact]
 
     def characteristic(self, fact='Hm0', T=1200, g=9.81):
@@ -1680,129 +1902,129 @@ class SpecData1D(WafoData):
 
         #% TODO % Need more checking on computing the variances for Tm24,alpha, eps2 and eps4
         #% TODO % Covariances between Tm24,alpha, eps2 and eps4 variables are also needed
-        NaN = np.nan
-        tfact = dict(Hm0=0,Tm01=1,Tm02=2,Tm24=3, Tm_10=4,Tp=5,Ss=6, Sp=7, Ka=8,
+        
+        tfact = dict(Hm0=0, Tm01=1, Tm02=2, Tm24=3, Tm_10=4, Tp=5, Ss=6, Sp=7, Ka=8,
               Rs=9, Tp1=10, Alpha=11, Eps2=12, Eps4=13, Qp=14)
-        tfact1 = ('Hm0','Tm01','Tm02','Tm24', 'Tm_10','Tp','Ss', 'Sp', 'Ka',
-              'Rs', 'Tp1','Alpha','Eps2','Eps4','Qp')
+        tfact1 = ('Hm0', 'Tm01', 'Tm02', 'Tm24', 'Tm_10', 'Tp', 'Ss', 'Sp', 'Ka',
+              'Rs', 'Tp1', 'Alpha', 'Eps2', 'Eps4', 'Qp')
 
-        if isinstance(fact,str):
+        if isinstance(fact, str):
             fact = list((fact,))
-        if isinstance(fact,(list,tuple)):
+        if isinstance(fact, (list, tuple)):
             nfact = []
             for k in fact:
-                if isinstance(k,str):
-                    nfact.append(tfact.get(k.capitalize(),15))
+                if isinstance(k, str):
+                    nfact.append(tfact.get(k.capitalize(), 15))
                 else:
                     nfact.append(k)
         else:
             nfact = fact
 
-        nfact = np.atleast_1d(nfact)
+        nfact = atleast_1d(nfact)
 
-        if np.any((nfact>14) | (nfact<0)):
+        if any((nfact > 14) | (nfact < 0)):
             raise ValueError('Factor outside range (0,...,14)')
 
-        vari = self.freqtype
+        #vari = self.freqtype
 
-        f  = self.args.ravel()
+        f = self.args.ravel()
         S1 = self.data.ravel()
-        m, mtxt = self.moment(nr=4,even=False)
+        m, unused_mtxt = self.moment(nr=4, even=False)
 
         #% moments corresponding to freq  in Hz
-        for k in range(1,5):
-            m[k] = m[k]/(2*np.pi)**k
+        for k in range(1, 5):
+            m[k] = m[k] / (2 * pi) ** k
 
         #pi = np.pi
-        ind  = np.flatnonzero(f>0)
-        m.append(simps(S1[ind]/f[ind],f[ind])*2.*np.pi) #  % = m_1
-        m_10 = simps(S1[ind]**2/f[ind],f[ind])*(2*pi)**2/T #    % = COV(m_1,m0|T=t0)
-        m_11 = simps(S1[ind]**2./f[ind]**2,f[ind])*(2*pi)**3/T  #% = COV(m_1,m_1|T=t0)
+        ind = flatnonzero(f > 0)
+        m.append(simps(S1[ind] / f[ind], f[ind]) * 2. * pi) #  % = m_1
+        m_10 = simps(S1[ind] ** 2 / f[ind], f[ind]) * (2 * pi) ** 2 / T #    % = COV(m_1,m0|T=t0)
+        m_11 = simps(S1[ind] ** 2. / f[ind] ** 2, f[ind]) * (2 * pi) ** 3 / T  #% = COV(m_1,m_1|T=t0)
 
         #sqrt = np.sqrt
         #%      Hm0        Tm01        Tm02             Tm24         Tm_10
-        Hm0  = 4.*sqrt(m[0])
-        Tm01 = m[0]/m[1]
-        Tm02 = sqrt(m[0]/m[2])
-        Tm24 = sqrt(m[2]/m[4])
-        Tm_10= m[5]/m[0]
+        Hm0 = 4. * sqrt(m[0])
+        Tm01 = m[0] / m[1]
+        Tm02 = sqrt(m[0] / m[2])
+        Tm24 = sqrt(m[2] / m[4])
+        Tm_10 = m[5] / m[0]
 
-        Tm12 = m[1]/m[2]
+        Tm12 = m[1] / m[2]
 
         ind = S1.argmax()
         maxS = S1[ind]
         #[maxS ind] = max(S1)
-        Tp   = 2.*pi/f[ind] #                                   % peak period /length
-        Ss   = 2.*pi*Hm0/g/Tm02**2 #                             % Significant wave steepness
-        Sp   = 2.*pi*Hm0/g/Tp**2 #                               % Average wave steepness
-        Ka   = abs(simps(S1*np.exp(1J*f*Tm02),f))/m[0] #% groupiness factor
+        Tp = 2. * pi / f[ind] #                                   % peak period /length
+        Ss = 2. * pi * Hm0 / g / Tm02 ** 2 #                             % Significant wave steepness
+        Sp = 2. * pi * Hm0 / g / Tp ** 2 #                               % Average wave steepness
+        Ka = abs(simps(S1 * exp(1J * f * Tm02), f)) / m[0] #% groupiness factor
 
         #% Quality control parameter
         #% critical value is approximately 0.02 for surface displacement records
         #% If Rs>0.02 then there are something wrong with the lower frequency part
         #% of S.
-        Rs   = np.sum(np.interp(np.r_[0.0146, 0.0195, 0.0244]*2*pi,f,S1))/3./maxS
-        Tp2  = 2*pi*simps(S1**4,f)/simps(f*S1**4,f)
+        Rs = np.sum(interp(r_[0.0146, 0.0195, 0.0244] * 2 * pi, f, S1)) / 3. / maxS
+        Tp2 = 2 * pi * simps(S1 ** 4, f) / simps(f * S1 ** 4, f)
 
 
-        alpha1 = Tm24/Tm02 #                 % m(3)/sqrt(m(1)*m(5))
-        eps2   = sqrt(Tm01/Tm12-1.)#         % sqrt(m(1)*m(3)/m(2)^2-1)
-        eps4   = sqrt(1.-alpha1**2) #          % sqrt(1-m(3)^2/m(1)/m(5))
-        Qp     = 2./m[0]**2*simps(f*S1**2,f)
+        alpha1 = Tm24 / Tm02 #                 % m(3)/sqrt(m(1)*m(5))
+        eps2 = sqrt(Tm01 / Tm12 - 1.)#         % sqrt(m(1)*m(3)/m(2)^2-1)
+        eps4 = sqrt(1. - alpha1 ** 2) #          % sqrt(1-m(3)^2/m(1)/m(5))
+        Qp = 2. / m[0] ** 2 * simps(f * S1 ** 2, f)
 
-        ch = np.r_[Hm0, Tm01, Tm02, Tm24, Tm_10, Tp, Ss, Sp, Ka, Rs, Tp2, alpha1, eps2, eps4, Qp]
+        ch = r_[Hm0, Tm01, Tm02, Tm24, Tm_10, Tp, Ss, Sp, Ka, Rs, Tp2, alpha1, eps2, eps4, Qp]
 
         #% Select the appropriate values
-        ch     = ch[nfact]
+        ch = ch[nfact]
         chtxt = [tfact1[i] for i in nfact]
 
         #if nargout>1,
         #% covariance between the moments:
         #%COV(mi,mj |T=t0) = int f^(i+j)*S(f)^2 df/T
-        mij,mijtxt = self.moment(nr=8,even=False,j=1)
-        for ix,tmp in enumerate(mij):
-            mij[ix] = tmp/T/((2.*pi)**(ix-1.0))
+        mij, unused_mijtxt = self.moment(nr=8, even=False, j=1)
+        for ix, tmp in enumerate(mij):
+            mij[ix] = tmp / T / ((2. * pi) ** (ix - 1.0))
 
 
         #% and the corresponding variances for
         #%{'hm0', 'tm01', 'tm02', 'tm24', 'tm_10','tp','ss', 'sp', 'ka', 'rs', 'tp1','alpha','eps2','eps4','qp'}
-        R = np.r_[4*mij[0]/m[0],
-               mij[0]/m[1]**2.-2.*m[0]*mij[1]/m[1]**3.+m[0]**2.*mij[2]/m[1]**4.,
-            0.25*(mij[0]/(m[0]*m[2])-2.*mij[2]/m[2]**2+m[0]*mij[4]/m[2]**3),
-            0.25*(mij[4]/(m[2]*m[4])-2*mij[6]/m[4]**2+m[2]*mij[8]/m[4]**3) ,
-            m_11/m[0]**2+(m[5]/m[0]**2)**2*mij[0]-2*m[5]/m[0]**3*m_10,
-            NaN,
-            (8*pi/g)**2*(m[2]**2/(4*m[0]**3)*mij[0]+mij[4]/m[0]-m[2]/m[0]**2*mij[2]),
-            NaN*np.ones(4),
-            m[2]**2*mij[0]/(4*m[0]**3*m[4])+mij[4]/(m[0]*m[4])+mij[8]*m[2]**2/(4*m[0]*m[4]**3)-
-            m[2]*mij[2]/(m[0]**2*m[4])+m[2]**2*mij[4]/(2*m[0]**2*m[4]**2)-m[2]*mij[6]/m[0]/m[4]**2,
-            (m[2]**2*mij[0]/4+(m[0]*m[2]/m[1])**2*mij[2]+m[0]**2*mij[4]/4-m[2]**2*m[0]*mij[1]/m[1]+
-                m[0]*m[2]*mij[2]/2-m[0]**2*m[2]/m[1]*mij[3])/eps2**2/m[1]**4,
-            (m[2]**2*mij[0]/(4*m[0]**2)+mij[4]+m[2]**2*mij[8]/(4*m[4]**2)-m[2]*mij[2]/m[0]+
-            m[2]**2*mij[4]/(2*m[0]*m[4])-m[2]*mij[6]/m[4])*m[2]**2/(m[0]*m[4]*eps4)**2,
-            NaN]
+        R = r_[4 * mij[0] / m[0],
+               mij[0] / m[1] ** 2. - 2. * m[0] * mij[1] / m[1] ** 3. + m[0] ** 2. * mij[2] / m[1] ** 4.,
+            0.25 * (mij[0] / (m[0] * m[2]) - 2. * mij[2] / m[2] ** 2 + m[0] * mij[4] / m[2] ** 3),
+            0.25 * (mij[4] / (m[2] * m[4]) - 2 * mij[6] / m[4] ** 2 + m[2] * mij[8] / m[4] ** 3) ,
+            m_11 / m[0] ** 2 + (m[5] / m[0] ** 2) ** 2 * mij[0] - 2 * m[5] / m[0] ** 3 * m_10,
+            nan,
+            (8 * pi / g) ** 2 * (m[2] ** 2 / (4 * m[0] ** 3) * mij[0] + mij[4] / m[0] - m[2] / m[0] ** 2 * mij[2]),
+            nan * ones(4),
+            m[2] ** 2 * mij[0] / (4 * m[0] ** 3 * m[4]) + mij[4] / (m[0] * m[4]) + mij[8] * m[2] ** 2 / (4 * m[0] * m[4] ** 3) - 
+            m[2] * mij[2] / (m[0] ** 2 * m[4]) + m[2] ** 2 * mij[4] / (2 * m[0] ** 2 * m[4] ** 2) - m[2] * mij[6] / m[0] / m[4] ** 2,
+            (m[2] ** 2 * mij[0] / 4 + (m[0] * m[2] / m[1]) ** 2 * mij[2] + m[0] ** 2 * mij[4] / 4 - m[2] ** 2 * m[0] * mij[1] / m[1] + 
+                m[0] * m[2] * mij[2] / 2 - m[0] ** 2 * m[2] / m[1] * mij[3]) / eps2 ** 2 / m[1] ** 4,
+            (m[2] ** 2 * mij[0] / (4 * m[0] ** 2) + mij[4] + m[2] ** 2 * mij[8] / (4 * m[4] ** 2) - m[2] * mij[2] / m[0] + 
+            m[2] ** 2 * mij[4] / (2 * m[0] * m[4]) - m[2] * mij[6] / m[4]) * m[2] ** 2 / (m[0] * m[4] * eps4) ** 2,
+            nan]
 
         #% and covariances by a taylor expansion technique:
         #% Cov(Hm0,Tm01) Cov(Hm0,Tm02) Cov(Tm01,Tm02)
-        S0 = np.r_[ 2./(sqrt(m[0])*m[1])*(mij[0]-m[0]*mij[1]/m[1]),
-            1./sqrt(m[2])*(mij[0]/m[0]-mij[2]/m[2]),
-            1./(2*m[1])*sqrt(m[0]/m[2])*(mij[0]/m[0]-mij[2]/m[2]-mij[1]/m[1]+m[0]*mij[3]/(m[1]*m[2]))]
+        S0 = r_[ 2. / (sqrt(m[0]) * m[1]) * (mij[0] - m[0] * mij[1] / m[1]),
+            1. / sqrt(m[2]) * (mij[0] / m[0] - mij[2] / m[2]),
+            1. / (2 * m[1]) * sqrt(m[0] / m[2]) * (mij[0] / m[0] - mij[2] / m[2] - mij[1] / m[1] + m[0] * mij[3] / (m[1] * m[2]))]
 
-        R1  = np.ones((15,15))
-        R1[:,:] = NaN
-        for ix,Ri in enumerate(R):
-            R1[ix,ix] = Ri
+        R1 = ones((15, 15))
+        R1[:, :] = nan
+        for ix, Ri in enumerate(R):
+            R1[ix, ix] = Ri
 
 
 
-        R1[0,2:4]   = S0[:2]
-        R1[1,2]     = S0[2]
-        for ix in [0,1]: #%make lower triangular equal to upper triangular part
-            R1[ix+1:,ix] = R1[ix,ix+1:]
+        R1[0, 2:4] = S0[:2]
+        R1[1, 2] = S0[2]
+        for ix in [0, 1]: #%make lower triangular equal to upper triangular part
+            R1[ix + 1:, ix] = R1[ix, ix + 1:]
 
 
         R = R[nfact]
-        R1= R1[nfact,:][:,nfact]
+        R1 = R1[nfact, :][:, nfact]
 
 
         #% Needs further checking:
@@ -1816,10 +2038,10 @@ class SpecData1D(WafoData):
         '''
 
         N = len(self.type)
-        if N==0:
+        if N == 0:
             raise ValueError('Object does not appear to be initialized, it is empty!')
 
-        labels = ['','','']
+        labels = ['', '', '']
         if self.type.endswith('dir'):
             title = 'Directional Spectrum'
             if self.freqtype.startswith('w'):
@@ -1843,7 +2065,7 @@ class SpecData1D(WafoData):
                 labels[1] = 'S(f) [m^2 s]'
         else:
             title = 'Wave Number Spectrum'
-            labels[0] =  'Wave number [rad/m]'
+            labels[0] = 'Wave number [rad/m]'
             if self.type.endswith('k1d'):
                 labels[1] = 'S(k) [m^3/ rad]'
             elif self.type.endswith('k2d'):
@@ -1851,7 +2073,7 @@ class SpecData1D(WafoData):
                 labels[2] = 'S(k1,k2) [m^4/ rad^2]'
             else:
                 raise ValueError('Object does not appear to be initialized, it is empty!')
-        if self.norm!=0:
+        if self.norm != 0:
             title = 'Normalized ' + title
             labels[0] = 'Normalized ' + labels[0].split('[')[0]
             if not self.type.endswith('dir'):
@@ -1892,23 +2114,23 @@ class SpecData2D(WafoData):
     CovData
     """
 
-    def __init__(self,*args,**kwds):
-        super(SpecData2D, self).__init__(*args,**kwds)
+    def __init__(self, *args, **kwds):
+        super(SpecData2D, self).__init__(*args, **kwds)
 
         self.name = 'WAFO Spectrum Object'
         self.type = 'freq'
         self.freqtype = 'w'
         self.angletype = ''
-        self.h = np.inf
+        self.h = inf
         self.tr = None
         self.phi = 0.
         self.v = 0.
         self.norm = 0
         somekeys = ['angletype', 'phi', 'name', 'h', 'tr', 'freqtype', 'v', 'type', 'norm']
 
-        self.__dict__.update(sub_dict_select(kwds,somekeys))
+        self.__dict__.update(sub_dict_select(kwds, somekeys))
 
-        if self.type.endswith('dir') and self.angletype=='':
+        if self.type.endswith('dir') and self.angletype == '':
             self.angletype = 'radians'
 
         self.setlabels()
@@ -1921,8 +2143,9 @@ class SpecData2D(WafoData):
         pass
     def rotate(self):
         pass
-    def moment(self,nr=2,vari='xt',even=True):
-        ''' Calculates spectral moments from spectrum
+    def moment(self, nr=2, vari='xt', even=True):
+        ''' 
+        Calculates spectral moments from spectrum
 
         Parameters
         ----------
@@ -1984,8 +2207,8 @@ class SpecData2D(WafoData):
 ##% By es 27.08.1999
 
 
-        pi= np.pi
-        two_dim_spectra = ['dir','encdir','k2d']
+        pi = pi
+        two_dim_spectra = ['dir', 'encdir', 'k2d']
         if self.type not in two_dim_spectra:
             raise ValueError('Unknown 2D spectrum type!')
 
@@ -2006,7 +2229,7 @@ class SpecData2D(WafoData):
 ##            S1 = self.tospecdata(self.type[:-2]+'dir')
 ##        else:
 ##            S1 = self
-##        w = np.ravel(S1.args[0])
+##        w = ravel(S1.args[0])
 ##        theta = S1.args[1]-S1.phi
 ##        S = S1.data
 ##        Sw = simps(S,x=theta)
@@ -2158,10 +2381,10 @@ class SpecData2D(WafoData):
         '''
 
         N = len(self.type)
-        if N==0:
+        if N == 0:
             raise ValueError('Object does not appear to be initialized, it is empty!')
 
-        labels = ['','','']
+        labels = ['', '', '']
         if self.type.endswith('dir'):
             title = 'Directional Spectrum'
             if self.freqtype.startswith('w'):
@@ -2185,7 +2408,7 @@ class SpecData2D(WafoData):
                 labels[1] = 'S(f) [m**2 s]'
         else:
             title = 'Wave Number Spectrum'
-            labels[0] =  'Wave number [rad/m]'
+            labels[0] = 'Wave number [rad/m]'
             if self.type.endswith('k1d'):
                 labels[1] = 'S(k) [m**3/ rad]'
             elif self.type.endswith('k2d'):
@@ -2193,7 +2416,7 @@ class SpecData2D(WafoData):
                 labels[2] = 'S(k1,k2) [m**4/ rad**2]'
             else:
                 raise ValueError('Object does not appear to be initialized, it is empty!')
-        if self.norm!=0:
+        if self.norm != 0:
             title = 'Normalized ' + title
             labels[0] = 'Normalized ' + labels[0].split('[')[0]
             if not self.type.endswith('dir'):
@@ -2209,14 +2432,14 @@ def test_specdata():
     import wafo.spectrum.models as sm
     Sj = sm.Jonswap()
     S = Sj.tospecdata()
-    me,va,sk,ku = S.stats_nl(moments='mvsk')
+    me, va, sk, ku = S.stats_nl(moments='mvsk')
         
 def main():
     import matplotlib
     matplotlib.interactive(True)
     from wafo.spectrum import models as sm
     
-    w = np.linspace(0,3,100)
+    w = linspace(0, 3, 100)
     Sj = sm.Jonswap()
     S = Sj.tospecdata()
     
@@ -2232,27 +2455,27 @@ def main():
     R = S.tocovdata(nr=1)
     S1 = S.copy()
     Si = R.tospecdata()
-    ns =5000
+    ns = 5000
     dt = .2
-    x1 = S.sim_nl(ns= ns, dt=dt)
-    x2 = TimeSeries(x1[:,1],x1[:,0])
+    x1 = S.sim_nl(ns=ns, dt=dt)
+    x2 = TimeSeries(x1[:, 1], x1[:, 0])
     R = x2.tocovdata(lag=100)
     R.plot()
 
     S.plot('ro')
     t = S.moment()
-    t1 = S.bandwidth([0,1,2,3])
+    t1 = S.bandwidth([0, 1, 2, 3])
     S1 = S.copy()
     S1.resample(dt=0.3, method='cubic')
     S1.plot('k+')
     x = S1.sim(ns=100)
     import pylab
     pylab.clf()
-    pylab.plot(x[:,0],x[:,1])
+    pylab.plot(x[:, 0], x[:, 1])
     pylab.show()
 
     pylab.close('all')
-    np.disp('done')
+    print('done')
 
 if __name__ == '__main__':
     if  True: #False : #  

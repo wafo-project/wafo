@@ -17,8 +17,8 @@ TrOchi
 #!/usr/bin/env python
 
 from scipy.optimize import brentq
-from numpy import (sqrt, atleast_1d, abs, imag, sign, where, cos, arccos, ceil,
-    expm1, log1p, pi)
+from numpy import (sqrt, atleast_1d, abs, imag, sign, where, cos, arccos, ceil, #@UnresolvedImport
+    expm1, log1p, pi) #@UnresolvedImport
 import numpy as np
 import warnings
 from core import TrCommon

@@ -5,7 +5,7 @@ Usage:
 
 python setup.py install [, --prefix=$PREFIX]
 
-
+python setup.py develop
 python setup.py bdist_wininst
 """
 #!/usr/bin/env python

@@ -2,7 +2,5 @@
 Transform package in WAFO Toolbox.
 
 """
-
-from core import *
-import models
-
+from wafo.transform.core import *
+import wafo.transform.models

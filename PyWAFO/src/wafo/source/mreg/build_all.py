@@ -15,7 +15,7 @@ def compile_all():
     file_objects = format1  % tuple(files)
     #f2py --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71 -m mymod  -c mymod.f90
 
-    os.system('f2py -m cov2mod  -c %s cov2mmpdfreg_intfc.f --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71' % file_objects)
+    os.system('f2py.py -m cov2mod  -c %s cov2mmpdfreg_intfc.f --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71' % file_objects)
     #compile1_txt = 'gfortran -fPIC -c mvnprd.f'
     #compile2_txt = 'f2py -m mvnprdmod  -c mvnprd.o mvnprd_interface.f --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71'
     #os.system(compile1_txt)

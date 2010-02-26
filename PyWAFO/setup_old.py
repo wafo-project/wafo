@@ -3,49 +3,41 @@ Install wafo
 
 Usage:
 
-python setup.py develop
 python setup.py install [, --prefix=$PREFIX]
 
+
 python setup.py bdist_wininst
-
-PyPi upload:
-
-python setup.py sdist bdist_wininst upload --show-response
-
 """
 #!/usr/bin/env python
 import os, sys
 
-sys.argv.append("develop")
-DISTUTILS_DEBUG = True
-pkg_name = 'wafo'
-root_dir = os.path.join('src',pkg_name)
-
-# make sure we import from this package, not an installed one:
-sys.path.insert(0, root_dir)
+#sys.argv.append("develop")
+sys.argv.append("install")
+# make sure we import from WAFO in this package, not an installed one:
+sys.path.insert(0, os.path.join('src','wafo'))
 import info
 #import wafo
 
-if  True: #__file__ == 'setupegg.py':
+if  True :#__file__ == 'setupegg.py':
     # http://peak.telecommunity.com/DevCenter/setuptools
-    from setuptools import setup, Extension, find_packages
+    from setuptools import setup, Extension
 else:
     from distutils.core import setup
 
-
+package_name = "wafo"
 subpackages = ('spectrum','data','transform','covariance')
-subpackagesfull = [os.path.join(pkg_name,f) for f in subpackages]
-
+subpackagesfull = [os.path.join(package_name,f) for f in subpackages]
 subtests = [os.path.join(subpkg,'test') for subpkg in subpackages]
 
 testscripts = [os.path.join(subtst, f) for subtst in subtests
-    for f in os.listdir(os.path.join(root_dir, subtst))
+    for f in os.listdir(os.path.join('src',package_name,subtst))
                if not (f.startswith('.') or f.endswith('~') or
                        f.endswith('.old') or f.endswith('.bak'))]
 datadir = 'data'
-datafiles = [os.path.join(datadir, f)   for f in os.listdir(os.path.join(root_dir, datadir))
+datafiles = [os.path.join(datadir, f)   for f in os.listdir(os.path.join('src',package_name,datadir))
 				if  not (f.endswith('.py') or f.endswith('test') )]
-libs = [f   for f in os.listdir(os.path.join(root_dir)) if  f.endswith('.pyd') ]
+#docs = [os.path.join('doc', f) for f in os.listdir('doc')]
+libs = [f   for f in os.listdir(os.path.join('src',package_name)) if  f.endswith('.pyd') ]
 packagedata = testscripts + datafiles + libs #['c_library.pyd'] #,'disufq1.c','diffsumfunq.pyd','diffsumfunq.pyf','findrfc.c','rfc.pyd','rfc.pyf']
 
 
@@ -53,17 +45,13 @@ setup(
     version = '0.11',
     author='WAFO-group',
     author_email='wafo@maths.lth.se',
-    decription = 'Statistical analysis and simulation of random waves and random loads',
-    long_description = info.__doc__,
-	 install_requires = ['numpy>=1.3'],
+    description = info.__doc__,
     license = "GPL",
     url='http://www.maths.lth.se/matstat/wafo/',
-	name = pkg_name,
+	name = package_name.upper(),
     package_dir = {'': 'src'},
-    packages = find_packages('src'),
-    package_data = {'': packagedata}, 
-    #packages = [package_name,] + list(subpackagesfull),
-    #package_data = {package_name: packagedata},
+    packages = [package_name,] + list(subpackagesfull),
+    package_data = {package_name: packagedata},
     #package_data = {'': ['wafo.cfg']},
     #scripts = [os.path.join('bin', f)
     #           for f in os.listdir('bin')

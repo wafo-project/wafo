@@ -17,10 +17,21 @@ from pylab import stineman_interp
 from dispersion_relation import w2k #, k2w
 from wafo.wafodata import WafoData, now
 from wafo.misc import sub_dict_select, nextpow2, discretize, JITImport
-from wafo.gaussian import Rind
+try:
+    from wafo.gaussian import Rind
+except ImportError:
+    
+    Rind = None
+try:
+    from wafo import c_library
+except ImportError:
+    warnings.warn('Compile the c_libraray.pyd again!')
+    c_library = None
+    
 from wafo.transform import TrData
 from wafo.plotbackend import plotbackend
-from wafo import c_library
+
+
 # Trick to avoid error due to circular import
 _WAFOCOV = JITImport('wafo.covariance')
 

@@ -18,13 +18,13 @@ def compile_all():
         os.system(compile1_format % file)
     file_objects = format1  % tuple(files)
     
-    os.system('f2py -m rindmod  -c %s rind_interface.f --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71' % file_objects)
+    os.system('f2py.py -m rindmod  -c %s rind_interface.f --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71' % file_objects)
     #compile1_txt = 'gfortran -fPIC -c mvnprd.f'
     #compile2_txt = 'f2py -m mvnprdmod  -c mvnprd.o mvnprd_interface.f --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71'
     #os.system(compile1_txt)
     #os.system(compile2_txt)
     # Install gfortran and run the following to build the module:
-    #compile_format = 'f2py %s %s -c --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71'
+    #compile_format = 'f2py.py %s %s -c --fcompiler=gnu95 --compiler=mingw32 -lmsvcr71'
 
     # Install microsoft visual c++ .NET 2003 and run the following to build the module:
     #compile_format = 'f2py %s %s -c'

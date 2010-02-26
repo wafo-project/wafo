@@ -2,7 +2,7 @@ import numpy as np
 from numpy import (r_, minimum, maximum, atleast_1d, atleast_2d, mod, zeros, #@UnresolvedImport
         ones, floor, random, eye, nonzero, repeat, sqrt, inf, diag, triu) #@UnresolvedImport
 from scipy.special import ndtri as invnorm
-import rindmod
+import wafo.rindmod as rindmod
 
 
 class Rind(object):

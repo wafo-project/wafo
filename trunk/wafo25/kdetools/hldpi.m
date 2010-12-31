@@ -69,7 +69,7 @@ xmax = max(A);    % Find the maximum value of A.
 xrange = xmax-xmin; % Find the range of A.
 
 sigmaA = std(A);
-iqr = abs(diff(qlevels2(A,[75 25]),1,1)); % interquartile range
+iqr = abs(diff(qlevels2(A,[75 25]),1,1+(d==1))); % interquartile range
 k = find(iqr>0);
 if any(k)
   sigmaA(k) = min(sigmaA(k), iqr(k)/1.349);

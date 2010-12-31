@@ -53,7 +53,8 @@ error(nargchk(2,2,nargin))
 [inc,d1] = size(X);
 
 if d~=d1
-  error('Dimension 2 of data and X do not match.')
+
+    error('Dimension 2 of data and X do not match.')
 end
 
 dx  = diff(X(1:2,:),1);
@@ -149,3 +150,8 @@ switch d % make sure c is stored in the same way as meshgrid
  case 3,  c = permute(c,[2 1 3]);
 end
 return
+
+data =[ 0.75355792,  0.72779194,  0.94149169,  0.07841119,  2.32291887,...
+    1.10419995,  0.77055114,  0.60288273,  1.36883635,  1.74754326,...
+    1.09547561,  1.01671133,  0.73211143,  0.61891719,  0.75903487,...
+    1.8919469 ,  0.72433808,  1.92973094,  0.44749838,  1.36508452]

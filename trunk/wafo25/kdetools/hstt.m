@@ -47,7 +47,7 @@ if nargin<2||isempty(kernel)
   kernel='gauss';
 end
 if nargin<3||isempty(inc)
-  inc = 128/2;
+  inc = 128;
 end
 if nargin<4 || isempty(maxit)
   maxit=100;

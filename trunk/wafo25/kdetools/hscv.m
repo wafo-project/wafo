@@ -66,7 +66,7 @@ xmax=max(A);    % Find the maximum value of A.
 xrange=xmax-xmin; % Find the range of A.
 
 sigmaA = std(A);
-iqr = abs(diff(qlevels2(A,[75 25]),1,1)); % interquartile range
+iqr = abs(diff(qlevels2(A,[75 25]),1,1+(d==1))); % interquartile range
 k = find(iqr>0);
 if any(k)
   sigmaA(k) = min(sigmaA(k), iqr(k)/1.349);
@@ -191,3 +191,9 @@ for dim = 1:d
 end
 
 hvec = hvec*(STEconstant/STEconstant2)^(1/5);
+
+return
+% data =[ 0.75355792,  0.72779194,  0.94149169,  0.07841119,  2.32291887,...
+%     1.10419995,  0.77055114,  0.60288273,  1.36883635,  1.74754326,...
+%     1.09547561,  1.01671133,  0.73211143,  0.61891719,  0.75903487,...        
+%     1.8919469 ,  0.72433808,  1.92973094,  0.44749838,  1.36508452]

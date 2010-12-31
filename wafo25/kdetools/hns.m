@@ -60,14 +60,14 @@ end
 if (n==1) && (d>1),
   A=A.';
   n=d;
-  %d=1;
+  d=1;
 end
 % R= int(mkernel(x)^2)
 % mu2= int(x^2*mkernel(x))
 [mu2,R] = kernelstats(kernel);
 AMISEconstant = (8*sqrt(pi)*R/(3*mu2^2*n))^(1/5);
 
-iqr  = abs(diff(qlevels2(A,[75 25]),1,1)); % interquartile range
+iqr  = abs(diff(qlevels2(A,[75 25]),1,1+(d==1))); % interquartile range
 stdA = std(A);
 h    = stdA*AMISEconstant;
 k = find(iqr>0);

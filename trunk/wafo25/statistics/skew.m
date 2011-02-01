@@ -11,6 +11,8 @@ function s = skew(X,dim)
 % Example:
 %   R=rndgumb(2,2,100,2);
 %   skew(R)
+%   
+%   skew(1:10) % = 0
 %
 % See also  mean, var, kurt
 
@@ -32,11 +34,12 @@ end
 rsz = ones(size(sz)); rsz(dim)=sz(dim);
 mu  = mean(X,dim);
 if isscalar(mu)
-    Xmu2  = (X-mu).^2;
+    Xmu  = (X-mu);
 else
-    Xmu2  = (X-repmat(mu,rsz)).^2; 
+    Xmu  = (X-repmat(mu,rsz)); 
 end
-s   = mean(Xmu2.^1.5,dim)./mean(Xmu2,dim).^(1.5);
+
+s   = mean(Xmu.^3,dim)./mean(Xmu.^2,dim).^(1.5);
 end
 
 

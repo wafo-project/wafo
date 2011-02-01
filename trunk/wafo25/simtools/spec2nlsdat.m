@@ -51,6 +51,21 @@ function [x2,x,svec,dvec,A]=spec2nlsdat(S,np,dt,iseed,method,truncationLimit)
 %  np =100; dt = .2;
 %  [x1, x2] = spec2nlsdat(jonswap,np,dt);
 %  waveplot(x1,'r',x2,'g',1,1)  
+% 
+%  %More extensive test
+%  Sj = jonswap
+%  [x2, x1] = spec2nlsdat(Sj,[20000,20]);
+%  [sk,ku]= spec2skew(Sj);
+%  truth1 = [0, sqrt(spec2mom(Sj,1)), sk, ku]; 
+%  funs = {@mean,  @std, @skew, @kurt}
+%  for i = 1:4,
+%      trueval = truth1(i);
+%      fun = funs{i};
+%      res = fun(x2(:,2:end), 1);
+%      m = mean(res);
+%      sa = std(res);
+%      [abs(m-trueval)<sa, trueval, m, sa]
+%   end
 %
 % See also  spec2linspec, spec2sdat, cov2sdat
 

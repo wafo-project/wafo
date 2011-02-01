@@ -44,9 +44,9 @@ pause(pstate)
 %and compare the spectral estimate with the original Torsethaugen spectum.
 clf
 xs=spec2sdat(S1,[20*60*4 1],0.25);
-Sest = dat2spec(xs,400)
-wspecplot(Sest,1,'--'), hold on
-wspecplot(S1,1), hold off
+Sest = dat2spec(xs,400);
+plotspec(Sest,1,'--'), hold on
+plotspec(S1,1), hold off
 axis([0 3 0 5])
 wafostamp([],'(ER)')
 pause(pstate)
@@ -62,7 +62,7 @@ pause(pstate)
 
 clf
 [T, index] = dat2wa(xs,0,'d2u');
-whisto(T,25,1,1), hold on
+histgrm(T,25,1,1), hold on
 dtyex = spec2tpdf(S1,[],'Tt',[0 10 51],0,3);
 dtyest = spec2tpdf(Sest,[],'Tt',[0 10 51],0,3);
 pdfplot(dtyex)
@@ -79,7 +79,7 @@ D1 = spreading(101,'cos',pi/2,15,[],0); % frequency independent
 D12 = spreading(101,'cos',0,15,S1.w,1); % frequency dependent
 SD1 = mkdspec(S1,D1);
 SD12 = mkdspec(S1,D12);
-wspecplot(SD1,1), hold on, wspecplot(SD12,1,'-.'); hold off
+plotspec(SD1,1), hold on, plotspec(SD12,1,'-.'); hold off
 wafostamp([],'(ER)')
 pause(pstate)
 
@@ -112,3 +112,34 @@ rfc=tp2rfc(tp);
 plot(rfc(:,2),rfc(:,1),'.')
 wafostamp([],'(ER)')
 hold off
+
+%% 1.4.5 Statistical extreme value analysis
+% The WAFO-toolbox contains almost 300 routines for general statistical analysis, 
+% description, plotting, and simulation. In Chapter 5 we describe some routines which 
+% are particularly important for wave and fatigue analysis, related to statistics of extremes. These are
+% based on the generalized extreme value (GEV) and generalized Pareto distribution (GPD),
+% combined with the peaks over threshold (POT) method.
+% As an example we show an analysis of wave elevation data from the Poseidon plat-
+% form in the Japan Sea. Data from about 23 hours of registration are stored in the data set
+% yura87, taken with a 1 Hz sampling rate. We ?rst load and plot, in Figure 1.7, part of
+% the data and calculate the maximum over 5 minute periods.
+clf()
+xn=load('yura87.dat'); subplot(211);
+plot(xn(1:30:end,1)/3600,xn(1:30:end,2),'.')
+title('Water level'), ylabel('m')
+yura=xn(1:85500,2);
+yura=reshape(yura,300,285);
+maxyura=max(yura);
+subplot(212)
+plot(xn(300:300:85500,1)/3600,maxyura,'.')
+xlabel('Time (h)'), ylabel('m')
+title('Maximum 5 min water level')
+
+%%
+% It is clear from the ?gures that there is a trend in the data, with decreasing spreading
+% with time. In Chapter 5 we will deal with that problem; here we make a crude extreme
+% value analysis, by ?tting a GEV distribution to the sequence of 5 minute maxima, simply
+% by issuing the commands
+figure()
+phat=fitgev(maxyura,'plotflag',1);
+

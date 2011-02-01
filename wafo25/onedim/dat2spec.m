@@ -60,7 +60,7 @@ function [S,fcut] = dat2spec(xn,varargin)
 % Example
 %  x = load('sea.dat');
 %  S = dat2spec(x);
-%  specplot(S)
+%  plotspec(S)
 % 
 % See also   dat2tr, dat2cov
 
@@ -123,7 +123,7 @@ wdef     = 1; % 1=parzen window 2=hanning window, 3= bartlett window
 L        = []; 
 g        = [];
 plotflag = 0;
-p        = [];%0.95;
+p        = 0.95;
 chopOffHighFreq=0;   % chop off high frequencies in order to get the same 
                      % irregularity factor in the spectrum as in the data
                      % may not be a good idea => default is 0

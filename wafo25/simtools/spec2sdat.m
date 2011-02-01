@@ -31,6 +31,21 @@ function [x,xder]=spec2sdat(S,np,dt,iseed,method)
 %  np =100; dt = .2;
 % [x1 x2] = spec2sdat(jonswap,np,dt);
 % waveplot(x1,'r',x2,'g',1,1)  
+%
+%  %More extensive test
+%  Sj = jonswap
+%  [x2, x1] = spec2sdat(Sj,[20000,20]);
+%  [sk,ku]= spec2skew(Sj);
+%  truth1 = [0, sqrt(spec2mom(Sj,1)), sk, ku-3]; 
+%  funs = {@mean,  @std, @skew, @kurt}
+%  for i = 1:4,
+%      trueval = truth1(i);
+%      fun = funs{i};
+%      res = fun(x2(:,2:end), 1);
+%      m = mean(res);
+%      sa = std(res);
+%      [abs(m-trueval)<sa, trueval, m, sa]
+%   end
 %  
 % See also  cov2sdat, gaus2dat
 

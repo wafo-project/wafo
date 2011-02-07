@@ -1,11 +1,11 @@
-#summary Installation description of WAFO Toolbox Version 2.5 beta.
+#summary Installation description of WAFO Toolbox Version 2.5.
 #labels Featured,Phase-Deploy
 
 = Install instructions =
 
  0. Make a directory where you want wafo to reside, eg: c:\wafo25.
 
- 1. Binary download the file [http://wafo.googlecode.com/files/wafo_2.5_beta.7z wafo-2.5_beta.7z]. You will be asked for the destination/directory of the compressed file. 
+ 1. Binary download the file [http://wafo.googlecode.com/files/wafo25.7z wafo25.7z]. You will be asked for the destination/directory of the compressed file. 
 
  2. Uncompress the zip-file to the WAFO directory (c:\wafo25), by means of 7-zip. 7-zip  can be download from http://www.7-zip.org/.
 

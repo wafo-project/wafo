@@ -15,7 +15,7 @@
 % 
 
 %
-% Tested on Matlab 5.3, 7.01
+% Tested on Matlab 5.3, 7.10
 % History
 % Revised by Georg Lindgren sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005

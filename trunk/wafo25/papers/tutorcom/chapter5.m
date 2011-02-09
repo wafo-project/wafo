@@ -6,8 +6,9 @@
 % Each set of commands is followed by a 'pause' command.
 % 
 
-% Tested on Matlab 5.3
+% Tested on Matlab 5.3, 7.10
 % History
+% Revised by Georg Lindgren sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Added Return values by GL August 2008
 % Revised pab sept2005
 % Added sections -> easier to evaluate using cellmode evaluation.

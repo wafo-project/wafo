@@ -9,8 +9,9 @@
 % For printing the figures on directory ../bilder/ edit the file and put  
 %     printing=1;
 
-% Tested on Matlab 5.3
+% Tested on Matlab 5.3, 7.10
 % History
+% Revised by Georg Lindgren sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
 %  Added sections -> easier to evaluate using cellmode evaluation.
 % revised pab Feb2004
@@ -83,7 +84,6 @@ title('Markov chain of turning points')
 wafostamp([],'(ER)')
 disp('Block 5'),pause(pstate)
 
-
 %% Rainflow cycles in a transformed Gaussian model
 %% Hermite transformed wave data and rainflow filtered turning points, h = 0.2.
 me = mean(xx_sea(:,2));
@@ -100,7 +100,7 @@ spec_norm.S = spec_norm.S/sa^2;
 xx_herm = spec2sdat(spec_norm,[2^15 1],0.1);
 % ????? PJ, JR 11-Apr-2001
 % NOTE, in the simulation program spec2sdat
-%the spectrum must be normalized to variance 1 
+% the spectrum must be normalized to variance 1 
 % ?????
 h = 0.2;
 [dtp,u_herm,xx_herm_1]=dat2dtp(param_h,xx_herm,h);
@@ -130,7 +130,6 @@ wafostamp([],'(ER)')
 disp('Block 7'),pause(pstate)
 
 %% Section 4.3.4 Calculating the rainflow matrix
-
 
 Grfc_markov=mctp2rfm({G_markov []});
 clf
@@ -188,7 +187,6 @@ pdfplot(GmM3_herm)
 wafostamp([],'(ER)')
 disp('Block 13'),pause(pstate)
 
-
 %% Min-max matrix and theoretical rainflow matrix for Hermite-transformed Gaussian waves.
 Grfc_herm=mctp2rfm({GmM3_herm.f []});
 u_herm=levels(param_h);
@@ -210,7 +208,6 @@ if (printing==1), print -deps ../bilder/fig_mmrfcjfr.eps
 end
 wafostamp([],'(ER)')
 disp('Block 15'),pause(pstate)
-
 
 %% Observed smoothed and theoretical min-max matrix, 
 %% (and observed smoothed and theoretical rainflow matrix for Hermite-transformed Gaussian waves).
@@ -317,7 +314,6 @@ end
 wafostamp([],'(ER)')
 disp('Block 21'),pause(pstate)
 
-
 %%
 %Damplus_markov = lc2dplus(mu_markov,beta)
 pause(pstate)
@@ -333,7 +329,6 @@ loglog(N,s,'o'), axis([0 14e5 10 30])
 %if (printing==1), print -deps ../bilder/fatigue_?.eps end
 wafostamp([],'(ER)')
 disp('Block 22'),pause(pstate)
-
 
 %% Check of S-N-model on normal probability paper.
 

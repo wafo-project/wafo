@@ -6,10 +6,11 @@
 % Each set of commands is followed by a 'pause' command.
 % 
 
-% Tested on Matlab 5.3
+% Tested on Matlab 5.3, 7.10
 % History
+% Revised by Georg Lindgren sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
-%  Added sections -> easier to evaluate using cellmode evaluation.
+% Added sections -> easier to evaluate using cellmode evaluation.
 % Revised by pab Feb 2005
 % -updated calls to kdetools+spec2XXpdf programs
 % Created by GL July 12, 2000

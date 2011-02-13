@@ -1,4 +1,8 @@
 %README New features, bug fixes, and changes in KDETOOLS.
+% Version 2.5.1   31-Dec-2010
+%   See wafo code
+%
+%----------------------------
 % Version 2.1.1   15-Sep-2005
 %
 % Bug fixes, some new and/or updated routines.

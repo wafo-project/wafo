@@ -17,7 +17,7 @@ function [f] = spec2tpdf(spec,utc,def,paramt,h,nit,speed,plotflag)
 %          h  = amplitude condition: density for waves with crests above h.
 %               (note  h >= 0), (default 0.) 
 %               if abs(h) less 1% of standard deviation of process X then h=0.
-%        nit  =  0,...,9. Dimension of numerical integration  (default 2).
+%        nit  = 0,...,9. Dimension of numerical integration  (default 2).
 %               -1,-2,-3,... different important sampling type integrations.
 %       speed = defines accuraccy of calculations by choosing different 
 %               parameters, possible values: 1,2...,9 (9 fastest, default 5).

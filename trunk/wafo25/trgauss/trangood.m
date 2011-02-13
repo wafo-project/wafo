@@ -14,8 +14,8 @@ function f = trangood(ff,nmin,mini,maxi,nmax)
 %        nmax = then maximum number of points in the good transform
 %               (default inf)
 %
-% TRANGOOD interpolates ff linearly  and optionally
-%  extrapolate ff linearly outside the range of ff(:,1)
+% TRANGOOD interpolates  ff  linearly and optionally
+%  extrapolates  ff  linearly outside the range of  ff(:,1)
 %  with X uniformly spaced.
 %
 % See also   tranproc, interp1q

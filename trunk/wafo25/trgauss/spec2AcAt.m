@@ -3,11 +3,11 @@ function [f] = spec2AcAt(spec,utc,def,paramtc,paramtt,paramt,h1,h2,nit,speed)
 %         
 %  CALL: R = spec2AcAt(S,u,def,paramtc,paramtt,paramtcc,h1,h2,nit,speed,bound);
 %
-%        R    =  survival function R=P(Ac>h1,At>h2)
+%        R    = survival function R=P(Ac>h1,At>h2)
 %        S    = spectral density structure
 %        u    = reference level (default the most frequently crossed level).
-%       def   =  'Tcc', P(Ac>h1,At>h2) for waves in time, (default)
-%                'Lcc', P(Ac>h1,At>h2) for waves in space.
+%       def   = 'Tcc', P(Ac>h1,At>h2) for waves in time, (default)
+%               'Lcc', P(Ac>h1,At>h2) for waves in space.
 %    paramtc  = [0 tc Ntc] defines discretization of Tc (or Lc): tc is
 %               the longest Tc considered while Ntc is the number of
 %               points, i.e. (Ntc-1)/tc is the sampling

@@ -19,10 +19,11 @@ function options = troptset(varargin)
 %   The parameters are set in the same order as the input arguments.
 %   Any parameters with non-empty values of the options struct overwrite
 %   the corresponding old parameters. 
+%
 %   The input arguments can be given in any order with one exception:
 %   PARx and VALx must be given in pairs in that order.
 %   Any unspecified parameters for PARx are set to []. 
-%   Parameters with value [] indicate to use the default value for that
+%   Parameters with value [] indicate the use of default values for that
 %   parameter when OPTIONS is passed to the function. It is sufficient to
 %   type only the 2 first characters to uniquely identify the parameter
 %   or function name.  Upper case letters for parameter names and values

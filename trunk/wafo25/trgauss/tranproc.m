@@ -1,6 +1,6 @@
 function y = tranproc(x,ff)
 %TRANPROC Transforms process X and up to four derivatives 
-%          using the transformation f.
+%         using the transformation f.
 %
 %  CALL:  y = tranproc(x,f);
 %
@@ -18,9 +18,9 @@ function y = tranproc(x,ff)
 %   Y4 = f''''(X)*X1^4 + f'(X)*X4 + 6*f'''(X)*X1^2*X2 
 %      + f''(X)*(3*X2^2 + 4*X1*X3) 
 %
-% The derivation of f is performed numerically with a central difference
-% method with linear extrapolation towards the beginning and end of f,
-% respectively. 
+% The differentiation of  f  is performed numerically with a central 
+% difference method with linear extrapolation towards the beginning 
+% and end of f, respectively. 
 %
 % Example: % Derivative of g and the transformed Gaussian model.
 %  x = linspace(-6,6,501)';

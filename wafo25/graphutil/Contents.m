@@ -1,5 +1,5 @@
-% Module GRAPHUTIL in WAFO Toolbox. 
-% Version 2.1.1   15-Sep-2005 
+% Module GRAPHUTIL in WAFO toolbox. 
+% Version 2.5.2   07-Feb-2011 
 % 
 %   readme       - Readme file for module GRAPHUTIL in WAFO Toolbox 
 %

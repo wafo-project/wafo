@@ -1,5 +1,5 @@
 % Module STATISTICS in WAFO Toolbox. 
-% Version 2.2.1  07-Dec-2007
+% Version 2.5.2  07-Feb-2011
 %
 % What's new
 %   Readme            - New features, bug fixes, and changes in STATISTICS. 

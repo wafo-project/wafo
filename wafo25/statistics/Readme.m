@@ -1,5 +1,11 @@
 %README New features, bug fixes, and changes in STATISTICS. 
 %
+% Version 2.5.1   16-Jul-2009
+%
+%  BUG FIX
+%  ~~~~~~~ 
+%  	cdft 	small bugfix
+%
 % Version 2.1.2   21-Dec-2007
 %
 %  NEW FUNCTIONS

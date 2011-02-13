@@ -9,7 +9,7 @@ function [skew, kurt, ma, sa, Hs ,Hd]=spec2skew(S,h,method)
 %                 order. (skew=kurt=0 for a Gaussian process)
 %             S = spectral density structure
 %             h = water depth (default S.h) 
-%   method      = 'approximate' method due to Marthinsen & Winterstein (default)
+%   	 method = 'approximate' method due to Marthinsen & Winterstein (default)
 %                 'eigenvalue'  method due to Kac and Siegert
 %
 %  Skewness = kurtosis-3 = 0 for a Gaussian process.
@@ -33,7 +33,7 @@ function [skew, kurt, ma, sa, Hs ,Hd]=spec2skew(S,h,method)
 %  where
 %   h1 = sqrt(S*dw/2);
 %   C  = (ctranspose(V)*[h1;h1]);
-%   and E and V is the eigenvalues and eigenvectors, respectively, of the 2'order 
+%   and E and V are the eigenvalues and eigenvectors, respectively, of the 2'order 
 %   transfer matrix. S is the spectrum and dw is the frequency spacing of S.
 %
 % Example:  Simulate a Transformed Gaussian process:

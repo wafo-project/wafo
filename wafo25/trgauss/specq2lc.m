@@ -7,11 +7,11 @@ function [mu,fu,Fu,muG,mu1,mu2]= specq2lc(Spec,ds0,nb)
 %            the saddlepoint approximation of crossing intensity for quadratic sea  
 %            in the second column and for Gaussian sea in the third column.
 %            Note that the levels $u$ are not equally spaced. If the spacing 
-%            in the grid is not fine  enough, choose smaller value of parameter  ds. 
+%            in the grid is not fine enough, choose smaller value of parameter  ds. 
 %      fu  = the pdf structure: f.x contains levels u, f.f is a two column matrix containing
 %            the Danniel's-saddlepoint approximation of the density (pdf) of the quadratic 
 %            sea in the first collon and pdf of the Gaussian sea in the second.  
-%      Fu  = the two collon matrix containing levels u and the Lugannani Rice's-saddlepoint 
+%      Fu  = the two column matrix containing levels u and the Lugannani Rice's-saddlepoint 
 %            approximation of the cdf of the quadratic sea.  
 %     S    = spectral density structure, computed using WAFO. S.h contains the water depth.
 %            (default: Jonswap with depth 5000 [m]).
@@ -20,13 +20,12 @@ function [mu,fu,Fu,muG,mu1,mu2]= specq2lc(Spec,ds0,nb)
 % Example: 
 %  S=jonswap; S.h=40;
 %  [mu, fu, Fu]=specq2lc(S,0.05); semilogy(mu(:,1),mu(:,2:3))
-%   pdfplot(fu)
+%  pdfplot(fu)
 %
 
-
-% References: U. Machado, I. Rychlik (2002) "Wave statistics ib nonlinear sea" to
-%             appear in Extremes.
-%             Butler, R., Machado, U. Rychlik, I. (2002)"Distribution of wave crests in non-
+% References: U. Machado, I. Rychlik (2003) "Wave statistics in non-linear random sea" 
+%             Extremes, 6, pp. 125-146.
+%             Butler, R., Machado, U. Rychlik, I. (2002): "Distribution of wave crests in non-
 %             linear random sea - application of saddlepoint methods" by , presented at ISOPE 2003. 
 % Calls: kwaves.m  which evaluates the cumulant generating function K(s,t) as defined in Eq. 13
 % By U.M. 04.11.02

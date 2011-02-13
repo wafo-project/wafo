@@ -23,12 +23,12 @@ function test2 = testgaussian(S,Np,test0,def,opt)
 % If 95% of TEST1 is less than TEST0 then X(t) is not Gaussian at a 5% level.
 %
 % Example:
-% Hm0 = 7;
-% S0 = jonswap([],Hm0); g=ochitr([],[Hm0/4]); S=S0;
-% S.tr=g;S.tr(:,2)=g(:,2)*Hm0/4;
-% xs = spec2sdat(S,2^13);
-% [g0 t0] = dat2tr(xs);
-% t1 = testgaussian(S0,[2^13 50],t0); 
+%    Hm0 = 7;
+%    S0 = jonswap([],Hm0); g=ochitr([],[Hm0/4]); S=S0;
+%    S.tr=g;S.tr(:,2)=g(:,2)*Hm0/4;
+%    xs = spec2sdat(S,2^13);
+%    [g0 t0] = dat2tr(xs);
+%    t1 = testgaussian(S0,[2^13 50],t0); 
 %
 % See also  cov2sdat, dat2tr, troptset
 

@@ -19,16 +19,16 @@ function [f, fmm] = spec2cmat(spec,utc,def,paramt,paramu,nit)
 %     paramu  = [u v N] defines discretization of maxima and minima ranges: 
 %               u is the lowest minimum considered, v the heighest
 %               maximum and N is the number of levles (u,v) included. 
-%        nit  =  0,...,9. Dimension of numerical integration (only
-%                positive nit are allowed). (default nit=1). 
+%        nit  = 0,...,9. Dimension of numerical integration (only
+%                       positive nit are allowed). (default nit=1). 
 %       []    = default values are used. 
 % 
 %      
-%  The model for loads is a stationary Gaussian transformed process X(t),
-%  where  Y(t) = g(X(t)) is a zero-mean Gaussian with spectrum, S.
+% The model for loads is a stationary Gaussian transformed process X(t),
+% where  Y(t) = g(X(t)) is a zero-mean Gaussian with spectrum, S.
 %  
-%  Note: algorithm uses Markov Chain approximation to the sequence of
-%  turning points in Y.   
+% Note: algorithm uses Markov Chain approximation to the sequence of
+% turning points in Y.   
 %
 % Example: % The intensity matrix of rainflow cycles is computed by: 
 %       S  = jonswap;      

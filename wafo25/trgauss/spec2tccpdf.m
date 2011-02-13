@@ -22,11 +22,11 @@ function [f] = spec2tccpdf(spec,utc,def,paramt,h1,h2,nit,speed)
 %               parameters, possible values: 1,2,...,9 (9 fastest, default 4).
 %       []    = default values are used.
 %
-% SPEC2TCCPDF calculates pdf of Tcc period  or Lcc length (i.e., crest to crest wave -period or -length)
-% such that Ac>h1 and At>h2, or Ac<h1 and At<h2 in a stationary
-% Gaussian transform process X(t), where Y(t) = g(X(t)).(Y zero-mean
-% Gaussian with spectrum given in S). The transformation, g, can be
-% estimated using lc2tr or dat2tr.
+% SPEC2TCCPDF calculates pdf of Tcc period  or Lcc length (i.e., crest to crest 
+% wave -period or -length) such that Ac>h1 and At>h2, or Ac<h1 and At<h2 in 
+% a stationary Gaussian transform process X(t), where Y(t) = g(X(t)).
+% (Y zero-mean Gaussian with spectrum given in S). The transformation, g, 
+% can be estimated using lc2tr or dat2tr.
 %
 % Example: %Compute the pdf of Tcc with crest and trough higher then 0.5*Hs:
 %    S=jonswap; L=spec2mom(S); NIT=0;

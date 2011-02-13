@@ -1,5 +1,5 @@
 % Module TRGAUSS in WAFO Toolbox. 
-% Version 2.2.1   05-May-2008
+% Version 2.5.2   05-Feb-2011
 % 
 %   Readme         - New features, bug fixes, and changes in TRGAUSS.
 %

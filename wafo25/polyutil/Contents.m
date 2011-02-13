@@ -1,5 +1,5 @@
 % Module POLYUTIL in WAFO Toolbox. 
-%  Version 2.1.1   15-Sep-2007 
+%  Version 2.5.2   07-Feb-2011 
 %
 %   readme    - Readme file for module POLYUTIL in WAFO Toolbox 
 %

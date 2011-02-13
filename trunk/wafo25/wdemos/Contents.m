@@ -1,5 +1,5 @@
 % Module WDEMOS in WAFO Toolbox. 
-% Version 2.1.1   07-Sep-2005 
+% Version 2.5.2   07-Feb-2011 
 % 
 % 
 % democc         - A program for visualization of cycle counts in random 

@@ -45,7 +45,7 @@ function [x,xder]=spec2sdat(S,np,dt,iseed,method)
 %      m = mean(res);
 %      sa = std(res);
 %      [abs(m-trueval)<sa, trueval, m, sa]
-%   end
+%  end
 %  
 % See also  cov2sdat, gaus2dat
 

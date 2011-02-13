@@ -65,7 +65,7 @@ function [x2,x,svec,dvec,A]=spec2nlsdat(S,np,dt,iseed,method,truncationLimit)
 %      m = mean(res);
 %      sa = std(res);
 %      [abs(m-trueval)<sa, trueval, m, sa]
-%   end
+%  end
 %
 % See also  spec2linspec, spec2sdat, cov2sdat
 

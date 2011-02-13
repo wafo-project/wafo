@@ -25,9 +25,8 @@ function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag)
 % used here is a surf-plot.  
 %  
 % Limitations: memory demanding! fftdim=2 is in general better.
-% When fftdim=1 and NX*NY is large (the limit also depends on spectrum, dt
-% etc.) then a slower version with more looping is used. This version can
-% be 
+% When fftdim=1 and NX*NY is large (the limit depends on spectrum, dt etc.) 
+% then a slower version with more looping is used. This version can be 
 % forced by putting fftdim to something greater than 2, then fftdim will equal
 % the number of extra loops. Try this after an interrupt by 'Out of Memory'. 
 %

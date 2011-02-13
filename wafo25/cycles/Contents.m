@@ -1,5 +1,5 @@
 % Module CYCLES in WAFO Toolbox. 
-% Version 2.1.1   06-Sep-2005 
+% Version 2.5.2   07-Feb-2011 
 %
 %
 % This module contains routines for cycle counting, discretization, 

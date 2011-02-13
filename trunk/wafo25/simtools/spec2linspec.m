@@ -48,7 +48,7 @@ function [SL,SN]=spec2linspec(S,np,dt,iseed,fnLimit)
 %  Se2 = dat2spec(x2); 
 %  clf  
 %  plotspec(SL,'r',pflag),  % Linear components
-%   hold on
+%  hold on
 %  plotspec(S,'b',pflag)    % target spectrum for simulated data
 %  plotspec(Se0,'m',pflag), % approx. same as S 
 %  plotspec(Se1,'g',pflag)  % unphysical spectrum

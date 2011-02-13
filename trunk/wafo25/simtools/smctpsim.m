@@ -43,9 +43,9 @@ function [x,z,TT] = smctpsim(P,F,T,init,whatOut)
 % P.sequence = Specified sequence.               [qx2]
 %
 % Examples: Two regime states.
-%  % [x,z] = smctpsim(P,F,T); % Two regime states
-% %Example: A Markov chain of turning points (One regime state).
-%  % [x,z] = smctpsim(1,F,T);
+%  [x,z] = smctpsim(P,F,T); % Two regime states
+% Example: A Markov chain of turning points (One regime state).
+%  [x,z] = smctpsim(1,F,T);
 
 % Tested  on Matlab  5.3
 %

@@ -8,8 +8,8 @@ function [x,z] = smcsim(P,Qc,T,init)
 % z    = Simulated Regime process
 %
 % P    = Transition matrix for regime process     [rxr]
-% Q      = Cell array of transition matrices        {r,1}
-% Q{i}   = Transition matrix for Markov chain i     [nxn]
+% Q    = Cell array of transition matrices        {r,1}
+% Q{i} = Transition matrix for Markov chain i     [nxn]
 % T    = Length of simulation.
 % init.x0 = Initial state of process x. If not given, it will start from
 %          the stationary distribution of minima given z(1).
@@ -28,8 +28,9 @@ function [x,z] = smcsim(P,Qc,T,init)
 %   [x,z] = smcsim(P,Q,400,init); plothmm(x,z,[],[1 2],'','',1)
 %   init.z0 = []; init.x0 = 6;
 %   [x,z] = smcsim(P,Q,400,init); plothmm(x,z,[],[1 2],'','',1)
+%
 
-% %Example: Simulation of a Markov chain % Does not work
+% Example: Simulation of a Markov chain % Does not work
 %   P=[0.9 0.1; 0.05 0.95];
 %   x = smcsim(1,P,1000);
 %   plot(x)

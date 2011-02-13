@@ -17,8 +17,8 @@ function [x, xder]=cov2sdat(R,np,iseed)
 %  COV2SDAT performs a Fast and exact simulation of stationary zero mean 
 %  Gaussian process through circulant embedding of the Covariance matrix.
 %  
-%  If the covariance structure  has a non-empty field .tr, then the
-%  transformation is  applied to the simulated data, the result is a 
+%  If the covariance structure has a non-empty field .tr, then the
+%  transformation is applied to the simulated data, the result is a 
 %  simulation of a transformed Gaussian process.
 %
 % Example:

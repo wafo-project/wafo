@@ -1,6 +1,14 @@
 %README New features, bug fixes, and changes in ONEDIM.
+% 
+% Version 2.5.2 01_Feb-2011
 %
-%  Version 2.1.1   07-Nov-2004
+%   Fixed a bug in skew.m
+%   Added more extensive tests to
+%   spec2nlsdat.m and spec2sdat.m
+%   Updated calls in Chapter1.m
+%
+%-----------------------------------------------------------------
+% Version 2.1.1   07-Nov-2004
 %
 %   NEW FUNCTIONS
 %   ~~~~~~~~~~~~~

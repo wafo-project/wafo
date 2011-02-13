@@ -1,5 +1,5 @@
 % Module ONEDIM in WAFO Toolbox. 
-% Version 2.2.1  05-May-2008 
+% Version 2.5.2  07-Feb-2011 
 % 
 %   Readme       - Readme file for module ONEDIM in WAFO Toolbox.
 %

@@ -1,5 +1,5 @@
 % DOCS MODULE in WAFO Toolbox 
-% Version 2.1.1   15-Sep-2005 
+% Version 2.5.2   07-Feb-2011 
 % 
 % 
 % ampdef        - Wave heights and amplitude definitions and nomenclature. 

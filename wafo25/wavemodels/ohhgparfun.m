@@ -31,7 +31,7 @@ function [A0,B0,C0]= ohhgparfun(Hm0,def,dim)
 % 
 %  See also  ohhvpdf, ohhcdf 
 
-
+% Adapted to  cssmooth  by GL Feb 2011
 % History:
 % by pab 29.01.2001
 
@@ -324,9 +324,9 @@ switch pardef
       B0 = exp(interp1(Hm00,B00(:,def),Hm0,method));
       C0 = exp(interp1(Hm00,C00(:,def),Hm0,method));
     else
-      A0 = exp(smooth(Hm00,(A00(:,def)),1,Hm0));
-      B0 = exp(smooth(Hm00,(B00(:,def)),1,Hm0));
-      C0 = exp(smooth(Hm00,C00(:,def),1,Hm0));
+      A0 = exp(cssmooth(Hm00,(A00(:,def)),1,Hm0));
+      B0 = exp(cssmooth(Hm00,(B00(:,def)),1,Hm0));
+      C0 = exp(cssmooth(Hm00,C00(:,def),1,Hm0));
     end
 
 end

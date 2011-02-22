@@ -34,7 +34,8 @@ function [f,Hrms,Vrms,fA,fB] = jhvnlpdf(Hd,Vcf,Hm0,Tp,gam,normalizedInput,condon
 % The Probability of Occurrence of Dangerous Wave Situations at Sea.
 % Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
 % Trondheim, Norway. 
-  
+
+% Adapted to  cssmooth  by GL Feb 2011  
 % History
 % By pab 20.12.2000
 
@@ -146,16 +147,16 @@ if 1,
       k = find(jx==iz);
       Tpi(:)  = TpHm0(iz,1);
       Hm0i(:) = TpHm0(iz,2);
-      A1(k) = exp(smooth(h2,interp3(E1,H1,H2,log(A11),Tpi,Hm0i,h2,method),...
+      A1(k) = exp(cssmooth(h2,interp3(E1,H1,H2,log(A11),Tpi,Hm0i,h2,method),...
 			 1,h(k),1));
-      B1(k) = exp(smooth(h2,interp3(E1,H1,H2,log(B11),Tpi,Hm0i,h2,method),...
+      B1(k) = exp(cssmooth(h2,interp3(E1,H1,H2,log(B11),Tpi,Hm0i,h2,method),...
 			 1,h(k),1));
     end
   else
     Tpi  = repmat(Tp,[Nh2,1]);
     Hm0i = repmat(Hm0,[Nh2,1]);
-    A1 = exp(smooth(h2,interp3(E1,H1,H2,log(A11),Tpi,Hm0i,h2,method),1,h,1));
-    B1 = exp(smooth(h2,interp3(E1,H1,H2,log(B11),Tpi,Hm0i,h2,method),1,h,1));
+    A1 = exp(cssmooth(h2,interp3(E1,H1,H2,log(A11),Tpi,Hm0i,h2,method),1,h,1));
+    B1 = exp(cssmooth(h2,interp3(E1,H1,H2,log(B11),Tpi,Hm0i,h2,method),1,h,1));
   end
 else
   e2  = JHVNLPAR.gam; % gamma
@@ -176,12 +177,12 @@ if multipleSeaStates
   for iz=1:numSeaStates
     k = find(jx==iz);
     gami(:) = gamu(iz);
-    A1(k) = smooth(h2,interp2(E2,H2,A11,gami,h2,method),1,h(k),1);
-    B1(k) = smooth(h2,interp2(E2,H2,B11,gami,h2,method),1,h(k),1);
+    A1(k) = cssmooth(h2,interp2(E2,H2,A11,gami,h2,method),1,h(k),1);
+    B1(k) = cssmooth(h2,interp2(E2,H2,B11,gami,h2,method),1,h(k),1);
   end
 else
-  A1 = smooth(h2,interp2(E2,H2,A11,gam(ones(size(h2))),h2,method),1,h,1);
-  B1 = smooth(h2,interp2(E2,H2,B11,gam(ones(size(h2))),h2,method),1,h,1);
+  A1 = cssmooth(h2,interp2(E2,H2,A11,gam(ones(size(h2))),h2,method),1,h,1);
+  B1 = cssmooth(h2,interp2(E2,H2,B11,gam(ones(size(h2))),h2,method),1,h,1);
 end
 end
 [A0,B0,C0] = jhnlwparfun(Hm0,Tp,gam);

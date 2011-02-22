@@ -18,7 +18,8 @@ function varargout=plotqq(x,y,ps,method)
 %
 % See also  percentile
 
-% testen on: matlab 5.3
+% Adapted to  cssmooth  by GL Feb 2011
+% tested on: matlab 5.3
 % History:
 % revised pab March 2007
 % - added LS-line to qqplot using smooth
@@ -75,4 +76,4 @@ dx = [dx(1);dx];
 dxsmall = percentile(dx,0.25);
 iy = find(dx>=dxsmall);
 ix = ix(iy);
-yi = smooth(x(iy),y(ix),0,xi);
+yi = cssmooth(x(iy),y(ix),0,xi);

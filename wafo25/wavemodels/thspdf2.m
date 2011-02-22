@@ -41,7 +41,8 @@ function [f,varargout] = thspdf2(Hd,Scf,Hm0,Tp,normalizedInput)
 % The Probability of Occurrence of Dangerous Wave Situations at Sea.
 % Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
 % Trondheim, Norway.  
-  
+
+% Adapted to  cssmooth  by GL Feb 2011  
 % History
 % revised pab 09.08.2003
 % changed input  
@@ -142,9 +143,9 @@ return
 % 
 % method = '*cubic';% Faster interpolation
 % [E1, H1, H2] = meshgrid(Tpp,Hm00,h2);
-% A1 = exp(smooth(h2,interp3(E1,H1,H2,log(A11),Tp(ones(size(h2))),...
+% A1 = exp(cssmooth(h2,interp3(E1,H1,H2,log(A11),Tp(ones(size(h2))),...
 %     Hm0(ones(size(h2))) ,h2,method),1,h/Hrms,1));
-% B1 = exp(smooth(h2,interp3(E1,H1,H2,log(B11),Tp(ones(size(h2))),...
+% B1 = exp(cssmooth(h2,interp3(E1,H1,H2,log(B11),Tp(ones(size(h2))),...
 %      Hm0(ones(size(h2))),h2,method),1,h/Hrms,1));
 % 
 % [V1 H1] = meshgrid(v/Vrms,h/Hrms);

@@ -62,7 +62,7 @@ function [g, test, g2] = lc2tr2(cross,ma,sa,varargin)
 % hold on, trplot(g1,g)                          % Check the fit
 % trplot(g2)
 %
-% See also  troptset, dat2tr, trplot, findcross, smooth
+% See also  troptset, dat2tr, trplot, findcross, cssmooth
 
 % NB! the transformated data will be N(0,1)
 
@@ -74,7 +74,7 @@ function [g, test, g2] = lc2tr2(cross,ma,sa,varargin)
 % Vol 10, pp 13--47
 % 
 
-
+% Adapted to  cssmooth  by GL Feb 2011
 % Tested on: Matlab 5.3, 5.2, 5.1
 % History:
 % by pab 29.12.2000
@@ -159,7 +159,7 @@ cros(:,1) = (cros(:,1)-ma)/sa;
 [tmp,imin]= min(abs(cros(:,2)-.15));
 [tmp,imax]= min(abs(cros(:,2)-.85));
 inde = imin:imax;
-tmp =  smooth(cros(inde,1),g2(inde,2),opt.csm,cros(inde,1),def,cvar(inde));
+tmp =  cssmooth(cros(inde,1),g2(inde,2),opt.csm,cros(inde,1),def,cvar(inde));
 
 [tmp imax] = max(tmp);
 u0 = cros(inde(imax),1);
@@ -175,7 +175,7 @@ g2(:,2)   = cros(:,2);
 % to be linear outside the edges or choosing a lower value for csm2.
 
 inds = 1+Ne:ncr-Ne;% indices to points we are smoothing over
-scros2 = smooth(cros(inds,1),cros(inds,2),csm2,uu,def,gvar(inds));
+scros2 = cssmooth(cros(inds,1),cros(inds,2),csm2,uu,def,gvar(inds));
 
 g(:,2) = scros2';%*sa; %multiply with stdev 
 
@@ -188,7 +188,7 @@ if chkder~=0
       disp('        a strictly increasing function.')
       dy(dy>0)=eps;
       gvar = -([dy;0]+[0;dy])/2+eps;
-      g(:,2) = smooth(g(:,1),g(:,2),1,g(:,1),def,ix*gvar);
+      g(:,2) = cssmooth(g(:,1),g(:,2),1,g(:,1),def,ix*gvar);
     else 
       break
     end

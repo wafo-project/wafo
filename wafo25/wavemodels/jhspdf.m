@@ -36,7 +36,8 @@ function [f,Hrms,Vrms] = jhspdf(Hd,Scf,Hm0,Tp,gam,normalizedInput,condon)
 % The Probability of Occurrence of Dangerous Wave Situations at Sea.
 % Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
 % Trondheim, Norway.  
-  
+
+% Adapted to  cssmooth  by GL Feb 2011  
 % History
 % revised pab March 2007
 % By pab 17.01.2003
@@ -136,13 +137,13 @@ if multipleSeaStates
   for iz=1:numSeaStates
     k = find(jx==iz);
     gami(:) = gamu(iz);
-    A1(k) = exp(smooth(h2,interp2(E2,H2,log(A11),gami,h2,method),1,h(k),1));
-    B1(k) = exp(smooth(h2,interp2(E2,H2,log(B11),gami,h2,method),1,h(k),1));
+    A1(k) = exp(cssmooth(h2,interp2(E2,H2,log(A11),gami,h2,method),1,h(k),1));
+    B1(k) = exp(cssmooth(h2,interp2(E2,H2,log(B11),gami,h2,method),1,h(k),1));
   end
 else
-  A1 = exp(smooth(h2,interp2(E2,H2,log(A11),...
+  A1 = exp(cssmooth(h2,interp2(E2,H2,log(A11),...
 			     gam(ones(size(h2))),h2,method),1,h,1));
-  B1 = exp(smooth(h2,interp2(E2,H2,log(B11),...
+  B1 = exp(cssmooth(h2,interp2(E2,H2,log(B11),...
 			     gam(ones(size(h2))),h2,method),1,h,1));
 end
 % Waveheight distribution in time

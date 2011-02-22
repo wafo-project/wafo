@@ -27,7 +27,7 @@ function [g, t0] = hermitefun(coef,x,ma,sa,gdef)
 %
 % See also  hermitetr, ochitr, dat2tr
 
-
+% Adapted to  cssmooth  by GL Feb 2011
 % Tested on: matlab 5.3
 % by pab 
 % - default x is now levels([-5 5 513])*sa+ma -> 
@@ -139,7 +139,7 @@ switch k*(gdef>=0)
    %g(:,1) = sa*K*(xn + c3*(xn.^2-1) + c4*(xn.^3-3*xn))+ma;
    
    % interpolate so that g(:,1) have equidistant spacing 
-   g(:,2)=smooth(g(:,1),g(:,2),1,x,1);
+   g(:,2)=cssmooth(g(:,1),g(:,2),1,x,1);
    g(:,1)=x;
 end
 

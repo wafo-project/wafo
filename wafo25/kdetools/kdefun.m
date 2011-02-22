@@ -250,11 +250,11 @@ if any(k3), % non-parametric transformation
     hg1  = tranproc([X(:,ix) oneC],gn);
     der1 = abs(hg1(:,2)); % dg(X)/dX = 1/(dG(Y)/dY)
     % alternative 2
-    %pp  = smooth(Gn(:,1),Gn(:,2),1,[],1);
+    %pp  = cssmooth(Gn(:,1),Gn(:,2),1,[],1);
     %dpp = diffpp(pp);
     %der1 = 1./abs(ppval(dpp,f.x{ix}));
     % Alternative 3
-    %pp  = smooth(gn(:,1),gn(:,2),1,[],1);
+    %pp  = cssmooth(gn(:,1),gn(:,2),1,[],1);
     %dpp = diffpp(pp);
     %%plot(hg1(:,1),der1-abs(ppval(dpp,x0)))
     %der1 = abs(ppval(dpp,x0));

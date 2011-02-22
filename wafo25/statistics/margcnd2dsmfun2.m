@@ -18,8 +18,9 @@ function sphat=margcnd2dsmfun2(phat,h2,csm,lin,visual,f0)
 %            1 : Visual fitting by the user by specifying points using
 %                the mouse and interpolate the points with a spline afterwards.
 %
-%  See also   fitmargcnd2d smooth 
+%  See also   fitmargcnd2d cssmooth 
 
+% Adapted to  cssmooth  by GL Feb 2011
 % Tested on: Matlab 5.2
 % history
 % revised pab July2004  
@@ -80,15 +81,15 @@ if useSTATS && ~isempty(phat.stats1) && strncmpi(phat.dist{1},'gamma',2)
     Nptsi = phat.stats1{4}(ind1);
     dab =  hi.^2./(Nptsi);
     %h2 = unique(h2);
-    Mv = smooth(hi,mi,CSMA,h2,linA,dab);
+    Mv = cssmooth(hi,mi,CSMA,h2,linA,dab);
     if any(Mv<=0) 
       dab1 =  log(mi)+log(mi+dab);
-       Mv = exp(smooth(hi,log(mi),CSMA,h2,linA,dab1));
+       Mv = exp(cssmooth(hi,log(mi),CSMA,h2,linA,dab1));
     end
-    Sv = smooth(hi,sqrt(vi),CSMB,h2,linB,dab);
+    Sv = cssmooth(hi,sqrt(vi),CSMB,h2,linB,dab);
     if any(Sv<=0) 
       dab1 =  log(sqrt(vi))+log(sqrt(vi)+dab);
-       Sv = exp(smooth(hi,log(sqrt(vi)),CSMB,h2,linB,dab1));
+       Sv = exp(cssmooth(hi,log(sqrt(vi)),CSMB,h2,linB,dab1));
     end
     %plot(hi,mi,'.',hi,sqrt(vi),'.',h2,Mv,h2,Sv)
     %drawnow
@@ -97,8 +98,8 @@ if useSTATS && ~isempty(phat.stats1) && strncmpi(phat.dist{1},'gamma',2)
       Av = Mv.^2./Sv.^2;
       Bv = Sv.^2./Mv;
     else
-      Av = smooth(h2,Mv.^2./Sv.^2,0.99,h2);
-      Bv = smooth(h2,Sv.^2./Mv,0.99,h2);
+      Av = cssmooth(h2,Mv.^2./Sv.^2,0.99,h2);
+      Bv = cssmooth(h2,Sv.^2./Mv,0.99,h2);
     end
     Cv = 0;
     sphat.x{1}(:,2) = Av;
@@ -147,7 +148,7 @@ for ix = 1:10
   
   sphat.visual=~isempty(x);
   if ~isempty(x),
-    sphat.x{1}(:,2)=smooth(x,y,1,sphat.x{1}(:,1),1);
+    sphat.x{1}(:,2)=cssmooth(x,y,1,sphat.x{1}(:,1),1);
     hold on, plot(h2,sphat.x{1}(:,2),'g-'),hold off % plot visual fit
     figure(fig0)
     cmpDistributions(x1,sphat,f0);
@@ -166,7 +167,7 @@ for ix = 1:10
     [x,y]=graphicinput;
     sphat.visual(2)=~isempty(x);
     if ~isempty(x),
-      sphat.x{1}(:,3)=smooth(x,y,1,sphat.x{1}(:,1),1);
+      sphat.x{1}(:,3)=cssmooth(x,y,1,sphat.x{1}(:,1),1);
       hold on, plot(h2,sphat.x{1}(:,3),'g-'),hold off % plot visual fit
       figure(fig0)
       cmpDistributions(x1,sphat,f0)
@@ -186,7 +187,7 @@ for ix = 1:10
     [x,y]=graphicinput;
     sphat.visual(col)=~isempty(x);
     if ~isempty(x),
-      sphat.x{1}(:,col+1)=smooth(x,y,1,sphat.x{1}(:,1),1);
+      sphat.x{1}(:,col+1)=cssmooth(x,y,1,sphat.x{1}(:,1),1);
       hold on, plot(h2,sphat.x{1}(:,2),'g-'),hold off % plot visual fit
       figure(fig0)
       cmpDistributions(x1,sphat,f0)

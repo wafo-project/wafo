@@ -41,7 +41,8 @@ function [f,fA,fB] = ohhvpdf(v,h,Hm0,def,norm)
 % The Probability of Occurrence of Dangerous Wave Situations at Sea.
 % Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
 % Trondheim, Norway.   
-  
+
+% Adapted to  cssmooth  by GL Feb 2011    
 % History
 % By pab 20.12.2000
 
@@ -93,8 +94,8 @@ end
 Fh = pdfgengam(h(:)/Hrms,A0,B0,C0);
 
 method = '*cubic'; %'spline'
-A1 = exp(smooth(h2,interp2(E2,H2,log(squeeze(A11(:,def,:))).',Hm0(ones(size(h2))),h2,method),1,h/Hrms,1));
-B1 = smooth(h2,interp2(E2,H2,squeeze(B11(:,def,:)).',Hm0(ones(size(h2))),h2,method),1,h/Hrms,1);
+A1 = exp(cssmooth(h2,interp2(E2,H2,log(squeeze(A11(:,def,:))).',Hm0(ones(size(h2))),h2,method),1,h/Hrms,1));
+B1 = cssmooth(h2,interp2(E2,H2,squeeze(B11(:,def,:)).',Hm0(ones(size(h2))),h2,method),1,h/Hrms,1);
 
 [V1 A1] = meshgrid(v/Vrms,A1);
 [V1 B1] = meshgrid(v/Vrms,B1);

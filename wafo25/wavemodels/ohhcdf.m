@@ -41,6 +41,7 @@ function f = ohhcdf(h,Hm0,def,dim)
 % Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
 % Trondheim, Norway.   
   
+% Adapted to  cssmooth  by GL Feb 2011
 % History
 % revised pab jan2004  
 % By pab 20.01.2001
@@ -95,9 +96,9 @@ return
 %       B0 = interp1(Hm00,B00(:,def),Hm0,method);
 %       C0 = interp1(Hm00,C00(:,def),Hm0,method);
 %     else
-%       A0 = smooth(Hm00,A00(:,def),1,Hm0);
-%       B0 = smooth(Hm00,B00(:,def),1,Hm0);
-%       C0 = smooth(Hm00,C00(:,def),1,Hm0);
+%       A0 = cssmooth(Hm00,A00(:,def),1,Hm0);
+%       B0 = cssmooth(Hm00,B00(:,def),1,Hm0);
+%       C0 = cssmooth(Hm00,C00(:,def),1,Hm0);
 %     end
  
 % end

@@ -94,7 +94,7 @@ function [g, test, cmax, irr, g2]= dat2tr(x,def,varargin)
 % in Proceedings of 9th ISOPE Conference, Vol III, pp 66-73
 
 
-
+% Adapted to  cssmooth  by GL Feb 2011
 %Tested on: Matlab 5.3, 5.2, 5.1
 %History:
 % revised pab Dec2004
@@ -242,25 +242,25 @@ if multip==1,
         [g(:,2*ix-1:2*ix), test(ix),tmp]=lc2tr(cross1,ma(ix),sa(ix),opt);
         if nargout>4
           g2(:,2*ix-1) = g(:,2*ix-1);
-          g2(:,2*ix)   = smooth(tmp(:,1),tmp(:,2),1,g(:,2*ix-1),linextrap);
+          g2(:,2*ix)   = cssmooth(tmp(:,1),tmp(:,2),1,g(:,2*ix-1),linextrap);
         end
       case {'emp'}, % empirical 
         [g2(:,2*ix-1:2*ix), test(ix),tmp]=lc2tr(cross1,ma(ix),sa(ix),opt);
 	g(:,2*ix-1) = g2(:,2*ix-1);
-	g(:,2*ix)   = smooth(tmp(:,1),tmp(:,2),1,g2(:,2*ix-1),1);
+	g(:,2*ix)   = cssmooth(tmp(:,1),tmp(:,2),1,g2(:,2*ix-1),1);
 	test(ix)    = sqrt(trapz(uu,(uu-g(:,2*ix)).^2));
       case {'mno'} % mnonlinear 
 	[g(:,2*ix-1:2*ix), test(ix),tmp]= cdf2tr(Fx,ma(ix),sa(ix),opt);
 	if nargout>4
 	  g2(:,2*ix-1) = g(:,2*ix-1);
-	  g2(:,2*ix)   = smooth(tmp(:,1),tmp(:,2),1,g(:,2*ix-1),1);
+	  g2(:,2*ix)   = cssmooth(tmp(:,1),tmp(:,2),1,g(:,2*ix-1),1);
 	end
       case {'mem'}, % mempirical
 	[g2(:,2*ix-1:2*ix), test(ix),tmp]=cdf2tr(Fx,ma(ix),sa(ix),opt);
 	g(:,2*ix-1) = g2(:,2*ix-1);
-	g(:,2*ix)   = smooth(tmp(:,1),tmp(:,2),1,g2(:,2*ix-1),linextrap);
+	g(:,2*ix)   = cssmooth(tmp(:,1),tmp(:,2),1,g2(:,2*ix-1),linextrap);
 	test(ix)    = sqrt(trapz(uu,(uu-g(:,2*ix)).^2));
-	%g(:,2*ix)  = smooth(Fx(ind,1),tmp,1,g(:,2*ix-1),linextrap);
+	%g(:,2*ix)  = cssmooth(Fx(ind,1),tmp,1,g(:,2*ix-1),linextrap);
 	%test(ix)   = sqrt(trapz(uu,(uu-g(:,2*ix)).^2));
     end
   end
@@ -302,11 +302,11 @@ else % multip==0
       [g, test, g2] = lc2tr(cross1,ma,sa,opt);%csm1,csm2,param,[plotflag monitor]);
     case {'emp'},  
       [g2, test, g] = lc2tr(cross1,ma,sa,opt);%csm1,csm2,param,[plotflag monitor]);
-      test = sqrt(trapz(uu,(uu-smooth((g(:,1)-ma)/sa,g(:,2),1,uu,1)).^2));
+      test = sqrt(trapz(uu,(uu-cssmooth((g(:,1)-ma)/sa,g(:,2),1,uu,1)).^2));
     case {'mno'},
       [g, test, g2] = cdf2tr(Fx,ma,sa,opt);
     case  {'mem'},
       [g2, test, g] = cdf2tr(Fx,ma,sa,opt);
-      test = sqrt(trapz(uu,(uu-smooth((g(:,1)-ma)/sa,g(:,2),1,uu,1)).^2));
+      test = sqrt(trapz(uu,(uu-cssmooth((g(:,1)-ma)/sa,g(:,2),1,uu,1)).^2));
   end 
 end

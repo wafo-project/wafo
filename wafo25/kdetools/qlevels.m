@@ -96,7 +96,7 @@ end
 ind=find(diff([Fi;1])>0);% make sure Fi is strictly increasing by not considering duplicate values
 ui=tranproc(p2(:),[Fi(ind) fi(ind)]); % calculating the inverse of Fi to find the index
                                        % to the desired quantile level
-%ui=smooth(Fi(ind),fi(ind),1,p2(:),1) % alternative
+%ui=cssmooth(Fi(ind),fi(ind),1,p2(:),1) % alternative
 %res=ui-ui2
 
 

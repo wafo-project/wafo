@@ -1,7 +1,7 @@
-function [indx, indy] = findpeaks(S,Np,min_h,min_p)
+function [indx, indy] = wfindpeaks(S,Np,min_h,min_p)
 %FINDPEAKS find peaks of vector or matrix possibly rainflow filtered
 %  
-% CALL: [ix iy] = findpeaks(S,Np,min_h,min_p)   
+% CALL: [ix iy] = wfindpeaks(S,Np,min_h,min_p)   
 %
 %    ix     = row subscripts to the peaks of S if iy present
 %             otherwise linear index to peaks of S
@@ -15,14 +15,14 @@ function [indx, indy] = findpeaks(S,Np,min_h,min_p)
 %                   are returned (default  0).
 % Example: 
 %  x=(0:0.01:10); S=x.^2+10*sin(3*x)+0.5*sin(50*x); clf, plot(x,S)
-%  ix = findpeaks(S',8,5,0.3) % Find highest 8 peaks that are not
+%  ix = wfindpeaks(S',8,5,0.3) % Find highest 8 peaks that are not
 %                             % less that 0.3*"global max" and have 
 %                             % rainflow amplitude larger than 5.
 %
 % See also  dat2tp
 
-
-% Tested on: matlab 5.3
+% GL, Feb 2011, Changed name to  wfindpeaks  to avoid name collision 
+ % Tested on: matlab 5.3
 % History:
 % revised pab Feb2004
 % -changed default value for min_h

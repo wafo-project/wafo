@@ -39,6 +39,7 @@ function [g, test, g2] = cdf2tr(Fx1,ma ,sa,varargin)
 %
 % See also  troptset, lc2tr
 
+% Adapted to  cssmooth  by GL Feb 2011
 % History
 % revised Feb2004  
 % Revised pab Dec2003
@@ -101,7 +102,7 @@ ind = find(diff(Fx(:,1))>0); % remove equal points
 ind1 = ind(Ne+1:end-Ne);  
 tmp = invnorm(Fx(ind,2));
 
-g(:,2) = smooth(Fx(ind1,1),tmp(Ne+1:end-Ne),opt.gsm,g(:,1),def,gvar);
+g(:,2) = cssmooth(Fx(ind1,1),tmp(Ne+1:end-Ne),opt.gsm,g(:,1),def,gvar);
 
 if chkder~=0
   for ix = 1:5
@@ -112,7 +113,7 @@ if chkder~=0
       disp('        a strictly increasing function.')
       dy(dy>0)=eps;
       gvar = -([dy;0]+[0;dy])/2+eps;
-      g(:,2) = smooth(g(:,1),g(:,2),1,g(:,1),def,ix*gvar);
+      g(:,2) = cssmooth(g(:,1),g(:,2),1,g(:,1),def,ix*gvar);
     else 
       break
     end

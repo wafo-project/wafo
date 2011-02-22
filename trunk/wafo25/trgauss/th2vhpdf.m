@@ -15,6 +15,7 @@ function f2 = th2vhpdf(f,v)
 %
 % See also  spec2thpdf
 
+% Adapted to  cssmooth  by GL Feb 2011
 % Tested on : matlab 5.3
 % History: 
 % revised pab 3Dec2003  
@@ -50,7 +51,7 @@ for ix=k3
     
      v1 = h(ix)./t(k) ;
     ind = find(f.f(ix,k)>0);
-    f2.f(ix,k0)=exp(min(smooth(v1(ind), log(f.f(ix,k(ind)).'.*t(k(ind)).^2/h(ix)) ,.99,v(k0) ,1),0));
+    f2.f(ix,k0)=exp(min(cssmooth(v1(ind), log(f.f(ix,k(ind)).'.*t(k(ind)).^2/h(ix)) ,.99,v(k0) ,1),0));
   else
     % no extrapolation => more robust
      v1 = h(ix)./t(k) ;

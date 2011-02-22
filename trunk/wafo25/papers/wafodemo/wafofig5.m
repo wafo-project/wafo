@@ -7,7 +7,7 @@ function wafofig5
 %          ( Increase NNp and Nh to get a smoother theoretical distribution.
 %           This may increase the computational time dramatically)
 
-  
+% Adapted to  cssmooth  by GL Feb 2011  
 % revised pab Feb2005
 % -updated call to kdebin
   
@@ -116,7 +116,7 @@ for ix=2:length(h)
     
      v1 =[0; h(ix)./t(2:end) ];
     ind= find(f.f(ix,:)>0);
-    f2.f(ix,2:end)=exp(min(smooth(v1(ind), log(f.f(ix,ind)'.*t(ind).^2/h(ix)) ,.99,v(2:end) ,1),0));
+    f2.f(ix,2:end)=exp(min(cssmooth(v1(ind), log(f.f(ix,ind)'.*t(ind).^2/h(ix)) ,.99,v(2:end) ,1),0));
   else
     % no extrapolation => more robust
      v1 =[ h(ix)./t(2:end) ];

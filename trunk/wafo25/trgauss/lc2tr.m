@@ -55,7 +55,7 @@ function [g, test, g2] = lc2tr(cross,ma,sa,varargin)
 % hold on, trplot(g1,g)                                   % Check the fit
 % trplot(g2)
 %
-% See also  troptset, dat2tr, trplot, findcross, smooth
+% See also  troptset, dat2tr, trplot, findcross, cssmooth
 
 % NB! the transformated data will be N(0,1)
 
@@ -67,7 +67,7 @@ function [g, test, g2] = lc2tr(cross,ma,sa,varargin)
 % Vol 10, pp 13--47
 % 
 
-
+% Adapted to  cssmooth  by GL Feb 2011
 % Tested on: Matlab 5.3, 5.2, 5.1
 % History:
 % revised pab 21.12.2000
@@ -175,7 +175,7 @@ cros(:,1) = (cros(:,1)-ma)/sa;
 %cros0=cros;
 
 if 0, % slightly smoothing the crossing spectrum
-  tmp=smooth(cros(1:end,1),cros(1:end,2),0.95,cros(1:end,1)); 
+  tmp=cssmooth(cros(1:end,1),cros(1:end,2),0.95,cros(1:end,1)); 
   ind=(tmp>0);
   cros(ind,2)=tmp; clear tmp ind
 end
@@ -187,19 +187,19 @@ end
 cros(~indz,2) = -log(cros(~indz,2));
 
 
-% NB! the smooth function does not always extrapolate well outside the edges
+% NB! the cssmooth function does not always extrapolate well outside the edges
 % causing poor estimate of g  
 % We may alleviate this problem by: forcing the extrapolation
 % to be linear outside the edges or choosing a lower value for csm1
 % or not to extrapolate at all in the first smoothing but instead
 % extrapolate in the second smoothing. (Possibly better since csm2<<csm1)
 % Therefore replacing the old call
-%scros=smooth(cros(10:ncr-10,1),cros(10:ncr-10,2),csm1,cros(1:ncr,1)); 
+%scros=cssmooth(cros(10:ncr-10,1),cros(10:ncr-10,2),csm1,cros(1:ncr,1)); 
 % with
 inds = 1+Ne:ncr-Ne;% indices to points we are smoothing over
 inde = 1+Ne:ncr-Ne;% indices to points we are smoothing over and
              % possibly  extrapolating if length(inds)<length(inde)
-scros = smooth(cros(inds,1),cros(inds,2),csm1,cros(inde,1),def,cvar(inds)); 
+scros = cssmooth(cros(inds,1),cros(inds,2),csm1,cros(inde,1),def,cvar(inds)); 
 
 if plotflag>1
   %plot(cros(10:ncr-10,1),cros(10:ncr-10,2),'r')
@@ -234,7 +234,7 @@ scros1 = sqrt(2*abs(scros-smin));
 %scros1(1:imin)=-scros1(1:imin);
 scros1(1:imin) = 2*scros1(imin)-scros1(1:imin);
 
-scros2 = smooth(cros(inde,1),scros1,csm2,uu,def,gvar(inde));
+scros2 = cssmooth(cros(inde,1),scros1,csm2,uu,def,gvar(inde));
 
 g(:,2) = scros2';%*sa; %multiply with stdev 
 
@@ -255,7 +255,7 @@ if chkder~=0
       disp('        a strictly increasing function.')
       dy(dy>0)=eps;
       gvar = -([dy;0]+[0;dy])/2+eps;
-      g(:,2) = smooth(g(:,1),g(:,2),1,g(:,1),def,ix*gvar);
+      g(:,2) = cssmooth(g(:,1),g(:,2),1,g(:,1),def,ix*gvar);
     else 
       break
     end

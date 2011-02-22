@@ -48,7 +48,8 @@ function [f,Hrms,Vrms,fA,fB] = ohhsspdf(Hd,Scf,Hm0,def,normalizedInput,condon)
 % The Probability of Occurrence of Dangerous Wave Situations at Sea.
 % Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
 % Trondheim, Norway.   
-  
+
+% Adapted to  cssmooth  by GL Feb 2011  
 % History
 % revised pab jan2004  
 % By pab 20.12.2000
@@ -128,16 +129,16 @@ if multipleSeaStates
   for iz=1:numSeaStates
     k = find(jx==iz);
     Hm0i(:) = Hm0u(iz);
-    A1(k) = exp(smooth(h2,interp2(E2,H2,log(A11.'),Hm0i,h2,method),...
+    A1(k) = exp(cssmooth(h2,interp2(E2,H2,log(A11.'),Hm0i,h2,method),...
 		       1,h(k),1));
-    B1(k) = (smooth(h2,interp2(E2,H2,B11.',Hm0i,h2,method),...
+    B1(k) = (cssmooth(h2,interp2(E2,H2,B11.',Hm0i,h2,method),...
 		       1,h(k),1));
   end
 else
   Hm0i = Hm0(ones(size(h2)));
-  A1 = exp(smooth(h2,interp2(E2,H2,log(A11.'), ...
+  A1 = exp(cssmooth(h2,interp2(E2,H2,log(A11.'), ...
 			     Hm0i,h2,method),1,h,1));
-  B1 = (smooth(h2,interp2(E2,H2,B11.', ...
+  B1 = (cssmooth(h2,interp2(E2,H2,B11.', ...
 			  Hm0i,h2,method),1,h,1));
 end
 %fh = ohhpdf(h(:)/Hrms,Hm0,def,'time',1);

@@ -18,9 +18,9 @@ function [Av , Bv , Cv ]=margcnd2dsmfun(phat,h2,CSMA,lin_extrap)
 %
 %   The size of A B and C is the size of the argument  X2.
 %   
-% See also   fitmargcnd2d, margcnd2dsmfun2, smooth
+% See also   fitmargcnd2d, margcnd2dsmfun2, cssmooth
 
-
+% Adapted to  cssmooth  by GL Feb 2011
 % Tested on matlab 5.x
 % history
 % revised pab July2004
@@ -64,7 +64,7 @@ elseif length(lin_extrap)>=2,
   linC=lin_extrap(3);
 end
 
-%smooth extrapolates linearly outside the range of PVH
+%cssmooth extrapolates linearly outside the range of PVH
 useSIG = (1 && isfield(phat,'CI')) ; %
 useSTATS = (useSIG && isfield(phat,'stats1') && ~isempty(phat.stats1));
 if useSTATS
@@ -119,12 +119,12 @@ if useSIG,
    end				     
 end
 
-Av=smooth(PVH(:,1),PVH(:,2),CSMA,h2,linA,da);
+Av=cssmooth(PVH(:,1),PVH(:,2),CSMA,h2,linA,da);
 switch lower(CDIST(1:2)),
   case {'ra','tr','tg','gu','ga','we','tw','gg'}, 
     if (any(Av<0)),
       da2 = abs(log(PVH(:,2)) - log(PVH(:,2)+ da));
-      Av=exp(smooth(PVH(:,1),log(PVH(:,2)),CSMA,h2,linA,da2));
+      Av=exp(cssmooth(PVH(:,1),log(PVH(:,2)),CSMA,h2,linA,da2));
     end
 end
 Bv=[];	  
@@ -174,12 +174,12 @@ if ~strcmpi(CDIST(1:2),'ra')
     end
   end
   
-  Bv=smooth(PVH(:,1),PVH(:,3),CSMB,h2,linB,db);
+  Bv=cssmooth(PVH(:,1),PVH(:,3),CSMB,h2,linB,db);
   switch CDIST(1:2) ,
     case {'lo','ga','we','tw','gg'},  
       if  (any(Bv<0)),
 	db2 = abs(log(PVH(:,3)) - log(PVH(:,3)+ db));
-	Bv=exp(smooth(PVH(:,1),log(PVH(:,3)),CSMB,h2,linB,db2));
+	Bv=exp(cssmooth(PVH(:,1),log(PVH(:,3)),CSMB,h2,linB,db2));
       end
   end 
 end
@@ -187,7 +187,7 @@ end
 Cv=0;
 if (((size(PVH,2)>=4) && (~strcmpi(CDIST(1:2),'ra'))) || ...
     ((size(PVH,2)>=3) && (strcmpi(CDIST(1:2),'ra')))),
-  Cv=smooth(PVH(:,1),PVH(:,4),CSMC,h2,linC);
+  Cv=cssmooth(PVH(:,1),PVH(:,4),CSMC,h2,linC);
   
   if all(PVH(:,1)>=0)
     dc = PVH(:,1).^K5.*ones(size(PVH(:,1)));
@@ -237,7 +237,7 @@ if (((size(PVH,2)>=4) && (~strcmpi(CDIST(1:2),'ra'))) || ...
       end
     case 'gg',
        if  (any(Cv<0)),
-         Cv=exp(smooth(PVH(:,1),log(PVH(:,4)),CSMC,h2,linC,dc));
+         Cv=exp(cssmooth(PVH(:,1),log(PVH(:,4)),CSMC,h2,linC,dc));
       end 
   end 
 end

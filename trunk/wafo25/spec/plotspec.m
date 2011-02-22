@@ -40,6 +40,7 @@ function plotspec(S,varargin)
 %
 % See also  dat2spec, createspec, simpson
 
+% Changed reference to  wfindpeaks  (GL Feb 2011)
 % tested on Matlab 5.3
 % History:
 % revised pab 2008
@@ -202,10 +203,10 @@ switch lower(S.type(end-2:end))
   case {'enc','req','k1d'} % 1D plot
     S.S  = S.S(:);
     Fn   = freq(end); % Nyquist frequency
-    indm = findpeaks(S.S,4);
+    indm = wfindpeaks(S.S,4);
     if isempty(indm)
       %disp('indm empty')  % Commented, 00.04.10 
-      [maxS,indm] = max(S.S);  %to be removed when findpeaks works
+      [maxS,indm] = max(S.S);  %to be removed when wfindpeaks works
     end
     maxS = max(S.S(indm));
     if isfield(S,'CI') && ~isempty(S.CI),

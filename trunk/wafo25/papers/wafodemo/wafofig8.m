@@ -32,7 +32,7 @@ if isempty(fLcAc)
   disp('depending on input arguments and your computer')
   Sj=jonswap;
   % Find the peak frequency
-  ind = findpeaks(Sj.S);
+  ind = wfindpeaks(Sj.S);
   % Truncate the spectrum outside 0.5wp and 1.5wp
   Sj.S(1:floor(ind(1)*.5))=0;
   Sj.S(floor(ind(1)*1.5):end)=0;

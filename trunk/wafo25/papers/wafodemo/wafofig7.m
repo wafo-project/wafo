@@ -3,7 +3,8 @@ function wafofig7
 %           of a JONSWAP spectrum which is truncated outside 0.5*wp and 1.5wp 
 %
 
-  % revised pab Feb2005, updated calls to spec2thpdf
+% Changed call to  wfindpeaks  (GL Feb 2011)
+% revised pab Feb2005, updated calls to spec2thpdf
 global  WAFOFIGNUM
 
 if isempty(WAFOFIGNUM)
@@ -26,7 +27,7 @@ if isempty(fLcAc)
   disp('depending on input arguments and your computer')
   Sj=jonswap;
   % Find the peak frequency
-  ind = findpeaks(Sj.S);
+  ind = wfindpeaks(Sj.S);
   % Truncate the spectrum outside 0.5wp and 1.5wp
   Sj.S(1:floor(ind(1)*.5))=0;
   Sj.S(floor(ind(1)*1.5):end)=0;

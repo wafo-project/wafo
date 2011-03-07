@@ -1,7 +1,7 @@
 function [ch,R1,chtext,R]=spec2char(S,fact,T)
 %SPEC2CHAR  Evaluates spectral characteristics and their covariance
 %
-% CALL: [ch R,chtext] = spec2char(S,fact,T)
+% CALL: [ch R chtext] = spec2char(S,fact,T)
 %
 %       ch = vector of spectral characteristics
 %       R  = matrix of the corresponding covariances given T

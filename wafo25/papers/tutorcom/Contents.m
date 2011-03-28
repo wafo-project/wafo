@@ -6,11 +6,12 @@
 %   Mathematical statistics, Centre for Mathematical Sciences,
 %   Lund University, Lund, Sweden
 %
-% WAFO_2.5_tutorial.pdf     : Tutorial text
+% wafotutor25.pdf     : Tutorial text
 %
 % Chapter1.m                : Test file for Chapter 1
 % Chapter2.m                : Test file for Chapter 2
 % Chapter3.m                : Test file for Chapter 3
 % Chapter4.m                : Test file for Chapter 4
 % Chapter5.m                : Test file for Chapter 5
+% Chapter6.m                : Test file for Chapter 6
 % allchapters.m             : Testfile for all chapters

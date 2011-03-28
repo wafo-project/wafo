@@ -6,7 +6,7 @@
 %  ochi98fit -  replaced call to fmins with fminsearch  
 %  Contents.m file missed reference to some functions
 %  The distributions:
-%    thsspdf, thspdf, thsnlpdf, jhspdf and jhsnlpdf
+%     thsspdf, thspdf, thsnlpdf, jhspdf and jhsnlpdf
 %  are fitted to new simulations saved in:
 %     jhsnlpar21-Jul-2004.mat, jhspar13-Jul-2004.mat 
 %     thsnlpar06-Aug-2004.mat, thspar19-Jul-2004.mat

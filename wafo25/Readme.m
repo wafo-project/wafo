@@ -1,19 +1,19 @@
 %README New features, bug fixes, and changes in WAFO Toolbox - Wave Analysis for Fatigue and Oceanography 
 % Version 2.5  08-Jan-2009
 %
-%  NEW DIRECTORIES
+% NEW DIRECTORIES
 % ~~~~~~~~~~~~~~~~
 %  GRAPHUTIL : directory with many useful plott function
-% NUMDIFFTOOLS : directory with tools for automatic numerical differentiation of functions
-% POLYUTIL : directory tools for evaluating polynomials.
+%  NUMDIFFTOOLS : directory with tools for automatic numerical differentiation of functions
+%  POLYUTIL : directory tools for evaluating polynomials.
 %
-%  NEW FUNCTIONS 	
+% NEW FUNCTIONS 	
 %  ~~~~~~~~~~~~~~
 % Spectrum estimation:
 %   welch_psd, welch_psd2, welch_cpsd: translated from Octave (GPL)
 %
-%  New distribution functions added:
-%  Poisson, cauchy, hypergeometric, 
+% New distribution functions added:
+%   Poisson, cauchy, hypergeometric, 
 %
 % Profile log likelihood functions
 %   lnkexp            - Link for x,F and parameters of Exponential distribution

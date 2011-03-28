@@ -1,4 +1,13 @@
 %README Readme file for module MISC in WAFO Toolbox 
+% 
+% Version 2.5.1 07-March-2011
+% 
+%  RENAME
+%  ~~~~~~
+%  Function  findpeaks.m  renamed to  wfindpeaks.m  
+%  Function  smooth.m     renamed to  cssmooth.n  
+%       to avoid name conflict with MATLAB toolboxes
+%
 % Version 2007a
 % 
 % csort removed because the built in sort is faster.

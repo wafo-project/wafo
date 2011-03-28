@@ -1,383 +1,478 @@
-%% CHAPTER4 contains the commands used in Chapter 4 of the tutorial
+%% CHAPTER4  Demonstrates exact distributions of wave characteristics
 %
-% CALL:  Chapter4
+% Chapter4 contains the commands used in Chapter4 in the tutorial.
 % 
 % Some of the commands are edited for fast computation. 
 % Each set of commands is followed by a 'pause' command.
-% 
-% This routine also can print the figures; 
-% For printing the figures on directory ../bilder/ edit the file and put  
-%     printing=1;
+% Set pstate='on' to activate the pause option
 
 % Tested on Matlab 5.3, 7.10
 % History
-% Revised by Georg Lindgren sept 2009 for WAFO ver 2.5 on Matlab 7.1
+% Revised by Georg Lindgren march 2011 for Tutorial 2.5 and 
+% sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
-%  Added sections -> easier to evaluate using cellmode evaluation.
-% revised pab Feb2004
-% updated call to lc2sdat
-% Created by GL July 13, 2000
-% from commands used in Chapter 4
+% Added sections -> easier to evaluate using cellmode evaluation.
+% Revised by pab Feb 2005
+% -updated calls to kdetools+spec2XXpdf programs
+% Created by GL July 12, 2000
+% from commands used in Chapter 3, written by IR
 %
- 
-%% Chapter 4 Fatigue load analysis and rain-flow cycles
 
+start=clock;
 pstate = 'off';
-
-printing=0;
-%set(0,'DefaultAxesFontSize',15')
-
-%% Section 4.3.1 Crossing intensity
-xx_sea = load('sea.dat'); 
-tp_sea = dat2tp(xx_sea);
-lc_sea = tp2lc(tp_sea);
-T_sea = xx_sea(end,1)-xx_sea(1,1);
-lc_sea(:,2) = lc_sea(:,2)/T_sea;
-clf
-subplot(221), plot(lc_sea(:,1),lc_sea(:,2)) 
-title('Crossing intensity, (u, \mu(u))')
-subplot(222), semilogx(lc_sea(:,2),lc_sea(:,1)) 
-title('Crossing intensity, (log \mu(u), u)')
-wafostamp([],'(ER)')
-disp('Block 1'), pause(pstate)
-
-m_sea = mean(xx_sea(:,2));
-f0_sea = interp1(lc_sea(:,1),lc_sea(:,2),m_sea,'linear')
-extr_sea = length(tp_sea)/(2*T_sea);
-alfa_sea = f0_sea/extr_sea
-disp('Block 2'),pause(pstate)
-
-%% Section 4.3.2 Extraction of rainflow cycles
-%% Min-max and rainflow cycle plots
-RFC_sea=tp2rfc(tp_sea);
-mM_sea=tp2mm(tp_sea);
-clf
-subplot(122), ccplot(mM_sea);
-title('min-max cycle count')
-subplot(121), ccplot(RFC_sea);
-title('Rainflow cycle count')
-wafostamp([],'(ER)')
-disp('Block 3'),pause(pstate)
-
-%% Min-max and rainflow cycle distributions
-ampmM_sea=cc2amp(mM_sea);
-ampRFC_sea=cc2amp(RFC_sea);
-clf
-subplot(221), hist(ampmM_sea,25);
-title('min-max amplitude distribution')
-subplot(222), hist(ampRFC_sea,25);
-title('Rainflow amplitude distribution')
-wafostamp([],'(ER)')
-disp('Block 4'),pause(pstate)
-
-%% Section 4.3.3 Simulation of rainflow cycles
-%% Simulation of cycles in a Markov model
-n=41; param_m=[-1 1 n]; param_D=[1 n n];
-u_markov=levels(param_m);
-G_markov=mktestmat(param_m,[-0.2 0.2],0.15,1);
-T_markov=5000;
-xxD_markov=mctpsim({G_markov []},T_markov);
-xx_markov=[(1:T_markov)' u_markov(xxD_markov)'];
-clf
-plot(xx_markov(1:50,1),xx_markov(1:50,2))
-title('Markov chain of turning points')
-wafostamp([],'(ER)')
-disp('Block 5'),pause(pstate)
-
-%% Rainflow cycles in a transformed Gaussian model
-%% Hermite transformed wave data and rainflow filtered turning points, h = 0.2.
-me = mean(xx_sea(:,2));
-sa = std(xx_sea(:,2));
-Hm0_sea = 4*sa;
-Tp_sea = 1/max(lc_sea(:,2));
-spec = jonswap([],[Hm0_sea Tp_sea]);
-
-[sk, ku] = spec2skew(spec);
-spec.tr = hermitetr([],[sa sk ku me]);
-param_h = [-1.5 2 51];
-spec_norm = spec;
-spec_norm.S = spec_norm.S/sa^2;
-xx_herm = spec2sdat(spec_norm,[2^15 1],0.1);
-% ????? PJ, JR 11-Apr-2001
-% NOTE, in the simulation program spec2sdat
-% the spectrum must be normalized to variance 1 
-% ?????
-h = 0.2;
-[dtp,u_herm,xx_herm_1]=dat2dtp(param_h,xx_herm,h);
-clf
-plot(xx_herm(:,1),xx_herm(:,2),'k','LineWidth',2); hold on;
-plot(xx_herm_1(:,1),xx_herm_1(:,2),'k--','Linewidth',2);
-axis([0 50 -1 1]), hold off;
-title('Rainflow filtered wave data')
-wafostamp([],'(ER)')
-disp('Block 6'),pause(pstate)
-
-%% Rainflow cycles and rainflow filtered rainflow cycles in the transformed Gaussian process.
-tp_herm=dat2tp(xx_herm);
-RFC_herm=tp2rfc(tp_herm);
-mM_herm=tp2mm(tp_herm);
-h=0.2;
-[dtp,u,tp_herm_1]=dat2dtp(param_h,xx_herm,h);
-RFC_herm_1 = tp2rfc(tp_herm_1);
-clf
-subplot(121), ccplot(RFC_herm)
-title('h=0')
-subplot(122), ccplot(RFC_herm_1)
-title('h=0.2')
-if (printing==1), print -deps ../bilder/fatigue_8.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 7'),pause(pstate)
-
-%% Section 4.3.4 Calculating the rainflow matrix
-
-Grfc_markov=mctp2rfm({G_markov []});
-clf
-subplot(121), cmatplot(u_markov,u_markov,G_markov), axis('square')
-subplot(122), cmatplot(u_markov,u_markov,Grfc_markov), axis('square')
-wafostamp([],'(ER)')
-disp('Block 8'),pause(pstate)
-
-%% 
-clf
-cmatplot(u_markov,u_markov,{G_markov Grfc_markov},3) 
-wafostamp([],'(ER)')
-disp('Block 9'),pause(pstate)	
-
-%% Min-max-matrix and theoretical rainflow matrix for test Markov sequence.
-cmatplot(u_markov,u_markov,{G_markov Grfc_markov},4)
-subplot(121), axis('square'), title('min2max transition matrix')
-subplot(122), axis('square'), title('Rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_9.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 10'),pause(pstate)
-
-%% Observed and theoretical rainflow matrix for test Markov sequence.
-n=length(u_markov);
-Frfc_markov=dtp2rfm(xxD_markov,n);
-clf
-cmatplot(u_markov,u_markov,{Frfc_markov Grfc_markov*T_markov/2},3) 
-subplot(121), axis('square'), title('Observed rainflow matrix')
-subplot(122), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_10.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 11'),pause(pstate)
-
-%% Smoothed observed and calculated rainflow matrix for test Markov sequence.
-tp_markov=dat2tp(xx_markov);
-RFC_markov=tp2rfc(tp_markov);
-h=1;
-Frfc_markov_smooth=cc2cmat(param_m,RFC_markov,[],1,h);
-clf
-cmatplot(u_markov,u_markov,{Frfc_markov_smooth Grfc_markov*T_markov/2},4)
-subplot(121), axis('square'), title('Smoothed observed rainflow matrix')
-subplot(122), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_11.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 12'),pause(pstate)
-
-%% Rainflow matrix from spectrum
-clf
-%GmM3_herm=spec2mmtpdf(spec,[],'Mm',[],[],2);
-GmM3_herm=spec2cmat(spec,[],'Mm',[],param_h,2);
-pdfplot(GmM3_herm)
-wafostamp([],'(ER)')
-disp('Block 13'),pause(pstate)
-
-%% Min-max matrix and theoretical rainflow matrix for Hermite-transformed Gaussian waves.
-Grfc_herm=mctp2rfm({GmM3_herm.f []});
-u_herm=levels(param_h);
-clf
-cmatplot(u_herm,u_herm,{GmM3_herm.f Grfc_herm},4)
-subplot(121), axis('square'), title('min-max matrix')
-subplot(122), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_12.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 14'),pause(pstate)
-
-%%
-clf
-Grfc_direct_herm=spec2cmat(spec,[],'rfc',[],[],2);
-subplot(121), pdfplot(GmM3_herm), axis('square'), hold on
-subplot(122), pdfplot(Grfc_direct_herm), axis('square'), hold off
-if (printing==1), print -deps ../bilder/fig_mmrfcjfr.eps
-end
-wafostamp([],'(ER)')
-disp('Block 15'),pause(pstate)
-
-%% Observed smoothed and theoretical min-max matrix, 
-%% (and observed smoothed and theoretical rainflow matrix for Hermite-transformed Gaussian waves).
-tp_herm=dat2tp(xx_herm);
-RFC_herm=tp2rfc(tp_herm);
-mM_herm=tp2mm(tp_herm);
-h=0.2;
-FmM_herm_smooth=cc2cmat(param_h,mM_herm,[],1,h);
-Frfc_herm_smooth=cc2cmat(param_h,RFC_herm,[],1,h);
-T_herm=xx_herm(end,1)-xx_herm(1,1);
-clf
-cmatplot(u_herm,u_herm,{FmM_herm_smooth GmM3_herm.f*length(mM_herm) ; ...
-      Frfc_herm_smooth Grfc_herm*length(RFC_herm)},4)
-subplot(221), axis('square'), title('Observed smoothed min-max matrix')
-subplot(222), axis('square'), title('Theoretical min-max matrix')
-subplot(223), axis('square'), title('Observed smoothed rainflow matrix')
-subplot(224), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_13.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 16'),pause(pstate)
-   
-%% Section 4.3.5 Simulation from crossings and rainflow structure
-
-%% Crossing spectrum (smooth curve) and obtained spectrum (wiggled curve)
-%% for simulated process with irregularity factor 0.25.
-clf
-cross_herm=dat2lc(xx_herm);
-alpha1=0.25;
-alpha2=0.75;
-xx_herm_sim1=lc2sdat(cross_herm,500,alpha1);
-cross_herm_sim1=dat2lc(xx_herm_sim1);
-subplot(211)
-plot(cross_herm(:,1),cross_herm(:,2)/max(cross_herm(:,2)))
-hold on
-stairs(cross_herm_sim1(:,1),...
-    cross_herm_sim1(:,2)/max(cross_herm_sim1(:,2)))
-hold off
-title('Crossing intensity, \alpha = 0.25')
-subplot(212)
-plot(xx_herm_sim1(:,1),xx_herm_sim1(:,2))
-title('Simulated load, \alpha = 0.25')
-if (printing==1), print -deps ../bilder/fatigue_14_25.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 16'),pause(pstate)
-
-%% Crossing spectrum (smooth curve) and obtained spectrum (wiggled curve)
-%% for simulated process with irregularity factor 0.75.
-xx_herm_sim2=lc2sdat(cross_herm,500,alpha2);
-cross_herm_sim2=dat2lc(xx_herm_sim2);
-subplot(211)
-plot(cross_herm(:,1),cross_herm(:,2)/max(cross_herm(:,2)))
-hold on
-stairs(cross_herm_sim2(:,1),...
-    cross_herm_sim2(:,2)/max(cross_herm_sim2(:,2)))
-hold off
-title('Crossing intensity, \alpha = 0.75')
-subplot(212)
-plot(xx_herm_sim2(:,1),xx_herm_sim2(:,2))
-title('Simulated load, \alpha = 0.75')
-if (printing==1), print -deps ../bilder/fatigue_14_75.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 17'),pause(pstate)
-
-%% Section 4.4 Fatigue damage and fatigue life distribution
-%% Section 4.4.1 Introduction
-beta=3.2; gam=5.5E-10; T_sea=xx_sea(end,1)-xx_sea(1,1);
-d_beta=cc2dam(RFC_sea,beta)/T_sea;
-time_fail=1/gam/d_beta/3600      %in hours of the specific storm
-disp('Block 18'),pause(pstate)
-
-%% Section 4.4.2 Level crossings
-%% Crossing intensity as calculated from the Markov matrix (solid curve) and from the observed rainflow matrix (dashed curve).
-clf
-mu_markov=cmat2lc(param_m,Grfc_markov);
-muObs_markov=cmat2lc(param_m,Frfc_markov/(T_markov/2));
-clf
-plot(mu_markov(:,1),mu_markov(:,2),muObs_markov(:,1),muObs_markov(:,2),'--')
-title('Theoretical and observed crossing intensity ')
-if (printing==1), print -deps ../bilder/fatigue_15.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 19'),pause(pstate)
-
-%% Section 4.4.3 Damage
-%% Distribution of damage from different RFC cycles, from calculated theoretical and from observed rainflow matrix.
-beta = 4;
-Dam_markov = cmat2dam(param_m,Grfc_markov,beta)
-DamObs1_markov = cc2dam(RFC_markov,beta)/(T_markov/2)
-DamObs2_markov = cmat2dam(param_m,Frfc_markov,beta)/(T_markov/2)
-disp('Block 20'),pause(pstate)
-
-Dmat_markov = cmat2dmat(param_m,Grfc_markov,beta);
-DmatObs_markov = cmat2dmat(param_m,Frfc_markov,beta)/(T_markov/2); 
-clf
-subplot(121), cmatplot(u_markov,u_markov,Dmat_markov,4)
-title('Theoretical damage matrix') 
-subplot(122), cmatplot(u_markov,u_markov,DmatObs_markov,4)
-title('Observed damage matrix') 
-if (printing==1), print -deps ../bilder/fatigue_16.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 21'),pause(pstate)
-
-%%
-%Damplus_markov = lc2dplus(mu_markov,beta)
+%pstate = 'on';
+speed = 'fast';
+%speed = 'slow'
 pause(pstate)
 
-%% Section 4.4.4 Estimation of S-N curve
+%% Section 4.2 Marginal distributions of wave characteistics
+%% Section 4.2.1 Crest period, crest length, and crest height
 
-%% Load SN-data and plot in log-log scale.
-SN = load('sn.dat');
-s = SN(:,1);
-N = SN(:,2);
+% Example 6 Torsethaugen waves
 clf
-loglog(N,s,'o'), axis([0 14e5 10 30])
-%if (printing==1), print -deps ../bilder/fatigue_?.eps end
-wafostamp([],'(ER)')
-disp('Block 22'),pause(pstate)
+S1 = torsethaugen([],[6 8],1);
+D1 = spreading(101,'cos',pi/2,[15],[],0);
+D12 = spreading(101,'cos',0,[15],S1.w,1);
+SD1 = mkdspec(S1,D1);
+SD12 = mkdspec(S1,D12);
+disp('Block = 1'), pause
 
-%% Check of S-N-model on normal probability paper.
-
-normplot(reshape(log(N),8,5))
-if (printing==1), print -deps ../bilder/fatigue_17.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 23'),pause(pstate)
-
-%% Estimation of S-N-model on linear  scale.
+%% 6a. Crest period
 clf
-[e0,beta0,s20] = snplot(s,N,12);
-title('S-N-data with estimated N(s)','FontSize',20)
-set(gca,'FontSize',20)
-if (printing==1), print -deps ../bilder/fatigue_18a.eps 
-end
+tic 
+f_tc_4 = spec2tpdf(S1,[],'Tc',[0 12 61],[],4);
+f_tc_1 = spec2tpdf(S1,[],'Tc',[0 12 61],[],-1);
+toc
+pdfplot(f_tc_4,'-.'), hold on
+pdfplot(f_tc_1), hold off
+simpson(f_tc_4.x{1},f_tc_4.f)
+simpson(f_tc_1.x{1},f_tc_1.f)
 wafostamp([],'(ER)')
-disp('Block 24'),pause(pstate)
+disp('Block = 2'), pause
 
-%% Estimation of S-N-model on log-log scale.
+%% Setting of rind options
+
+if strncmpi(speed,'slow',1)
+  opt1 = rindoptset('speed',5,'method',3);
+  opt2 = rindoptset('speed',5,'nit',5,'method',0);
+else
+  % fast
+  opt1 = rindoptset('speed',7,'method',3);
+  opt2 = rindoptset('speed',7,'nit',2,'method',0);
+end
+
 clf
-[e0,beta0,s20] = snplot(s,N,14);
-title('S-N-data with estimated N(s)','FontSize',20)
-set(gca,'FontSize',20)
-if (printing==1), print -deps ../bilder/fatigue_18b.eps 
+if strncmpi(speed,'slow',1)
+  NITa = 5;
+else
+  disp('NIT=5 may take time, running with NIT=3 in the following')
+  NITa = 3;
 end
-wafostamp([],'(ER)')
-disp('Block 25'),pause(pstate)
 
-%% Section 4.4.5 From S-N curve to fatigue life distribution
-%% Damage intensity as function of $\beta$
-beta = 3:0.1:8;
-DRFC = cc2dam(RFC_sea,beta);
-dRFC = DRFC/T_sea;
-plot(beta,dRFC), axis([3 8 0 0.25])
-title('Damage intensity as function of \beta')
-if (printing==1), print -deps ../bilder/fatigue_19.eps 
-end
-wafostamp([],'(ER)')
-disp('Block 26'),pause(pstate)
+%% 6b. Crest length
 
-%% Fatigue life distribution with sea load.
-dam0 = cc2dam(RFC_sea,beta0)/T_sea;
-[t0,F0] = ftf(e0,dam0,s20,0.5,1);
-[t1,F1] = ftf(e0,dam0,s20,0,1);
-[t2,F2] = ftf(e0,dam0,s20,5,1);
-plot(t0,F0,t1,F1,t2,F2)
-title('Fatigue life distribution function')
-if (printing==1), print -deps ../bilder/fatigue_20.eps 
-end
+% NIT = -1 gives fast computations - you should compare with slower 
+% alternatives, NIT = 3 or 5 that give upper bounds
+%f_Lc = spec2tpdf2(S1,[],'Lc',[0 200 81],opt1); % Faster and more accurate
+
+clf
+f_Lc = spec2tpdf(S1,[],'Lc',[0 125 251],[],-1);
+pdfplot(f_Lc,'-.'), hold on
 wafostamp([],'(ER)')
-disp('Block 27, last block')
+disp('Block = 3'), pause
+
+f_Lc_1 = spec2tpdf(S1,[],'Lc',[0 125 251],1.5,-1);
+%f_Lc_1 = spec2tpdf2(S1,[],'Lc',[0 200 81],1.5,opt1);
+hold on
+pdfplot(f_Lc_1), hold off
+wafostamp([],'(ER)')
+
+disp('Block = 4'), pause
+%% 
+simpson(f_Lc.x{1},f_Lc.f)
+simpson(f_Lc_1.x{1},f_Lc_1.f)
+      
+disp('Block = 5'), pause
+
+%% 6c. Crest height
+% Crest height cdf from spec2acdf compared to simulated data and the 
+% Rayleigh approximation with  Hs=6
+
+clf
+Hs=6;
+r = (0:0.06:Hs)'; %Compute cdf-values at r
+f_Ac_s1_T = spec2acdf(S1,[],'Tc',[0 12 61],r,-1); 
+hold on
+T = spec2sdat(S1,[40000,100],0.01);
+[Steep,Height,AcT] = dat2steep(T);
+plotedf(AcT,'-.')
+if strncmpi(speed,'slow',1), 
+    Lev=[0 120 241];
+else
+    Lev=[0 120 61];
+end
+F_Ac_s1_L = spec2acdf(S1,[],'Lc',Lev,r,-1);
+L = spec2sdat(spec2spec(S1,'k1d'),[40000 100],0.1);
+[Steep,Height,AcL] = dat2steep(L);
+plotedf(AcL,'-.'), hold off
+
+disp('Block = 6'), pause
+
+%% 6d. Directional spreading
+
+% pdf of Lc
+
+figure(1)
+clf
+if strncmpi(speed,'slow',1), 
+    Lev2=[0 200 401];
+else
+    Lev2=[0 200 201];
+end
+tic
+f_Lc_d1 = spec2tpdf(rotspec(SD1,pi/2),[],'Lc',Lev2,[],-1);
+f_Lc_d12 = spec2tpdf(SD12,[],'Lc',Lev2,[],-1);
+% f_Lc_d1 = spec2tpdf2(rotspec(SD1,pi/2),[],'Lc',[0 200 81],opt1);
+% f_Lc_d12 = spec2tpdf2(SD12,[],'Lc',[0 200 81],opt1);
+toc
+pdfplot(f_Lc_d1,'-.'), hold on
+pdfplot(f_Lc_d12),     hold off
+wafostamp([],'(ER)')
+
+disp('Block = 7'), pause
+
+figure(2)
+dx = f_Lc.x{1}(2)-f_Lc.x{1}(1);  
+dx1 = f_Lc_d1.x{1}(2)-f_Lc_d1.x{1}(1);  
+dx12 = f_Lc_d12.x{1}(2)-f_Lc_d12.x{1}(1);  
+plot(f_Lc.x{1},cumsum(f_Lc.f)*dx), hold on
+plot(f_Lc_d1.x{1},cumsum(f_Lc_d1.f)*dx1,'-.')
+plot(f_Lc_d12.x{1},cumsum(f_Lc_d12.f)*dx12,'--')
+hold off
+wafostamp([],'(ER)')
+disp('Block = 8'), pause
+
+%% Section 4.2.2 Numerical accuracy
+%%
+
+figure(1)
+clf
+opt1 = rindoptset('speed',5,'method',3);
+SD1r = rotspec(SD1,pi/2);
+if strncmpi(speed,'slow',1)
+  f_Lc_d1_5 = spec2tpdf(SD1r,[], 'Lc',[0 200 201],[],5);
+  pdfplot(f_Lc_d1_5),     hold on
+else
+  % fast
+  disp('Run the following example only if you want a check on computing time')
+  disp('Edit the command file and remove %')
+end
+f_Lc_d1_3 = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],3);
+f_Lc_d1_2 = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],2);
+f_Lc_d1_0 = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],0);
+f_Lc_d1_neg = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],-1);
+%f_Lc_d1_n4 = spec2tpdf2(SD1r,[],'Lc',[0 400 161],opt1);
+
+pdfplot(f_Lc_d1_3), hold on
+pdfplot(f_Lc_d1_2)
+pdfplot(f_Lc_d1_0)
+pdfplot(f_Lc_d1_neg)
+%pdfplot(f_Lc_d1_n4)
+hold off
+%simpson(f_Lc_d1_n4.x{1},f_Lc_d1_n4.f)
+
+disp('Block = 9'), pause
+
+%% Section 4.2.3 Wave period and wave length
+% The wave period (length) is the sum of crest period and the following 
+% trough period (length) and is complicated to compute
+%% Example 7: Crest period and high crest waves
+clf
+tic
+xx = load('sea.dat');
+x = xx;
+x(:,2) = detrend(x(:,2));
+SS = dat2spec(x);
+si = sqrt(spec2mom(SS,1));
+SS.tr = dat2tr(x);
+Hs = 4*si
+
+%% 7a. Crest period (again)
+method = 0;
+rate = 2;
+[S, H, Ac, At, Tcf, Tcb, z_ind, yn] = dat2steep(x,rate,method);
+Tc = Tcf+Tcb;
+t = linspace(0.01,8,200);
+f_tc1emp = kde(Tc,{'L2',0},t);
+pdfplot(f_tc1emp)
+hold on
+if strncmpi(speed,'slow',1)
+  NIT = 5;
+else
+  NIT = 2;
+end
+f_tc1 = spec2tpdf(SS,[],'Tc',[0 8 81],0,NIT);
+simpson(f_tc1.x{1},f_tc1.f)
+pdfplot(f_tc1,'-.')
+hold off
+wafostamp([],'(ER)')
+toc
+disp('Block = 10'), pause
+
+%% Crest period for high crests
+clf
+if strncmpi(speed,'slow',1)
+  NIT = 5;
+else
+  NIT = 2;
+end
+tic
+f_tc2 = spec2tpdf(SS,[],'Tc',[0 8 81],Hs/2,NIT);
+toc
+Pemp = sum(Ac>Hs/2)/sum(Ac>0)
+simpson(f_tc2.x{1},f_tc2.f)
+index = find(Ac>Hs/2);
+f_tc2emp = kde(Tc(index),{'L2',0},t);
+f_tc2emp.f = Pemp*f_tc2emp.f;
+pdfplot(f_tc2emp)
+hold on
+pdfplot(f_tc2,'-.')
+hold off
+wafostamp([],'(ER)')
+toc
+disp('Block = 11'), pause
+
+%% 7b. Wave period for high crest waves 
+% This is moderately hard
+      clf
+      tic 
+      f_tu1_n = spec2tccpdf(SS,[],'t>',[0 12 61],[Hs/2],[0],-1);
+      toc
+      simpson(f_tu1_n.x{1},f_tu1_n.f)
+      f_tu1_3 = spec2tccpdf(SS,[],'t>',[0 12 61],[Hs/2],[0],3,5);
+%      f_tu1_5 = spec2tccpdf(SS,[],'t>',[0 12 61],[Hs/2],[0],5,5);
+      simpson(f_tu1_3.x{1},f_tu1_3.f)
+      pdfplot(f_tu1_n,'-.')
+      hold on
+      pdfplot(f_tu1_3)
+      hold off
+      toc
+disp('Block = 12'), pause
+
+%% 7c. Wave period for high-crest, deep-trough waves
+% This is a test for accuracy
+      clf
+      [TC tc_ind v_ind] = dat2tc(yn,[],'dw');
+      N = length(tc_ind);
+      t_ind = tc_ind(1:2:N);
+      c_ind = tc_ind(2:2:N);
+      Pemp = sum(yn(t_ind,2)<-Hs/2 & ...
+          yn(c_ind,2)>Hs/2)/length(t_ind)
+      ind = find(yn(t_ind,2)<-Hs/2 & yn(c_ind,2)>Hs/2);
+      spwaveplot(yn,ind(2:4))
+      wafostamp([],'(ER)')
+disp('Block = 13'), pause
+
+%% Upcrossing period Tu for high crest, deep trough waves 
+
+clf
+Tu = yn(v_ind(1+2*ind),1)-yn(v_ind(1+2*(ind-1)),1);
+t = linspace(0.01,14,200);
+f_tu2_emp = kde(Tu,{'kernel' 'epan','L2',0},t);
+f_tu2_emp.f = Pemp*f_tu2_emp.f;
+pdfplot(f_tu2_emp,'-.')
+wafostamp([],'(ER)')
+disp('Block = 14'), pause
+
+tic 
+f_tu2_n = spec2tccpdf(SS,[],'t>',[0 12 61],[Hs/2],[Hs/2],-1);
+toc
+simpson(f_tu2_n.x{1},f_tu2_n.f)
+hold on
+pdfplot(f_tu2_n)
+hold off
+wafostamp([],'(ER)')
+disp('Block = 15'), pause
+
+%%
+disp('The rest of this chapter deals with joint densities.')
+disp('Some calculations may take some time.') 
+disp('You could experiment with other NIT.')
+%return
+
+%% Section 4.3 Joint density of crest period and crest height
+%% Section 4.3.1. Some preliminary analysis of the data
+% Example 8. Gullfaks
+clf
+tic
+yy = load('gfaksr89.dat');
+SS = dat2spec(yy);
+si = sqrt(spec2mom(SS,1));
+SS.tr = dat2tr(yy);
+Hs = 4*si
+v = gaus2dat([0 0],SS.tr);
+v = v(2)
+toc
+disp('Block = 16'), pause
+
+%%
+clf
+tic
+[TC, tc_ind, v_ind] = dat2tc(yy,v,'dw');
+N       = length(tc_ind);
+t_ind   = tc_ind(1:2:N);
+c_ind   = tc_ind(2:2:N);
+v_ind_d = v_ind(1:2:N+1);
+v_ind_u = v_ind(2:2:N+1);
+T_d     = ecross(yy(:,1),yy(:,2),v_ind_d,v);
+T_u     = ecross(yy(:,1),yy(:,2),v_ind_u,v);
+
+Tc = T_d(2:end)-T_u(1:end);
+Tt = T_u(1:end)-T_d(1:end-1);
+Tcf = yy(c_ind,1)-T_u;
+Ac = yy(c_ind,2)-v;
+At = v-yy(t_ind,2);
+toc
+disp('Block = 17'), pause
+
+%%
+clf
+tic
+t = linspace(0.01,15,200);
+kopt3 = kdeoptset('hs',0.25,'L2',0); 
+ftc1 = kde(Tc,kopt3,t);
+ftt1 = kde(Tt,kopt3,t);
+pdfplot(ftt1,'k')
+hold on
+pdfplot(ftc1,'k-.')
+f_tc4 = spec2tpdf(SS,[],'Tc',[0 12 81],0,4,5);
+%f_tc2 = spec2tpdf(SS,[],'Tc',[0 12 81],0,2,5);
+f_tcn = spec2tpdf(SS,[],'Tc',[0 12 81],0,-1);
+pdfplot(f_tcn,'b')
+hold off
+legend('kde(Tt)','kde(Tc)','f_{tc}')
+wafostamp([],'(ER)')
+toc
+disp('Block = 18'), pause
+
+%% Section 4.3.2 Joint distribution of crest period and height
+%% Example 9. Joint characteristics of a half wave:
+%% position and height of a crest for a wave with given period
+clf
+tic
+ind = find(4.4<Tc & Tc<4.6);
+f_AcTcf = kde([Tcf(ind) Ac(ind)],{'L2',[1 .5]});
+pdfplot(f_AcTcf)
+hold on
+plot(Tcf(ind), Ac(ind),'.');
+wafostamp([],'(ER)')
+toc
+disp('Block = 19'), pause
+
+%%
+clf
+tic
+opt1 = rindoptset('speed',5,'method',3);
+opt2 = rindoptset('speed',5,'nit',2,'method',0);
+
+f_tcfac1 = spec2thpdf(SS,[],'TcfAc',[4.5 4.5 46],[0:0.25:8],opt1);
+f_tcfac2 = spec2thpdf(SS,[],'TcfAc',[4.5 4.5 46],[0:0.25:8],opt2);
+
+pdfplot(f_tcfac1,'-.')
+hold on
+pdfplot(f_tcfac2)
+plot(Tcf(ind), Ac(ind),'.'); hold off
+
+simpson(f_tcfac1.x{1},simpson(f_tcfac1.x{2},f_tcfac1.f,1))
+simpson(f_tcfac2.x{1},simpson(f_tcfac2.x{2},f_tcfac2.f,1))
+f_tcf6=spec2tpdf(SS,[],'Tc',[4.5 4.5 46],[0:0.25:8],6);
+f_tcf6.f(46)
+toc
+wafostamp([],'(ER)')
+disp('Block = 20'), pause
+
+%% 
+if strncmpi(speed,'slow',1)
+clf
+tic
+f_tcac_s = spec2thpdf(SS,[],'TcAc',[0 12 81],[Hs/2:0.1:2*Hs],opt1);
+toc
+disp('Block = 21'), pause
+
+clf
+tic
+mom = spec2mom(SS,4,[],0);
+t = f_tcac_s.x{1};
+h = f_tcac_s.x{2};
+flh_g = lh83pdf(t',h',[mom(1),mom(2),mom(3)],SS.tr);
+clf
+ind=find(Ac>Hs/2);
+plot(Tc(ind), Ac(ind),'.');
+hold on
+pdfplot(flh_g,'k-.')
+pdfplot(f_tcac_s)
+toc
+wafostamp([],'(ER)')
+disp('Block = 22'), pause
+end
+%%
+clf
+%      f_tcac = spec2thpdf(SS,[],'TcAc',[0 12 81],[0:0.2:8],opt1);
+%      pdfplot(f_tcac)
+disp('Block = 23'), pause
+
+%% Section 4.3.3 Joint density of crest and trough height
+%% Section 4.3.4 Min-to-max distributions – Markov method
+%% Example 10. (min-max problems with Gullfaks data)
+%% Joint density of maximum and the following minimum
+clf
+tic
+opt2 = rindoptset('speed',5,'nit',2,'method',0);
+tp = dat2tp(yy);
+Mm = fliplr(tp2mm(tp));
+fmm = kde(Mm);
+f_mM = spec2mmtpdf(SS,[],'mm',[],[-7 7 51],opt2);
+
+pdfplot(f_mM,'-.')
+hold on
+pdfplot(fmm,'k-')
+hold off
+wafostamp([],'(ER)')
+toc
+disp('Block = 24'), pause
+
+%% The joint density of ”still water separated”  maxima and minima.
+%% Example 11. crest-trough dirstribution from max-min transitions
+clf
+tic
+opt2 = rindoptset('speed',5,'nit',2,'method',0);
+ind = find(Mm(:,1)>v & Mm(:,2)<v);
+Mmv = abs(Mm(ind,:)-v);
+fmmv = kde(Mmv);
+f_vmm = spec2mmtpdf(SS,[],'vmm',[],[-7 7 51],opt2);
+clf
+pdfplot(fmmv,'k-')
+hold on
+pdfplot(f_vmm,'-.')
+hold off
+wafostamp([],'(ER)')
+toc
+disp('Block = 25'), pause
+
+
+%%
+clf
+tic
+facat = kde([Ac At]);
+f_acat = spec2mmtpdf(SS,[],'AcAt',[],[-7 7 51],opt2);
+clf
+pdfplot(f_acat,'-.')
+hold on
+pdfplot(facat,'k-')
+hold off
+wafostamp([],'(ER)')
+toc
+disp('Block = 26'), pause
+
+disp('Elapsed time')
+etime(clock,start)

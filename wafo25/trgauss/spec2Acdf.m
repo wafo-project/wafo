@@ -1,7 +1,7 @@
-function [f] = spec2Acdf(spec,utc,def,paramt,h,nit,speed)
+function [f] = spec2acdf(spec,utc,def,paramt,h,nit,speed)
 %SPEC2ACDF  CDF for crests P(Ac<=h) or troughs P(At<=h).
 %         
-%  CALL:  F   = spec2Acdf(S,u,def,param,h,nit,speed);
+%  CALL:  F   = spec2acdf(S,u,def,param,h,nit,speed);
 %
 %        F    = cumulative distribution function of crests or trough heights
 %        S    = spectral density structure
@@ -30,7 +30,7 @@ function [f] = spec2Acdf(spec,utc,def,paramt,h,nit,speed)
 %     S = jonswap;
 %     h = 0:0.1:5; paramt=[0 12 51];% is computed by:
 %            
-%     F = spec2Acdf(S,[],'tc',paramt,h);
+%     F = spec2acdf(S,[],'tc',paramt,h);
 %
 % See also  spec2cov, specnorm, dat2tr, dat2gaus, specdef, wavedef
 
@@ -307,6 +307,6 @@ pdfplot(f)
 hold on
 if abs(u)<0.1
  xu=tranproc(u+f.x{1},g); 
- plot(f.x{1},1-exp(-xu.*xu/2),'b.')
- plot(f.x{1},1-exp(-xu.*xu/2))
+ plot(f.x{1},1-exp(-xu.*xu/2),'k.')
+ plot(f.x{1},1-exp(-xu.*xu/2),'k')
 end 

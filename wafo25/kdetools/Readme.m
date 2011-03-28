@@ -1,13 +1,13 @@
 %README New features, bug fixes, and changes in KDETOOLS.
 % Version 2.5.1   31-Dec-2010
-%   See wafo code
+%  See wafo code
 %
 %----------------------------
 % Version 2.1.1   15-Sep-2005
 %
 % Bug fixes, some new and/or updated routines.
 %
-%   FIXES
+%  FIXES
 % ~~~~~~~~
 %  deriv     - made it general for derivatives of any order
 %  qlevels   - updated calls from normpdf to wnormpdf in the help-header
@@ -18,7 +18,7 @@
 %  kdebin, kde, kdefun - updated to accept KDE options structure (also
 %                       updated all functions dependent on these).
 %
-%   NEW FUNCTIONS
+%  NEW FUNCTIONS
 %   ~~~~~~~~~~~~~
 %  kde1dgui  - Graphical user interface to kde function.
 %  kde2dgui  - Graphical user intergace to kde function in two dimensions.

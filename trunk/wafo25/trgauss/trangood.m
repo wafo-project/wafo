@@ -63,9 +63,14 @@ if ( (nf<nmin) ||(nmax<nf) || any(abs(diff(df))>10*eps*(f(nf,1)-f(1,1))) )
   % it is an exactly representable number.
   % This is important when calculating numerical derivatives and is 
   % accomplished by the following.
-  df = (f(nf,1)-f(1,1))/(min(nmin,nmax)-1);
-  df = donothing(df+2)-2;
-  x = (f(1,1):df:f(nf,1)).';
+  ni = min(nmin,nmax);
+  if ni==2,
+      x = f([1,nf],1);
+  else
+    df = (f(nf,1)-f(1,1))/(ni-1);
+    df = donothing(df+2)-2;
+    x = (f(1,1):df:f(nf,1)).';
+  end
   % New call pab 11.11.2000: This is much quicker
   f = [ x interp1q(f(:,1),f(:,2),x)];     
   %f = [ x interp1(f(:,1),f(:,2),x,'linear')];  

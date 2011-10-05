@@ -331,11 +331,9 @@ wallop.m
 
 ===Statistics===
 alias
-
 cdfbeta
 cdff
 cdft
-
 ciproflog
 comnsize
 edf
@@ -350,11 +348,9 @@ invgengammod
 invinvnorm
 invt
 histgrm
-
 loglike
 logps
 mombeta
-
 pdfbeta
 pdff
 pdft

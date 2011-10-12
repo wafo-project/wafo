@@ -17,6 +17,14 @@ function f_rfc = mctp2rfc(f_mM,f_Mm)
 %        f_Mm  = the max2min Markov matrix, 
 %       paramm = the parameter matrix defining discretization of minimas,
 %       paramM = the parameter matrix defining discretization of maximas,
+% 
+% Example
+%  fmm = [0.0183    0.0160    0.0002    0.0000         0;...
+%    0.0178    0.5405    0.0952         0         0;...
+%    0.0002    0.0813         0         0         0;...
+%    0.0000         0         0         0         0;...
+%         0         0         0         0         0]
+%  mctp2rfc(fmm)
 
 %%
 % TODO %  Check this: paramm and paramM are never used?????

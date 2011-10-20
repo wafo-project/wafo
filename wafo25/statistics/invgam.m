@@ -40,6 +40,7 @@ function [x,xlo,xup] = invgam(F,varargin)
 %
 % See also  pdfgam, cdfgam, fitgam, rndgam, momgam
 
+
 % Reference: Johnson, Kotz and Balakrishnan (1994)
 % "Continuous Univariate Distributions, vol. 1", p. 494 ff
 % Wiley

@@ -29,6 +29,20 @@ function  x = invbin(F,varargin)
 
 %       Anders Holtsberg, 16-03-95
 %       Copyright (c) Anders Holtsberg
+%
+% This program is free software; you can redistribute it and/or modify
+%     it under the terms of the GNU Lesser General Public License as published by
+%     the Free Software Foundation; either version 3 of the License, or
+%     (at your option) any later version.
+% 
+%     This program is distributed in the hope that it will be useful,
+%     but WITHOUT ANY WARRANTY; without even the implied warranty of
+%     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%     GNU General Public License for more details.
+% 
+%     You should have received a copy of the GNU Lesser General Public License
+%     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 % The algorithm contains a nice vectorization trick which
 % relies on the fact that if two elements in a vector

@@ -79,7 +79,7 @@ if  d==1,
   
   try
     c = (accumarray(binx,(X(binx+1)-data),[inc,1]) + ...
-      accumarray(binx,(data-X(binx)),[inc,1]))/w;
+      accumarray(binx+1,(data-X(binx)),[inc,1]))/w;
 
 %     % binc is much faster than sparse for 1D data
 %     % However, for N-Dimensional data sparse is sometimes faster.

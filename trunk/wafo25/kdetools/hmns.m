@@ -81,3 +81,4 @@ h=a*sqrtm(covA)*n^(-1/(d+4));
 
 return
 
+

@@ -60,11 +60,12 @@ function [methods_] = regglm(Y,X,varargin)
 % y=[2 0 3 1 5 5 6 9 5 9].';  % number of successes in n(i) trials
 % n=[10 10 10 10 10 10 10 10 10 10].';
 % x=(1:10)';  % Covariate
-% b = regglm([y n],x,'family','binomial','link','loglog');
+% b = regglm([y n],x,'family','binomial','link','logit');
+% [y1,ylo,yup] = b.predict(x); 
 % b.display() % members and methods
 % b.get()     % return members
 % b.summary()
-% plot(x, y./n,'o',x,b.predict(),'-','LineWidth',2)
+% plot(x, y./n,'o',x,y1,'-', x,[ylo,yup],'r:', 'LineWidth',2)
 %
 % x=(1:10)';  % Covariate
 % y = [0 1 0 0 1 0 0 0 1 1]';

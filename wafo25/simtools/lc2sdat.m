@@ -21,7 +21,8 @@ function process=lc2sdat(lc,N,alpha)
 %  Se  = dat2spec(xs2);  
 %  plotspec(S),hold on
 %  plotspec(Se,'r'), hold off  
-%  spec2char(Se,'alpha')
+%  alpha2 = spec2char(Se,'alpha');
+%  alpha - alpha2
 %  lc2  = dat2lc(xs2);
 %  figure(gcf+1)
 %  subplot(211)
@@ -110,15 +111,15 @@ process = [(1:length(process))' process];
 %mu=pickdiag(NT);
 
 %Check the result without reference to getrfc:
-LCe = dat2lc(process);
-max(lc(:,2))
-max(LCe(:,2))
-
-clf
-plot(lc(:,1),lc(:,2)/max(lc(:,2)))
-hold on
-plot(LCe(:,1),LCe(:,2)/max(LCe(:,2)),'-.')
-title('Relative crossing intensity')
+% LCe = dat2lc(process);
+% max(lc(:,2))
+% max(LCe(:,2))
+% 
+% clf
+% plot(lc(:,1),lc(:,2)/max(lc(:,2)))
+% hold on
+% plot(LCe(:,1),LCe(:,2)/max(LCe(:,2)),'-.')
+% title('Relative crossing intensity')
 
 %% Plot made by the function funplot_4, JE 970707
 %param = [min(process(:,2)) max(process(:,2)) 100];

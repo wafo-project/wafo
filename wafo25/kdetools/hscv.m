@@ -36,7 +36,7 @@ function [h,hvec,score]=hscv(A,kernel,hvec)
 %  Chapman and Hall, pp 75--79
 
 % TODO % Add support for other kernels than Gaussian  
-A=A(:);
+%A=A(:);
 [n, d] = size(A);
 if (n==1) && (d>1),
   A=A.';
@@ -48,8 +48,16 @@ if nargin<2||isempty(kernel),
   kernel='gauss';
 end;
 
+% R= int(mkernel(x)^2)
+% mu2= int(x^2*mkernel(x))
+[mu2,R] = kernelstats(kernel);
+AMISEconstant = (8 * sqrt(pi) * R / (3 * mu2 ^ 2 * n)) ^ (1. / 5);
+STEconstant = R /(mu2^(2)*n);
+
+sigmaA = hns(A, kernel)/AMISEconstant;
 if nargin<3||isempty(hvec),
-  H=hos(A,kernel);
+  %H=hos(A,kernel);
+  H = AMISEconstant / 0.93;
   hvec=linspace(0.25*H,H,100);
 else
   hvec=abs(hvec);
@@ -65,18 +73,14 @@ xmin=min(A);    % Find the minimum value of A.
 xmax=max(A);    % Find the maximum value of A.
 xrange=xmax-xmin; % Find the range of A.
 
-sigmaA = std(A);
-iqr = abs(diff(qlevels2(A,[75 25]),1,1+(d==1))); % interquartile range
-k = find(iqr>0);
-if any(k)
-  sigmaA(k) = min(sigmaA(k), iqr(k)/1.349);
-end
+% sigmaA = std(A);
+% iqr = abs(diff(qlevels2(A,[75 25]),1,1+(d==1))); % interquartile range
+% k = find(iqr>0);
+% if any(k)
+%   sigmaA(k) = min(sigmaA(k), iqr(k)/1.349);
+% end
 
-% R= int(mkernel(x)^2)
-% mu2= int(x^2*mkernel(x))
-[mu2,R] = kernelstats(kernel);
 
-STEconstant = R /(mu2^(2)*n);
 
 % xa holds the x 'axis' vector, defining a grid of x values where 
 % the k.d. function will be evaluated and plotted.
@@ -92,12 +96,12 @@ h = zeros(1,d);
 hvec = hvec*(STEconstant2/STEconstant)^(1/5);
 for dim = 1:d
   s  = sigmaA(dim);
-  ax = ax1(dim);
-  bx = bx1(dim);
+  ax = ax1(dim)/s;
+  bx = bx1(dim)/s;
   xa = linspace(ax,bx,inc).'; 
   xn = linspace(0,bx-ax,inc);
-  
-  c = gridcount(A(:,dim),xa);
+  datan = A(:,dim)/s;
+  c = gridcount(datan,xa);
 
   %deltax = (bx-ax)/(inc-1);
   %xn     = (0:(inc-1))*deltax;
@@ -107,8 +111,8 @@ for dim = 1:d
   %	   sparse(binx+1,1,(A(:,dim)-xa(binx)),inc,1))/deltax;
 
   [k40,k60,k80,k100] = deriv(0,kernel2);
-  psi8  = 105/(32*sqrt(pi)*s^9);
-  psi12 = 3465/(512*sqrt(pi)*s^13);
+  psi8  = 105/(32*sqrt(pi)); %*s^9);
+  psi12 = 3465/(512*sqrt(pi)); %*s^13);
   g1 = (-2*k60/(mu2*psi8*n))^(1/9);
   %g1 = sqrt(2)*s*(2/(7*n))^(1/9)
   g2 = (-2*k100/(mu2*psi12*n))^(1/13);
@@ -162,7 +166,7 @@ for dim = 1:d
 
   C=(441/(64*pi))^(1/18)*(4*pi)^(-1/5)*psi4^(-2/5)*psi8^(-1/9);
   
-  M=A*ones(size(A'));
+  M=datan*ones(size(datan'));
   
   Y=(M-M');
   
@@ -184,7 +188,7 @@ for dim = 1:d
 
   [L,I]=min(score);
   
-  h(dim)=hvec(I);
+  h(dim) = sigmaA(dim)*hvec(I);
   
    % Kernel other than Gaussian scale bandwidth
   h(dim)  = h(dim)*(STEconstant/STEconstant2)^(1/5);
@@ -193,7 +197,7 @@ end
 hvec = hvec*(STEconstant/STEconstant2)^(1/5);
 
 return
-% data =[ 0.75355792,  0.72779194,  0.94149169,  0.07841119,  2.32291887,...
-%     1.10419995,  0.77055114,  0.60288273,  1.36883635,  1.74754326,...
-%     1.09547561,  1.01671133,  0.73211143,  0.61891719,  0.75903487,...        
-%     1.8919469 ,  0.72433808,  1.92973094,  0.44749838,  1.36508452]
+data =[ 0.75355792,  0.72779194,  0.94149169,  0.07841119,  2.32291887,...
+    1.10419995,  0.77055114,  0.60288273,  1.36883635,  1.74754326,...
+    1.09547561,  1.01671133,  0.73211143,  0.61891719,  0.75903487,...        
+    1.8919469 ,  0.72433808,  1.92973094,  0.44749838,  1.36508452]

@@ -79,7 +79,7 @@ else
   end
 end
 allfixed  = isempty(phat0);
-somefixed = ~isempty(options.fixpar);
+somefixed = ~(isempty(options.fixpar) || all(isnan(options.fixpar)));
 if somefixed
   phat2 = options.fixpar;
   notfixed = find(~isfinite(phat2));
@@ -125,7 +125,12 @@ if somefixed
 end
 [LL, pcov,H]  = loglike(phat1,data,varargin{:},pdf);
 try
-  [LPS, pvalue] = logps(phat1,data,varargin{:},cdf);
+    if strcmpi(options.method,'MPS')
+        [LPS, pvalue, Tn, H] = logps(phat1,data,varargin{:},cdf);
+        pcov = -pinv(H);
+    else
+        [LPS, pvalue] = logps(phat1,data,varargin{:},cdf);
+    end
 catch
   LPS = nan;
   pvalue = nan;

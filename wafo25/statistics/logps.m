@@ -184,7 +184,7 @@ if nargout>1
   if nargout>3
     mylogps = @(phat1)logps(phat1,data,options{:},dist);
     %[H,err] = hessian(mylogps,phat,'RombergTerms',4);
-     H = hessian(mylogps,phat,'RombergTerms',4);
+     H = -hessian(mylogps,phat,'RombergTerms',4);
   end
  
 end

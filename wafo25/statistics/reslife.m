@@ -13,7 +13,7 @@ function mrl=reslife(data,varargin)
 %        .umax : Maximum threshold (default max(data))
 %        .Nu   : number of threshold values (default min(length(data),100))
 %        .alpha: Confidence coefficient (default 0.05)
-%        .plotflag:
+%        .plotflag:h
 %
 % RESLIFE estimate mean excesses over thresholds. The purpose of MRL is
 % to determine the threshold where the upper tail of the data can be 

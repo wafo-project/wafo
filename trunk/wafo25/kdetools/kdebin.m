@@ -316,7 +316,7 @@ if 1 %HG, %
   % Apply 'ifftshift' to the kernel weights, kw.
   kw = ifftshift(kw);
 else
-  kw1 = zeros(floor(nfft/2)+1);  
+  kw1 = zeros(floor(nfft/2)+1); 
   indk(1:d)  = {1:(L+1)};
   kw1(indk{:}) = mkernel(X1{:},kernel)/(n*deth);
   kw = fftce(kw1); % circulant embedding

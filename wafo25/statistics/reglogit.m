@@ -36,6 +36,15 @@
 % only. 
 % 
 % Example
+% X = sort(5*rand(40, 1))
+% y = 2*(sin(X)>rand(40))-1
+%  b = reglogit(y,X)
+%  b.display() % members and methods
+%  b.get()     % return members
+%  b.summary()
+%  [mu,plo,pup] = b.predict();
+%  plot(x,mu,'g',x,plo,'r:',x,pup,'r:')
+% 
 %  y=[1 1 2 1 3 2 3 2 3 3]'
 %  x = (1:10)'
 %  b = reglogit(y,x)

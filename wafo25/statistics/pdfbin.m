@@ -61,7 +61,7 @@ if numel(options)>1
 end
 
 [n,p] = deal(params{:});
-if false
+if true
   % more accurate for large n
  f = dbinom(x,n,p,options);
 else

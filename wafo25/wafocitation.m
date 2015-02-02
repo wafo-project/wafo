@@ -24,10 +24,10 @@
 %   year      = {2000},
 %   volume    = {3},
 % }
-% @Manual{WAFO-group2000Wafo,
+% @Manual{WAFO-group2011Wafo,
 %   author = {WAFO-group},
 %   title  = {{WAFO} - A Matlab Toolbox for Analysis of Random Waves and Loads - A Tutorial},
-%   year   = {2000},
+%   year   = {2011},
 %   organization = {Math. Stat., Center for Math. Sci., Lund Univ.}
 %   address = {Lund, Sweden}},
 %   note    = {{ISBN} XXXX},

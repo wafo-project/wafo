@@ -55,8 +55,12 @@ function [H,ax]=wafostamp(varargin)
 
 
 [stamp,caption,flag]=stmpchk(varargin);
+oldMatlabVersion = verLessThan('matlab','8.4');
 
-
+if ~oldMatlabVersion,
+    return
+else
+    
 if stamp~=0
   tag = 'WAFOSTAMP';
   
@@ -139,7 +143,7 @@ if stamp~=0
   
   
 end
-
+end
 
 function [stamp,caption,flag]=stmpchk(P)
 % gives the correct input values  

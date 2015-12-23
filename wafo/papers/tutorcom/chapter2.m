@@ -212,8 +212,8 @@ disp('Block = 17'),pause
 %% Encountered directional spectrum
 clf
 Se = spec2spec(Sd,'encdir',0,10);
-plotspec_gl(Se), hold on
-plotspec_gl(Sd,1,'--'), hold off
+plotspec(Se), hold on
+plotspec(Sd,1,'--'), hold off
 wafostamp('','(ER)')
 disp('Block = 18'),pause
 
@@ -221,9 +221,9 @@ disp('Block = 18'),pause
 clf
 Sd1 =spec2spec(Sd,'freq');
 Sd2 = spec2spec(Se,'enc');
-plotspec_gl(spec), hold on
-plotspec_gl(Sd1,1,'.'),
-plotspec_gl(Sd2),
+plotspec(spec), hold on
+plotspec(Sd1,1,'.'),
+plotspec(Sd2),
 wafostamp('','(ER)')
 hold off
 disp('Block = 19'),pause
@@ -232,8 +232,8 @@ disp('Block = 19'),pause
 clf
 Sk = spec2spec(spec,'k1d')
 Skd = spec2spec(Sd,'k1d')
-plotspec_gl(Sk), hold on
-plotspec_gl(Skd,1,'--'), hold off
+plotspec(Sk), hold on
+plotspec(Skd,1,'--'), hold off
 wafostamp('','(ER)')
 disp('Block = 20'),pause
 

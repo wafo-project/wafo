@@ -39,10 +39,10 @@ function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag)
 %  S = demospec('dir')
 %  Y=seasim(S,Nx,Ny,Nt,dx,dy,dt,2,1);  
 %
-%  
-%
 % See also  seamovie, spec2sdat
-  
+
+% Tested on Matlab 8.1
+% Revised by GL 20140927 to work with fftdim=2 (commented out line 202)
 % Tested on Matlab 5.3 
 % revised pab jan 2007
 % -Now correctly takes S.phi into account in the simulations when fftdim==1.
@@ -60,8 +60,6 @@ function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag)
 % revised es 060600, added transformation of data  
 % By es 23.05.00  
 
-
-% TODO % Make the simulation take phi into account correctly for fftdim==2
 % Initialization
 if ~isfield(spec,'g')
   spec.g=gravity;
@@ -117,16 +115,16 @@ if fftdim~=2
   [Xi,Yi] = meshgrid(x,y);
   %Normalize to get variance back after discretization
   Sdiscr  = (spec.S)*spec.w(end)/nf*diff(spec.theta([1,end]))/np; % size np x nf
-  Sdiscr  = (randn(np,nf)+i*randn(np,nf)).*sqrt(Sdiscr);
+  Sdiscr  = (randn(np,nf)+1i*randn(np,nf)).*sqrt(Sdiscr);
   [k1,k2] = w2k(spec.w,spec.theta+spec.phi,spec.h,spec.g);
   Sxy = zeros(nf,Nxy);
   
-  h = fwaitbar(0,[],' Integration ... ');
+  %h = fwaitbar(0,[],' Integration ... ');
   for ix=1:Nxy,
-    Sxy(:,ix) = simpson(0:np-1,Sdiscr.*exp(i*(Xi(ix)*k1+Yi(ix)*k2))).';
-    fwaitbar(ix/Nxy,h)
+    Sxy(:,ix) = simpson(0:np-1,Sdiscr.*exp(1i*(Xi(ix)*k1+Yi(ix)*k2))).';
+    waitbar(ix/Nxy);%,h)
   end 
-  close(h)
+  %close(h)
   clear Sdiscr k1 k2
   nfft=2^nextpow2(2*nf-2);
   
@@ -141,7 +139,7 @@ if fftdim~=2
     end
     nr=ceil(Nxy/Nxyp);
     
-    h = fwaitbar(0,[],'  ... ');
+    %h = fwaitbar(0,[],'  ... ');
     
     ixy  = 1:Nxyp;
     if2   = nfft-nf +2 + 1 : nfft;
@@ -152,7 +150,7 @@ if fftdim~=2
       Sxy1(if2,:)  = conj(Sxy(nf-1:-1:2,ixy));
       Y.Z(ixy,:)   = real(ifft(Sxy1,nfft,1)).'*nfft/(2*nf-2)*nf;
       ixy = ixy + Nxyp      ;
-      fwaitbar(j/nr,h)
+      waitbar(j/nr);%,h)
     end
     ixy1 = 1:rem(Nxy,Nxyp);
     ixy  = ixy(ixy1);
@@ -199,21 +197,21 @@ else  % if fftdim ...
   
   Sdiscr = fftshift(Sdiscr);
   % Simulation
-  Z0 = sqrt(Sdiscr).*randn(nffty,nfftx)+i*sqrt(Sdiscr).*randn(nffty,nfftx);
+  Z0 = sqrt(Sdiscr).*randn(nffty,nfftx)+1i*sqrt(Sdiscr).*randn(nffty,nfftx);
   W  = k2w((-nfftx/2:nfftx/2-1)*dk1,(-nffty/2:nffty/2-1)*dk2,S.h,S.g);
-  W(:,nfftx/2+1:nfftx)=-W(:,nfftx/2+1:nfftx); 
+  % W(:,nfftx/2+1:nfftx)=-W(:,nfftx/2+1:nfftx); removed by GL 20140927
   W   = fftshift(W); 
   Y.Z = zeros(nffty,nfftx,Nt);
   %disp(' Loop over t values')
-  h = fwaitbar(0,[],'Loop over t values...');
+  %h = fwaitbar(0,[],'Loop over t values...');
   nt = length(t);
   for j=1:nt
-    Y.Z(:,:,j)=real(fft2(Z0.*exp(-i*W*t(j))));
+    Y.Z(:,:,j)=real(fft2(Z0.*exp(-1i*W*t(j))));
     % Old call pab feb2007
    %  Y.Z(:,:,j)=real(fft2(Z0.*exp(i*W*t(j))));
-     fwaitbar(j/nt,h)
+     waitbar(j/nt);%,h)
   end
-  close(h)
+  %close(h)
   Y.Z=squeeze(Y.Z(1:Ny,1:Nx,:));
   clear Z0 W Sdiscr
   

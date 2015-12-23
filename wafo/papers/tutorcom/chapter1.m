@@ -98,8 +98,8 @@ D1 = spreading(Nt,'cos',th0,Sp,[],0); % frequency independent
 D12 = spreading(Nt,'cos',0,Sp,S1.w,1); % frequency dependent
 SD1 = mkdspec(S1,D1);
 SD12 = mkdspec(S1,D12);
-plotspec_gl(SD1,plotflag), hold on, 
-plotspec_gl(SD12,plotflag,'-.'); hold off
+plotspec(SD1,plotflag), hold on, 
+plotspec(SD12,plotflag,'-.'); hold off
 wafostamp('','(ER)')
 disp('Block = 5'),pause
 
@@ -141,8 +141,8 @@ disp('Block = 7'),pause
  nfft = 128;
  nt = 101;
  SDe = dat2dspec([F.t Z(:,:)],[pos types,bfs],h,nfft,nt);
-plotspec_gl(SDe), hold on
-plotspec_gl(SD12,'--'), hold off
+plotspec(SDe), hold on
+plotspec(SD12,'--'), hold off
 disp('Block = 8'),pause
 
 %% Section 1.4.4 Fatigue, Load cycles and Markov models.
@@ -160,7 +160,7 @@ disp('Block = 8'),pause
 clf
 paramu = [-6 6 61];
 frfc=spec2cmat(S1,[],'rfc',[],paramu);
-pdfplot_gl(frfc);
+pdfplot(frfc);
 hold on
 tp = dat2tp(xs);
 rfc = tp2rfc(tp);

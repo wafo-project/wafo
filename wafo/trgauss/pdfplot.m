@@ -133,7 +133,7 @@ function pdfplot(f,varargin)
 %    if (nargout>=1),     H1=H;   end
 %   return
 %end
-A=[];
+
 hold_state = ishold; % remember old hold state
 Nff=length(f);
 H11=zeros(Nff,1);
@@ -174,12 +174,15 @@ switch dim
     H = plot1d(f.x{1},data,dataCI,sym,plotflag);
         
   case 2  %2D
+
     switch plotflag
       case {1,6,7,8,9},
         PL=0;
-        if isfield(f,'cl')&&~isempty(f.cl) % check if contour levels is submitted
+        if isfield(f,'cl')&&~isempty(f.cl) 
+              % check if contour levels is submitted
           CL=f.cl;
-          if isfield(f,'pl'),PL=~isempty(f.pl);end % levels defines quantile levels? 0=no 1=yes
+          if isfield(f,'pl'), PL=~isempty(f.pl); end 
+              % levels defines quantile levels? 0=no 1=yes
         else
           CL=max(f.f(:))-range(f.f(:))*(1-[0.01 0.025 0.05 0.1 0.2 0.4 0.5 0.75]);
           if 0 % automatic levels by using contours
@@ -205,17 +208,23 @@ switch dim
         else
           clvec=sort(CL);
         end
+        
         if any(plotflag==[1 8 9])
-          [cs hcs] = contour(f.x{:},f.f,CL,sym); H=hcs;
+          cs = contour(f.x{:},f.f,CL,sym); %H=hcs;
         else
-          [cs hcs] = contour3(f.x{:},f.f,CL,sym); H=hcs;
+          cs = contour3(f.x{:},f.f,CL,sym); %H=hcs;
         end
+
         if any(plotflag==[1,6])
           ncl=length(clvec);
-          if ncl>12, ncl=12; disp('   Only the first 12 levels will be listed in table.'),end
- %          axcl = cltext(clvec(1:ncl),PL); %A=axcl;% print contour level text
+          if ncl>12, 
+              ncl=12; 
+              disp('   Only the first 12 levels will be listed in table.')
+          end
+      %    axcl = cltext(clvec(1:ncl),PL); %A=axcl;% print contour level text
         N = 4;
-        cl_txt = num2str(clvec(1:ncl),N);
+        
+        cl_txt = num2str(clvec(1:ncl)',N);
         %removing spaces in front of each line
         indx = find(isspace(cl_txt(:,1)));
         space = ' ';
@@ -223,16 +232,22 @@ switch dim
               ik = find(~isspace(cl_txt(ix,:)),1);
               cl_txt(ix,:) = [cl_txt(ix,ik:end) space(:,ones(1,ik-1))];
         end
+
+        delete(findall(gcf,'Tag','leveltag'))
+        delete(findall(gcf,'Tag','leveltexttag'))
         annotation('textbox',[0.3 0.8 0.1 0.1],...
               'FontSize',10,...
               'FontWeight','bold',...
               'String','Level curves enclosing:',...
-              'EdgeColor','none')
-        annotation('textbox',[0.3 0.75 0.1 0.1],...
+              'EdgeColor','none',...
+              'Tag','leveltexttag');
+        apos = [0.3 0.75 0.1 0.1];
+        annotation('textbox',apos,...
               'string',cl_txt,...
               'Edgecolor','none',...
               'FitBoxToText','off',...
-              'FontSize',10)
+              'FontSize',10,...
+              'Tag','leveltag');
       
         elseif any(plotflag==[7 9])
           clabel(cs);

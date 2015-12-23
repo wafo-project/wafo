@@ -51,13 +51,16 @@ for k=0:nr
 end
 cleanup(filename{:})
 
-
 for k=0:nr
-  %   covar=[cov(:,1), cov(:,k+2), zeros(n,3)];
-  %   fid=fopen(filename{k+1},'wt');
-  %   fprintf(fid,'%12.10f %12.10E %4.2f %4.2f %4.2f\n',covar');
-  covar=[t, cov(:,k+1)];
-  fid=fopen(filename{k+1},'wt');
-  fprintf(fid,formatStr,covar.');
-  fclose(fid);
+    %   covar=[cov(:,1), cov(:,k+2), zeros(n,3)];
+    %   fid=fopen(filename{k+1},'wt');
+    %   fprintf(fid,'%12.10f %12.10E %4.2f %4.2f %4.2f\n',covar');
+    covar=[t, cov(:,k+1)];
+    try
+        fid=fopen(filename{k+1},'wt');
+        fprintf(fid,formatStr,covar.');
+        fclose(fid);
+    catch
+        error(['Perhaps you dont have writing permission for ' fullfile(pwd,filename{k+1})])
+    end
 end

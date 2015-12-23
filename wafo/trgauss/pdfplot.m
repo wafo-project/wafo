@@ -1,16 +1,18 @@
-function H1=pdfplot(f,varargin)
+function pdfplot(f,varargin)
 %PDFPLOT Plot contents of pdf structures
 %
 % CALL: H = pdfplot(f,plotflag,x1,x2,x3,sym,method,shading)
 %
-%  H = handle to the created object
+%  H = handle to the created object (array of handles if  f  is array of pdf's)
 %
-%  plot a PDF struct with the pollowing fields
+%  plot a PDF struct  f  with the pollowing fields
 %      
 %      f.f      = pdf 
 %      f.x      = cellarray of values in n dimensions (n=1:3) 
+%
+%      f  may be a cell array of pdf structures
 %  
-% optional fields:   
+%  optional fields:   
 %      f.labx   = cellarray of label strings          (n=1:3) 
 %      f.title  = title string
 %      f.cl     = contour levels for 2D PDF
@@ -68,8 +70,10 @@ function H1=pdfplot(f,varargin)
 
 % Note: is only able to handle 1D,2D and 3D plot i.e. ndim=3
 
-%Tested on: Matlab 5.3, 5.2
+%Tested on: Matlab 2013a, 5.3, 5.2
 %History:
+% revised GL Sept 2015
+% -fixed handle output for 2D- and 3D-plots 
 % revised pab 
 % -removed point-and-click editing because it is obsolete
 % revised pab March 2005
@@ -92,7 +96,7 @@ function H1=pdfplot(f,varargin)
 %  - improved the printing of contour level text and moved it into a
 %    separate function cltext (this may be further improved)
 %  - changed see also line
-% revised es 24.01.2000 - dim=length(f.x) improving old, added som missing ;   
+% revised es 24.01.2000 - dim=length(f.x) improving old, added some missing ;   
 % revised pab 20.01.2000
 %  - added pcolor
 % revised pab 18.01.2000
@@ -104,9 +108,9 @@ function H1=pdfplot(f,varargin)
 %  - changed PL to pl and CL to cl
 % by pab 12.08.99
 
-if ~isstruct(f) % secret option plot a matrix assuming the first column
+%if ~isstruct(f) % secret option plot a matrix assuming the first column
   % is the independent variable
-  f = createpdf('f',f(:,2:end),'x',{f(:,1)});
+%  f = createpdf('f',f(:,2:end),'x',{f(:,1)});
   
 %   [plotflag,sym] = pdfplotchk(varargin,1);
 %   switch plotflag
@@ -128,19 +132,22 @@ if ~isstruct(f) % secret option plot a matrix assuming the first column
 %   wafostamp;
 %    if (nargout>=1),     H1=H;   end
 %   return
-end
-
+%end
+A=[];
 hold_state = ishold; % remember old hold state
 Nff=length(f);
-if Nff>1
-  cfig=gcf;
+H11=zeros(Nff,1);
+
+if Nff>1,
+  cfig=get(gcf,'Number');
   for ix=1:Nff,
     if hold_state
       newplot
     else
       figure(cfig-1+ix)
     end
-    pdfplot(f(ix),varargin{:})
+    pdfplot(f(ix),varargin{:});
+    H11(ix)=figure(cfig-1+ix);
   end
   return
 end
@@ -199,26 +206,46 @@ switch dim
           clvec=sort(CL);
         end
         if any(plotflag==[1 8 9])
-          [cs hcs] = contour(f.x{:},f.f,CL,sym);
+          [cs hcs] = contour(f.x{:},f.f,CL,sym); H=hcs;
         else
-          [cs hcs] = contour3(f.x{:},f.f,CL,sym);
+          [cs hcs] = contour3(f.x{:},f.f,CL,sym); H=hcs;
         end
         if any(plotflag==[1,6])
           ncl=length(clvec);
           if ncl>12, ncl=12; disp('   Only the first 12 levels will be listed in table.'),end
-           axcl = cltext(clvec(1:ncl),PL);  % print contour level text
+ %          axcl = cltext(clvec(1:ncl),PL); %A=axcl;% print contour level text
+        N = 4;
+        cl_txt = num2str(clvec(1:ncl),N);
+        %removing spaces in front of each line
+        indx = find(isspace(cl_txt(:,1)));
+        space = ' ';
+        for ix=indx(:).'
+              ik = find(~isspace(cl_txt(ix,:)),1);
+              cl_txt(ix,:) = [cl_txt(ix,ik:end) space(:,ones(1,ik-1))];
+        end
+        annotation('textbox',[0.3 0.8 0.1 0.1],...
+              'FontSize',10,...
+              'FontWeight','bold',...
+              'String','Level curves enclosing:',...
+              'EdgeColor','none')
+        annotation('textbox',[0.3 0.75 0.1 0.1],...
+              'string',cl_txt,...
+              'Edgecolor','none',...
+              'FitBoxToText','off',...
+              'FontSize',10)
+      
         elseif any(plotflag==[7 9])
           clabel(cs);
         else
           clabel(cs,hcs);
         end
 	
-      case 2,	mesh(f.x{:},f.f); % meshz
-      case 3,	surf(f.x{:},f.f);  %shading interp % flat, faceted       % surfc
-      case 4,	waterfall(f.x{:},f.f);
-      case 5, pcolor(f.x{:},f.f); %shading interp % flat, faceted
+      case 2,	H=mesh(f.x{:},f.f); % meshz
+      case 3,	H=surf(f.x{:},f.f);  %shading interp % flat, faceted       % surfc
+      case 4,	H=waterfall(f.x{:},f.f);
+      case 5,   H=pcolor(f.x{:},f.f); %shading interp % flat, faceted
       case 10,
-        [cs,hcs]=contourf(f.x{:},f.f); clabel(cs,hcs); fcolorbar(cs);
+        [cs,hcs]=contourf(f.x{:},f.f); clabel(cs,hcs); fcolorbar(cs); H=hcs;
       otherwise, error('unknown option for plotflag')
     end
     if any(plotflag==(2:5))
@@ -270,15 +297,13 @@ axis('square')
 set(gca,'FontSize',12)
 wafostamp;
 
-
-
 if ~hold_state, 
    hold off, 
    %set(cfig,'NextPlot', 'replace'); 
 end % reset to old hold state
 
 if (nargout>=1)
-  H1=H;
+  H11=H;
 end
 return
 
@@ -289,7 +314,7 @@ switch plottype
   case 0 %  No plotting
     H = [];
     return
-  case 1, H = plot(args,data,sym,varargin{:});
+  case 1, H = plot(args,data,sym,varargin{:}); 
   case 2, H = stairs(args,data,sym,varargin{:});
   case 3, H = stem(args,data,sym,varargin{:});
   case 4, 
@@ -318,8 +343,6 @@ logZscale = any(scale=='z');
 if logXscale, set(gca,'Xscale','log');end
 if logYscale, set(gca,'Yscale','log');end
 if logZscale, set(gca,'Zscale','log');end
-
-
 
 % Should probably move this to specdata/plot instead
 %fmin = min(data(:));
@@ -412,10 +435,6 @@ switch transFlag
     error('Unknown plotflag')
 end
 
-
-
-
-
 function [plotflag,sym,method,shad,x1,x2,x3] = pdfplotchk(P,dim,f)
 %pdfplotCHK Helper function for pdfplot.
 %
@@ -479,7 +498,6 @@ if dim==3
     case 6, x1 = I2;
   end
 end
-
 
 if (Np>1) && ~isempty(P{2})
   x1=P{2};

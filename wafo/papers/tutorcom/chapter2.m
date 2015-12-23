@@ -1,5 +1,7 @@
 %% CHAPTER2 Modelling random loads and stochastic waves
 %
+% CALL: chapter2
+%
 % Chapter2 contains the commands used in Chapter 2 of the tutorial and
 % present some tools for analysis of random functions with
 % respect to their correlation, spectral and distributional properties.
@@ -15,7 +17,7 @@
 % 
 
 %
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8.1, 8.6
 % History
 % Revised by Georg Lindgren march 2011 for use with Tutorial 2.5 
 % and sept 2009 for WAFO ver 2.5 on Matlab 7.1
@@ -68,7 +70,7 @@ disp('Block = 3'),pause
 clf
 waveplot(xx,tp,'k-','*',1,1)
 axis([0 2 -inf inf])
-%  wafostamp('','(ER)',0)
+wafostamp('','(ER)',0)
 disp('Block = 4'),pause
 
 %% Finding possible spurious points
@@ -93,7 +95,7 @@ Lmax = 9500;
 S = dat2spec(xx,Lmax);
 plotspec(S)
 axis([0 5 0 0.7])
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 6'),pause
 
 %% Calculate moments  
@@ -114,7 +116,7 @@ plotspec(S1,[],'-.')
 hold on
 plotspec(S2)
 hold off
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 8'),pause
 
 %% Estimated autocovariance
@@ -129,7 +131,7 @@ Rest = dat2cov(xx,Lmax);
 covplot(R1,Lmax,[],'.')
 hold on
 covplot(Rest)
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 hold off
 disp('Block = 9'),pause
 
@@ -143,7 +145,7 @@ R2 = spec2cov(S2,1);
 covplot(R2,Lmax,[],'.')
 hold on
 covplot(Rest)
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 hold off
 disp('Block = 11'),pause
 
@@ -167,7 +169,7 @@ hold on
 plot(glc(:,1),glc(:,2),'b-') % Transf. estimated from level-crossings
 plot(gh(:,1),gh(:,2),'b-.')  % Hermite Transf. estimated from moments 
 hold off
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 13'),pause
 
 %%  Test Gaussianity of a stochastic process.
@@ -181,7 +183,7 @@ disp('Block = 13'),pause
 
 N = length(xx);
 test1 = testgaussian(S1,[N,50],test0);
-%wafostamp('','(CR)')
+wafostamp('','(CR)')
 disp('Block = 14'),pause
 
 %% Normalplot of data xx
@@ -189,7 +191,7 @@ disp('Block = 14'),pause
 % "light" lower tail. 
 clf
 plotnorm(xx(:,2))
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 15'),pause
 
 %% Section 2.2.5 Spectral densities of sea data
@@ -210,19 +212,19 @@ disp('Block = 17'),pause
 %% Encountered directional spectrum
 clf
 Se = spec2spec(Sd,'encdir',0,10);
-plotspec(Se), hold on
-plotspec(Sd,1,'--'), hold off
-%wafostamp('','(ER)')
+plotspec_gl(Se), hold on
+plotspec_gl(Sd,1,'--'), hold off
+wafostamp('','(ER)')
 disp('Block = 18'),pause
 
 %% Frequency spectra
 clf
 Sd1 =spec2spec(Sd,'freq');
 Sd2 = spec2spec(Se,'enc');
-plotspec(spec), hold on
-plotspec(Sd1,1,'.'),
-plotspec(Sd2),
-%wafostamp('','(ER)')
+plotspec_gl(spec), hold on
+plotspec_gl(Sd1,1,'.'),
+plotspec_gl(Sd2),
+wafostamp('','(ER)')
 hold off
 disp('Block = 19'),pause
 
@@ -230,9 +232,9 @@ disp('Block = 19'),pause
 clf
 Sk = spec2spec(spec,'k1d')
 Skd = spec2spec(Sd,'k1d')
-plotspec(Sk), hold on
-plotspec(Skd,1,'--'), hold off
-%wafostamp('','(ER)')
+plotspec_gl(Sk), hold on
+plotspec_gl(Skd,1,'--'), hold off
+wafostamp('','(ER)')
 disp('Block = 20'),pause
 
 %% Effect of waterdepth on spectrum
@@ -242,7 +244,7 @@ S20 = spec;
 S20.S = S20.S.*phi1(S20.w,20);
 S20.h = 20;
 plotspec(S20),  hold off
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 21'),pause
 
 %% Section 2.3 Simulation of transformed Gaussian process
@@ -258,7 +260,7 @@ clf
 [y, grec] = reconstruct(xx,inds); pause(pstate)
 waveplot(y,'-',xx(inds,:),'+',1,1)
 axis([0 inf -inf inf])
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 22'), pause
 
 % Compare transformation (grec) from reconstructed (y) 
@@ -284,7 +286,7 @@ Ny = fix(2*60/dt) % = 2 minutes
 Sx.tr = grec;
 ysim = spec2sdat(Sx,Ny);
 waveplot(ysim,'-')
-%wafostamp('','(CR)')
+wafostamp('','(CR)')
 disp('Block = 25'),pause
  
 %% Estimated spectrum compared to Torsethaugen spectrum
@@ -296,7 +298,7 @@ plotspec(S1)
 hold on
 plotspec(St,'-.')
 axis([0 6 0 0.4])
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 26'),pause
 
 %%
@@ -330,7 +332,7 @@ disp('Block = 29'),pause
 clf
 xsim_t(:,2) = sa*xsim_t(:,2);
 waveplot(xsim_t,ysim_t,5,1,sa,4.5,'r.','b')
-%wafostamp('','(CR)')
+wafostamp('','(CR)')
 disp('Block = 30, Last block'),pause
 
 disp('Elapsed time')

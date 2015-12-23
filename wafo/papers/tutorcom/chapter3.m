@@ -1,12 +1,14 @@
 %% CHAPTER3  Demonstrates empirical distributions of wave characteristics
 %
+% CALL: chapter3
+%
 % Chapter3 contains the commands used in Chapter3 in the tutorial.
 % 
 % Some of the commands are edited for fast computation. 
 % Each set of commands is followed by a 'pause' command.
 % 
 
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8.1, 8.6
 % History
 % Revised by Georg Lindgren march 2011 for use with Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1

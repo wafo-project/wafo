@@ -100,9 +100,9 @@ else % interpolate with spline
   end
 end
 
-h9 = waitbar(0,'Please wait... for dat2steep to finish.');
+%h9 = waitbar(0,'Please wait... for dat2steep to finish.');
 for ix=2:M
-  waitbar((ix-1)/(M-1),h9)
+  waitbar((ix-1)/(M-1)); %,h9)
   if interpolate,
     %disp(['   ...interpolating column ' int2str(ix)])
     %    xn=[ti ;  interp1(xx(:,1),xx(:,2),ti,'*linear') ]'; 
@@ -207,6 +207,6 @@ for ix=2:M
      H(ind)=[];
    end
 end 
-close(h9)
+%close(h9)
 return
 

@@ -110,14 +110,14 @@ P   = varargin;
 ih=ishold;
 Ns=length(S);
 if Ns>1
-  cfig=gcf;
+  cfig=get(gcf,'Number');
   for ix=1:Ns,
     if ih
       newplot
     else
       figure(cfig-1+ix)
     end
-    plotspec(S(ix),P{:})
+    plotspec(S{ix},P{:})
   end
   return
 end

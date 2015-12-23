@@ -1,12 +1,14 @@
 %% CHAPTER4  Demonstrates exact distributions of wave characteristics
 %
+% CALL: chapter4
+%
 % Chapter4 contains the commands used in Chapter4 in the tutorial.
 % 
 % Some of the commands are edited for fast computation. 
 % Each set of commands is followed by a 'pause' command.
 % Set pstate='on' to activate the pause option
 
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8.1, 8.6
 % History
 % Revised by Georg Lindgren march 2011 for Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1
@@ -95,13 +97,13 @@ simpson(f_Lc_1.x{1},f_Lc_1.f)
 disp('Block = 5'), pause
 
 %% 6c. Crest height
-% Crest height cdf from spec2acdf compared to simulated data and the 
+% Crest height cdf from spec2Acdf compared to simulated data and the 
 % Rayleigh approximation with  Hs=6
 
 clf
 Hs=6;
 r = (0:0.06:Hs)'; %Compute cdf-values at r
-f_Ac_s1_T = spec2acdf(S1,[],'Tc',[0 12 61],r,-1); 
+f_Ac_s1_T = spec2Acdf(S1,[],'Tc',[0 12 61],r,-1); 
 hold on
 T = spec2sdat(S1,[40000,100],0.01);
 [Steep,Height,AcT] = dat2steep(T);
@@ -111,7 +113,7 @@ if strncmpi(speed,'slow',1),
 else
     Lev=[0 120 61];
 end
-F_Ac_s1_L = spec2acdf(S1,[],'Lc',Lev,r,-1);
+F_Ac_s1_L = spec2Acdf(S1,[],'Lc',Lev,r,-1);
 L = spec2sdat(spec2spec(S1,'k1d'),[40000 100],0.1);
 [Steep,Height,AcL] = dat2steep(L);
 plotedf(AcL,'-.'), hold off
@@ -124,6 +126,7 @@ disp('Block = 6'), pause
 
 figure(1)
 clf
+
 if strncmpi(speed,'slow',1), 
     Lev2=[0 200 401];
 else

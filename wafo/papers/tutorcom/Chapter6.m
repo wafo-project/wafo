@@ -1,6 +1,6 @@
 %% CHAPTER6 contains the commands used in Chapter 6 of the tutorial
 %
-% CALL:  Chapter6
+% CALL:  chapter6
 % 
 % Some of the commands are edited for fast computation. 
 % Each set of commands is followed by a 'pause' command.

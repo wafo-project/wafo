@@ -33,8 +33,10 @@ function Nf1 = waveplot(x,varargin)
 %
 % See also  dat2tc, plot
 
-%Tested on: Matlab 6.0, 5.3, 5.2, 5.1
 % History:
+% Revised December 18, 2015 by GL to accept also new Matlab 2014b standard
+%   for figure handle numeric operations; tested on Matlab2015b 
+% Tested on: Matlab 6.0, 5.3, 5.2, 5.1
 % revised jr 02.04.2001
 %  - added example, updated info.
 % revised pab 11.10.2000
@@ -99,7 +101,13 @@ indmiss=isnan(xn(:,2)); % indices to missing points
 if max(abs(xn(~indmiss,2)))>5*Sm0,
     XlblTxt=[ XlblTxt '(Spurious data since max > 5 std.)'];
 end
-start=gcf-1; %  start at current figure
+
+oldversion=verLessThan('matlab','8.4');
+if oldversion,
+    start = gcf - 1;
+else
+    start=get(gcf,'Number')-1; %  start at current figure
+end    
 hstate = ishold;
 
 for iz=1:Nf

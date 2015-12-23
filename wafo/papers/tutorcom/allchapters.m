@@ -1,24 +1,30 @@
-tid=zeros(1,6);
-starttid=clock;
-Chapter1
-tid(1)=etime(clock,starttid);
+%% ALLCHAPTERS runs all chapter scripts and records elapsed time
+%
+% SCRIPT allchapters
+%
+
+chtime=zeros(1,6);
 
 starttid=clock;
-Chapter2
-tid(2)=etime(clock,starttid);
+chapter1
+chtime(1)=etime(clock,starttid);
 
 starttid=clock;
-Chapter3
-tid(3)=etime(clock,starttid);
+chapter2
+chtime(2)=etime(clock,starttid);
 
 starttid=clock;
-Chapter4
-tid(4)=etime(clock,starttid);
+chapter3
+chtime(3)=etime(clock,starttid);
 
 starttid=clock;
-Chapter5
-tid(5)=etime(clock,starttid);
+chapter4
+chtime(4)=etime(clock,starttid);
 
 starttid=clock;
-Chapter6
-tid(6)=etime(clock,starttid);
+chapter5
+chtime(5)=etime(clock,starttid);
+
+starttid=clock;
+chapter6
+chtime(6)=etime(clock,starttid);

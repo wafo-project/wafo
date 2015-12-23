@@ -1,15 +1,18 @@
 %% CHAPTER1 demonstrates some applications of WAFO
 %
-% CHAPTER1 gives an overview through examples some of the capabilities of
-% WAFO. WAFO is a toolbox of Matlab routines for statistical analysis and
+% CALL: chapter1
+
+% CHAPTER1 gives an overview of some of the capabilities of WAFO. 
+% WAFO is a toolbox of Matlab routines for statistical analysis and
 % simulation of random waves and loads.
 %
 % The commands are edited for fast computation.
 % Each set of commands is followed by a 'pause' command.
-% Type 'pause off' to disable them.
+% Type 'pause off' or ¨pause on' to disable or activa 'pause'.
 
-% Tested on Matlab 5.3, 7.10
 % History
+% Revised help text by Georg Lindgren December 2015 
+% Tested on Matlab 5.3, 7.10, 8.1, 8.6
 % Revised by Georg Lindgren March 2011 for use with Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
@@ -42,7 +45,7 @@ xs=spec2sdat(S1,N,dt);
 
 clf
 waveplot(xs,'-')
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 2'),pause
 
 %% Estimation of spectrum 
@@ -59,7 +62,7 @@ Sest = dat2spec(xs,400)
 plotspec(S1,plotflag), hold on
 plotspec(Sest,plotflag,'--'), hold off
 axis([0 3 0 5]) % This may depend on the simulation
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 3'),pause
 
 %% Section 1.4.2 Probability distributions of wave characteristics.
@@ -80,7 +83,7 @@ histgrm(T,25,1,1), hold on
 pdfplot(dtyex)
 pdfplot(dtyest,'-.')
 axis([0 10 0 0.35]), hold off
-%wafostamp('','(ER)')
+wafostamp('','(ER)')
 disp('Block = 4'),pause
 
 %% Section 1.4.3 Directional spectra
@@ -95,7 +98,8 @@ D1 = spreading(Nt,'cos',th0,Sp,[],0); % frequency independent
 D12 = spreading(Nt,'cos',0,Sp,S1.w,1); % frequency dependent
 SD1 = mkdspec(S1,D1);
 SD12 = mkdspec(S1,D12);
-plotspec(SD1,plotflag), hold on, plotspec(SD12,plotflag,'-.'); hold off
+plotspec_gl(SD1,plotflag), hold on, 
+plotspec_gl(SD12,plotflag,'-.'); hold off
 wafostamp('','(ER)')
 disp('Block = 5'),pause
 
@@ -105,6 +109,7 @@ disp('Block = 5'),pause
 % transparent compared to the frequency independent case.
 %
 % Frequency independent spreading
+clf
 plotflag = 1; iseed = 1;
 Nx = 2^8;Ny = Nx;Nt = 1;dx = 0.5; dy = dx; dt = 0.25; fftdim = 2;
 randn('state',iseed)
@@ -136,8 +141,8 @@ disp('Block = 7'),pause
  nfft = 128;
  nt = 101;
  SDe = dat2dspec([F.t Z(:,:)],[pos types,bfs],h,nfft,nt);
-plotspec(SDe), hold on
-plotspec(SD12,'--'), hold off
+plotspec_gl(SDe), hold on
+plotspec_gl(SD12,'--'), hold off
 disp('Block = 8'),pause
 
 %% Section 1.4.4 Fatigue, Load cycles and Markov models.
@@ -155,7 +160,7 @@ disp('Block = 8'),pause
 clf
 paramu = [-6 6 61];
 frfc=spec2cmat(S1,[],'rfc',[],paramu);
-pdfplot(frfc);
+pdfplot_gl(frfc);
 hold on
 tp = dat2tp(xs);
 rfc = tp2rfc(tp);

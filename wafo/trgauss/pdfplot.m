@@ -1,18 +1,16 @@
-function pdfplot(f,varargin)
+function H1=pdfplot(f,varargin)
 %PDFPLOT Plot contents of pdf structures
 %
 % CALL: H = pdfplot(f,plotflag,x1,x2,x3,sym,method,shading)
 %
-%  H = handle to the created object (array of handles if  f  is array of pdf's)
+%  H = handle to the created object
 %
-%  plot a PDF struct  f  with the pollowing fields
+%  plot a PDF struct with the pollowing fields
 %      
 %      f.f      = pdf 
 %      f.x      = cellarray of values in n dimensions (n=1:3) 
-%
-%      f  may be a cell array of pdf structures
 %  
-%  optional fields:   
+% optional fields:   
 %      f.labx   = cellarray of label strings          (n=1:3) 
 %      f.title  = title string
 %      f.cl     = contour levels for 2D PDF
@@ -70,10 +68,10 @@ function pdfplot(f,varargin)
 
 % Note: is only able to handle 1D,2D and 3D plot i.e. ndim=3
 
-%Tested on: Matlab 2013a, 5.3, 5.2
+%Tested on: Matlab 8.6, 8.1, 5.3, 5.2
 %History:
-% revised GL Sept 2015
-% -fixed handle output for 2D- and 3D-plots 
+% "revised" Dec 2015 by GL - works also with new graphics structure in 
+%   Matlab 2014b and later - see change in cltext
 % revised pab 
 % -removed point-and-click editing because it is obsolete
 % revised pab March 2005
@@ -96,7 +94,7 @@ function pdfplot(f,varargin)
 %  - improved the printing of contour level text and moved it into a
 %    separate function cltext (this may be further improved)
 %  - changed see also line
-% revised es 24.01.2000 - dim=length(f.x) improving old, added some missing ;   
+% revised es 24.01.2000 - dim=length(f.x) improving old, added som missing ;   
 % revised pab 20.01.2000
 %  - added pcolor
 % revised pab 18.01.2000
@@ -108,9 +106,9 @@ function pdfplot(f,varargin)
 %  - changed PL to pl and CL to cl
 % by pab 12.08.99
 
-%if ~isstruct(f) % secret option plot a matrix assuming the first column
+if ~isstruct(f) % secret option plot a matrix assuming the first column
   % is the independent variable
-%  f = createpdf('f',f(:,2:end),'x',{f(:,1)});
+  f = createpdf('f',f(:,2:end),'x',{f(:,1)});
   
 %   [plotflag,sym] = pdfplotchk(varargin,1);
 %   switch plotflag
@@ -132,27 +130,26 @@ function pdfplot(f,varargin)
 %   wafostamp;
 %    if (nargout>=1),     H1=H;   end
 %   return
-%end
+end
 
 hold_state = ishold; % remember old hold state
 Nff=length(f);
-H11=zeros(Nff,1);
 
-if Nff>1,
-  cfig=get(gcf,'Number');
+if Nff>1
+  cfig=gcf;
   for ix=1:Nff,
     if hold_state
       newplot
     else
       figure(cfig-1+ix)
     end
-    pdfplot(f(ix),varargin{:});
-    H11(ix)=figure(cfig-1+ix);
+    pdfplot(f(ix),varargin{:})
   end
   return
 end
 
 cax  = newplot; % axes
+
 cfig = get(cax,'Parent'); %cfig=gcf;
 
 dim = length(f.x);
@@ -160,7 +157,7 @@ if dim>length(size(squeeze(f.f)))
   fsiz=size(f.f);
   dim=length(fsiz)-sum(fsiz==1); % Number of non-singleton dimensions
 end
-%dim,
+
 [plotflag,sym,method,shad,x1,x2,x3] = pdfplotchk(varargin,dim,f);
 if plotflag==0, return,end
 switch dim			       
@@ -174,15 +171,12 @@ switch dim
     H = plot1d(f.x{1},data,dataCI,sym,plotflag);
         
   case 2  %2D
-
     switch plotflag
       case {1,6,7,8,9},
         PL=0;
-        if isfield(f,'cl')&&~isempty(f.cl) 
-              % check if contour levels is submitted
+        if isfield(f,'cl')&&~isempty(f.cl) % check if contour levels is submitted
           CL=f.cl;
-          if isfield(f,'pl'), PL=~isempty(f.pl); end 
-              % levels defines quantile levels? 0=no 1=yes
+          if isfield(f,'pl'),PL=~isempty(f.pl);end % levels defines quantile levels? 0=no 1=yes
         else
           CL=max(f.f(:))-range(f.f(:))*(1-[0.01 0.025 0.05 0.1 0.2 0.4 0.5 0.75]);
           if 0 % automatic levels by using contours
@@ -208,63 +202,32 @@ switch dim
         else
           clvec=sort(CL);
         end
-        
         if any(plotflag==[1 8 9])
-          cs = contour(f.x{:},f.f,CL,sym); %H=hcs;
+          [cs hcs] = contour(f.x{:},f.f,CL,sym); H=hcs;
         else
-          cs = contour3(f.x{:},f.f,CL,sym); %H=hcs;
+          [cs hcs] = contour3(f.x{:},f.f,CL,sym); H=hcs;
         end
-
         if any(plotflag==[1,6])
           ncl=length(clvec);
-          if ncl>12, 
-              ncl=12; 
-              disp('   Only the first 12 levels will be listed in table.')
-          end
-      %    axcl = cltext(clvec(1:ncl),PL); %A=axcl;% print contour level text
-        N = 4;
-        
-        cl_txt = num2str(clvec(1:ncl)',N);
-        %removing spaces in front of each line
-        indx = find(isspace(cl_txt(:,1)));
-        space = ' ';
-        for ix=indx(:).'
-              ik = find(~isspace(cl_txt(ix,:)),1);
-              cl_txt(ix,:) = [cl_txt(ix,ik:end) space(:,ones(1,ik-1))];
-        end
-
-        delete(findall(gcf,'Tag','leveltag'))
-        delete(findall(gcf,'Tag','leveltexttag'))
-        annotation('textbox',[0.3 0.8 0.1 0.1],...
-              'FontSize',10,...
-              'FontWeight','bold',...
-              'String','Level curves enclosing:',...
-              'EdgeColor','none',...
-              'Tag','leveltexttag');
-        apos = [0.3 0.75 0.1 0.1];
-        annotation('textbox',apos,...
-              'string',cl_txt,...
-              'Edgecolor','none',...
-              'FitBoxToText','off',...
-              'FontSize',10,...
-              'Tag','leveltag');
-      
+          if ncl>12, ncl=12; disp('   Only the first 12 levels will be listed in table.'),end
+          axcl = cltext(clvec(1:ncl),PL);  % print contour level text
         elseif any(plotflag==[7 9])
           clabel(cs);
         else
           clabel(cs,hcs);
         end
-	
-      case 2,	H=mesh(f.x{:},f.f); % meshz
-      case 3,	H=surf(f.x{:},f.f);  %shading interp % flat, faceted       % surfc
-      case 4,	H=waterfall(f.x{:},f.f);
-      case 5,   H=pcolor(f.x{:},f.f); %shading interp % flat, faceted
+
+      case 2, H=mesh(f.x{:},f.f); % meshz
+      case 3, H=surf(f.x{:},f.f);  %shading interp % flat, faceted       % surfc
+      case 4, H=waterfall(f.x{:},f.f);
+      case 5, H=pcolor(f.x{:},f.f); %shading interp % flat, faceted
       case 10,
-        [cs,hcs]=contourf(f.x{:},f.f); clabel(cs,hcs); fcolorbar(cs); H=hcs;
+        [cs,hcs]=contourf(f.x{:},f.f); clabel(cs,hcs); fcolorbar(cs);
+        H=hcs;
       otherwise, error('unknown option for plotflag')
     end
     if any(plotflag==(2:5))
-       shading(shad);
+       H=shading(shad);
     end
   case 3, %3D
     switch plotflag
@@ -312,13 +275,15 @@ axis('square')
 set(gca,'FontSize',12)
 wafostamp;
 
+
+
 if ~hold_state, 
    hold off, 
    %set(cfig,'NextPlot', 'replace'); 
 end % reset to old hold state
 
 if (nargout>=1)
-  H11=H;
+  H1=H;
 end
 return
 
@@ -329,7 +294,7 @@ switch plottype
   case 0 %  No plotting
     H = [];
     return
-  case 1, H = plot(args,data,sym,varargin{:}); 
+  case 1, H = plot(args,data,sym,varargin{:});
   case 2, H = stairs(args,data,sym,varargin{:});
   case 3, H = stem(args,data,sym,varargin{:});
   case 4, 
@@ -358,6 +323,8 @@ logZscale = any(scale=='z');
 if logXscale, set(gca,'Xscale','log');end
 if logYscale, set(gca,'Yscale','log');end
 if logZscale, set(gca,'Zscale','log');end
+
+
 
 % Should probably move this to specdata/plot instead
 %fmin = min(data(:));

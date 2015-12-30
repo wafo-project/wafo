@@ -26,14 +26,14 @@ pause(pstate)
 % Significant wave-height data on Weibull paper,
 clf
 Hs = load('atlantic.dat');
-wei = plotweib(Hs)
+wei = plotweib(Hs);
 wafostamp([],'(ER)')
 disp('Block = 1'),pause
 
 %%
 % Significant wave-height data on Gumbel paper,
 clf
-gum=plotgumb(Hs)
+gum=plotgumb(Hs);
 wafostamp([],'(ER)')
   disp('Block = 2'),pause
 
@@ -232,10 +232,10 @@ disp('Block = 13'), pause
 %% 
 % Plotting
 
-figure(1); plot(di)
+figure(1); clf; plot(di)
 vline(threshold) % Threshold from dispersion index
 vline(umin0,'g') % Threshold from mean residual life plot
-figure(2); plot(mrl)
+figure(2); clf; plot(mrl)
 vline(threshold) % Threshold from dispersion index
 vline(umin0,'g') % Threshold from mean residual life plot
 

@@ -665,7 +665,7 @@ else
    end %do   
 end %IF
 if (def <=3)
-   h11 = fwaitbar(0,[],sprintf('Please wait ...(start at: %s)',datestr(now)));
+%   h11 = fwaitbar(0,[],sprintf('Please wait ...(start at: %s)',datestr(now)));
 
    for Ntd = Nstart:Ntime 
       %Ntd=tn
@@ -730,17 +730,18 @@ if (def <=3)
             end %do 
          end % SELECT   
       end %ENDIF
-      waitTxt = sprintf('%s Ready: %d of %d',datestr(now),Ntd,Ntime);
-      fwaitbar(Ntd/Ntime,h11,waitTxt);
+%      waitTxt = sprintf('%s Ready: %d of %d',datestr(now),Ntd,Ntime);
+%      fwaitbar(Ntd/Ntime,h11,waitTxt);
+       waitbar(Ntd/Ntime);
       
    end %do
-   close(h11);
+%   close(h11);
    err = sqrt(err);
    %  goto 800
 else
    %200 continue
-   waitTxt = sprintf('Please wait ...(start at: %s)',datestr(now));
-   h11 = fwaitbar(0,[],waitTxt);
+%   waitTxt = sprintf('Please wait ...(start at: %s)',datestr(now));
+%   h11 = fwaitbar(0,[],waitTxt);
    tnold= -1;
    for tn = Nstart:Ntime,
      Ntd  = tn+1;
@@ -872,12 +873,13 @@ else
          %350
        end %do
      end
-     waitTxt = sprintf('%s Ready: %d of %d',datestr(now),tn,Ntime);
-     fwaitbar(tn/Ntime,h11,waitTxt);
-      
+%     waitTxt = sprintf('%s Ready: %d of %d',datestr(now),tn,Ntime);
+%     fwaitbar(tn/Ntime),h11,waitTxt);
+      waitbar(tn/Ntime);
+            
      %400     print *,'Ready: ',tn,' of ',Ntime
    end %do
-   close(h11);
+%   close(h11);
    err = sqrt(err);
 end % if
 

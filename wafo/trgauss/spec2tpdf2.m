@@ -173,7 +173,7 @@ f     = createpdf;
 f.f   = zeros(Ntime,1);
 f.err = f.f;
 
-h11 = fwaitbar(0,[],sprintf('Please wait ...(start at: %s)',datestr(now)));
+%h11 = fwaitbar(0,[],sprintf('Please wait ...(start at: %s)',datestr(now)));
 for pt = Nstart:Ntime
   Nt      = pt-Nd;
   Ntd     = Nt+Nd;
@@ -187,9 +187,10 @@ for pt = Nstart:Ntime
   [f.f(pt), f.err(pt)]= rind(BIG(1:Ntdc,1:Ntdc), ex(1:Ntdc),...
 			    B_lo,B_up,indI,xc,Nt,opt0{:});
 
-  fwaitbar(pt/Ntime,h11,sprintf('%s Ready: %d of %d',datestr(now),pt,Ntime));
+%  fwaitbar(pt/Ntime,h11,sprintf('%s Ready: %d of %d',datestr(now),pt,Ntime));
+  waitbar(pt/Ntime); %,h11,sprintf('%s Ready: %d of %d',datestr(now),pt,Ntime));
 end
-close(h11)
+%close(h11)
 
 
 

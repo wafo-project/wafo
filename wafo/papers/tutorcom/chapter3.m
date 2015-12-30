@@ -6,7 +6,9 @@
 % 
 % Some of the commands are edited for fast computation. 
 % Each set of commands is followed by a 'pause' command.
-% 
+%
+% The figures can be printed in pdf format by setting the parameter
+% 'printing' to 1. %
 
 % Tested on Matlab 5.3, 7.10, 8.1, 8.6
 % History
@@ -22,9 +24,10 @@
 
 start=clock;
 pstate = 'off';
-speed = 'fast'
+speed = 'fast';
 %speed = 'slow'
 pause(pstate)
+printing=0;
 
 %% Section 3.2 Estimation of wave characteristics from data
 %% Section 3.2.1 Wave period 
@@ -46,22 +49,36 @@ kopt = kdeoptset('L2',0);
 tic
 ftc1 = kde(Tc,kopt,t);
 toc
-pdfplot(ftc1), hold on
+pdfplot(ftc1); hold on
 histgrm(Tc,[],[],1)
 axis([0 8 0 0.5])
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 1');
+    print -dpdf ./bilder/C3_1.pdf 
+end    
 disp('Block = 2'), pause
 %%
+clf
 tic
 kopt.inc = 128;
 ftc2 = kdebin(Tc,kopt);
 toc
-pdfplot(ftc2,'-.')
+pdfplot(ftc2,'-.');
 title('Kernel Density Estimates')
 hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 2');
+    print -dpdf ./bilder/C3_2.pdf 
+end    
 disp('Block = 3'), pause
 
 %% Section 3.2.2 Extreme waves - model check: the highest and steepest wave
+%clf
 clf
 method = 0;
 rate = 8;
@@ -69,11 +86,17 @@ rate = 8;
    dat2steep(xx,rate,method);
 disp('Block = 4'), pause
 
-clf
+%clf
 [Smax indS]=max(S)
 [Amax indA]=max(Ac)
 spwaveplot(yn,[indA indS],'k.')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 3');
+    print -dpdf ./bilder/C3_3.pdf 
+end    
 disp('Block = 5'), pause
 
 %% Does the highest wave contradict a transformed Gaussian model?
@@ -90,7 +113,13 @@ muLstd = tranproc(mu1o-lamb*mu1oStd,fliplr(grec1));
 muUstd = tranproc(mu1o+lamb*mu1oStd,fliplr(grec1));
 plot (y1(inds1,1), [muLstd muUstd],'b-')
 axis([1482 1498 -1 3]), 
-wafostamp([],'(ER)')
+wafostamp([],'(ER)'); hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 4');
+    print -dpdf ./bilder/C3_4.pdf 
+end    
 disp('Block = 6'), 
 pause
 
@@ -99,19 +128,38 @@ clf
 plot(xx(inds1,1),xx(inds1,2),'+'), hold on
 mu = tranproc(mu1o,fliplr(grec1));
 plot(y1(inds1,1), mu), hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 5');
+    print -dpdf ./bilder/C3_5.pdf 
+end    
 disp('Block = 7'), pause
 
 %% Section 3.2.3 Crest height PDF
 % Transform data so that kde works better
 clf
 L2 = 0.6;
-plotnorm(Ac.^L2)
-
+plotnorm(Ac.^L2); hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 6');
+    print -dpdf ./bilder/C3_6.pdf 
+end    
+pause
 %%
 %
+clf
 fac = kde(Ac,{'L2',L2},linspace(0.01,3,200));
-pdfplot(fac)
+pdfplot(fac);
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 7');
+    print -dpdf ./bilder/C3_7.pdf 
+end    
 simpson(fac.x{1},fac.f)
 disp('Block = 8'), pause
 
@@ -122,15 +170,28 @@ Fac = [fac.x{1} 1-Fac];
 Femp = plotedf(Ac,Fac);
 axis([0 2 0 1])
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 8');
+    print -dpdf ./bilder/C3_8.pdf 
+end    
 disp('Block = 9'), pause
 
 %% Empirical crest height CDF compared to a Transformed Rayleigh approximation
+clf
 facr = trraylpdf(fac.x{1},'Ac',grec1);
 Facr = cumtrapz(facr.x{1},facr.f);
 hold on
 plot(facr.x{1},Facr,'.')
 axis([1.25 2.25 0.95 1])
-wafostamp([],'(ER)')
+wafostamp([],'(ER)'); hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 9');
+    print -dpdf ./bilder/C3_9.pdf 
+end    
 disp('Block = 10'), pause
 
 %% Section 3.2.4 Joint pdf of crest period and crest height
@@ -139,11 +200,17 @@ kopt2 = kdeoptset('L2',0.5,'inc',256);
 Tc = Tcf+Tcb;
 fTcAc = kdebin([Tc Ac],kopt2);
 fTcAc.labx={'Tc [s]'  'Ac [m]'}
-pdfplot(fTcAc)
+pdfplot(fTcAc);
 hold on
 plot(Tc,Ac,'k.')
 hold off
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 10');
+    print -dpdf ./bilder/C3_10.pdf 
+end    
 disp('Block = 11'), pause
 
 %% Section 3.3 Explicit results - parametric models 
@@ -158,15 +225,22 @@ disp('Block = 12'), pause
 
 clf
 spec2bw(S)
-[ch Sa2] = spec2char(S,[1  3])
+[ch Sa2] = spec2char(S,[1 3]);
 disp('Block = 13'), pause
 
 %% Section 3.3.2 Explicit approximations of wave distributions 
 %% Longuett-Higgins model for Tc and Ac
-clf
+%clf
 t = linspace(0,15,100);
 h = linspace(0,6,100);
 flh = lh83pdf(t,h,[m(1),m(2),m(3)]);
+pdfplot(flh);
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 11');
+    print -dpdf ./bilder/C3_11.pdf 
+end    
 disp('Block = 14'), pause
 
 %% Transformed Longuett-Higgins model for Tc and Ac
@@ -175,6 +249,13 @@ clf
 sa = sqrt(m(1));
 gh = hermitetr([],[sa sk ku 0]);
 flhg = lh83pdf(t,h,[m(1),m(2),m(3)],gh);
+pdfplot(flhg);
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 12');
+    print -dpdf ./bilder/C3_12.pdf 
+end    
 disp('Block = 15'), pause
 
 %% Cavanie model for Tc and Ac
@@ -182,6 +263,13 @@ clf
 t = linspace(0,10,100);
 h = linspace(0,7,100);
 fcav = cav76pdf(t,h,[m(1) m(2) m(3) m(5)],[]);
+pdfplot(fcav);
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 13');
+    print -dpdf ./bilder/C3_13.pdf 
+end    
 disp('Block = 16'), pause
 
 %% Section 3.3.3 Rayleigh approximation for wave crest height
@@ -200,15 +288,21 @@ fac_h = trraylpdf(r,'Ac',gh);
 fat_h = trraylpdf(r,'At',gh);
 h = (0:0.05:1.7*Hs)';
 facat_h = trraylpdf(h,'AcAt',gh);
-pdfplot(fac_h)
+pdfplot(fac_h);
 hold on
-pdfplot(fat_h,'--')
+pdfplot(fat_h,'--');
 hold off
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 14');
+    print -dpdf ./bilder/C3_14.pdf 
+end    
 disp('Block = 17'), pause
 
 %%
-clf
+%clf
 TC = dat2tc(xx, me);
 tc = tp2mm(TC);
 Ac = tc(:,2);
@@ -243,7 +337,13 @@ plot(r2,1-exp(-2*r2.^2/Hs^2),'.')
 axis([1.5 3.5 0.9 1])
 title('At+Ac CDF')
 
-wafostamp([],'(ER)')
+wafostamp([],'(ER)'); hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C3 15');
+    print -dpdf ./bilder/C3_15.pdf 
+end    
 disp('Block = 19'), pause
 disp('Elapsed time')
 etime(clock,start)

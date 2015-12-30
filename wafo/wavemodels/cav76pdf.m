@@ -126,7 +126,7 @@ f.title='Joint density of (Tc,Ac) - Cavanie et al. (1976)';
 f.eps4=eps4;
 f.pl = [10:20:90 95 99 99.9];
 f.cl = qlevels(f.f,f.pl);
-pdfplot(f)
+%pdfplot(f)
 
 % Let U,Z be the hight and second deivative (curvature) at a local maximum in a Gaussian proces
 % with spectral moments m0,m2,m4. The conditional density ($U>0$) has the following form

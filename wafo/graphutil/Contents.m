@@ -1,8 +1,12 @@
 % Module GRAPHUTIL in WAFO toolbox. 
-% Version 2.5.2   07-Feb-2011 
+% Version 2.5.3   30-Dec-2015 
 % 
 %   readme       - Readme file for module GRAPHUTIL in WAFO Toolbox 
+% 
+% Figure annotation
+%   cltext, wafostamp   - Removed call to  mkdeleteproxy
 %
+% Version 2.5.2   07-Feb-2011
 % 3D plot functions
 %   sliceomatic  - Slice and isosurface volume exploration GUI
 %   mayaplot     - Visualize the data using MayaVi

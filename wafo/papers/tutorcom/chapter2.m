@@ -14,11 +14,14 @@
 %
 % Some of the commands are edited for fast computation. 
 % Each set of commands is followed by a 'pause' command.
-% 
-
+% Type 'pause off' or ¨pause on' to disable or activa 'pause'.
 %
+% The figures can be printed in pdf format by setting the parameter
+% 'printing' to 1. 
+
 % Tested on Matlab 5.3, 7.10, 8.1, 8.6
 % History
+% Revised help text and added automatic printing by GL 12-28-2015.
 % Revised by Georg Lindgren march 2011 for use with Tutorial 2.5 
 % and sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
@@ -31,6 +34,7 @@
 start=clock;
 pstate =  'off';
 pause(pstate)
+printing=0;
 
 %% Section 2.1 Introduction and preliminary analysis
 %% Example 1: Sea data
@@ -42,6 +46,12 @@ xx(:,2) = xx(:,2) - me;
 lc = dat2lc(xx);
 plotflag = 2;
 lcplot(lc,plotflag,0,sa)
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 1');
+    print -dpdf ./bilder/C2_1.pdf 
+end    
 disp('Block = 1'),pause
 
 %% Average number of upcrossings per time unit
@@ -69,8 +79,14 @@ disp('Block = 3'),pause
 % A part of sea data is visualized with the following commands
 clf
 waveplot(xx,tp,'k-','*',1,1)
-axis([0 2 -inf inf])
+axis([0 2 -inf inf])   
 wafostamp('','(ER)',0)
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 2');
+    print -dpdf ./bilder/C2_2.pdf 
+end    
 disp('Block = 4'),pause
 
 %% Finding possible spurious points
@@ -96,10 +112,16 @@ S = dat2spec(xx,Lmax);
 plotspec(S)
 axis([0 5 0 0.7])
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 3');
+    print -dpdf ./bilder/C2_3.pdf 
+end  
 disp('Block = 6'),pause
 
 %% Calculate moments  
-[mom text]= spec2mom(S,4)
+[mom momtext]= spec2mom(S,4)
 [sa sqrt(mom(1))]
 disp('Block = 7'),pause
 
@@ -117,6 +139,12 @@ hold on
 plotspec(S2)
 hold off
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 4');
+    print -dpdf ./bilder/C2_4.pdf 
+end    
 disp('Block = 8'),pause
 
 %% Estimated autocovariance
@@ -133,6 +161,12 @@ hold on
 covplot(Rest)
 wafostamp('','(ER)')
 hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 5');
+    print -dpdf ./bilder/C2_5.pdf 
+end    
 disp('Block = 9'),pause
 
 %%
@@ -147,6 +181,12 @@ hold on
 covplot(Rest)
 wafostamp('','(ER)')
 hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 6');
+    print -dpdf ./bilder/C2_6.pdf 
+end    
 disp('Block = 11'),pause
 
 %% Section 2.2.4 Transformed Gaussian models
@@ -162,14 +202,19 @@ disp('Block = 12'),pause
 clf
 gh = hermitetr([],[sa sk ku me]);
 g  = gh; g(:,2)=g(:,1)/sa;  % Linear transformation
-trplot(g)
-
+trplot(g)  
 [glc, test0 cmax irr gemp] = dat2tr(xx,[],'plotflag',1);
 hold on
 plot(glc(:,1),glc(:,2),'b-') % Transf. estimated from level-crossings
 plot(gh(:,1),gh(:,2),'b-.')  % Hermite Transf. estimated from moments 
 hold off
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 7');
+    print -dpdf ./bilder/C2_7.pdf 
+end    
 disp('Block = 13'),pause
 
 %%  Test Gaussianity of a stochastic process.
@@ -182,8 +227,15 @@ disp('Block = 13'),pause
 % above 1.00. Thus the data significantly departs from a Gaussian distribution. 
 
 N = length(xx);
+clf
 test1 = testgaussian(S1,[N,50],test0);
 wafostamp('','(CR)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 8');
+    print -dpdf ./bilder/C2_8.pdf 
+end    
 disp('Block = 14'),pause
 
 %% Normalplot of data xx
@@ -192,6 +244,12 @@ disp('Block = 14'),pause
 clf
 plotnorm(xx(:,2))
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 9');
+    print -dpdf ./bilder/C2_9.pdf 
+end    
 disp('Block = 15'),pause
 
 %% Section 2.2.5 Spectral densities of sea data
@@ -215,6 +273,12 @@ Se = spec2spec(Sd,'encdir',0,10);
 plotspec(Se), hold on
 plotspec(Sd,1,'--'), hold off
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 10');
+    print -dpdf ./bilder/C2_10.pdf 
+end    
 disp('Block = 18'),pause
 
 %% Frequency spectra
@@ -226,6 +290,12 @@ plotspec(Sd1,1,'.'),
 plotspec(Sd2),
 wafostamp('','(ER)')
 hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 11');
+    print -dpdf ./bilder/C2_11.pdf 
+end    
 disp('Block = 19'),pause
 
 %% Wave number spectrum
@@ -235,6 +305,12 @@ Skd = spec2spec(Sd,'k1d')
 plotspec(Sk), hold on
 plotspec(Skd,1,'--'), hold off
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 12');
+    print -dpdf ./bilder/C2_12.pdf 
+end    
 disp('Block = 20'),pause
 
 %% Effect of waterdepth on spectrum
@@ -245,6 +321,12 @@ S20.S = S20.S.*phi1(S20.w,20);
 S20.h = 20;
 plotspec(S20),  hold off
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 13');
+    print -dpdf ./bilder/C2_13.pdf 
+end    
 disp('Block = 21'),pause
 
 %% Section 2.3 Simulation of transformed Gaussian process
@@ -261,6 +343,12 @@ clf
 waveplot(y,'-',xx(inds,:),'+',1,1)
 axis([0 inf -inf inf])
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 14');
+    print -dpdf ./bilder/C2_14.pdf 
+end    
 disp('Block = 22'), pause
 
 % Compare transformation (grec) from reconstructed (y) 
@@ -270,6 +358,12 @@ trplot(g), hold on
 plot(gemp(:,1),gemp(:,2))
 plot(glc(:,1),glc(:,2),'-.')
 plot(grec(:,1),grec(:,2)), hold off 
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 15');
+    print -dpdf ./bilder/C2_15.pdf 
+end    
 disp('Block = 23'),pause
 
 %%
@@ -287,6 +381,12 @@ Sx.tr = grec;
 ysim = spec2sdat(Sx,Ny);
 waveplot(ysim,'-')
 wafostamp('','(CR)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 16');
+    print -dpdf ./bilder/C2_16.pdf 
+end    
 disp('Block = 25'),pause
  
 %% Estimated spectrum compared to Torsethaugen spectrum
@@ -298,7 +398,13 @@ plotspec(S1)
 hold on
 plotspec(St,'-.')
 axis([0 6 0 0.4])
-wafostamp('','(ER)')
+wafostamp('','(ER)'); hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 17');
+    print -dpdf ./bilder/C2_17.pdf 
+end    
 disp('Block = 26'),pause
 
 %%
@@ -333,6 +439,12 @@ clf
 xsim_t(:,2) = sa*xsim_t(:,2);
 waveplot(xsim_t,ysim_t,5,1,sa,4.5,'r.','b')
 wafostamp('','(CR)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C2 18');
+    print -dpdf ./bilder/C2_18.pdf 
+end    
 disp('Block = 30, Last block'),pause
 
 disp('Elapsed time')

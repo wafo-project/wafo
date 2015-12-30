@@ -36,7 +36,6 @@
 %   spec2char            - Evaluates spectral characteristics and their covariance
 %   spec2mom             - Calculates spectral moments from spectrum
 %
-%
 %Spectrum and covariance functions
 %   cov2spec             - Computes spectral density given the auto covariance function 
 %   covinterp            - Interpolation of covariance function and derivatives

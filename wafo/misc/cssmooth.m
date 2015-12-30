@@ -44,7 +44,7 @@ function [yy,p]= cssmooth(x,y,p,xx,LinExtrap,d2)
 %  Springer Verlag
 %  Uses EqXIV.6--9, pp 239
 
-% tested on: Matlab 4.x 5.x
+% tested on: Matlab 4.x 5.x 8.x
 %History:
 % revised by GL Feb 2011
 % -changed name from smooth to cssmooth to avoid name collisions in MATLAB 

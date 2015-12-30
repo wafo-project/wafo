@@ -6,7 +6,7 @@
 % Each set of commands is followed by a 'pause' command.
 % 
 % This routine also can print the figures; 
-% For printing the figures on directory ../bilder/ edit the file and put  
+% For printing the figures on directory ./bilder/ edit the file and put  
 %     printing=1;
 
 % Tested on Matlab 5.3, 7.10
@@ -40,6 +40,12 @@ title('Crossing intensity, (u, \mu(u))')
 subplot(222), semilogx(lc_sea(:,2),lc_sea(:,1)) 
 title('Crossing intensity, (log \mu(u), u)')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 1');
+    print -dpdf ./bilder/C5_1.pdf 
+end    
 disp('Block 1'), pause
 
 m_sea = mean(xx_sea(:,2));
@@ -58,6 +64,12 @@ title('min-max cycle count')
 subplot(122), ccplot(RFC_sea);
 title('Rainflow cycle count')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 2');
+    print -dpdf ./bilder/C5_2.pdf 
+end    
 disp('Block 3'),pause
 
 %% Min-max and rainflow cycle distributions
@@ -69,6 +81,12 @@ title('min-max amplitude distribution')
 subplot(222), hist(ampRFC_sea,25);
 title('Rainflow amplitude distribution')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 3');
+    print -dpdf ./bilder/C5_3.pdf 
+end    
 disp('Block 4'),pause
 
 %% Section 5.3.3 Simulation of rainflow cycles
@@ -83,6 +101,12 @@ clf
 plot(xx_markov(1:50,1),xx_markov(1:50,2))
 title('Markov chain of turning points')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 4');
+    print -dpdf ./bilder/C5_4.pdf 
+end    
 disp('Block 5'),pause
 
 %% Rainflow cycles in a transformed Gaussian model
@@ -111,6 +135,12 @@ plot(xx_herm_1(:,1),xx_herm_1(:,2),'k--','Linewidth',2);
 axis([0 50 -1 1]), hold off;
 title('Rainflow filtered wave data')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 5');
+    print -dpdf ./bilder/C5_5.pdf 
+end    
 disp('Block 6'),pause
 
 %% Rainflow cycles and rainflow filtered rainflow cycles in the transformed Gaussian process.
@@ -125,9 +155,13 @@ subplot(121), ccplot(RFC_herm)
 title('h=0')
 subplot(122), ccplot(RFC_herm_1)
 title('h=0.2')
-if (printing==1), print -deps ../bilder/fatigue_8.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 6');
+    print -dpdf ./bilder/C5_6.pdf 
+end    
 disp('Block 7'),pause
 
 %% Section 5.3.4 Calculating the rainflow matrix
@@ -137,22 +171,40 @@ clf
 subplot(121), cmatplot(u_markov,u_markov,G_markov), axis('square')
 subplot(122), cmatplot(u_markov,u_markov,Grfc_markov), axis('square')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 7');
+    print -dpdf ./bilder/C5_7.pdf 
+end    
 disp('Block 8'),pause
 
 %% 
 clf
 cmatplot(u_markov,u_markov,{G_markov Grfc_markov},3) 
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 8');
+    print -dpdf ./bilder/C5_8.pdf 
+end    
 disp('Block 9'),pause	
 
 %% Min-max-matrix and theoretical rainflow matrix for test Markov sequence.
+clf
 cmatplot(u_markov,u_markov,{G_markov Grfc_markov},4)
 subplot(121), axis('square'), title('min2max transition matrix')
 subplot(122), axis('square'), title('Rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_9.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 9');
+    print -dpdf ./bilder/C5_9.pdf 
+end    
 disp('Block 10'),pause
+
 
 %% Observed and theoretical rainflow matrix for test Markov sequence.
 n=length(u_markov);
@@ -161,9 +213,13 @@ clf
 cmatplot(u_markov,u_markov,{Frfc_markov Grfc_markov*T_markov/2},3) 
 subplot(121), axis('square'), title('Observed rainflow matrix')
 subplot(122), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_10.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 10');
+    print -dpdf ./bilder/C5_10.pdf 
+end    
 disp('Block 11'),pause
 
 %% Smoothed observed and calculated rainflow matrix for test Markov sequence.
@@ -175,9 +231,13 @@ clf
 cmatplot(u_markov,u_markov,{Frfc_markov_smooth Grfc_markov*T_markov/2},4)
 subplot(121), axis('square'), title('Smoothed observed rainflow matrix')
 subplot(122), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_11.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 11');
+    print -dpdf ./bilder/C5_11.pdf 
+end    
 disp('Block 12'),pause
 
 %% Rainflow matrix from spectrum
@@ -186,6 +246,12 @@ clf
 GmM3_herm=spec2cmat(spec,[],'Mm',[],param_h,2);
 pdfplot(GmM3_herm)
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 12');
+    print -dpdf ./bilder/C5_12.pdf 
+end    
 disp('Block 13'),pause
 
 %% Min-max matrix and theoretical rainflow matrix for Hermite-transformed Gaussian waves.
@@ -195,19 +261,29 @@ clf
 cmatplot(u_herm,u_herm,{GmM3_herm.f Grfc_herm},4)
 subplot(121), axis('square'), title('min-max matrix')
 subplot(122), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_12.eps 
-end
-wafostamp([],'(ER)')
+wafostamp([],'(ER)'); hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 13');
+    print -dpdf ./bilder/C5_13.pdf 
+end    
 disp('Block 14'),pause
 
 %%
 clf
-Grfc_direct_herm=spec2cmat(spec,[],'rfc',[],[],2);
-subplot(121), pdfplot(GmM3_herm), axis('square'), hold on
-subplot(122), pdfplot(Grfc_direct_herm), axis('square'), hold off
-if (printing==1), print -deps ../bilder/fig_mmrfcjfr.eps
-end
+Grfc_direct_herm=spec2cmat(spec,[],'rfc',[],[],2); disp('1')
+subplot(121), 
+pdfplot(GmM3_herm), axis('square'), hold on disp('2')
+subplot(122), 
+pdfplot(Grfc_direct_herm), axis('square'), hold off disp('3')
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 14');
+    print -dpdf ./bilder/C5_14.pdf 
+end    
 disp('Block 15'),pause
 
 %% Observed smoothed and theoretical min-max matrix, 
@@ -226,9 +302,13 @@ subplot(221), axis('square'), title('Observed smoothed min-max matrix')
 subplot(222), axis('square'), title('Theoretical min-max matrix')
 subplot(223), axis('square'), title('Observed smoothed rainflow matrix')
 subplot(224), axis('square'), title('Theoretical rainflow matrix')
-if (printing==1), print -deps ../bilder/fatigue_13.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 15');
+    print -dpdf ./bilder/C5_15.pdf 
+end    
 disp('Block 16'),pause
    
 %% Section 5.3.5 Simulation from crossings and rainflow structure
@@ -251,15 +331,20 @@ title('Crossing intensity, \alpha = 0.25')
 subplot(212)
 plot(xx_herm_sim1(:,1),xx_herm_sim1(:,2))
 title('Simulated load, \alpha = 0.25')
-if (printing==1), print -deps ../bilder/fatigue_14_25.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 16');
+    print -dpdf ./bilder/C5_16.pdf 
+end    
 disp('Block 16'),pause
 
 %% Crossing spectrum (smooth curve) and obtained spectrum (wiggled curve)
 %% for simulated process with irregularity factor 0.75.
 xx_herm_sim2=lc2sdat(cross_herm,500,alpha2);
 cross_herm_sim2=dat2lc(xx_herm_sim2);
+clf
 subplot(211)
 plot(cross_herm(:,1),cross_herm(:,2)/max(cross_herm(:,2)))
 hold on
@@ -270,9 +355,13 @@ title('Crossing intensity, \alpha = 0.75')
 subplot(212)
 plot(xx_herm_sim2(:,1),xx_herm_sim2(:,2))
 title('Simulated load, \alpha = 0.75')
-if (printing==1), print -deps ../bilder/fatigue_14_75.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 17');
+    print -dpdf ./bilder/C5_17.pdf 
+end    
 disp('Block 17'),pause
 
 %% Section 5.4 Fatigue damage and fatigue life distribution
@@ -290,9 +379,13 @@ muObs_markov=cmat2lc(param_m,Frfc_markov/(T_markov/2));
 clf
 plot(mu_markov(:,1),mu_markov(:,2),muObs_markov(:,1),muObs_markov(:,2),'--')
 title('Theoretical and observed crossing intensity ')
-if (printing==1), print -deps ../bilder/fatigue_15.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 18');
+    print -dpdf ./bilder/C5_18.pdf 
+end    
 disp('Block 19'),pause
 
 %% Section 5.4.3 Damage
@@ -310,9 +403,13 @@ subplot(121), cmatplot(u_markov,u_markov,Dmat_markov,4)
 title('Theoretical damage matrix') 
 subplot(122), cmatplot(u_markov,u_markov,DmatObs_markov,4)
 title('Observed damage matrix') 
-if (printing==1), print -deps ../bilder/fatigue_16.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 19');
+    print -dpdf ./bilder/C5_19.pdf 
+end    
 disp('Block 21'),pause
 
 %%
@@ -327,16 +424,25 @@ s = SN(:,1);
 N = SN(:,2);
 clf
 loglog(N,s,'o'), axis([0 14e5 10 30])
-%if (printing==1), print -deps ../bilder/fatigue_?.eps end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 20');
+    print -dpdf ./bilder/C5_20.pdf 
+end    
 disp('Block 22'),pause
 
 %% Check of S-N-model on normal probability paper.
-
+clf
 normplot(reshape(log(N),8,5))
-if (printing==1), print -deps ../bilder/fatigue_17.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 21');
+    print -dpdf ./bilder/C5_21.pdf 
+end    
 disp('Block 23'),pause
 
 %% Estimation of S-N-model on linear  scale.
@@ -344,9 +450,13 @@ clf
 [e0,beta0,s20] = snplot(s,N,12);
 title('S-N-data with estimated N(s)','FontSize',20)
 set(gca,'FontSize',20)
-if (printing==1), print -deps ../bilder/fatigue_18a.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 22');
+    print -dpdf ./bilder/C5_22.pdf 
+end    
 disp('Block 24'),pause
 
 %% Estimation of S-N-model on log-log scale.
@@ -354,33 +464,47 @@ clf
 [e0,beta0,s20] = snplot(s,N,14);
 title('S-N-data with estimated N(s)','FontSize',20)
 set(gca,'FontSize',20)
-if (printing==1), print -deps ../bilder/fatigue_18b.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 23');
+    print -dpdf ./bilder/C5_23.pdf 
+end    
 disp('Block 25'),pause
 
 %% Section 5.4.5 From S-N curve to fatigue life distribution
 %% Damage intensity as function of $\beta$
+clf
 beta = 3:0.1:8;
 DRFC = cc2dam(RFC_sea,beta);
 dRFC = DRFC/T_sea;
 plot(beta,dRFC), axis([3 8 0 0.25])
 title('Damage intensity as function of \beta')
-if (printing==1), print -deps ../bilder/fatigue_19.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 24');
+    print -dpdf ./bilder/C5_24.pdf 
+end    
 disp('Block 26'),pause
 
 %% Fatigue life distribution with sea load.
+clf
 dam0 = cc2dam(RFC_sea,beta0)/T_sea;
 [t0,F0] = ftf(e0,dam0,s20,0.5,1);
 [t1,F1] = ftf(e0,dam0,s20,0,1);
 [t2,F2] = ftf(e0,dam0,s20,5,1);
 plot(t0,F0,t1,F1,t2,F2)
 title('Fatigue life distribution function')
-if (printing==1), print -deps ../bilder/fatigue_20.eps 
-end
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C5 25');
+    print -dpdf ./bilder/C5_25.pdf 
+end    
 disp('Block 27, last block')
 
 disp('Elapsed time')

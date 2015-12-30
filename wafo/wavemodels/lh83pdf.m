@@ -131,4 +131,4 @@ f.labx = {'Tc','Ac'};
 f.title = 'Joint density of (Tc,Ac) - Longuet-Higgins (1983)';
 f.pl   = [10:20:90 95 99];
 f.cl   = qlevels(f.f,f.pl);
-pdfplot(f)
+%pdfplot(f)

@@ -469,8 +469,8 @@ opt0 = struct2cell(options);
     %print *,'Nstart',Nstart
     Nstart=max(2,Nstart)  ;
     %print *,'Nstart',Nstart
-    waitTxt =  sprintf('Please wait ...(start at: %s)',datestr(now));   
-    h11 = fwaitbar(0,[],waitTxt);
+    %waitTxt =  sprintf('Please wait ...(start at: %s)',datestr(now));   
+    %h11 = fwaitbar(0,[],waitTxt);
 
     for Ntd=Nstart:Ntime,
       %CALL COV_INPUT2(BIG,Ntd, R0,R1,R2)
@@ -482,13 +482,13 @@ opt0 = struct2cell(options);
       Ntdc    = Ntd+Nc;
       [pdf(Ntd),err(Ntd),terr(Ntd)] = rind(BIG(1:Ntdc,1:Ntdc),ex(1:Ntdc),...
 				     a_lo,a_up,indI,xc,Nt,opt0{:});
-      waitTxt = sprintf('%s Ready: %d of %d',datestr(now),Ntd,Ntime);
-      fwaitbar(Ntd/Ntime,h11,waitTxt);
+      %waitTxt = sprintf('%s Ready: %d of %d',datestr(now),Ntd,Ntime);
+      waitbar(Ntd/Ntime);% ,h11,waitTxt);
       
       %disp('sp2thpdf hit a button to continue')
       %pause
     end
-    close(h11)
+    %close(h11)
     %err = err + terr;
   else
     XddInf = 100.d0*sqrt(R4(1));
@@ -551,8 +551,8 @@ opt0 = struct2cell(options);
     %EPSOLD = ABSEPS;
     Nstart = max(Nstart,3);
     
-    waitTxt = sprintf('Please wait ...(start at: %s)',datestr(now));
-    h11 = fwaitbar(0,[],waitTxt);
+%    waitTxt = sprintf('Please wait ...(start at: %s)',datestr(now));
+%    h11 = fwaitbar(0,[],waitTxt);
 
     for tn = Nstart:Ntime,
       Ntd  = tn+1;
@@ -622,10 +622,11 @@ opt0 = struct2cell(options);
         end %select
       end %do                   % ts
       %print *,'Ready: ',tn,' of ',Ntime, ' ABSEPS = ', ABSEPS
-      waitTxt = sprintf('%s Ready: %d of %d',datestr(now),tn,Ntime);
-      fwaitbar(tn/Ntime,h11,waitTxt);
+ %     waitTxt = sprintf('%s Ready: %d of %d',datestr(now),tn,Ntime);
+ %     fwaitbar(tn/Ntime,h11,waitTxt);
+     waitbar(tn/Ntime); 
     end %do                     %tn
-    close(h11)
+%    close(h11)
     % err0 is given as 3 standarddeviations of the variability of fxind.
     % thus err is given as a variance
     err = sqrt(err); % convert to standarddeviations

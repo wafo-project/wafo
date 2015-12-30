@@ -40,9 +40,10 @@ function plotspec(S,varargin)
 %
 % See also  dat2spec, createspec, simpson
 
-% Changed reference to  wfindpeaks  (GL Feb 2011)
-% tested on Matlab 5.3
+
+% tested on Matlab 5.3, 8.1, 8.6
 % History:
+% Changed reference to  wfindpeaks  (GL Feb 2011)
 % revised pab 2008
 % -renamed from wspecplot to plotspec
 % Revised pab feb2007
@@ -198,6 +199,7 @@ if isfield(S,'phi') && ~isempty(S.phi)
   phi = S.phi;
 end
 
+
 switch lower(S.type(end-2:end))
   case {'enc','req','k1d'} % 1D plot
     S.S  = S.S(:);
@@ -270,46 +272,17 @@ switch lower(S.type(end-2:end))
         legend(txt{:},1)
       end
     end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   case {'k2d'}
     if plotflag==1,
       [c, h] = contour(freq,S.k2,S.S,'b');
       z_level = clevels(c);
-        
+    
+      
       if txtFlag==1
         textstart_x=0.05; textstart_y=0.94;
         cltext1(z_level,textstart_x,textstart_y);
       else
-          N=4;
-          format = ['%0.' int2str(N),'g\n'];
-          %if 1
-          %  cltxt = sprintf(format,clevels);
-          %else
-          cl_txt = num2str(z_level(:),N);
-  
-          %removing spaces in front of each line
-          indx = find(isspace(cl_txt(:,1)));
-          space = ' ';
-          for ix=indx(:).'
-              ik = find(~isspace(cl_txt(ix,:)),1);
-              cl_txt(ix,:) = [cl_txt(ix,ik:end) space(:,ones(1,ik-1))];
-          end
-          
-          delete(findall(gcf,'Tag','leveltag'))
-          delete(findall(gcf,'Tag','leveltexttag'))
-          annotation('textbox',[0.3 0.8 0.1 0.1],...
-              'FontSize',10,...
-              'FontWeight','bold',...
-              'String','Level curves at:',...
-              'EdgeColor','none',...
-              'Tag','leveltexttag');
-          apos = [0.3 0.75 0.1 0.1];
-          annotation('textbox',apos,...
-              'string',cl_txt,...
-              'Edgecolor','none',...
-              'FitBoxToText','off',...
-              'FontSize',10,...
-              'Tag','leveltag');
+        cltext(z_level,0)
       end
     else
       [c,h] = contourf(freq,S.k2,S.S);
@@ -317,7 +290,9 @@ switch lower(S.type(end-2:end))
       fcolorbar(c) % alternative
     end
     rotate(h,[0 0 1],-phi*180/pi)
-         
+    
+    
+       
     xlabel(xlbl_txt)
     ylabel(xlbl_txt)
     title(ylbl4_txt)
@@ -329,10 +304,10 @@ switch lower(S.type(end-2:end))
     plot([-km km],[0 0],':')
     axis('square')
     
+    
     %cltext(z_level);
     %axis('square')
     if ~ih, hold off,end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
   case {'dir'}
     thmin = S.theta(1)-phi;thmax=S.theta(end)-phi;
     if plotflag==1 % polar plot
@@ -353,46 +328,20 @@ switch lower(S.type(end-2:end))
         if isempty(c)
           c = contours(theta,freq,S.S);%,Nlevel); % calculate levels
         end
-        
         [z_level c] = clevels(c); % find contour levels
         h = polar(c(1,:),c(2,:),lintype);
-        rotate(h,[0 0 1],-phi*180/pi); H=h;
+        rotate(h,[0 0 1],-phi*180/pi)
       end
       title(ylbl3_txt)
       % label the contour levels
       
-      if txtFlag==1,
+      if txtFlag==1
         textstart_x = -0.1; textstart_y=1.00;
         cltext1(z_level,textstart_x,textstart_y);
       else
-          N=4;
-          format = ['%0.' int2str(N),'g\n'];
-          cl_txt = num2str(z_level(:),N);
-  
-          %removing spaces in front of each line
-          indx = find(isspace(cl_txt(:,1)));
-          space = ' ';
-          for ix=indx(:).'
-              ik = find(~isspace(cl_txt(ix,:)),1);
-              cl_txt(ix,:) = [cl_txt(ix,ik:end) space(:,ones(1,ik-1))];
-          end
-          
-          delete(findall(gcf,'Tag','leveltag'))
-          delete(findall(gcf,'Tag','leveltexttag'))
-          annotation('textbox',[0.28 0.84 0.1 0.1],...
-              'FontSize',10,...
-              'FontWeight','bold',...
-              'String','Level curves at:',...
-              'EdgeColor','none',...
-              'Tag','leveltexttag');
-          apos = [0.28 0.79 0.1 0.1];
-          annotation('textbox',apos,...
-              'string',cl_txt,...
-              'Edgecolor','none',...
-              'FitBoxToText','off',...
-              'FontSize',10,...
-              'Tag','leveltag');
-       end             
+        cltext(z_level,0)
+      end
+      
     elseif (plotflag==2) || (plotflag==3),
       %ih = ishold;
       
@@ -459,7 +408,6 @@ switch lower(S.type(end-2:end))
         [c,h] =	contourf(freq,theta,S.S); %,Nlevel); % calculate levels
         %hold on
       end
-      
     
       title(ylbl3_txt)
       xlabel(xlbl_txt);
@@ -636,7 +584,7 @@ else % Degrees given
     ylabel('Wave directions (deg)')
   end
 end
-axis(ax);
+axis(ax)
 return
 
 function cltext1(z_level,textstart_x,textstart_y)

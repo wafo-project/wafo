@@ -7,6 +7,9 @@
 % Some of the commands are edited for fast computation. 
 % Each set of commands is followed by a 'pause' command.
 % Set pstate='on' to activate the pause option
+%
+% The figures can be printed in pdf format by setting the parameter
+% 'printing' to 1.
 
 % Tested on Matlab 5.3, 7.10, 8.1, 8.6
 % History
@@ -26,6 +29,7 @@ pstate = 'off';
 speed = 'fast';
 %speed = 'slow'
 pause(pstate)
+printing=0;
 
 %% Section 4.2 Marginal distributions of wave characteistics
 %% Section 4.2.1 Crest period, crest length, and crest height
@@ -50,6 +54,12 @@ pdfplot(f_tc_1), hold off
 simpson(f_tc_4.x{1},f_tc_4.f)
 simpson(f_tc_1.x{1},f_tc_1.f)
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 1');
+    print -dpdf ./bilder/C4_1.pdf 
+end    
 disp('Block = 2'), pause
 
 %% Setting of rind options
@@ -81,6 +91,12 @@ clf
 f_Lc = spec2tpdf(S1,[],'Lc',[0 125 251],[],-1);
 pdfplot(f_Lc,'-.'), hold on
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 2');
+    print -dpdf ./bilder/C4_2.pdf 
+end    
 disp('Block = 3'), pause
 
 f_Lc_1 = spec2tpdf(S1,[],'Lc',[0 125 251],1.5,-1);
@@ -88,7 +104,12 @@ f_Lc_1 = spec2tpdf(S1,[],'Lc',[0 125 251],1.5,-1);
 hold on
 pdfplot(f_Lc_1), hold off
 wafostamp([],'(ER)')
-
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 3');
+    print -dpdf ./bilder/C4_3.pdf 
+end    
 disp('Block = 4'), pause
 %% 
 simpson(f_Lc.x{1},f_Lc.f)
@@ -117,34 +138,44 @@ F_Ac_s1_L = spec2Acdf(S1,[],'Lc',Lev,r,-1);
 L = spec2sdat(spec2spec(S1,'k1d'),[40000 100],0.1);
 [Steep,Height,AcL] = dat2steep(L);
 plotedf(AcL,'-.'), hold off
-
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 4');
+    print -dpdf ./bilder/C4_4.pdf 
+end    
 disp('Block = 6'), pause
 
 %% 6d. Directional spreading
 
 % pdf of Lc
-
 figure(1)
 clf
-
 if strncmpi(speed,'slow',1), 
     Lev2=[0 200 401];
 else
     Lev2=[0 200 201];
 end
 tic
-f_Lc_d1 = spec2tpdf(rotspec(SD1,pi/2),[],'Lc',Lev2,[],-1);
-f_Lc_d12 = spec2tpdf(SD12,[],'Lc',Lev2,[],-1);
-% f_Lc_d1 = spec2tpdf2(rotspec(SD1,pi/2),[],'Lc',[0 200 81],opt1);
-% f_Lc_d12 = spec2tpdf2(SD12,[],'Lc',[0 200 81],opt1);
+%f_Lc_d1 = spec2tpdf(rotspec(SD1,pi/2),[],'Lc',Lev2,[],-1);
+%f_Lc_d12 = spec2tpdf(SD12,[],'Lc',Lev2,[],-1);
+f_Lc_d1 = spec2tpdf2(rotspec(SD1,pi/2),[],'Lc',[0 200 81],opt1);
+f_Lc_d12 = spec2tpdf2(SD12,[],'Lc',[0 200 81],opt1);
 toc
 pdfplot(f_Lc_d1,'-.'), hold on
 pdfplot(f_Lc_d12),     hold off
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 5');
+    print -dpdf ./bilder/C4_5.pdf 
+end    
 
 disp('Block = 7'), pause
 
 figure(2)
+clf
 dx = f_Lc.x{1}(2)-f_Lc.x{1}(1);  
 dx1 = f_Lc_d1.x{1}(2)-f_Lc_d1.x{1}(1);  
 dx12 = f_Lc_d12.x{1}(2)-f_Lc_d12.x{1}(1);  
@@ -153,6 +184,12 @@ plot(f_Lc_d1.x{1},cumsum(f_Lc_d1.f)*dx1,'-.')
 plot(f_Lc_d12.x{1},cumsum(f_Lc_d12.f)*dx12,'--')
 hold off
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 6');
+    print -dpdf ./bilder/C4_6.pdf 
+end    
 disp('Block = 8'), pause
 
 %% Section 4.2.2 Numerical accuracy
@@ -173,16 +210,22 @@ end
 f_Lc_d1_3 = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],3);
 f_Lc_d1_2 = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],2);
 f_Lc_d1_0 = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],0);
-f_Lc_d1_neg = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],-1);
+%f_Lc_d1_neg = spec2tpdf(SD1r,[],'Lc',[0 200 201],[],-1);
 %f_Lc_d1_n4 = spec2tpdf2(SD1r,[],'Lc',[0 400 161],opt1);
 
 pdfplot(f_Lc_d1_3), hold on
 pdfplot(f_Lc_d1_2)
 pdfplot(f_Lc_d1_0)
-pdfplot(f_Lc_d1_neg)
+%pdfplot(f_Lc_d1_neg)
 %pdfplot(f_Lc_d1_n4)
 hold off
 %simpson(f_Lc_d1_n4.x{1},f_Lc_d1_n4.f)
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 7');
+    print -dpdf ./bilder/C4_7.pdf 
+end    
 
 disp('Block = 9'), pause
 
@@ -220,6 +263,12 @@ pdfplot(f_tc1,'-.')
 hold off
 wafostamp([],'(ER)')
 toc
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 8');
+    print -dpdf ./bilder/C4_8.pdf 
+end    
 disp('Block = 10'), pause
 
 %% Crest period for high crests
@@ -243,6 +292,12 @@ pdfplot(f_tc2,'-.')
 hold off
 wafostamp([],'(ER)')
 toc
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 9');
+    print -dpdf ./bilder/C4_9.pdf 
+end    
 disp('Block = 11'), pause
 
 %% 7b. Wave period for high crest waves 
@@ -260,6 +315,13 @@ disp('Block = 11'), pause
       pdfplot(f_tu1_3)
       hold off
       toc
+      if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 10');
+    print -dpdf ./bilder/C4_10.pdf 
+end    
+
 disp('Block = 12'), pause
 
 %% 7c. Wave period for high-crest, deep-trough waves
@@ -274,6 +336,13 @@ disp('Block = 12'), pause
       ind = find(yn(t_ind,2)<-Hs/2 & yn(c_ind,2)>Hs/2);
       spwaveplot(yn,ind(2:4))
       wafostamp([],'(ER)')
+      if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 11');
+    print -dpdf ./bilder/C4_11.pdf 
+end    
+
 disp('Block = 13'), pause
 
 %% Upcrossing period Tu for high crest, deep trough waves 
@@ -295,6 +364,13 @@ hold on
 pdfplot(f_tu2_n)
 hold off
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 12');
+    print -dpdf ./bilder/C4_12.pdf 
+end    
+
 disp('Block = 15'), pause
 
 %%
@@ -356,6 +432,12 @@ hold off
 legend('kde(Tt)','kde(Tc)','f_{tc}')
 wafostamp([],'(ER)')
 toc
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 13');
+    print -dpdf ./bilder/C4_13.pdf 
+end    
 disp('Block = 18'), pause
 
 %% Section 4.3.2 Joint distribution of crest period and height
@@ -370,6 +452,12 @@ hold on
 plot(Tcf(ind), Ac(ind),'.');
 wafostamp([],'(ER)')
 toc
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 14');
+    print -dpdf ./bilder/C4_14.pdf 
+end    
 disp('Block = 19'), pause
 
 %%
@@ -392,6 +480,12 @@ f_tcf6=spec2tpdf(SS,[],'Tc',[4.5 4.5 46],[0:0.25:8],6);
 f_tcf6.f(46)
 toc
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 15');
+    print -dpdf ./bilder/C4_15.pdf 
+end    
 disp('Block = 20'), pause
 
 %% 
@@ -416,12 +510,24 @@ pdfplot(flh_g,'k-.')
 pdfplot(f_tcac_s)
 toc
 wafostamp([],'(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 16');
+    print -dpdf ./bilder/C4_16.pdf 
+end    
 disp('Block = 22'), pause
 end
 %%
 clf
 %      f_tcac = spec2thpdf(SS,[],'TcAc',[0 12 81],[0:0.2:8],opt1);
 %      pdfplot(f_tcac)
+%if printing,
+%    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+%        'FitBoxToText','on',...
+%        'String','Fig C4 17');
+%    print -dpdf ./bilder/C4_17.pdf 
+%end    
 disp('Block = 23'), pause
 
 %% Section 4.3.3 Joint density of crest and trough height
@@ -442,10 +548,16 @@ pdfplot(fmm,'k-')
 hold off
 wafostamp([],'(ER)')
 toc
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 18');
+    print -dpdf ./bilder/C4_18.pdf 
+end    
 disp('Block = 24'), pause
 
 %% The joint density of ”still water separated”  maxima and minima.
-%% Example 11. crest-trough dirstribution from max-min transitions
+%% Example 11. crest-trough distribution from max-min transitions
 clf
 tic
 opt2 = rindoptset('speed',5,'nit',2,'method',0);
@@ -460,6 +572,12 @@ pdfplot(f_vmm,'-.')
 hold off
 wafostamp([],'(ER)')
 toc
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 19');
+    print -dpdf ./bilder/C4_19.pdf 
+end    
 disp('Block = 25'), pause
 
 
@@ -475,7 +593,13 @@ pdfplot(facat,'k-')
 hold off
 wafostamp([],'(ER)')
 toc
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C4 20');
+    print -dpdf ./bilder/C4_20.pdf 
+end    
 disp('Block = 26'), pause
-
+disp('End of Chapter 4')
 disp('Elapsed time')
 etime(clock,start)

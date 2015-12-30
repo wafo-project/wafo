@@ -9,10 +9,16 @@
 % The commands are edited for fast computation.
 % Each set of commands is followed by a 'pause' command.
 % Type 'pause off' or ¨pause on' to disable or activa 'pause'.
+%
+% The figures can be printed in pdf format (edit for eps fpormat) 
+% by setting the parameter 'printing' to 1. 
+% Note that figures 6 and 7 will be printed in 
+% eps format, and can be very big. 
 
-% History
-% Revised help text by Georg Lindgren December 2015 
 % Tested on Matlab 5.3, 7.10, 8.1, 8.6
+% History
+% Revised help text by Georg Lindgren 12-28-2015 
+% and added automatic printing and figure numbers.  
 % Revised by Georg Lindgren March 2011 for use with Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
@@ -25,6 +31,7 @@
 start=clock;
 pstate = 'off'
 pause(pstate)
+printing=0;
 
 %% Section 1.4 Some applications of WAFO
 
@@ -36,6 +43,12 @@ Hm0 = 6;
 Tp  = 8;
 plotflag = 1;
 S1=torsethaugen([],[Hm0 Tp],plotflag);
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 1');
+    print -dpdf ./bilder/C1_1.pdf 
+end 
 disp('Block = 1'),pause
 
 %%
@@ -46,6 +59,12 @@ xs=spec2sdat(S1,N,dt);
 clf
 waveplot(xs,'-')
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 2');
+    print -dpdf ./bilder/C1_2.pdf 
+end 
 disp('Block = 2'),pause
 
 %% Estimation of spectrum 
@@ -63,6 +82,12 @@ plotspec(S1,plotflag), hold on
 plotspec(Sest,plotflag,'--'), hold off
 axis([0 3 0 5]) % This may depend on the simulation
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 3');
+    print -dpdf ./bilder/C1_3.pdf 
+end 
 disp('Block = 3'),pause
 
 %% Section 1.4.2 Probability distributions of wave characteristics.
@@ -84,6 +109,12 @@ pdfplot(dtyex)
 pdfplot(dtyest,'-.')
 axis([0 10 0 0.35]), hold off
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 4');
+    print -dpdf ./bilder/C1_4.pdf 
+end 
 disp('Block = 4'),pause
 
 %% Section 1.4.3 Directional spectra
@@ -101,6 +132,12 @@ SD12 = mkdspec(S1,D12);
 plotspec(SD1,plotflag), hold on, 
 plotspec(SD12,plotflag,'-.'); hold off
 wafostamp('','(ER)')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 5');
+    print -dpdf ./bilder/C1_5.pdf 
+end 
 disp('Block = 5'),pause
 
 %% 3D Simulation of the sea surface 
@@ -116,19 +153,32 @@ randn('state',iseed)
 Y1 = seasim(SD1,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag);
 wafostamp('','(ER)')
 axis('fill')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 6');
+    print -dpdf ./bilder/C1_6.pdf 
+end 
 disp('Block = 6'),pause
 
 %%
 % Frequency dependent spreading
+clf
 randn('state',iseed)
 Y12 = seasim(SD12,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag);
 wafostamp('','(ER)')
 axis('fill')
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 7');
+    print -dpdf ./bilder/C1_7.pdf 
+end 
 disp('Block = 7'),pause
 
 %% Estimation of directional spectrum
 %  The figure is not shown in the Tutorial
-
+clf
  Nx = 3; Ny = 2; Nt = 2^12; dx = 10; dy = 10;dt = 0.5;
  F  = seasim(SD12,Nx,Ny,Nt,dx,dy,dt,1,0);  
  Z  = permute(F.Z,[3 1 2]);
@@ -143,6 +193,12 @@ disp('Block = 7'),pause
  SDe = dat2dspec([F.t Z(:,:)],[pos types,bfs],h,nfft,nt);
 plotspec(SDe), hold on
 plotspec(SD12,'--'), hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 8');
+    print -dpdf ./bilder/C1_8.pdf 
+end 
 disp('Block = 8'),pause
 
 %% Section 1.4.4 Fatigue, Load cycles and Markov models.
@@ -167,6 +223,12 @@ rfc = tp2rfc(tp);
 plot(rfc(:,2),rfc(:,1),'.')
 wafostamp('','(ER)')
 hold off
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 9');
+    print -dpdf ./bilder/C1_9.pdf 
+end 
 disp('Block = 9'),pause
 
 %% Section 1.4.5 Extreme value statistics
@@ -187,11 +249,23 @@ xlabel('Time (h)','FontSize',16)
 ylabel('(m)','FontSize',16)
 title('Maximum 5 min water level','FontSize',16)
 set(gca,'FontSize',14)
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 10');
+    print -dpdf ./bilder/C1_10.pdf 
+end 
 disp('Block = 10'),pause
 
 %% Estimation of GEV for yuramax
 clf
 phat=fitgev(maxyura,'plotflag',1);
+if printing,
+    annotation('TextBox',[0.05 0.94 0.14 0.05],...
+        'FitBoxToText','on',...
+        'String','Fig C1 11');
+    print -dpdf ./bilder/C1_11.pdf 
+end 
 disp('Block = 11, Last block')
 disp('Elapsed time')
 etime(clock,start)

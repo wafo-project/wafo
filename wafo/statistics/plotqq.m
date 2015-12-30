@@ -32,11 +32,9 @@ function varargout=plotqq(x,y,ps,method)
 %     You should have received a copy of the GNU Lesser General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-% Adapted to  cssmooth  by GL Feb 2011
-% tested on: matlab 5.3
+% tested on: matlab 5.3, 8.1, 8.6
 % History:
+% Adapted to use  cssmooth  by GL Feb 2011
 % revised pab March 2007
 % - added LS-line to qqplot using smooth
 % - handle to plotted figure is only returned if nargout>0

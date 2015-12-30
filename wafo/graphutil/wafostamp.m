@@ -30,10 +30,12 @@ function [H,ax]=wafostamp(varargin)
 %
 % See also  figtext
 
-% TODO % may be further improoved by making it work like legend without the box
+% TODO % may be further improved by making it work like legend without the box
 
-% Tested on matlab 5.2
-% history:
+% Tested on matlab 5.2, 8.1, 8.6
+% History:
+% revised by GL December 2015 
+% - removed call to mkdeleteproxy to allow wafostamp regerdless of Matlab version
 % revised pab march 2007
 % - removed point-and-click editing of all the text objects, because it is
 %   obsolete
@@ -55,8 +57,9 @@ function [H,ax]=wafostamp(varargin)
 
 
 [stamp,caption,flag]=stmpchk(varargin);
-oldMatlabVersion = verLessThan('matlab','8.4');
+%oldMatlabVersion = verLessThan('matlab','8.4');
 
+oldMatlabVersion=1; % Forced to permit wafostamp regardless of version
 if ~oldMatlabVersion,
     return
 else
@@ -129,7 +132,7 @@ if stamp~=0
   % the first axes) so that the other axes will be deleted
   % properly.
   %'tag','wafostmptxt',...
-  mkdeleteproxy(cax,ax,'WAFOSTAMPDeleteProxy')
+  %mkdeleteproxy(cax,ax,'WAFOSTAMPDeleteProxy')
 
 
   if nargout>0

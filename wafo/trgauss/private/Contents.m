@@ -1,7 +1,8 @@
 % private Module to TRGAUSS in WAFO Toolbox  
 % Version 2.1.1   15-Sep-2005
+% Version 2.1.2   30-Dec-2015 small change in cleanup.m
 % 
-% 
+% cleanup           - Removes files from harddisk if they exist
 % ewwdir            - Computes values of the quadratic transfer function E, for quadratic sea 
 % hermitefun        - Calculates the transformation by a Hermite polynomial. 
 % holmberg1         - Computes moments for higher order reliability methods.

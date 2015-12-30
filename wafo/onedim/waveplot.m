@@ -35,7 +35,7 @@ function Nf1 = waveplot(x,varargin)
 
 % History:
 % Revised December 18, 2015 by GL to accept also new Matlab 2014b standard
-%   for figure handle numeric operations; tested on Matlab2015b 
+%   for figure handle operations; tested on Matlab2015b, Matlab2013a 
 % Tested on: Matlab 6.0, 5.3, 5.2, 5.1
 % revised jr 02.04.2001
 %  - added example, updated info.

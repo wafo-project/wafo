@@ -88,7 +88,7 @@ function [phat] = fitgenpar(data,varargin)
 % Revised by jr 22.12.1999
 % Modified by PJ 08-Mar-2000
 %   Changed 'pgpd' to 'gpdcdf' for method 'pkd'.
-%   Hjälptext
+%   Hjalptext
 %   Added 'hold off' in plotting.
 %   Added line: 'data = data(:)';'
 % revised ms 14.06.2000
@@ -235,7 +235,8 @@ function [phat,pcov] = mpsfit(data,options)
 msgId = 'WAFO:PARSEOPTIONS';
 warnstate = warning('query',msgId);
 warning('off',msgId);
-phat = fminsearch(@logps,phat0,options.optimset,x,'lowertail',false,@cdfgenpar);
+phat = fminsearch(@(p)logps(p, x,'lowertail',false,@cdfgenpar),phat0,options.optimset); 
+%,x,'lowertail',false,@cdfgenpar);
 %phat = fminsearch(@logps,phat0,options.optimset,x,@cdfgenpar);
 warning(warnstate);
 %fun1 = @(phat1) logps(phat1,x,'lowertail',false,@cdfgenpar);
@@ -333,7 +334,8 @@ function [phat,pcov] = mlfit(data,options)
   else
     % Solve the ML-equation
     
-    xx = fzero(@fitgenparml,x_start,options.optimset,data);
+    xx = fzero(@(x)fitgenparml(x,data),x_start,options.optimset);
+    %xx = fzero('fitgenparml',x_start,options.optimset,data);
     %xx = fzero('fitgenparml',x_start,optimset('disp','iter'),data);
     
     

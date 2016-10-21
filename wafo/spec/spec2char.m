@@ -114,7 +114,7 @@ elseif iscell(fact)||ischar(fact)
   nfact = zeros(1,N);
   ltfact = char(lower(tfact));
   for ix=1:N,
-    ind = strmatch(lower(fact(ix)),ltfact,'exact');
+    ind = strmatch(lower(char(fact(ix))),ltfact,'exact');
     if length(ind)==1,
       nfact(ix)=ind;
     else

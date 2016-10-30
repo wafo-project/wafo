@@ -55,8 +55,13 @@ function [H,ax]=wafostamp(varargin)
 
 
 [stamp,caption,flag]=stmpchk(varargin);
-
-
+if ismatlab
+  oldMatlabVersion = verLessThan('matlab','8.4');
+ 
+  if ~oldMatlabVersion,
+      return
+   end
+end
 if stamp~=0
   tag = 'WAFOSTAMP';
   

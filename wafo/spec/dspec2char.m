@@ -61,13 +61,15 @@ function [ch,chtext] = dspec2char(S,varargin)
 %  Examples:
 %    S      = demospec('dir');
 %    [ch,txt] = dspec2char(S,1:26);        % fact a vector of integers
+%    assert(txt, {'FMdir', 'FPdir','FSpr','FSkew','FMSpr','FLcrst','FS1',...
+%       'FS2','FD1','FD2','TpMdir','TpSpr','TpSkew','Wdir','Wdir2','Mdir',...
+%       'Pdir', 'Spr', 'Skew', 'MSpr', 'Lcrst', 'S1','S2','D1','D2','TMdir'})
 %    ch0 = cell2struct(ch,txt,2);          % Make a structure 
-%    [txt{2,:}]=deal(','); txt{2,end}=' '; 
-%    eval(['[' txt{:} '] = deal(ch{:})'])  % Assign values to variables
+%    
 %    plot(S.w,FMdir)
-%    ch1 = dspec2char(S,'wdir');          % fact a string
-%    ch2 = dspec2char(S,{'mdir','pdir'}); % fact a cellarray of strings
-%    ch3 = dspec2char(S,'mdir','pdir');   % strings
+%    assert(dspec2char(S,'wdir'){1}, 0, 1e-10)  % fact a string
+%    assert(all([dspec2char(S,{'mdir','pdir'}){:}]<1e-10)) % fact a cellarray of strings
+%    assert(all([dspec2char(S,'mdir','pdir'){:}]<1e-10))  % strings
 % 
 %  See also  spec2char, spec2bw, spec2mom, spreading  
 
@@ -135,7 +137,7 @@ if iscell(fact)
   nfact = zeros(1,N);
   ltfact = char(lower(tfact));
   for ix=1:N,
-    ind = strmatch(lower(fact(ix)),ltfact,'exact');
+    ind = strmatch(lower(char(fact(ix))),ltfact,'exact');
     if length(ind)==1,
       nfact(ix)=ind;
     else

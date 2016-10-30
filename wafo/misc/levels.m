@@ -7,6 +7,10 @@ function l=levels(param)
 %        param = the parameter matrix = [u_min u_max num_levels].
 % Example:% 
 %
-% param=[2 3.2 4]; levels(param)
+% param = [2 3.2 4]; 
+% levels(param)
+%
 
 l=linspace(param(1),param(2),param(3));
+
+%!test assert(levels([1,2,3]), [1,1.5, 2])

@@ -43,7 +43,7 @@ max(S.w)/pi
 dt=1./f0/60
 S1=specinterp(S,dt);
 [max(S1.w) pi/dt]
-clf, wspecplot(S), hold on, wspecplot(S1,1,'r.')
+clf, plotspec(S), hold on, plotspec(S1,1,'r.')
 clf, plot(beta,Tfpl)
 hold on
 for  i=1:5

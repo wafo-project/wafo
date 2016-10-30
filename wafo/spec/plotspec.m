@@ -597,20 +597,24 @@ function cltext1(z_level,textstart_x,textstart_y)
 
 %  textstart_x = -0.07; textstart_y=1.00;
 
+  delta_y     = 1/33;
+  %dir:
+  %h = figtext(textstart_x-0.07,textstart_y,' Level curves at:','norm');
 
+  % k2d:
+  h = figtext(textstart_x-0.05,textstart_y,' Level curves at:','norm');
+  set(h,'FontWeight','Bold')
 
-
-delta_y     = 1/33;
-%dir:
-%h = figtext(textstart_x-0.07,textstart_y,' Level curves at:','norm');
-
-% k2d:
-h = figtext(textstart_x-0.05,textstart_y,' Level curves at:','norm');
-set(h,'FontWeight','Bold')
-
-textstart_y = textstart_y-delta_y;
-for ix=1:length(z_level)
   textstart_y = textstart_y-delta_y;
-  figtext(textstart_x,textstart_y,num2str(z_level(ix),4),'norm');
-end
+  for ix=1:length(z_level)
+    textstart_y = textstart_y-delta_y;
+    figtext(textstart_x,textstart_y,num2str(z_level(ix),4),'norm');
+  end
 return
+
+
+function [c,h] = contours(x,y,z)
+hf = figure ("visible", "off");
+clf(hf);
+[c, h] = contour(x, y, z);
+close (hf)

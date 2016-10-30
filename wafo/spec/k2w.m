@@ -1,6 +1,5 @@
 function [w,th]=k2w(k,k2,h,g,u,u2)
-% K2W Translates from wave number to frequency
-%     using the dispersion relation
+% K2W Translates from wave number to frequency using the dispersion relation
 %
 % CALL:  [w,theta]=k2w(k,k2,h,g)
 %
@@ -20,6 +19,10 @@ function [w,th]=k2w(k,k2,h,g,u,u2)
 % The size of w,theta is the common size of k and k2 if they are matrices,
 % OR length(k2) x length(k) if they are vectors. If k or k2 is scalar
 % it functions as a constant matrix of the same size as the other. 
+%
+% Example
+% assert(k2w([.5, 1, 2, 4]), [2.21430506782230, 3.13150025814577,...
+%                             4.42861013564459, 6.26300051629153], 1e-10)
 % 
 % See also  w2k
 

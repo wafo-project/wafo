@@ -9,7 +9,7 @@ function varargout = surfl(f,varargin)
 % Example
 %  x = linspace(-3,3); y=x;
 %  [X,Y] = meshgrid(x,y);
-%  wd = wdata(peaks(X,Y),{x,y})
+%  wd = wdata(peaks(X,Y),{x,y});
 %  surfl(wd)
 %
 % See also surfl, surf, contourf, contour, mesh

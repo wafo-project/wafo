@@ -18,7 +18,7 @@ h2 = [];
 if nargin>1
   oldAx = gca;
   % make axes ax current
-  axes(ax)
+  axes(ax);
 end
 
 if ~isempty(f.labels)
@@ -43,5 +43,5 @@ end
 wafostamp(caption)
 
 if exist('oldAx','var')
-  axes(oldAx)
+  axes(oldAx);
 end

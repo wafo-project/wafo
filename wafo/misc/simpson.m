@@ -44,8 +44,6 @@ function [area,epsi,a,b] = simpson(x,f,dim)
 % revised by es 28.09.1999 (documentation, help)
 % by pab 1997, updated 16.06.1998
 
-
-% if 1 % NEW CALL
  
   perm = []; nshifts = 0;
   if nargin == 3,                 % simpson(x,f,dim)
@@ -127,85 +125,9 @@ function [area,epsi,a,b] = simpson(x,f,dim)
   if ~isempty(perm), area = ipermute(area,perm); end
 
 
-% else % Old call
-%   if nargin<2,
-%     f = x;
-%     [f,nshift] = shiftdim(f);
-%     [nx m]=size(f);
-%     fsiz(1)=1;fsiz(2)=1;
-%     if nx<m
-%       tmp=m;m=nx;nx=tmp; 
-%       f=f.';
-%       % fsiz(1)=m;  fsiz(2)=1;
-%     else
-%       %fsiz(1)=1;fsiz(2)=m;
-%     end
-%     switch m
-%       case 1,  a=1;b=nx; bm1=nx-1;
-%       case 2,  a=f(1,1);b=f(nx,1);bm1=f(nx-1,1); f=f(:,2);
-%       otherwise, error('Wrong dimension of input! dim must be 2xN, 1xN, Nx2 or Nx1 ') 
-%     end
-%     m=1;
-%   end  
-%   
-%   if nargin==2,
-%     fsiz=size(f);
-%     [n m]=size(f);
-%     [nx mx]=size(x);
-%     
-%     %make sure x is a column vector
-%     if nx*mx==n || nx*mx==m  , x=x(:);nx=max(nx,mx);end 
-%     
-%     a=x(1,:);b=x(nx,:);bm1=x(nx-1,:); 
-%     if nx~=n
-%       tmp=m;m=n;n=tmp; 
-%       f=f.';
-%       fsiz(2)=1;
-%       if (nx~=n) || (ndims(f)>2)
-%         error('Fx must have dimensions which equals the  size of x ')
-%       end
-%     else
-%       fsiz(1)=1;
-%     end
-%   end  
-%   
-% 
-%   if nx<3, 
-%     error('The vector must have more than 3 elements!')
-%   end
-%   
-%   if (mod(nx, 2) == 0), % checking if n is even
-%     f(nx,:)=[];
-%     nx=nx-1; 
-%     
-%     disp('Warning: Changed the integration limits ')
-%     disp(['         from ' num2str(b) ' to ' num2str(bm1) ])
-%     disp('         so that the length of f(x) is odd.')
-%     
-%     b=bm1;
-%   end
-%   
-%   hn=2*(b-a)/(nx-1);
-%   
-%   
-%   % Midpoint approximation
-%   Un=hn.*sum(f(2:2:(nx-1),1:m)); 
-%   
-%   % Trapeziodal approximation
-%   Tn=hn/2.*(f(1,1:m) + 2*sum(f(3:2:(nx-2),1:m)) + f(nx,1:m)); 
-%   
-%   % Simpson's approximation
-%   area=(Tn+2*Un)/3; 
-%   
-%   % Asymptotically the simpson approximation is a better estimate 
-%   % than both Tn and Un. If this is the case, 
-%   % then an estimate of the absolute error is
-%   
-%   epsi = abs(Tn-Un)./4; 
-%   %fsiz
-%   %area
-%   area=squeeze(reshape(area,fsiz));
-%   epsi=squeeze(reshape(epsi,fsiz));
-%   
-  
-%end
+%!test
+%! x = linspace(0,4,201);
+%! f = exp(-x.^2);
+%! [area,epsi] = simpson(x,f);
+%! assert(area, 0.886226911789523, 1e-9)
+%! assert(epsi<1e-10)

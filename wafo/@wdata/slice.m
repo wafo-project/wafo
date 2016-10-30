@@ -7,12 +7,15 @@ function varargout = slice(f,varargin)
 %  varargin = list of additional arguments, see slice for details.
 %
 % Example
-%  [x y z v] = flow;
+% %[x y z v] = flow;
+%  x = -2:.2:2; y = -2:.25:2; z = -2:.16:2;
+%  [X,Y,Z] = meshgrid(x,y,z);
+%  v = X .* exp(-X.^2 - Y.^2 - Z.^2);
 %  wd = wdata(v,{x,y,z});
 %  h = slice(wd,[1:2.5:9],[],[0]);
 %  axis([0 10 -3 3 -3 3]); daspect([1 1 1])
-%  camva(24); camproj perspective;
-%  campos([-3 -15 5])
+% % camva(24); camproj perspective;
+% % campos([-3 -15 5])
 %
 % See also slice, contourslice, isosurface
 

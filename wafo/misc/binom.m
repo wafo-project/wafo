@@ -100,3 +100,7 @@ logbi = (((stirlerr(n)+2)-min(nmk+0.5,realmax).*log1p(-km1./n))-k.*log((k+1)./n)
 % Handle special cases
 logbi(nmk<0 | k<0) = -inf;
 logbi((n==0 & k==0) | k==0) = 0;
+
+
+%!test assert(binom(5,2), 10)
+%!test assert(binom(realmax*1e-8,1), realmax*1e-8)

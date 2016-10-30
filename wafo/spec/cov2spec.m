@@ -36,7 +36,7 @@ function S = cov2spec(R,rate,nugget,trunc,fast)
 %  S0 = cov2spec(R);
 %  S = jonswap;
 %  S1 = cov2spec(spec2cov(S));
-% assert(all(abs(S1.S-S.S)<1e-4) ,'COV2SPEC')
+%  assert(all(abs(S1.S-S.S)<1e-4) ,'COV2SPEC')
 %  
 % See also  spec2cov, datastructures
   

@@ -21,9 +21,9 @@ function Snew=mkdspec(S,D,plotflag)
 % NB! S.w and D.w (if any) must be identical.
 %
 % Example: 
-%  S=jonswap
-%  D=spreading(linspace(-pi,pi,51),'cos2s')
-%  Snew=mkdspec(S,D,1) 
+%  S=jonswap;
+%  D=spreading(linspace(-pi,pi,51),'cos2s');
+%  Snew=mkdspec(S,D,1);
 %  
 % See also  spreading, rotspec, jonswap, torsethaugen  
   

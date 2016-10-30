@@ -9,7 +9,8 @@ function varargout = contour3(f,varargin)
 % Example
 %  x = linspace(-3,3); y=x;
 %  [X,Y] = meshgrid(x,y);
-%  wd = wdata(peaks(X,Y),{x,y})
+%  wd = wdata(peaks(X,Y),{x,y});
+%  clf()
 %  contour3(wd)
 %
 %

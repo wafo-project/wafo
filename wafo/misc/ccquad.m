@@ -82,8 +82,6 @@ end
 % end
 
 
-
-
 s = (0:n)';
 s2 =(0:2:n)';
 
@@ -110,3 +108,4 @@ c(n/2+1) = c(n/2+1)/2;
 int = (a-b)*sum(c./(s2-1)./(s2+1) );
 tol = abs(c(n/2+1));
 
+%!test assert(ccquad('exp', 0,1), expm1(1), 1e-14)

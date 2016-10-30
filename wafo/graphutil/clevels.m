@@ -69,33 +69,5 @@ else
   CL = [];
 end
 
-% Old call kept just in case
-% function [z_level, c] = findzlevel(c)
-% %FINDZLEVEL find the contour levels calculated by the contourc function
-% %
-% % CALL [z_level, c1] = findzlevel(c)
-% %
-% %  example:
-% %
-% %  c = contour(x,y,Z)
-% %  [z_level, c1] = findzlevel(c)
-% %  plot(c1(:,1),c1(:,2))
-% %
-% limit = size(c,2);
-% ix = 1; iy=1;
-% while(iy < limit)
-%   z_level(ix) = c(1,iy);
-%   npoints = c(2,iy);
-%   c(:,iy)=NaN;
-%   nexti = iy+npoints+1;
-%   iy = nexti;
-%   ix=ix+1;
-% end
-% % sort and remove duplicate levels
-% z_level = sort(z_level);
-% z_level = z_level(diff([0 z_level])~=0);
-% 
-% return
-
 
 

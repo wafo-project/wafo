@@ -8,19 +8,12 @@ function R=createcov(nr,vari,ctype)
 %       ctype = 'enc', 'none'   (default none)
 %
 % Example: 
-%  R=createcov(1,'tx')  %create a structure with proper fieldnames for covariance
-%           
-% %       R: []
-% %       x: []
-% %       t: []
-% %       h: Inf
-% %      tr: []
-% %    type: 'none'
-% %    norm: []
-% %      Rx: []
-% %      Rt: []
-% %    note: []
-% %    date: '16-Sep-1999, 09:50:44'
+%  R = createcov(1,'tx'); 
+%  R.date = '';
+%  trueR = struct('R',[], 'x', [], 't', [], 'h', inf, 'tr', [], 'phi', 0, ...
+%       'type', 'none', 'norm', [], 'Rx', [], 'Rt', [], 'note', [], 'date', '');
+%  assert(fieldnames(R), fieldnames(trueR))
+%  assert(struct2cell(R), struct2cell(trueR))
 %
 % See also  createspec, datastructures
 

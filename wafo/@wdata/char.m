@@ -16,7 +16,7 @@ function s = char(self)
 % By pab 2007
 
 if numel(self)<=1
-  s = evalc('disp(struct(self))');
+  s = disp(struct(self));
 else
     fn = fieldnames(self);
     fnTxt = sprintf('    %s\n',fn{:});

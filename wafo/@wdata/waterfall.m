@@ -9,7 +9,7 @@ function varargout = waterfall(f,varargin)
 % Example
 %  x = linspace(-3,3); y=x;
 %  [X,Y] = meshgrid(x,y);
-%  wd = wdata(peaks(X,Y),{x,y})
+%  wd = wdata(peaks(X,Y),{x,y});
 %  waterfall(wd)
 %
 % See also mesh

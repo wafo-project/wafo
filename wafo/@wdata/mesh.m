@@ -9,15 +9,16 @@ function varargout = mesh(f,varargin)
 % Example
 %  x = linspace(-3,3); y=x;
 %  [X,Y] = meshgrid(x,y);
-%  wd = wdata(peaks(X,Y),{x,y})
-%  mesh(wd)
+%  wd = wdata(peaks(X,Y),{x,y});
+%  clf()
+%  mesh(wd);
 % %  Colorize peaks with clown image.
-%  c1 = load('clown')
-%  mesh(wd,flipud(c1.X),...
-%        'FaceColor','texturemap',...
-%        'EdgeColor','none',...
-%        'CDataMapping','direct')
-% colormap(c1.map)
+%%  c1 = load('clown');
+%%  mesh(wd,flipud(c1.X),...
+%%        'FaceColor','texturemap',...
+%%        'EdgeColor','none',...
+%%        'CDataMapping','direct');
+%% colormap(c1.map);
 %
 % See also mesh
 
@@ -39,6 +40,7 @@ if Nf>1
     varargout{1} = h;
   end
 else
-  [varargout{1:nargout}] = mesh(f.args{:},f.data,varargin{:});
+   args = _mesh_args(f);
+  [varargout{1:nargout}] = mesh(args{:},f.data,varargin{:});
   labelfig(f)
 end

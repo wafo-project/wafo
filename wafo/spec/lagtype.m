@@ -11,7 +11,7 @@ function ltype = lagtype(R)
 %
 % Example:
 %  R = spec2cov(jonswap);
-%  lagtype(R)
+%  assert(lagtype(R), 't')
 %
 % See also  datastructures
 

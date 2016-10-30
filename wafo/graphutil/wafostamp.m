@@ -125,7 +125,7 @@ if stamp~=0
   % the first axes) so that the other axes will be deleted
   % properly.
   %'tag','wafostmptxt',...
-  mkdeleteproxy(cax,ax,'WAFOSTAMPDeleteProxy')
+  mkdeleteproxy(cax,ax,'WAFOSTAMPDeleteProxy');
 
 
   if nargout>0
@@ -135,7 +135,7 @@ if stamp~=0
   % reset to the old state
   %%%%%%%%%%%%%%%%%%%%%%%%%%
   %set(cfig,'currentaxes',cax)  % reset to old axes
-  axes(cax)
+  axes(cax);
   
   
 end

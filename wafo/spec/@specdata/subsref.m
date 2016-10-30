@@ -30,8 +30,11 @@ function [b,varargout]= subsref(self,index)
 persistent legalMethodName legalFieldName parentFieldName outPutMethods
 if isempty(legalMethodName) || isempty(legalFieldName) || ...
     isempty(parentFieldName) || isempty(outPutMethods)
-  legalMethodName = methods(self,'-full');
-
+  if isoctave
+    legalMethodName = methods(self);
+  else  
+    legalMethodName = methods(self, '-full');
+  end
   legalFieldName = fieldnames(self);
   
   parents = parent(self);

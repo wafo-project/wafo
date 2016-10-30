@@ -96,3 +96,6 @@ if Nout>0
     end
   end
 end
+
+
+%!test assert(comnsize(rand(4,5), 2, rand(4,5)), [4,5])

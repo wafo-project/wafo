@@ -8,6 +8,12 @@ function ftype=freqtype(S)
 %          'k' if a wave number spectrum is given
 %      S = spectral density struct
 %
+%  Example
+%  S = demospec();
+%  assert(freqtype(S), 'w')
+%  S2 = ttspec(S);
+%  assert(freqtype(S2), 'f')
+%
 % See also  datastructures
 
 % History:

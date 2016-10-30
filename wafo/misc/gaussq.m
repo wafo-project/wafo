@@ -355,3 +355,21 @@ end
    clf
    plot([x_trace{:}],[y_trace{:}],'+')
  end
+ 
+%!test
+%! A = [0 1]; 
+%! B = [2,4];
+%! [val1,err1] = gaussq('(x.^2)',A,B);
+%! assert(val1, [ 2.66666666666667, 21.00000000000000], 1e-13)
+
+%!test
+%! A = [0 1]; 
+%! B = [2,4];
+%! [val2,err2] = gaussq('(1)',0,inf,[1e-3 3],[],2);
+%! assert(val2, 1, 1e-13)
+
+%!test
+%! A = [0 1]; 
+%! B = [2,4];
+%! [val3,err3] = gaussq('(x.^2)',0,inf,[1e-3 3],[],0);  
+%! assert(val3, 2, 1e-13)

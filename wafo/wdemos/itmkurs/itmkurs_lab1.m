@@ -56,7 +56,7 @@ plotnorm(x(:,2))
 
 
 S = dat2spec(deep);
-wspecplot(S);
+plotspec(S);
 
 S
 plot(S.w,S.S)

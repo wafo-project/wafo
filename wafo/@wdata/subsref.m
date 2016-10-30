@@ -1,7 +1,7 @@
 function [b,varargout] = subsref(self,index)
 %WDATA/SUBSREF Define field name indexing for objects or methods to apply
 %
-% 
+%
 % Examples
 %  x = linspace(0,5); 
 %  d = wdata(pdfray(x,1),x);
@@ -31,7 +31,11 @@ function [b,varargout] = subsref(self,index)
 
 persistent legalMethodName legalFieldName outPutMethods
 if isempty(legalMethodName) || isempty(legalFieldName) || isempty(outPutMethods)
-  legalMethodName = methods(self,'-full');
+  if isoctave
+    legalMethodName = methods(self);
+   else
+    legalMethodName = methods(self,'-full');
+   end
   legalFieldName = fieldnames(self);
   outPutMethods = {'char','fieldnames'};
 end

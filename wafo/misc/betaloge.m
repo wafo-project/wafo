@@ -32,3 +32,8 @@ y = stirlerr(z) + stirlerr(w) +0.5*log(2*pi)+(w-0.5).*log(w)+(z-0.5).*log(z)...
 % stirlings approximation:
 %  (-(zpw-0.5).*log(zpw) +(w-0.5).*log(w)+(z-0.5).*log(z) +0.5*log(2*pi));
 
+%!test assert(betaloge(1,1), 2.22044604925031e-016, 1e-12)
+%!test assert(betaloge(20,1), -2.99573227355399, 1e-14)
+%!test assert(betaloge(60,1), -4.09434456222215, 1e-14)
+%!test assert(betaloge(100,1), -4.60517018598807, 1e-14)
+%!test assert(betaloge(1000,1), -6.90775527898313, 1e-14)

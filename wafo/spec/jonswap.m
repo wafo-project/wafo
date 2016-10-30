@@ -54,7 +54,9 @@ function S1 = jonswap(w1,sdata,plotflag)
 %  default values are used. 
 %
 % Example:  % Bretschneider spectrum Hm0=7, Tp=11
-%      S = jonswap([],[0 0 1])
+%   S = jonswap(3,[0 0 1]);
+%   S2 = bretschneider(3);
+%   assert(S.S, S2.S, 1e-10)
 %
 % See also  pmspec, torsethaugen, simpson
 
@@ -114,7 +116,9 @@ function S1 = jonswap(w1,sdata,plotflag)
 
 %monitor=0; 
 
-if nargin<3||isempty(plotflag),  plotflag=0;end
+if nargin<3||isempty(plotflag),  
+  plotflag=0;
+ end
 
 Hm0=7;Tp=11; gam=0; sa=0.07; sb=0.09; A=-1;% default values
 data2=[Hm0 Tp gam sa sb A];
@@ -174,7 +178,7 @@ elseif A==0
   options.method = 'parametric';
 end
 jspec = mkjonswap(options);
-options = jspec('options');
+% options = jspec('options');
 gam = options.gamma;
 
 S1   = createspec;
@@ -182,9 +186,6 @@ S1.S = jspec(w(:));
 S1.w = w(:);
 S1.norm =0; % The spectrum is not normalized
 S1.note =['JONSWAP, Hm0 = ' num2str(Hm0)  ', Tp = ' num2str(Tp), ', gamma = ' num2str(gam)];
-
-
-
 
 if plotflag
   plotspec(S1,plotflag)

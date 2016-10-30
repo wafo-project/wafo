@@ -40,7 +40,7 @@ function initwafo(opt,add,first)
 % Updated by PJ 19-Jan-2000
 %   Now you need to set the path to WAFO root directory 
 %   before using initwafo.
-% by Pär Johannesson 29-Sep-1999
+% by Pï¿½r Johannesson 29-Sep-1999
 %   new routine 
 
 global WAFO_WSTATS_DEFAULT_PLOTFLAG
@@ -50,9 +50,9 @@ ni = nargin;
 %no = nargout;
 error(nargchk(0,3,ni));
 
-help('wafolicence')
-disp(' ')
-help('wafocitation')
+% help('wafolicence')
+% disp(' ')
+% help('wafocitation')
 if ni == 0, opt = []; end
 if ni<2, add = []; end
 if ni<3, first = []; end

@@ -13,7 +13,7 @@ function [phat] = fitgumb(data,varargin)
 %
 % Example:
 %   R = rndgumb(1,2,100,1,'trunc',1);
-%   phat = fitgumb(R)
+%   phat = fitgumb(R);
 %   plotfitsumry(phat)
 %
 % See also  pdfgumb, cdfgumb, invgumb, rndgumb, momgumb plotgumb
@@ -68,7 +68,7 @@ else
   start=6^(1/2)/pi*std(data); % Moment estimate of scale parameter a
 end
 
-ahat=fzero(@myfitgumb,start,options.optimset,data);
+ahat=fzero(@(p)myfitgumb(p,data),start,options.optimset);
 
 bhat=-ahat*log(mean(exp(-data/ahat)));
 phat0=[ahat, bhat];

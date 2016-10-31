@@ -24,7 +24,7 @@ function [phat]=fitweib(data,varargin)
 % Example:
 %  sz = [1 100]
 %   R=rndweib(10,2,1,sz);
-%   [phat] = fitweib(R)
+%   phat = fitweib(R);
 %   x = linspace(0,25,200).';
 %   [p,plo,pup] = cdfweib(x,phat);
 %   plotflag = 1012
@@ -113,7 +113,7 @@ function [phat,pcov] = fitml2(data,options)
 start = 1./(6^(1/2)/pi*std(log(data)));
 
 
-chat = fzero(@fitcweib,start,options.optimset,data);
+chat = fzero(@(p)fitcweib(p, data),start,options.optimset);
 
 
 ahat = mean(data.^chat).^(1./chat);

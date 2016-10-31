@@ -125,14 +125,15 @@ if options.search && ~allfixed
        warning('WAFO:MLEST','Minimization-routine did not converge!'); 
     end
   end
+  if somefixed
+      phat2(notfixed) = phat1;
+      phat1 = phat2;
+   end
 elseif ~allfixed && somefixed
   phat2(notfixed) = phat0;
+  phat1 = phat2;
 else
   phat1 = phat0;
-end
-if somefixed
-  phat2(notfixed) = phat1;
-  phat1 = phat2;
 end
 [LL, pcov,H]  = loglike(phat1,data,varargin{:},pdf);
 try

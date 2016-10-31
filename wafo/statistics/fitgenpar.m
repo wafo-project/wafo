@@ -43,9 +43,9 @@ function [phat] = fitgenpar(data,varargin)
 %   
 %   phat = fitgenpar(R,'method','ls');
 %   figure(1), plotfitsumry(phat)
-%   phat2 = fitgenpar(R,'method','ml')
+%   phat2 = fitgenpar(R,'method','ml');
 %   figure(2), plotfitsumry(phat2)
-%   phat3 = fitgenpar(R,'method','mps')
+%   phat3 = fitgenpar(R,'method','mps');
 %   figure(3), plotfitsumry(phat3)
 % 
 % See also plotfitsumry, pdfgenpar, cdfgenpar, invgenpar, rndgenpar, momgenpar
@@ -232,13 +232,17 @@ function [phat,pcov] = mpsfit(data,options)
 %     [phat0] = pkdfit(x,options);
 %   %end
 % end
-msgId = 'WAFO:PARSEOPTIONS';
-warnstate = warning('query',msgId);
-warning('off',msgId);
+if ~isoctave
+  msgId = 'WAFO:PARSEOPTIONS';
+  warnstate = warning('query',msgId);
+  warning('off',msgId);
+ end
 phat = fminsearch(@(p)logps(p, x,'lowertail',false,@cdfgenpar),phat0,options.optimset); 
 %,x,'lowertail',false,@cdfgenpar);
 %phat = fminsearch(@logps,phat0,options.optimset,x,@cdfgenpar);
-warning(warnstate);
+if ~isoctave
+  warning(warnstate);
+ end
 %fun1 = @(phat1) logps(phat1,x,'lowertail',false,@cdfgenpar);
 %Hfun = hessian(fun1,phat0 );
 %Gfun = @(phat1) gradest(fun1,phat1 );
@@ -392,7 +396,7 @@ function [phat,pcov]=pwmfit(data,options)
     %ksign = -1; % k<0
     shape = shape*(options.ksign==0 || sign(options.ksign)==sign(shape));
 
-    phat = fminsearch(@gpdfun,[shape,scale],options.optimset,xio(:),R1(:),options);
+    phat = fminsearch(@(p)gpdfun(p,xio(:),R1(:),options),[shape,scale],options.optimset);
 
     shape = phat(1);
     scale = phat(2);

@@ -20,7 +20,7 @@ function [phat]=fitgengam(data, varargin)
 % 
 % Example:
 %   R = rndgengam(2,2,2,1,100);
-%   phat = fitgengam(R)
+%   phat = fitgengam(R);
 %   plotfitsumry(phat)
 %
 % See also   pdfgengam,  cdfgengam, invgengam, rndgengam, momgengam
@@ -117,15 +117,15 @@ else
 end
 
 if strcmpi(options.method,'ml'),  % Maximum Likelihood
-  chat = fzero(@fitgengamml,start,options.optimset,data,logdata,meanlogdata,options);
+  chat = fzero(@(x)fitgengamml(x,data,logdata,meanlogdata,options),start,options.optimset);
   [L,ahat,bhat] = fitgengamml(chat,data,logdata,meanlogdata,options);
   phat0 = [ahat,bhat,chat];
 elseif  strcmpi(options.method,'mps'),  % Maximum product spacing
   
   chat = mean(start);
   [L,ahat,bhat] = fitgengamml(chat,data,logdata,meanlogdata,options);
-  phat0 = [ahat,bhat,chat];
-  [phat0 , dummy,Converged]= fminsearch(@logps,phat0,options.optimset,data,@cdfgengam);
+  phat0 = [ahat,bhat,chat]; 
+  phat0 = fminsearch(@(x)logps(x,data,@cdfgengam),phat0,options.optimset);
 elseif strcmpi(options.method,'ls')
    N = length(data);
    F = (0.5:N-0.5).'/N0;
@@ -133,7 +133,7 @@ elseif strcmpi(options.method,'ls')
    chat = start;
    [L,ahat,bhat] = fitgengamml(chat,data,logdata,meanlogdata,options);
    phat0 = [ahat,bhat,chat];
-   phat0 = fminsearch(@fitgengamls,phat0,options.optimset,data,logR,options);
+   phat0 = fminsearch(@(x)fitgengamls(x,data,logR,options),phat0,options.optimset);
 else
   error(['Unknown method ' options.method '.']);
   %ahat = ahat0;  
@@ -215,7 +215,7 @@ function [L,a1,b] = fitgengamml(c,data,logdata,meanlogdata,options)
     end
     a(a<=0) = nan; % Avoid error with psi/ gammaln for a<0 pab 27.01.2001
     n = numel(data);
-    L = log(n*a) - psi(0,a) + c*meanlogdata -log(sdc);
+    L = log(n*a) - psi(a) + c*meanlogdata -log(sdc);
     if nargout>2
       b = (sdc./n./a).^(1./c);
     end

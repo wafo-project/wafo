@@ -89,15 +89,15 @@ S = ttspec(S,'w');
 
 
 S1 = S.S(:);
-m0 = trapz(S.w,S1);
-Nw = length(S.w);
+w = S.w(:);
+m0 = trapz(w,S1);
+Nw = length(w);
 
 [Hs, Hd,Hdii] = qtf(S.w(:),h);
 
 %return
 %skew=6/sqrt(m0)^3*simpson(S.w,simpson(S.w,(Hs+Hd).*S1(:,ones(1,Nw))).*S1.');
-
-Hspd = trapz(S.w,trapz(S.w,(Hs+Hd).*S1(:,ones(1,Nw))).*S1.');
+Hspd = trapz(w',trapz(w,(Hs+Hd).*S1(:,ones(1,Nw))).*S1.');
 switch lower(method(1))
   case 'a', %approx : Marthinsen, T. and Winterstein, S.R (1992) method
     if nargout>2

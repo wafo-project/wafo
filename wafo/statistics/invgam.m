@@ -24,15 +24,16 @@ function [x,xlo,xup] = invgam(F,varargin)
 %
 % Example:
 %   a=1;b=1;    
-%   opt = {'lowertail',false,'logp',false}
+%   opt = {'lowertail',false,'logp',false};
 %   F0 = [logspace(log10(realmin),-1) linspace(0.2,1-1e-3) logspace(log10(1-sqrt(eps)),log1p(-eps)/log10(10))];
 %   %F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %   x  = invgam(F0,a,b,opt{:});
 %   F  = cdfgam(x,a,b,opt{:});
 %   semilogy(abs(F-F0)./F0+eps), shg % relative error
 % 
-%   opt = {'lowertail',false,'logp',true}
-%   x0 = [logspace(-90,log10(a/10)) linspace(a/5,3*a) logspace(log10(10*a),log10(50*a))];
+%   opt = {'lowertail',false,'logp',true};
+%   x0 = [logspace(-90,log10(a/10)), linspace(a/5,3*a), ...
+%         logspace(log10(10*a),log10(50*a))];
 %   F  = cdfgam(x0,a,b,opt{:});
 %   x  = invgam(F,a,b,opt{:});
 %   N0 = length(x0);

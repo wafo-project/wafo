@@ -83,13 +83,14 @@ function [D,options] = mkspreading(type,varargin)
 % Examples :
 %  options = mkspreading('defaults'); % get default options.
 %  options.sp(1) = 10;                % Set spa = 10
-%  D = mkspreading('cos2s',options)
+%  D = mkspreading('cos2s',options);
 %  w = linspace(0,3,257);
 %  theta = linspace(-pi,pi,129);
 %  contour(D(theta,w))
+%
 %        % Make frequency dependent direction
 %   options.theta0 = inline('pi/6*w');
-%   D2 = mkspreading('cos2s',options)
+%   D2 = mkspreading('cos2s',options);
 %  contour(D2(theta,w))
 %
 %  % Plot all spreading functions

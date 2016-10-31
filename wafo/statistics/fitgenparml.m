@@ -9,9 +9,11 @@ function [f,k,s] = fitgenparml(x,data)
 %
 % This function is used by fitgenpar for numerical solution of 
 % the ML estimate, i.e. solve f=0 for x.
+%
+% Example
 %   data = rndgenpar(0.3,1,0,200,1);
-%   x_ML = fzero('fitgenpar_ml',0,[],data);
-%   [f,k_ML,s_ML] = fitgenpar_ml(x_ML,data)  % Estimates k_ML and s_ML
+%   x_ML = fzero(@(p)fitgenpar_ml(p, data),0);
+%   [f,k_ML,s_ML] = fitgenparml(x_ML,data);  % Estimates k_ML and s_ML
 %
 % See also  fitgenpar
 

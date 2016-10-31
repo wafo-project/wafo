@@ -64,7 +64,7 @@ function [lcEst,Est,R,MSE] = cmat2extralc(param,F,u,method,plotflag)
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 10-Mar-2000
+% Created by PJ (Par Johannesson) 10-Mar-2000
 % Changed by PJ 14-Mar-2000
 %   Added sub-function 'make_increasing'
 % Changed by PJ 30-Mar-2000
@@ -259,10 +259,10 @@ function [lcEst,Est,MSE] = extrapolate(lc,method,plotflag,offset)
         x_start = [x(i) x(i+1)];
         if exist('optimset') >= 2 % Function 'optimset' exists ?
           % For Matlab 5.3 and higher ???
-          x_ML = fzero('fitgenpar_mld',x_start,optimset('disp','off'),dNN);
+          x_ML = fzero(@(x)fitgenpar_mld(x,dNN),x_start,optimset('disp','off'));
         else 
           % For Matlab 5.2 and lower ???
-          x_ML = fzero('fitgenpar_mld',x_start,[],[],dNN);
+          x_ML = fzero(@(x)fitgenpar_mld(x,dNN),x_start);
         end
         [f,shape,scale] = fitgenpar_mld(x_ML,dNN); % Estimates k_ML and s_ML
         

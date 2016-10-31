@@ -24,10 +24,12 @@ function phat = mlest(dist,phat0,data,options1,varargin)
 %                 optimization routine (see optimset for details)
 % Example
 %   R = rndbeta(2,0.5,1,100);
-%   phat0 = [2,2]
-%   phat =  mlest(@pdfbeta,phat0,R)
+%   phat0 = [2,2];
+%   phat =  mlest(@pdfbeta,phat0,R);
+%   plotfitsumry(phat)
 %   fixpar = [2,nan];
-%   phat2 = mlest(@pdfbeta,phat0(2),R,{'fixpar',fixpar})
+%   phat2 = mlest(@pdfbeta,phat0(2),R,{'fixpar',fixpar});
+%   plotfitsumry(phat2)
 %
 % See also loglike, logps, fminsearch, optimset
 
@@ -65,9 +67,10 @@ if nargin>3 && ~isempty(options1)
 end
 
 msgId = 'WAFO:PARSEOPTIONS';
-warnstate = warning('query',msgId);
-warning('off',msgId);
-
+if ~isoctave,
+  warnstate = warning('query',msgId);
+  warning('off',msgId);
+end
 if isnumeric(data)
   data = {data(:)};
 else
@@ -94,26 +97,33 @@ pdf = ['pdf' model ];
 cdf = ['cdf' model ];
 if options.search && ~allfixed
   if strcmpi(options.method,'ML')
-    if somefixed
-      logfun = @fxloglike;
-    else
-      logfun = @loglike;
-    end
     pdfOrCdf = pdf;
+    if somefixed
+      logfun = @(x)fxloglike(x, phat2, notfixed, data,varargin{:},pdfOrCdf);
+    else
+      logfun = @(x)loglike(x, data,varargin{:},pdfOrCdf);
+    end
+    
   elseif strcmpi(options.method,'MPS')
     data = num2cell(sortrows([data{:}]),1);
-    if somefixed
-      logfun = @fxlogps;
-    else
-      logfun = @logps;
-    end
     pdfOrCdf = cdf;
+    if somefixed
+      logfun = @(x)fxlogps(x, phat2, notfixed, data,varargin{:},pdfOrCdf);
+    else
+      logfun = @(x)logps(x,data,varargin{:},pdfOrCdf);
+    end
+    
   else
     error('Unknown method: %s',options.method)
   end
-  [phat1 , dummy,Converged]= fminsearch(logfun,phat0,options.optimset,data,varargin{:},pdfOrCdf);
-  if ~Converged 
-     warning('WAFO:MLEST','Minimization-routine did not converge!'); 
+  if isoctave,
+    phat1 = fminsearch(logfun,phat0,options.optimset);
+  else
+    [phat1 , dummy,Converged]= fminsearch(logfun,phat0,options.optimset);
+    
+    if ~Converged 
+       warning('WAFO:MLEST','Minimization-routine did not converge!'); 
+    end
   end
 elseif ~allfixed && somefixed
   phat2(notfixed) = phat0;
@@ -121,6 +131,7 @@ else
   phat1 = phat0;
 end
 if somefixed
+  phat2(notfixed) = phat1;
   phat1 = phat2;
 end
 [LL, pcov,H]  = loglike(phat1,data,varargin{:},pdf);
@@ -163,18 +174,19 @@ end
 
 if ~isoctave
   phat = fdata(phat);
+  warning(warnstate);
 end
 
-warning(warnstate);
-
-  function L = fxloglike(phat10,varargin)
-    %notfixed = find(isnan(options.fixpar));
-    phat2(notfixed) = phat10;
-    L = loglike(phat2,varargin{:});
-  end
-  function L = fxlogps(phat10,varargin)
-    %notfixed = find(isnan(options.fixpar));
-    phat2(notfixed) = phat10;
-    L = logps(phat2,varargin{:});
-  end
 end % mlest
+
+
+function L = fxloglike(phat10, phat2, notfixed, varargin)
+  %notfixed = find(isnan(options.fixpar));
+  phat2(notfixed) = phat10;
+  L = loglike(phat2,varargin{:});
+end
+function L = fxlogps(phat10, phat2, notfixed, varargin)
+  %notfixed = find(isnan(options.fixpar));
+  phat2(notfixed) = phat10;
+  L = logps(phat2,varargin{:});
+end

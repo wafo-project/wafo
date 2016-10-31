@@ -117,18 +117,15 @@ if  ~isempty(G)
   end
   if options.wdata
     G = createwdata('data',G(:,2:end),'args',G(:,1),'labels',{xlab,ylab},'note','EDFCND');  
-    if ~isoctave
-      G = wdata(G);
-    end
+    
+    G = wdata(G);
+    
   end
 end
 
 if options.wdata
   Fz = createwdata('data',Fz1,'args',z,'labels',{xlab,ylab},'note','EDFCND');
-  
-  if ~isoctave
-    Fz = wdata(Fz);
-  end
+  Fz = wdata(Fz);
 else
   Fz = [z(:),Fz1(:)];
 end

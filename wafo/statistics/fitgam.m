@@ -18,7 +18,7 @@ function [phat]=fitgam(data,varargin)
 %          
 % Example:
 %   R = rndgam(5,1,1,100);
-%   phat = fitgam(R)
+%   phat = fitgam(R);
 %   plotfitsumry(phat)
 %
 % See also  pdfgam, cdfgam, invgam, rndgam, momgam
@@ -92,7 +92,7 @@ if strcmpi(options.method,'ml'),  % Maximum Likelihood
   start = ahat0;
   %start = ahat1;
   
-  ahat = fzero(@localfitgam,start,options.optimset,G);
+  ahat = fzero(@(x)localfitgam(x,G),start,options.optimset);
   
 elseif  strcmpi(options.method,'mps'),  % Maximum product spacing
   dosearch = true;

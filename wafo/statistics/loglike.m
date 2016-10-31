@@ -136,7 +136,8 @@ if nargout >1
     case 4,
       % Approximate the derivate using the function Hessian
       %  This is much more accurate than the methods above.
-      [pcov, H] = estcov4;
+      fun = @(phat1)myloglike(phat1, data, myfun, dist, options);
+      [pcov, H] = estcov4(fun, phat);
       return
       if any(det(pcov)<0)
         [pcov,H] = estcov2;
@@ -270,18 +271,18 @@ end
     pcov = -pinv(H); 
   end
 
-  function [pcov,H,err] = estcov4
-    
-    [H,err] = hessian(@myloglike,phat,'RombergTerms',4);
+  function [pcov,H,err] = estcov4(fun, phat),
+    [H,err] = hessian(fun, phat,'RombergTerms',4);
     pcov = -pinv(H);
   end
-  function L = myloglike(phat1)
+  
+end % loglike
+function L = myloglike(phat1, data, myfun, dist, options)
     sparam2 = num2cell(phat1,1);
     x  = feval(dist,data{:},sparam2{:},options{:}); 
     L = sum(myfun(x));
-  end
-end % loglike
-
+ end
+  
 function y=donothing(x)
   y=x;
 end

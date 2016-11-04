@@ -36,7 +36,8 @@ function [Sn,mn,mom]=scalespec(So,m0n,m2n,plotflag)
 %   m0n = (Hm0b/4)^2; 
 %   m2n = 4*pi^2*m0n*Hm0/(Tm02^2*Hm0b); 
 %   Sn = scalespec(Sj,m0n,m2n,1);
-%   ch2 = spec2char(Sn,{'Hm0','Tm02','Ss'})
+%   assert(spec2char(Sn,{'Hm0','Tm02','Ss'}),...
+%       [ 12.0003689455427818, 9.9702039670038527, 0.0773502064191521], 1e-4)
 %
 % See also  specnorm, spec2mom
  

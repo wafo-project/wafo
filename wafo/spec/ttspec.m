@@ -20,12 +20,14 @@ function Snew = ttspec(S,varargin)
 %
 % Examples: % Change from angular frequency to frequency in Hz and from
 %           % angle in radians to angle in degrees.  
-%         S   = demospec('dir');
-%         Sf  = ttspec(S);
-%         Sf1 = ttspec(Sf,'f','d'); % = ttspec(Sf,'f','degrees'); 
-%         plotspec(S,3), figure(2)
-%         plotspec(Sf,3), figure(3)
-%         plotspec(Sf1,3)
+%    S   = demospec('dir');
+%    Sf  = ttspec(S);
+%    Sf1 = ttspec(Sf,'f','d'); % = ttspec(Sf,'f','degrees'); 
+%    plotspec(S,3), figure(2)
+%    plotspec(Sf,3), figure(3)
+%    plotspec(Sf1,3)
+%
+%    close('all')
 %
 % See also  datastructures
 

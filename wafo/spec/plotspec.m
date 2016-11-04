@@ -266,9 +266,9 @@ switch lower(S.type(end-2:end))
     end      
     if LegendOn
       if isfield(S,'CI'),
-        legend(txt{:},txtCI,1)
+        legend(txt{:},txtCI)
       else
-        legend(txt{:},1)
+        legend(txt{:})
       end
     end
   case {'k2d'}
@@ -461,10 +461,14 @@ function  xtxt = num2pistr(x,N)
 if nargin<2||isempty(N)
   N=3;
 end
-[num den]=rat(x/pi);
+den = 0;
+num = 0;
+if x!=0,
+  [num, den] = rat(x/pi);
+end
 if (den<10) && (num<10) && (num~=0),
   if abs(den)==1,
-    dtxt=[]; 
+    dtxt=''; 
   else
     dtxt=['/' num2str(den)];
   end % denominator
@@ -472,7 +476,7 @@ if (den<10) && (num<10) && (num~=0),
     if num==-1,
       ntxt='-';
     else
-      ntxt=[];
+      ntxt='';
     end
   else 
     ntxt=num2str(num); 

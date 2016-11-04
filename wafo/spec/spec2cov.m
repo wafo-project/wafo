@@ -46,6 +46,8 @@ function  R = spec2cov(S,nr,Nt,rate,Nx,Ny,dx,dy)
 %    semilogy(abs(R2.R-R.R)), hold on,
 %    semilogy(abs(S1.S-S.S)+1e-7,'r')  
 %  
+%    close all
+%
 % See also  cov2spec, datastructures
 
 % NB! requires simpson

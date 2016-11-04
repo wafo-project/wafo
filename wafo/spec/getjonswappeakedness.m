@@ -33,6 +33,8 @@ function gam = getjonswappeakedness(Hm0,Tp)
 % plot(Tp,gam)
 % xlabel('Tp [s]')  
 % ylabel('Peakedness parameter')
+%
+% close all
 %  
 % See also jonswap  
   

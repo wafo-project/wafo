@@ -27,8 +27,8 @@ function [Snew]=spec2spec(S,newtype,phi,v)
 % singularity hence spec2mom may give uncorrect values for the moments.
 %  
 % Example: 
-%    S    = demospec('dir')
-%    Snew = spec2spec(S,'enc',pi/6,10)
+%    S    = demospec('dir');
+%    Snew = spec2spec(S,'enc',pi/6,10);
 %
 % See also  datastructures, rotspec
 

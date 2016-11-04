@@ -100,7 +100,9 @@ function [D,options] = mkspreading(type,varargin)
 %   figure(ix)
 %   contour(D3(theta,w)),title(alltypes{ix})
 % end
-%  
+%
+% close all
+% 
 % See also  mkdspec, plotspec, spec2spec
  
 % References
@@ -224,27 +226,84 @@ if nargin<1||isempty(type),
 end
 switch type(1)
   case 'c'
-    D = @cos2s;
+    D = @(varargin)cos2s(options, varargin{:});
   case 'b'
-    D = @box;
+    D = @(varargin)box(options,varargin{:});
   case 'm'
-    D = @mises;
+    D = @(varargin)mises(options,varargin{:});
   case 'p' 
-    D = @poisson;
+    D = @(varargin)poisson(options,varargin{:});
   case 's'
-    D = @sech2;
+    D = @(varargin)sech2(options,varargin{:});
   case 'w'
-    D = @wnormal;
+    D = @(varargin)wnormal(options,varargin{:});
   otherwise
     error('WAFO:MKSPREADING','Unknown type of spreading function')
 end
-  
+
+end % mkspreading function
+
 %% Nested subfunctions
-  
-  function [s_par,TH,phi0,Nt] = inputchk(theta,w,wc)
+function s =  getspread(wn, options) 
+% GETSPREAD Return spread parameter, S, of COS2S function 
+%
+% CALL S =  getspread(wn, options) 
+%
+% S       = spread parameter of COS2S functions
+% wn       = normalized frequencies.
+% options = input options structure
+  switch options.method,
+  case {0,'none','n'} %isempty(wn)
+    % no frequency dependent spreading,
+    % but possible frequency dependent direction
+    s = options.sp(1);
+  otherwise
+    %wn   = w./options.wc; % normalized frequency
+    wlim = options.wnlimits;
+    spa  = options.sp(1);
+    spb  = options.sp(2);
+    ma   = options.m(1);
+    mb   = options.m(2);
+    
+    k = find(wlim(3)<wn);
+    % Mitsuyasu et. al and Hasselman et. al parametrization   of
+    % frequency dependent spreading
+    numZeros = find(wn<=wlim(1),1,'last');
+    s = [ zeros(numZeros,1) ; ...
+      spa*(wn((wlim(1)<wn) & (wn<=wlim(2)))).^ma ;...
+      spb*(wn((wlim(2)<wn) & (wn<=wlim(3)))).^mb ;...
+      zeros(length(k),1) ].';
+    if any(k)
+      switch options.method
+        case {2,'donelan','d'}
+          % Donelan et. al. parametrization for B in SECH-2
+          s(k) = spb*(wlim(3)).^mb;
+          
+         % Convert to S-paramater in COS-2S distribution
+          r1 = r1ofsech2(s);
+          s  = r1/(1-r1);
+          
+        case {3,'banner','b'}
+          % Banner parametrization  for B in SECH-2
+         s3m   = spb*(wlim(3)).^mb;
+         s3p   = donelan(wlim(3));
+         scale = s3m/s3p; % Scale so that parametrization will be continous
+         s(k)  = scale*donelan(wn(k));
+         
+         % Convert to S-paramater in COS-2S distribution
+          r1 = r1ofsech2(s);
+          s  = r1/(1-r1);
+         
+      end
+    end
+  end
+end % get spread
+
+
+  function [s_par,TH,phi0,Nt] = inputchk(options, theta,w,wc, type)
     % INPUTCHK
     %
-    %  CALL [s_par,TH,phi0,Nt] = inputchk(theta,w,wc)
+    %  CALL [s_par,TH,phi0,Nt] = inputchk(options, theta,w,wc, type)
     %
 
     % Default values
@@ -266,14 +325,14 @@ end
 %   if Nt<40,
 %     warning('WAFO:mkspreading','Number of angles is less than 40. Spreading too sparsely sampled!'),
 %   end
-   if nargin<3 || isempty(wc),
+   if nargin<4 || isempty(wc),
      wc = 1; % Peak frequency
    end
   theta = theta(:);
   Nt = length(theta);
 
 
-  if nargin<2||isempty(w),
+  if nargin<3||isempty(w),
     w    = 1 ; %linspace(0,6,Nw).';
   else
     w   = w(:)/wc;
@@ -342,10 +401,10 @@ end
 end % function inputchk
 
 
-function [D, phi0] = cos2s(theta,w,wc)
+function [D, phi0] = cos2s(options, theta,w,wc)
 %COS2S COS2S spreading function
 % 
-% CALL  [D, phi0] = cos2s(theta,w,wc);
+% CALL  [D, phi0] = cos2s(options, theta,w,wc);
 %       [D, phi0] = cos2s(Nt,w); 
 % 
 %   D    = matrix of directonal spreading function, COS2S, defined as
@@ -359,20 +418,20 @@ function [D, phi0] = cos2s(theta,w,wc)
 %  theta = vector of angles given in radians. Lenght Nt
 %  w     = vector of angular frequencies given rad/s. Length Nw.
 %
-if strncmpi(theta,'options',1)
-  D = options;
-  return
-end
+    if strncmpi(theta,'options',1)
+      D = options;
+      return
+    end
 
-if nargin<2
-  w = [];
-end
-if nargin<3
-  wc = [];
-end
+    if nargin<3
+      w = [];
+    end
+    if nargin<4
+      wc = [];
+    end
 
   
-    [s,TH,phi0,Nt] = inputchk(theta,w,wc);
+    [s,TH,phi0,Nt] = inputchk(options, theta, w, wc, 'cos2s');
 
     
     if options.method(1)=='n'
@@ -385,10 +444,10 @@ end
 
 
 
-  function [D,phi0] = poisson(theta,w,wc)
+  function [D,phi0] = poisson(options, theta,w,wc)
     %POISSON POISSON spreading function
     %
-    % CALL  [D, phi0] = poisson(theta,w,wc);
+    % CALL  [D, phi0] = poisson(options, theta,w,wc);
     %
     %   D    = matrix of directonal spreading function, POISSON, defined as
     %
@@ -405,15 +464,15 @@ end
       D = options;
       return
     end
-    if nargin<2
+    if nargin<3
       w = [];
     end
-    if nargin<3
+    if nargin<4
       wc = [];
     end
 
     
-    [r1,TH,phi0,Nt] = inputchk(theta,w,wc);
+    [r1,TH,phi0,Nt] = inputchk(options, theta,w,wc, 'poisson');
     
     if options.method(1)=='n'
       X = r1;
@@ -426,10 +485,10 @@ end
     D    = (1-X.^2)./(1-(2*cos(TH)-X).*X)/(2*pi);
   end % function poissong
 
-  function [D,phi0] = wnormal(theta,w,wc)
+  function [D,phi0] = wnormal(options, theta,w,wc)
     %WNORMAL Wrapped Normal spreading function
     %
-    % CALL  [D, phi0] = wnormal(theta,w,wc);
+    % CALL  [D, phi0] = wnormal(options, theta,w,wc);
     %
     %   D    = matrix of directonal spreading function, WNORMAL, defined as
     %
@@ -445,14 +504,14 @@ end
       D = options;
       return
     end
-    if nargin<2
+    if nargin<3
       w = [];
     end
-    if nargin<3
+    if nargin<4
       wc = [];
     end
 
-    [par,TH,phi0,Nt] = inputchk(theta,w,wc);
+    [par,TH,phi0,Nt] = inputchk(options, theta,w,wc, 'wnormal');
 
     D1 = par.^2/2;
     if options.method(1)~='n',
@@ -471,10 +530,10 @@ end
     D(D<0)=0;
   end % function wrapped normal.
 
-  function [D,phi0] = sech2(theta,w,wc)
+  function [D,phi0] = sech2(options, theta,w,wc)
     %SECH2 Sech^2 spreading function
     %
-    % CALL  [D, phi0] = sech2(theta,w,wc);
+    % CALL  [D, phi0] = sech2(options, theta,w,wc);
     %
     %   D    = matrix of directonal spreading function, SECH2, defined as
     %
@@ -490,14 +549,14 @@ end
       D = options;
       return
     end
-    if nargin<2
+    if nargin<3
       w = [];
     end
-    if nargin<3
+    if nargin<4
       wc = [];
     end
 
-    [par,TH,phi0,Nt] = inputchk(theta,w,wc);
+    [par,TH,phi0,Nt] = inputchk(options, theta,w,wc, 'sech2');
     NB = tanh(pi*par); % Normalization factor.
     NB(NB==0) = 1;     % Avoid division by zero
     if options.method(1)=='n'
@@ -509,10 +568,10 @@ end
     D = 0.5*B.*sech(B.*TH).^2./NB;
   end % function sech-2
 
- function [D,phi0] = mises(theta,w,wc)
+ function [D,phi0] = mises(options, theta,w,wc)
    %MISES Mises spreading function
    %
-   % CALL  [D, phi0] = mises(theta,w,wc);
+   % CALL  [D, phi0] = mises(options, theta,w,wc);
    %
    %   D    = matrix of directonal spreading function, MISES, defined as
    %
@@ -528,14 +587,14 @@ end
      D = options;
      return
    end
-   if nargin<2
+   if nargin<3
      w = [];
    end
-   if nargin<3
+   if nargin<4
      wc = [];
    end
 
-   [par,TH,phi0,Nt] = inputchk(theta,w,wc);
+   [par,TH,phi0,Nt] = inputchk(options, theta,w,wc, 'mises');
    if options.method(1)=='n'
      K = par;
    else
@@ -546,10 +605,10 @@ end
    
  end % function mises
 
- function [D,phi0] = box(theta,w,wc)
+ function [D,phi0] = box(options, theta,w,wc)
    %BOX Box car spreading function
    %
-   % CALL  [D, phi0] = box(theta,w,wc);
+   % CALL  [D, phi0] = box(options, theta,w,wc);
    %
    %   D    = matrix of directonal spreading function, SECH2, defined as
    %
@@ -566,14 +625,14 @@ if strncmpi(theta,'options',1)
   D = options;
   return
 end
-if nargin<2
+if nargin<3
   w = [];
 end
-if nargin<3
+if nargin<4
   wc = [];
 end
 
-  [par,TH,phi0,Nt] = inputchk(theta,w,wc);
+  [par,TH,phi0,Nt] = inputchk(options, theta,w,wc, 'box');
   if any(par>pi), 
     error('WAFO:MKSPREADING:BOX','BOX-CAR spreading: The A value must be less than pi'),
   end
@@ -585,7 +644,7 @@ end
   D=(-A<=TH & TH<=A)./(2.*A); 
  end % function box
  %% End of Nested functions
-end % mkspreading function
+
 
 %% Local sub functions
 
@@ -694,61 +753,6 @@ end
   %plot(x,x(:)-x0)
 end % fourier2distpar function
 
-function s =  getspread(wn, options) 
-% GETSPREAD Return spread parameter, S, of COS2S function 
-%
-% CALL S =  getspread(wn, options) 
-%
-% S       = spread parameter of COS2S functions
-% wn       = normalized frequencies.
-% options = input options structure
-switch options.method,
-  case {0,'none','n'} %isempty(wn)
-    % no frequency dependent spreading,
-    % but possible frequency dependent direction
-    s = options.sp(1);
-  otherwise
-    %wn   = w./options.wc; % normalized frequency
-    wlim = options.wnlimits;
-    spa  = options.sp(1);
-    spb  = options.sp(2);
-    ma   = options.m(1);
-    mb   = options.m(2);
-    
-    k = find(wlim(3)<wn);
-    % Mitsuyasu et. al and Hasselman et. al parametrization   of
-    % frequency dependent spreading
-    numZeros = find(wn<=wlim(1),1,'last');
-    s = [ zeros(numZeros,1) ; ...
-      spa*(wn((wlim(1)<wn) & (wn<=wlim(2)))).^ma ;...
-      spb*(wn((wlim(2)<wn) & (wn<=wlim(3)))).^mb ;...
-      zeros(length(k),1) ].';
-    if any(k)
-      switch options.method
-        case {2,'donelan','d'}
-          % Donelan et. al. parametrization for B in SECH-2
-          s(k) = spb*(wlim(3)).^mb;
-          
-         % Convert to S-paramater in COS-2S distribution
-          r1 = r1ofsech2(s);
-          s  = r1/(1-r1);
-          
-        case {3,'banner','b'}
-          % Banner parametrization  for B in SECH-2
-         s3m   = spb*(wlim(3)).^mb;
-         s3p   = donelan(wlim(3));
-         scale = s3m/s3p; % Scale so that parametrization will be continous
-         s(k)  = scale*donelan(wn(k));
-         
-         % Convert to S-paramater in COS-2S distribution
-          r1 = r1ofsech2(s);
-          s  = r1/(1-r1);
-         
-      end
-    end
-end
-end % get spread
-  
 
 function s = donelan(wn)
 %DONELAN High frequency decay of B of sech2 paramater

@@ -123,7 +123,7 @@ if doInterpolate>0
   %wnc = min(wnNew,wnOld-1e-5);
   wnc = wnNew;
   for ix = 1:np
-    x = fplot(@(x)evalspec(x,ix),[0,wnc]);
+    [x, _y] = discretize(@(x)evalspec(x,ix), 0, wnc, 'method','adaptive');
     dwMin = min(min(diff(x)),dwMin);
   end
   
@@ -146,7 +146,7 @@ if size(Snew.S,1)<2
 end
 
   function Sout = evalspec(win,thi)
-    Sout = interp1(w,S1(thi,:),win,'pchip',0);
+    Sout = interp1(w, S1(thi,:), win, 'pchip');
   end %
 end % function specinterp
 

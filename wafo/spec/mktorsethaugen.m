@@ -34,8 +34,8 @@ function [H, Hw, Hs]=mktorsethaugen(varargin)
 %
 % Example: 
 %  S = mktorsethaugen('Hm0',6, 'Tp',8);
-%  fplot(@(w)S(w),[0,5]);
-%  options = mktorsethaugen('defaults')
+%  fplot(S,[0,5]);
+%  options = mktorsethaugen('defaults');
 %  assert(fieldnames(options), {'Hm0', 'Tp', 'method', 'wnc', 'chkseastate'}')
 %  assert(struct2cell(options), {7,11,'integration', 6, 'on'}')
 %  options = S('options');
@@ -45,6 +45,8 @@ function [H, Hw, Hs]=mktorsethaugen(varargin)
 %             'Ag', 'N', 'M', 'method', 'wnc', 'chkseastate'}')
 %  assert(fieldnames(options.Hsoptions), {'Hm0', 'Tp', 'gamma', 'sigmaA', 'sigmaB',...
 %             'Ag', 'N', 'M', 'method', 'wnc', 'chkseastate'}')
+%
+%  close all
 %
 % See also  mkjonswap, mkbretschneider.
 
@@ -86,48 +88,60 @@ options = parseoptions(options,varargin{:});
 if strcmpi(options.chkseastate,'on')
   chkseastate(options)
 end
-[Hw,Hs] = mktspec(options);
-options.Hw = Hw;
-options.Hs = Hs;
-H = class(options, 'mktorsethaugen');
+
+[Hw, Hs] = mktspec(options);
+H = @(w)torsethaugen(options, Hw, Hs, w);
 
 return
-%% Nested function
-  
 end % mktorsethaugen
 
 %% Subfunctions
+
+function S = torsethaugen(options, Hw, Hs, w)
+%TORSETHAUGEN spectral density
+%
+% CALL        S = torsethaugen(w)
+%       options = torsethaugen('options')
+%
+  if strncmpi(w,'options',1)
+    S = options;
+    S.Hwoptions = Hw(w);
+    S.Hsoptions = Hs(w);
+  else
+    S = Hw(w)+Hs(w);
+  end
+end
+
+
 function chkseastate(options)
 %
-  Hm0 = options.Hm0;
-  Tp = options.Tp;
+Hm0 = options.Hm0;
+Tp = options.Tp;
 
-  if Hm0<0
-    error('WAFO:MKTORSETHAUGEN','Hm0 can not be negative!')
-  end
+if Hm0<0
+  error('WAFO:MKTORSETHAUGEN','Hm0 can not be negative!')
+end
 
-  if Tp<=0
-    error('WAFO:MKTORSETHAUGEN','Tp must be positve!')
-  end
-
-
-  if Hm0==0
-    warning('WAFO:MKTORSETHAUGEN','Hm0 is zero!')
-  end
+if Tp<=0
+  error('WAFO:MKTORSETHAUGEN','Tp must be positve!')
+end
 
 
-  if Hm0>11 || Hm0>max((Tp/3.6).^2, (Tp-2)*12/11)
-    warning('WAFO:TORSETHAUGEN','Hm0 is outside the valid range.\n The validity of the spectral density is questionable')
-  end
-  if Tp>20||Tp<3
-    warning('WAFO:TORSETHAUGEN','Tp is outside the valid range.\n The validity of the spectral density is questionable')
-  end
+if Hm0==0
+  warning('WAFO:MKTORSETHAUGEN','Hm0 is zero!')
+end
+
+
+if Hm0>11 || Hm0>max((Tp/3.6).^2, (Tp-2)*12/11)
+  warning('WAFO:TORSETHAUGEN','Hm0 is outside the valid range.\n The validity of the spectral density is questionable')
+end
+if Tp>20||Tp<3
+  warning('WAFO:TORSETHAUGEN','Tp is outside the valid range.\n The validity of the spectral density is questionable')
+end
 
 
 
 end % chk seastate
-
-
 function [Hwind,Hswell] = mktspec(options)
   % MKTSPEC Return function handles to swell and wind part of Torsethaugen spectrum
   %
@@ -260,5 +274,4 @@ function [Hwind,Hswell] = mktspec(options)
   Hswell = mkjonswap('Hm0',Hps,'Tp',Tps,'gamma',gammas,'N',Ns,'M',Ms,'method',options.method,'chkseastate','off');
 
 end % mktspec
-
 

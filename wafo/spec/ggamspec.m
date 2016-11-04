@@ -28,6 +28,8 @@ function S = ggamspec(wn,N,M)
 % assert(S(20:23),[0.705228792417578, 0.851577790974086,...
 %                  0.974063777767012, 1.066965081263566], 1e-10)
 %
+%  close all
+%
 % See also mkbretschneider, mkjonswap, mktorsethaugen
 
 

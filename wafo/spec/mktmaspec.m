@@ -39,7 +39,7 @@ function H = mktmaspec(varargin)
 % Example:  
 %    options = mktmaspec('defaults'); % default options
 %    options.h = 20;options.gamma = 1;
-%    S = mktmaspec(options)   % Bretschneider spectrum Hm0=7, Tp=11
+%    S = mktmaspec(options);   % Bretschneider spectrum Hm0=7, Tp=11
 %    for h = [10 21 42]
 %      S = mktmaspec('h',h);
 %      fplot(S,[0 3]), hold on
@@ -84,39 +84,33 @@ function H = mktmaspec(varargin)
 %      so that the transfer function value is low. This low range is 
 %      especially important when studying velocities and accelerations.
 
-error(nargchk(0,inf,nargin))
+  error(nargchk(0,inf,nargin))
 
 
-options = struct('h',42,'Hm0',7,'Tp',11,'gamma',[],...
-  'sigmaA',0.07,'sigmaB',0.09,'Ag',[],'N',5,'M',4,...
-  'method','integration','wnc',6,'chkseastate','on');
+  options = struct('h',42,'Hm0',7,'Tp',11,'gamma',[],...
+    'sigmaA',0.07,'sigmaB',0.09,'Ag',[],'N',5,'M',4,...
+    'method','integration','wnc',6,'chkseastate','on');
 
-if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
-  H = options;
-  return
-end
-options = parseoptions(options,varargin{:});
-Hj = mkjonswap(options); % Handle to jonswap function
-H  = @tmaspec;
-
-  function S = tmaspec(w)
-  %TMASPEC Return actual TMA spec values  
-  % 
-  % CALL      S = tmaspec(w)
-  %     options = tmaspec('options')
-  %
- 
-    if strncmpi(w,'options',1)
-      S = options;
-    else
-      S = Hj(w).*phi1(w,options.h);
-    end
+  if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
+    H = options;
+    return
   end
+  options = parseoptions(options,varargin{:});
+  jonswap = mkjonswap(options); % Handle to jonswap function
+  H  = @(w)tmaspec(options, jonswap, w);
 end % function mktmaspec
 
-function tmaspec()
-%TMASPEC 
-% This is a trick to get matlab help function work for nested functions!
-%  help mktmaspec>tmaspec will work. 
-end
 
+function S = tmaspec(options, jonswap, w)
+%TMASPEC Return actual TMA spec values  
+% 
+% CALL      S = tmaspec(w)
+%     options = tmaspec('options')
+%
+ 
+  if strncmpi(w,'options',1)
+    S = options;
+  else
+    S = jonswap(w).*phi1(w,options.h);
+  end
+end

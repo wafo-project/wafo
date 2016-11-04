@@ -36,11 +36,13 @@ function H=mkbretschneider(varargin)
 %           Tm01 = 1.086*Tz, Tp = 1.408*Tz and Tp=1.2965*Tm01
 %
 % Example:
-%  S = mkbretschneider('Hm0',6.5,'Tp' ,10);
-%  fplot(@(w)S(w),[0,4])
+%  S = mkbretschneider('Hm0',6.5,'Tp' ,10); 
+%  fplot(S,[0,4])
 %  options = S('options'); % get options used
 %  assert(fieldnames(options), {'Hm0', 'Tp', 'N', 'M', 'chkseastate'}')
 %  assert(struct2cell(options), {6.5,10,5,4,'on'}')
+%
+%  close()
 %
 % See also  mkjonswap, mktorsethaugen
 
@@ -58,22 +60,44 @@ function H=mkbretschneider(varargin)
 % his spectrum in 1959, ITTC, ISSC and Pierson-Moskovitz spectra came first
 % in 1964.
 
-  error(nargchk(0,inf,nargin))
-  options = struct('Hm0',7,'Tp',11,'N',5,'M',4,'chkseastate','on');
-  if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
-    H = options;
-    return
-  end
-  options = parseoptions(options, varargin{:});
+error(nargchk(0,inf,nargin))
+options = struct('Hm0',7,'Tp',11,'N',5,'M',4,'chkseastate','on');
+if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
+  H = options;
+  return
+end
+options = parseoptions(options,varargin{:});
 
-  if strcmpi(options.chkseastate,'on')
-    chkseastate(options);
-  end
+if strcmpi(options.chkseastate,'on')
+  chkseastate(options)
+end
 
-  H = class(options, 'mkbretschneider');
+
+H = @(w)bretschneider(options, w);
+return
 end %mkbretschneider
-
 %% Subfunctions
+
+function S = bretschneider(options, w)
+%BRETSCHNEIDER spectral density
+%
+% CALL        S = bretschneider(w)
+%       options = bretschneider('options')
+%
+  if strncmpi(w,'options',1)
+    S = options;
+  else
+    if options.Hm0>0
+      wp = 2*pi/options.Tp;
+      wn = w./wp;
+      S = (options.Hm0/4)^2/wp * ggamspec(wn,options.N,options.M);
+    else
+      S = zeros(size(w));
+    end
+  end
+end %bretschneider
+
+
 function chkseastate(options)
   Tp = options.Tp;
   Hm0 = options.Hm0;

@@ -40,7 +40,9 @@ function [S, Sw, Ss]=torsethaugen(w1,sdata,plotflag)
 % are available.
 %
 % Example:
-% [S,Sw,Ss]=torsethaugen([],[6 8],1)
+% [S,Sw,Ss]=torsethaugen([],[6 8],1);
+%
+% close all
 %
 % See also  jonswap, pmspec.
 

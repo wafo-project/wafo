@@ -52,11 +52,11 @@ function H = mkjonswap(varargin)
 %     assert(struct2cell(options), ...
 %            {7,11,[],0.07,0.09,[],5,4,'integration', 6, 'on'}')
 %     options.gamma = 1;
-%     S = mkjonswap(options)
+%     S = mkjonswap(options);
 %  % or alternatively
 %     S = mkjonswap('gamma', 1);
 %  % Plot the spectrum by
-%     fplot(@(x)S(x),[0,5]) 
+%     fplot(S,[0,5]) 
 %  % or alternatively
 %     w = linspace(0,5);
 %     plot(w, S(w))
@@ -64,9 +64,11 @@ function H = mkjonswap(varargin)
 %   options2 = S('options'); % get options used
 %
 %   S2 = mkbretschneider(options);
-%   [x,y] = fplot(@(x)S(x),[0,4]);
+%   [x,y] = fplot(S,[0,4]);
 %   y2 = S2(x);
 %   assert(y,y2,eps) %JONSWAP with gamma=1 equals Bretscneider!
+%
+%   close all
 %
 % See also  mkjonswap>jonswap, mktmaspec, mkbretschneider, mktorsethaugen, getjonswappeakedness
 
@@ -86,6 +88,8 @@ function H = mkjonswap(varargin)
 % By pab Jan 2007
 % New enhanced implementation based on old jonswap and torsethaugen functions.
 
+
+
 %NOTE: In order to calculate the short term statistics of the response,
 %      it is extremely important that the resolution of the transfer
 %      function is sufficiently good. In addition, the transfer function
@@ -99,111 +103,162 @@ function H = mkjonswap(varargin)
 %      especially important when studying velocities a
 
 
-  error(nargchk(0,inf,nargin))
+error(nargchk(0,inf,nargin))
 
 
-  options = struct('Hm0',7,'Tp',11,'gamma',[],...
-    'sigmaA',0.07,'sigmaB',0.09,'Ag',[],'N',5,'M',4,...
-    'method','integration','wnc',6,'chkseastate','on');
+options = struct('Hm0',7,'Tp',11,'gamma',[],...
+  'sigmaA',0.07,'sigmaB',0.09,'Ag',[],'N',5,'M',4,...
+  'method','integration','wnc',6,'chkseastate','on');
 
-  if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
-    H = options;
-    return
-  end
-  options = parseoptions(options,varargin{:});
-  if isempty(options.gamma) || isnan(options.gamma) || options.gamma<1
-    options.gamma = getjonswappeakedness(options.Hm0,options.Tp);
-  end
-  options = preCalculateAg(options);
-  if strcmpi(options.chkseastate,'on')
-    chkseastate(options)
-  end
-  H = class(options, 'mkjonswap');
+if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
+  H = options;
+  return
+end
+options = parseoptions(options,varargin{:});
+if isempty(options.gamma) || isnan(options.gamma) || options.gamma<1
+  options.gamma = getjonswappeakedness(options.Hm0,options.Tp);
+end
+options = preCalculateAg(options);
+if strcmpi(options.chkseastate,'on')
+  chkseastate(options)
+end
 
+
+H = @(w)jonswap(options, w);
+return
 end % mkjonswap
-
 
 %% Subfunctions
 
-function S = localspec(wn, options)
-    Gf = peakEnhancementFactor(wn,options);
-    S = Gf.*ggamspec(wn,options.N, options.M);
-end % local spec
-  
+function S = jonswap(options, w)
+%JONSWAP spectral density
+% 
+% CALL      S = jonswap(w)
+%     options = jonswap('options')
+%
+
+
+  if strncmpi(w,'options',1)
+    S = options;
+  else
+    if (options.Hm0>0)
+    
+      N   = options.N;
+      M   = options.M;
+      wp  = 2*pi/options.Tp;
+      wn  = w/wp;
+      Ag  = options.Ag;
+      Hm0 = options.Hm0;
+      Gf  = peakEnhancementFactor(wn,options);
+      S   = ((Hm0/4)^2/wp.*Ag).*Gf.*ggamspec(wn,N,M);
+    else
+      S = zeros(size(w));
+    end
+  end
+end % jonswap
+
+
+function Gf = peakEnhancementFactor(wn,options)
+%PEAKENHANCEMENTFACTOR 
+%
+% 
+
+gam = options.gamma;
+sb  = options.sigmaB;
+sa  = options.sigmaA;
+
+
+k    = (wn>1);
+sab      = zeros(size(wn));
+sab(k)   = sb;
+sab(~k)  = sa;
+wn(wn<0) = 0;
+
+wnm12 = 0.5*((wn-1)./sab).^2;
+Gf    = gam.^(exp(-wnm12));
+
+end % peak enhancement factor
+
 function options = preCalculateAg(options) 
 % PRECALCULATEAG Precalculate normalization.
 
-  if (options.gamma==1)
-     options.Ag = 1;
-     options.method = 'parametric';
-  elseif ~isempty(options.Ag)
-    options.method = 'custom';
-    if options.Ag<=0
-      error('WAFO:MKJONSWAP','Ag must be larger than 0!')
-    end
-  elseif options.method(1)=='i'
-    % normalizing by integration
-     options.method = 'integration';
-     if options.wnc<1
-       error('WAFO:MKJONSWAP','Normalized cutoff frequency, wnc, must be larger than one!')
-     end
-     
-     area = gaussq(@(w)localspec(w, options),0,1) + gaussq(@(w)localspec(w, options),1,max(options.wnc,0));
-     options.Ag = 1/area;
-  elseif options.method(1)=='p'
-    options.method = 'parametric';
-    % Original normalization
-     % NOTE: that  Hm0^2/16 generally is not equal to intS(w)dw
-     %       with this definition of Ag if sa or sb are changed from the
-     %       default values
-     N = options.N;
-     M = options.M;
-     gammai = options.gamma;
-     parametersOK = (3<=N && N<=50) &&  (2<=M && M <=9.5) && (1<= gammai && gammai<=20);
-     if parametersOK
-       f1NM = 4.1*(N-2*M^0.28+5.3)^(-1.45*M^0.1+0.96);
-       f2NM = (2.2*M^(-3.3) + 0.57)*N^(-0.58*M^0.37+0.53)-1.04*M^(-1.9)+0.94;
-       options.Ag = (1+ f1NM*log(gammai)^f2NM)/gammai;
-       
-  %    elseif N == 5 && M == 4,
-  %      options.Ag = (1+1.0*log(gammai).^1.16)/gammai;
-  %      %options.Ag = (1-0.287*log(gammai));
-  %      options.normalizeMethod = 'Three';
-  %    elseif  N == 4 && M == 4,
-  %      options.Ag = (1+1.1*log(gammai).^1.19)/gammai;
-     else
-        error('WAFO:MKJONSWAP','Not knowing the normalization because N, M or peakedness parameter is out of bounds!')
-     end
-     if options.sigmaA~=0.07 || options.sigmaB~=0.09
-       warning('WAFO:MKJONSWAP','Use integration to calculate Ag when sigmaA~=0.07 or sigmaB~=0.09')
-     end
+if (options.gamma==1)
+   options.Ag = 1;
+   options.method = 'parametric';
+elseif ~isempty(options.Ag)
+  options.method = 'custom';
+  if options.Ag<=0
+    error('WAFO:MKJONSWAP','Ag must be larger than 0!')
   end
+elseif options.method(1)=='i'
+  % normalizing by integration
+   options.method = 'integration';
+   if options.wnc<1
+     error('WAFO:MKJONSWAP','Normalized cutoff frequency, wnc, must be larger than one!')
+   end
+   area = gaussq(@localspec,0,1) + gaussq(@localspec,1,max(options.wnc,0));
+   % area = gaussq(@localspec,1,options.wc);
+   options.Ag = 1/area;
+elseif options.method(1)=='p'
+  options.method = 'parametric';
+  % Original normalization
+   % NOTE: that  Hm0^2/16 generally is not equal to intS(w)dw
+   %       with this definition of Ag if sa or sb are changed from the
+   %       default values
+   N = options.N;
+   M = options.M;
+   gammai = options.gamma;
+   parametersOK = (3<=N && N<=50) &&  (2<=M && M <=9.5) && (1<= gammai && gammai<=20);
+   if parametersOK
+     f1NM = 4.1*(N-2*M^0.28+5.3)^(-1.45*M^0.1+0.96);
+     f2NM = (2.2*M^(-3.3) + 0.57)*N^(-0.58*M^0.37+0.53)-1.04*M^(-1.9)+0.94;
+     options.Ag = (1+ f1NM*log(gammai)^f2NM)/gammai;
+     
+%    elseif N == 5 && M == 4,
+%      options.Ag = (1+1.0*log(gammai).^1.16)/gammai;
+%      %options.Ag = (1-0.287*log(gammai));
+%      options.normalizeMethod = 'Three';
+%    elseif  N == 4 && M == 4,
+%      options.Ag = (1+1.1*log(gammai).^1.19)/gammai;
+   else
+      error('WAFO:MKJONSWAP','Not knowing the normalization because N, M or peakedness parameter is out of bounds!')
+   end
+   if options.sigmaA~=0.07 || options.sigmaB~=0.09
+     warning('WAFO:MKJONSWAP','Use integration to calculate Ag when sigmaA~=0.07 or sigmaB~=0.09')
+   end
+end
+
+  function S = localspec(wn)
+    Gf = peakEnhancementFactor(wn,options);
+    S = Gf.*ggamspec(wn,options.N, options.M);
+  end % local spec
 end % precalculateAg
 
 
 function chkseastate(options)
-  %CHKSEASTATE Check that seastate is OK
-  Tp  = options.Tp;
-  Hm0 = options.Hm0;
-  gam = options.gamma;
+%CHKSEASTATE Check that seastate is OK
+Tp  = options.Tp;
+Hm0 = options.Hm0;
+gam = options.gamma;
 
-  if Hm0<0
-    error('WAFO:MKJONSWAP','Hm0 can not be negative!')
-  end
+if Hm0<0
+  error('WAFO:MKJONSWAP','Hm0 can not be negative!')
+end
 
-  if Tp<=0
-    error('WAFO:MKJONSWAP','Tp must be positve!')
-  end
+if Tp<=0
+  error('WAFO:MKJONSWAP','Tp must be positve!')
+end
 
-  if Hm0==0
-    warning('WAFO:MKJONSWAP','Hm0 is zero!')
-  end
 
-  outsideJonswapRange  = Tp>5*sqrt(Hm0) || Tp<3.6*sqrt(Hm0);
-  if outsideJonswapRange
-    warning('WAFO:MKJONSWAP','Hm0,Tp is outside the JONSWAP range \n The validity of the spectral density is questionable')
-  end
-  if gam<1 || 7 < gam
-    warning('WAFO:MKJONSWAP','The peakedness factor, gamma, is possibly too large. \n The validity of the spectral density is questionable')
-  end
+if Hm0==0
+  warning('WAFO:MKJONSWAP','Hm0 is zero!')
+end
+
+outsideJonswapRange  = Tp>5*sqrt(Hm0) || Tp<3.6*sqrt(Hm0);
+if outsideJonswapRange
+  warning('WAFO:MKJONSWAP','Hm0,Tp is outside the JONSWAP range \n The validity of the spectral density is questionable')
+end
+if gam<1 || 7 < gam
+  warning('WAFO:MKJONSWAP','The peakedness factor, gamma, is possibly too large. \n The validity of the spectral density is questionable')
+end
 end % chkseastate

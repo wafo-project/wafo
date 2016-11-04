@@ -38,6 +38,8 @@ function specplot(S,varargin)
 %  Sf = ttspec(S,'f','d'); clf
 %  specplot(Sf,2),
 %
+%  close all
+%
 % See also  dat2spec, createspec, simpson
 
 plotspec(S,varargin{:})

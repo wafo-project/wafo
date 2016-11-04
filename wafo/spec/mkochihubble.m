@@ -32,7 +32,9 @@ function [H,Hw,Hs] = mkochihubble(varargin)
 %
 % Example: 
 %  S = mkochihubble('def',2); 
-%  fplot(S,[0 5])
+%  fplot(S,[0, 5])
+%
+%  close()
 %
 % See also  mkbretschneider, mkjonswap, mktorsethaugen
   
@@ -65,26 +67,28 @@ end
 
 [Hw,Hs] = mkohspec(options);
 
-H = @ochihubble;
+H = @(w)ochihubble(options, Hw, Hs, w);
 return
-%% Nested function
-  function S = ochihubble(w)
-    %OCHIHUBBLE spectral density
-    
-    if strncmpi(w,'options',1)
-      S = options;
-      S.Hwoptions = Hw(w);
-      S.Hsoptions = Hs(w);
-      
-    else 
-      if options.Hm0>0
-        S = Hw(w)+ Hs(w);
-      else
-        S = zeros(size(w));
-      end
-    end
-  end %ochihubble
 end %mkochihubble
+
+%% Nested function
+function S = ochihubble(options, Hw, Hs, w)
+  %OCHIHUBBLE spectral density
+  
+  if strncmpi(w,'options',1)
+    S = options;
+    S.Hwoptions = Hw(w);
+    S.Hsoptions = Hs(w);
+    
+  else 
+    if options.Hm0>0
+      S = Hw(w)+ Hs(w);
+    else
+      S = zeros(size(w));
+    end
+  end
+end %ochihubble
+
 
 %% Subfunctions
 

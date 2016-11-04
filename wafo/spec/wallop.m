@@ -31,7 +31,10 @@ function S1=wallop(w1,sdata,plotflag)
 %  (Pierson-Moskowitz) spectrum. 
 %
 % Example: 
-%   S = wallop(1.1,[6.5 10]), plotspec(S)
+%   S = wallop(1.1,[6.5 10]); 
+%   plotspec(S)
+%  
+%   close()
 %  
 % See also  jonswap, torsethaugen, simpson
 

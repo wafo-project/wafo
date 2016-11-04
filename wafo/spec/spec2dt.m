@@ -15,7 +15,7 @@ function [dt, wmdt,ftype] = spec2dt(S)
 %
 % Example
 %  S = jonswap;
-%  dt = spec2dt(S)
+%  assert(spec2dt(S), 1.04719755119660, 1e-10)
 % 
 % See also
 

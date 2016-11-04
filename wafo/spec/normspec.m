@@ -27,7 +27,7 @@ function [varargout]=normspec(varargin)
 % Example: 
 %   S = jonswap;
 %   [Sn,mn4] = normspec(S);
-%   mts = spec2mom(S,2)     % Should be equal to one!
+%   assert(spec2mom(Sn,2), [1,1], 1e-4)     % Should be equal to one!
 % 
 % See also  spec2mom, spec2spec 
 

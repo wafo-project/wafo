@@ -145,6 +145,9 @@ textstart_z = 0;
 
 position = {textstart_x,textstart_y,textstart_z};
 
+if isoctave,
+   warning ('off', 'Octave:abbreviated-property-match')
+end
 
 titleProp = {'unit','normalized','tag',tag,...
   'HorizontalAlignment','left',...

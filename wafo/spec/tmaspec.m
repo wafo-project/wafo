@@ -36,8 +36,12 @@ function S1=tmaspec(w1,sdata,h,plotflag)
 %  Sea) and ARSLOE project (Duck, North Carolina, USA)  
 %
 % Example:  
-%      S = tmaspec([],[0 0 1])   % Bretschneider spectrum Hm0=7, Tp=11
-%      S = tmaspec(1.5,[0 0 1])  % The same, cut at wc = 1.5
+%  S = tmaspec(3,[0 0 1], inf);   % Bretschneider spectrum Hm0=7, Tp=11
+%  S2 = bretschneider(3);
+%  assert(S.S, S2.S, 1e-10) 
+%  S = tmaspec(1.5,[0 0 1], inf);  % The same, cut at wc = 1.5
+%  S2 = bretschneider(1.5);
+%  assert(S.S, S2.S, 1e-10) 
 % 
 % See also  jonswap, phi1, pmspec, torsethaugen
 

@@ -18,7 +18,7 @@ function  Hs = specdata(data,varargin)
 % w = linspace(0,4,256)';
 % S = specdata(H(w),w);  % Make spectrum object from numerical values
 % 
-% Sold = get(S,fn{:})    % Convert to old type of spectrum object.
+% Sold = get(S,fn{:});    % Convert to old type of spectrum object.
 %
 % See also wdata covdata
 

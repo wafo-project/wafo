@@ -51,13 +51,12 @@ function [ch,R1,chtext,R]=spec2char(S,fact,T)
 % Examples:
 %   S      = demospec;
 %   [ch R,txt] = spec2char(S,[1 2 3]);    % fact a vector of integers
-%   cat(2,char(txt),repmat(' = ',3,1),num2str(ch')) 
-%   ch = num2cell(ch);
-%   ch0 = cell2struct(ch,txt,2);          % Make a structure 
-%   [txt{2,:}]=deal(','); txt{2,end}=' ';
-%   eval(['[' txt{:} '] = deal(ch{:})'])  % Assign values to variables
-%   ch1    = spec2char(S,'Ss');           % fact a string
-%   ch2    = spec2char(S,{'Tp','Tp1'});   % fact a cellarray of strings
+%   ch0 = cell2struct(num2cell(ch),txt,2);          % Make a structure 
+%   assert(ch, [6.80042799184815, 9.66549688067646, 9.41922471783712], 1e-10)
+%   assert(txt, {'Hm0', 'Tm01', 'Tm02'}) 
+%   assert(spec2char(S,'Ss'), 0.0491112394396479, 1e-10)     % fact a string
+%   assert(spec2char(S,{'Tp','Tp1'}), ...
+%                      [11.0231321178589, 10.8684288697414], 1e-10)   % fact a cellarray of strings
 %
 % See also  dspec2char, spec2bw, spec2mom, simpson
 

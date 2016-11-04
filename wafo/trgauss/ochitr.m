@@ -124,9 +124,11 @@ end
 
 % Let x = [a sig2^2 ]
 % Set up the 2D non-linear equations for a and sig2^2:
-eqstr='[x(2)-2.*x(1).^2.*x(2).^2-P1, 2.*x(1).*x(2).^2.*(3-8.*x(1).^2.*x(2))-P2  ]';
+%eqstr='[x(2)-2.*x(1).^2.*x(2).^2-P1, 2.*x(1).*x(2).^2.*(3-8.*x(1).^2.*x(2))-P2  ]';
+eqstr=@(x)[x(2)-2.*x(1).^2.*x(2).^2-1, 2.*x(1).*x(2).^2.*(3-8.*x(1).^2.*x(2))-skew  ];
 % Or solve the following 1D non-linear equation for sig2^2:
-eqstr2 = '-sqrt(abs(x-P1)*2).*(3.*x-4*abs(x-P1))+abs(P2)';
+# eqstr2 = '-sqrt(abs(x-P1)*2).*(3.*x-4*abs(x-P1))+abs(P2)';
+eqstr2 = @(x) -sqrt(abs(x-1)*2).*(3.*x-4*abs(x-1))+abs(skew);
 %g3 = inline(eqstr2,2);
 
 g2 = eqstr2;
@@ -138,11 +140,11 @@ vnr= str2num(v(1:ix(min(2,length(ix)))-1));
 % start value for: a   sig2^2  
 X0=[0.01 sig1^2];
 Xi =[1 2]; % Start interval where sig2^2 is located.
-if vnr>5.2
+if isoctave || vnr>5.2
   % sol = fsolve(g1,X0,[],1,skew);%sig1.^2,skew*sig1^3);
-  opt = [];%optimset('disp','iter');
+  opt = optimset('disp','off');%optimset('disp','iter');
   if 1,
-    sig22 = fzero(g2,Xi,opt,1,skew); % smallest solution for sig22
+    sig22 = fzero(g2,Xi,opt); %,1,skew); % smallest solution for sig22
     a  =   sign(skew)*sqrt(abs(sig22-1)/2/sig22^2);
     sol = [a sig22];
   else
@@ -154,7 +156,7 @@ else
   % sol = fsolve(g1,X0,[],[],1,skew);%sig1.^2,skew*sig1^3);
   trace1=[];
 %  if 1,
-    sig22 = fzero(g2,[1 2],[],trace1,1,skew);
+    sig22 = fzero(g2,[1 2],[],trace1); % ,1,skew);
     a  =   sign(skew)*sqrt(abs(sig22-1)/2/sig22^2);
     sol = [a sig22];
 %   else

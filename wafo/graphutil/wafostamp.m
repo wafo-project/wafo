@@ -25,8 +25,10 @@ function [H,ax]=wafostamp(varargin)
 %  Edit wafostamp.m to change default values.
 %
 % Example:
-%   plot(sin(0:.1:3)), wafostamp('Sinus plot','(ER)'), hold on
-%   plot(sin((0:.1:3)+pi/2)),hold off
+%   plot(sin(0:.1:3)); wafostamp('Sinus plot','(ER)'); hold on;
+%   plot(sin((0:.1:3)+pi/2)); hold off;
+%
+%   close all;
 %
 % See also  figtext
 
@@ -76,7 +78,7 @@ if stamp~=0
   end % delete old wafostamp if it exists
   ax = axes('Position',[.01 .01 .99 .05],'Visible','off','tag',tag);
  
-  txtProp = {'unit','normalized','tag',tag,'FontSize',10,...
+  txtProp = {'units','normalized','tag',tag,'FontSize',10,...
     'HorizontalAlignment','left','VerticalAlignment','bottom'};
   
   
@@ -84,7 +86,7 @@ if stamp~=0
     h1=[];
   else
     h1 = text(0,0,caption,txtProp{:});
-    %h1=figtext(0,0,caption,'norm','norm','left','bottom');
+    %h1=figtext(0,0,caption,'normalized','normalized','left','bottom');
     %set(h1,'FontSize',10,'Tag',tag)
   end
   if 1,
@@ -115,13 +117,13 @@ if stamp~=0
       stamptxt =['WAFO ' date,' ',flag,' '];
     end
   end
-   txtProp1 = {'unit','normalized','tag',tag,'FontSize',10,...
+   txtProp1 = {'units','normalized','tag',tag,'FontSize',10,...
      'HorizontalAlignment','right','VerticalAlignment','bottom','FontAngle','Italic'};
   axes(ax(1));
    h2 = text(1,0,stamptxt,txtProp1{:});
-%    h2=figtext(1,0,stamptxt,'norm','norm','right','bottom');
+%    h2=figtext(1,0,stamptxt,'normalized','normalized','right','bottom');
 %   % old call
-%   %h=figtext(0,-0.1,'made by WAFO','norm','norm','left');
+%   %h=figtext(0,-0.1,'made by WAFO','normalized','normalized','left');
 %   set(h2,'FontSize',10,'FontAngle','Italic','Tag',tag)
   
   

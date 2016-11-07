@@ -14,7 +14,7 @@ function H = figtext(x,y,T,x_unit,y_unit,x_justify,y_justify,varargin)
 %        
 %        x_unit,
 %        y_unit  = 'data'   same coordinate system as the plotted data (default).
-%                  'norm'   use 'normalized' coordinates in [0..1].
+%                  'normalized'   use 'normalized' coordinates in [0..1].
 %      x_justify = 'left'   places left adjusted text (default).
 %                  'center' places centered text.
 %                  'right'  places right adjusted text.
@@ -24,7 +24,10 @@ function H = figtext(x,y,T,x_unit,y_unit,x_justify,y_justify,varargin)
 %                  'bottom' places bottom adjusted text.
 %
 %  Example: 
-%       H =  figtext(0,0,'test','norm',[],'left','top')
+%       figure(1)
+%       H =  figtext(0,0,'test','normalized',[],'left','top')
+%
+%       close all
 %
 %  See also  text
 

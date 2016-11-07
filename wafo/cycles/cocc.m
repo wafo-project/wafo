@@ -76,13 +76,13 @@ ylabel('Max')
 textstart_x=0.65;
 textstart_y=0.45;
 delta_y=1/33;
-h=figtext(textstart_x,textstart_y,'Level curves at:','norm');
+h=figtext(textstart_x,textstart_y,'Level curves at:','normalized');
 set(h,'FontWeight','Bold')
 
 textstart_y=textstart_y-delta_y;
 
 for i=1:n_clevels
   textstart_y=textstart_y-delta_y;
-  figtext(textstart_x,textstart_y,num2str(clevels(i)),'norm')
+  figtext(textstart_x,textstart_y,num2str(clevels(i)),'normalized')
 end
 

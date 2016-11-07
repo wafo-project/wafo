@@ -8,6 +8,12 @@ function r = polynder( p, n )
 %
 %   POLYNDER( P, 0 ) returns P.
 %
+%   Example
+%   assert(polynder([3, 2, 1],-1), [1,1,1,0], 1e-10);
+%   assert(polynder([1,1,1],0), [1,1,1], 1e-10);
+%   assert(polynder([3,2,1],1), [6, 2], 1e-10);
+%   assert(polynder([12,6,2],2), 24, 1e-10);
+%
 %   See also POLYNINT, POLYINT, POLYDER.
 
 %   Author:      Peter J. Acklam

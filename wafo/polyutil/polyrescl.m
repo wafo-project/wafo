@@ -6,6 +6,11 @@ function q = polyrescl( p, x, y )
 %
 %   P is a vector of coefficients in decreasing order.
 %
+%   Example
+%   assert(polyrescl([1,1], 2), [0.5, 1], eps);
+%   assert(polyrescl([1,1], 4), [0.25, 1], eps);
+%   assert(polyrescl([1,1], 2, 2), [1, 2], eps);
+%
 %   See also POLYRELOC.
 
 %   Author:      Peter J. Acklam

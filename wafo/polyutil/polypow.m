@@ -5,6 +5,10 @@ function r = polypow(p, n)
 %
 %   P is a vector of coefficients in decreasing order.
 %
+%   Example
+%   assert(polypow([1,1], 2), [1,2,1], 1e-12);
+%   assert(polypow([1,1], 3), [1,3,3,1], 1e-12);
+%
 %   See also polyadd, polysub, polymul, polydiv.
 
 % History

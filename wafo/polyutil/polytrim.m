@@ -5,6 +5,11 @@ function r = polytrim(p)
 %   leading zeros.
 %
 %   P is a vector of coefficients in decreasing order.
+%
+%   Example
+%   assert(polytrim([0,0, 1,1,1]), [1,1,1], 1e-10);
+%
+
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1998-06-22 20:31:39

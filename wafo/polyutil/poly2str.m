@@ -7,8 +7,8 @@ function s = poly2str( coefs, var )
 %
 %   S = POLY2STR( P, 's' ) uses 's' as the variable rather than 'x'.
 %
-%   Example: 
-%  poly2hstr( [1 1 2], 's' ) %returns the string  's^2 + s + 2'.
+%  Example: 
+%  assert(poly2str( [1 1 2], 's' ), 's^2 + s + 2');
 %
 % See also poly2hstr
 

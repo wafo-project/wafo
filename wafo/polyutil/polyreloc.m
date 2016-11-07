@@ -7,6 +7,11 @@ function r = polyreloc( p, x, y )
 %
 %   P is a vector of coefficients in decreasing order.
 %
+%   Example
+%   assert(polyreloc([1,1], 2), [1, -1], eps);
+%   assert(polyreloc([1,1], 4), [1, -3], eps);
+%   assert(polyreloc([1,1], 2, 2), [1,1], eps);
+%
 %   See also POLYRESCL.
 
 %   Author:      Peter J. Acklam
@@ -17,16 +22,6 @@ function r = polyreloc( p, x, y )
    error( nargchk( 2, 3, nargin ) );
 
    n = length( p );
-    
-   if 0,
-     % Relocate last polynomial using Horner's algorithm
-     r = p;
-     for ii=n:-1:2
-       for i=2:ii
-         r(:,i) = -x.*r(:,i-1)+r(:,i);
-       end
-     end
-   else
    %
    % Move polynomial X units to the right by a polynomial version of
    % Horner's method.
@@ -38,7 +33,7 @@ function r = polyreloc( p, x, y )
       r = conv( r, f );
       r(:,i+1) = r(:,i+1) + p(:,i+1);
    end
-   end
+   
    %
    % Move polynomial Y units upwards by adding Y.
    %

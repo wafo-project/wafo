@@ -16,8 +16,8 @@ function r= polyishft(p,a,b)
 % Example:
 %  px = [1 0];
 %  py = polyishft(px,-5,5);
-%  polyval(px,[-5 0 5])  % This is the same as the line below
-%  polyval(py,[-1 0 1 ])  
+%  assert(polyval(px,[-5 0 5]), [-5 0 5], 1e-10);  % This is the same as the line below
+%  assert(polyval(py,[-1 0 1 ]), [-5, 0, 5], 1e-10);  
 % 
 % See also: polyshft
 
@@ -29,7 +29,7 @@ function r= polyishft(p,a,b)
 % History
 % by pab 2000
 
-error(nargchk(3,3,nargin))
+error(nargchk(3,3,nargin));
 r = polyshft(p,-(2+b+a)/(b-a),(2-b-a)/(b-a));
 
 

@@ -4,7 +4,10 @@ function r = polyadd(p, q)
 %   R = POLYADD(P, Q) adds the polynomials whose coefficients are the
 %   elements of the vectors P and Q.
 %
-%   See also POLYADD, POLYSUB, POLYMUL, POLYDIV, POLYPOW.
+%  Example
+%  assert(polyadd([1,2,3],[1,2]), [1,3,5], 1e-10);
+% 
+%  See also POLYADD, POLYSUB, POLYMUL, POLYDIV, POLYPOW.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1998-06-22 20:36:21

@@ -67,11 +67,14 @@ function [der,errest,finaldelta] = derivest(fun,x0,varargin)
 %  opts.DerivativeOrder = 2;
 %
 %  %First derivative of exp(x), at x == 1
-%   [d,e]  =derivest(@(x) exp(x),1) %   d =  2.71828182845904, e = 1.02015503167879e-14
-%   [d2,e2]=derivest(@(x) exp(x),1,opts)
+%   [d,e]  =derivest(@(x) exp(x),1);
+%   [d2,e2]=derivest(@(x) exp(x),1,opts);
+%   assert(d, exp(1), 1e-12);
+%   assert(d2, exp(1), 1e-10);
 %
 %  %Third derivative of x.^3+x.^4, at x = [0,1]
-%   derivest(@(x) x.^3 + x.^4,[0 1],'deriv',3) % True derivatives: [6,30]
+%   d3 = derivest(@(x) x.^3 + x.^4,[0 1],'deriv',3);
+%   assert(d3, [6,30], 1e-10);
 % 
 % See also gradient, hessian, gradest, hessdiag
 
@@ -112,7 +115,7 @@ if (nargin<1)
   help derivest
   return
 elseif isempty(fun)
-  error 'fun was not supplied.'
+  error('fun was not supplied.');
 elseif ischar(fun)
   % a character function name
   fun = str2func(fun);
@@ -120,7 +123,7 @@ end
 
 % no default for x0
 if (nargin<2) || isempty(x0)
-  error 'x0 was not supplied'
+  error('x0 was not supplied');
 end
 par.NominalStep = max(x0,0.02);
 
@@ -302,7 +305,7 @@ for i = 1:n
   % check the size of f_del to ensure it was properly vectorized.
   f_del = f_del(:);
   if length(f_del)~=ndel
-    error 'fun did not return the correct size result (fun must be vectorized)'
+    error('fun did not return the correct size result (fun must be vectorized)')
   end
 
   % Apply the finite difference rule at each delta, scaling
@@ -495,7 +498,7 @@ if isempty(par.DerivativeOrder)
   par.DerivativeOrder = 1;
 else
   if (length(par.DerivativeOrder)>1) || ~ismember(par.DerivativeOrder,1:4)
-    error 'DerivativeOrder must be scalar, one of [1 2 3 4].'
+    error('DerivativeOrder must be scalar, one of [1 2 3 4].');
   end
 end
 
@@ -504,9 +507,9 @@ if isempty(par.MethodOrder)
   par.MethodOrder = 2;
 else
   if (length(par.MethodOrder)>1) || ~ismember(par.MethodOrder,[1 2 3 4])
-    error 'MethodOrder must be scalar, one of [1 2 3 4].'
+    error('MethodOrder must be scalar, one of [1 2 3 4].');
   elseif ismember(par.MethodOrder,[1 3]) && (par.Style(1)=='c')
-    error 'MethodOrder==1 or 3 is not possible with central difference methods'
+    error('MethodOrder==1 or 3 is not possible with central difference methods');
   end
 end
 
@@ -515,13 +518,13 @@ valid = {'central', 'forward', 'backward'};
 if isempty(par.Style)
   par.Style = 'central';
 elseif ~ischar(par.Style)
-  error 'Invalid Style: Must be character'
+  error('Invalid Style: Must be character');
 end
 ind = find(strncmpi(par.Style,valid,length(par.Style)));
 if (length(ind)==1)
   par.Style = valid{ind};
 else
-  error(['Invalid Style: ',par.Style])
+  error(['Invalid Style: ',par.Style]);
 end
 
 % vectorized is char
@@ -529,13 +532,13 @@ valid = {'yes', 'no'};
 if isempty(par.Vectorized)
   par.Vectorized = 'yes';
 elseif ~ischar(par.Vectorized)
-  error 'Invalid Vectorized: Must be character'
+  error('Invalid Vectorized: Must be character');
 end
 ind = find(strncmpi(par.Vectorized,valid,length(par.Vectorized)));
 if (length(ind)==1)
   par.Vectorized = valid{ind};
 else
-  error(['Invalid Vectorized: ',par.Vectorized])
+  error(['Invalid Vectorized: ',par.Vectorized]);
 end
 
 % RombergTerms == 2 by default
@@ -543,20 +546,20 @@ if isempty(par.RombergTerms)
   par.RombergTerms = 2;
 else
   if (length(par.RombergTerms)>1) || ~ismember(par.RombergTerms,0:3)
-    error 'RombergTerms must be scalar, one of [0 1 2 3].'
+    error('RombergTerms must be scalar, one of [0 1 2 3].');
   end
 end
 
 % FixedStep == [] by default
 if (length(par.FixedStep)>1) || (~isempty(par.FixedStep) && (par.FixedStep<=0))
-  error 'FixedStep must be empty or a scalar, >0.'
+  error('FixedStep must be empty or a scalar, >0.');
 end
 
 % MaxStep == 10 by default
 if isempty(par.MaxStep)
   par.MaxStep = 10;
 elseif (length(par.MaxStep)>1) || (par.MaxStep<=0)
-  error 'MaxStep must be empty or a scalar, >0.'
+  error('MaxStep must be empty or a scalar, >0.');
 end
 
 end % check_params
@@ -625,7 +628,7 @@ npv = length(pv_pairs);
 n = npv/2;
 
 if n~=floor(n)
-  error 'Property/value pairs must come in PAIRS.'
+  error('Property/value pairs must come in PAIRS.');
 end
 if n<=0
   % just return the defaults
@@ -633,7 +636,7 @@ if n<=0
 end
 
 if ~isstruct(params)
-  error 'No structure for defaults was supplied'
+  error('No structure for defaults was supplied');
 end
 
 % there was at least one pv pair. process any supplied
@@ -647,9 +650,9 @@ for i=1:n
   if isempty(ind)
     ind = find(strncmp(p_i,lpropnames,length(p_i)));
     if isempty(ind)
-      error(['No matching property found for: ',pv_pairs{2*i-1}])
+      error(['No matching property found for: ',pv_pairs{2*i-1}]);
     elseif length(ind)>1
-      error(['Ambiguous property name: ',pv_pairs{2*i-1}])
+      error(['Ambiguous property name: ',pv_pairs{2*i-1}]);
     end
   end
   p_i = propnames{ind};

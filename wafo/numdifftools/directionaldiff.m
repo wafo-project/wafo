@@ -35,7 +35,8 @@ function [dd,err,finaldelta] = directionaldiff(fun,x0,vec)
 %
 %  vec = [1,2];
 %  rosen = @(x) (1-x(1)).^2 + 105*(x(2)-x(1).^2).^2;
-%  [dd,err] = directionaldiff(rosen,[1 1],vec) % d = 0
+%  [dd,err] = directionaldiff(rosen,[1 1],vec); % d = 0
+%  assert(dd, 0, 1e-10)
 %
 % See also: derivest, gradest, gradient
 

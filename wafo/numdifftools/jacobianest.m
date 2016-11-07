@@ -27,7 +27,9 @@ function [jac,err] = jacobianest(fun,x0)
 %  ydata = 1+2*exp(0.75*xdata);
 %  fun = @(c) ((c(1)+c(2)*exp(c(3)*xdata)) - ydata).^2;
 %
-%  [jac,err] = jacobianest(fun,[1 2 0.75]) %jac should be numerically zero
+%  [jac,err] = jacobianest(fun,[1 2 0.75]); 
+%  assert(jac, zeros(size(jac)), 1e-12);
+%  assert(err<1e-12);
 %
 % See also: derivest, gradient, gradest
 

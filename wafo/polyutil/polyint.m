@@ -1,18 +1,18 @@
 function r = polyint( p, a, b )
 %POLYINT Integrate polynomial.
 %
-%   R = POLYINT( P ) integrates the polynomial P.
-%   I = POLYINT( P, T ) integrates the polynomial from 0 to T.
-%   I = POLYINT( P, A, B ) integrates the polynomial from A to B.
+%  R = POLYINT( P ) integrates the polynomial P.
+%  I = POLYINT( P, T ) integrates the polynomial from 0 to T.
+%  I = POLYINT( P, A, B ) integrates the polynomial from A to B.
 %
-%   P is a vector of coefficients in decreasing order.
+%  P is a vector of coefficients in decreasing order.
 %
-%   Example
-%   assert(polyint([3,2,1]), [1,1,1,0], 1e-10);
-%   assert(polyint([3,2,1], 1), 3, 1e-10);
-%   assert(polyint([3,2,1], -1, 1), 4, 1e-10);
+% Example:
+%  assert(polyint([3,2,1]), [1,1,1,0], 1e-10);
+%  assert(polyint([3,2,1], 1), 3, 1e-10);
+%  assert(polyint([3,2,1], -1, 1), 4, 1e-10);
 %
-%   See also POLYDER, POLYNINT.
+% See also POLYDER, POLYNINT.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1998-06-22 20:35:50

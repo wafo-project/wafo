@@ -62,7 +62,7 @@ function [der,errest,finaldelta] = derivest(fun,x0,varargin)
 %        but sometimes one can only allow evaluation in forward or backward
 %        direction.
 %
-% Examples
+% Example:
 %  opts = derivest('defaults'); % default options
 %  opts.DerivativeOrder = 2;
 %

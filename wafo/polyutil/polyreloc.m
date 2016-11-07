@@ -7,12 +7,12 @@ function r = polyreloc( p, x, y )
 %
 %   P is a vector of coefficients in decreasing order.
 %
-%   Example
+% Example:
 %   assert(polyreloc([1,1], 2), [1, -1], eps);
 %   assert(polyreloc([1,1], 4), [1, -3], eps);
 %   assert(polyreloc([1,1], 2, 2), [1,1], eps);
 %
-%   See also POLYRESCL.
+% See also POLYRESCL.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1999-04-24 00:12:55

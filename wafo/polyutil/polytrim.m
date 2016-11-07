@@ -6,7 +6,7 @@ function r = polytrim(p)
 %
 %   P is a vector of coefficients in decreasing order.
 %
-%   Example
+% Example:
 %   assert(polytrim([0,0, 1,1,1]), [1,1,1], 1e-10);
 %
 

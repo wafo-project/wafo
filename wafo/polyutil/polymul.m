@@ -6,7 +6,7 @@ function r = polymul(p, q)
 %
 %   POLYMUL is essentially a call to CONV.
 %
-%  Example
+% Example:
 %   x = ones (3,1);
 %   y = ones (1,3);
 %   b = 2;
@@ -21,7 +21,7 @@ function r = polymul(p, q)
 %   assert (polymul (y, c), [3, 3, 3]);
 %   assert (polymul (b, c), 6);
 %
-%   See also POLYADD, POLYSUB, POLYDIV, POLYPOW, CONV.
+% See also POLYADD, POLYSUB, POLYDIV, POLYPOW, CONV.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1998-06-22 20:36:03

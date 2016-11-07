@@ -8,13 +8,13 @@ function r = polynint( p, n )
 %
 %   POLYNINT( P, 0 ) returns P.
 %
-%   Example
+% Example:
 %   assert(polynint([1/2, 1, 1],-1), [1,1], 1e-10);
 %   assert(polynint([1,1,1],0), [1,1,1], 1e-10);
 %   assert(polynint([3,2,1],1), [1,1,1,0], 1e-10);
 %   assert(polynint([12,6,2],2), [1,1,1,0,0], 1e-10);
 % 
-%   See also POLYNDER, POLYDER, POLYINT.
+% See also POLYNDER, POLYDER, POLYINT.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1998-06-22 20:35:28

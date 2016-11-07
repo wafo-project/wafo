@@ -1,20 +1,20 @@
 function r = polynder( p, n )
 %POLYNDER Differentiate polynomial N times.
 %
-%   POLYNDER( P, N ) returns the N'th derivative of the polynomial whose
-%   coefficients are the elements of the vector P.
+% POLYNDER( P, N ) returns the N'th derivative of the polynomial whose
+% coefficients are the elements of the vector P.
 %
-%   POLYNDER( P, -N ) returns POLYNINT( P, N ).
+% POLYNDER( P, -N ) returns POLYNINT( P, N ).
 %
-%   POLYNDER( P, 0 ) returns P.
+% POLYNDER( P, 0 ) returns P.
 %
-%   Example
+% Example:
 %   assert(polynder([3, 2, 1],-1), [1,1,1,0], 1e-10);
 %   assert(polynder([1,1,1],0), [1,1,1], 1e-10);
 %   assert(polynder([3,2,1],1), [6, 2], 1e-10);
 %   assert(polynder([12,6,2],2), 24, 1e-10);
 %
-%   See also POLYNINT, POLYINT, POLYDER.
+% See also POLYNINT, POLYINT, POLYDER.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1998-06-22 20:35:23

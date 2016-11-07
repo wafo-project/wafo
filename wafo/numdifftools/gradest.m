@@ -16,7 +16,7 @@ function [grad,err,finaldelta] = gradest(fun,x0,varargin)
 % GRADEST uses derivest to provide both derivative estimates
 % and error estimates. fun needs not be vectorized.
 %
-% Examples
+% Example:
 %  [grad,err] = gradest(@(x) sum(x.^2),[1 2 3]); 
 %  assert(grad, [ 2,4, 6], 1e-12);
 %  assert(err < 1e-12);

@@ -5,10 +5,10 @@ function r = polysub(p, q)
 %
 %   P and Q are vectors of coefficients in decreasing order.
 %
-%   Example
+% Example:
 %   assert(polysub([1,2,3],[1,2]), [1,1,1], 1e-10);
 %
-%   See also POLYADD, POLYMUL, POLYDIV, POLYPOW.
+% See also POLYADD, POLYMUL, POLYDIV, POLYPOW.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  1998-06-22 20:32:25

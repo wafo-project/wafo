@@ -28,7 +28,8 @@ function [int, tol1,k] = gaussq2d(fun,Ax,Bx,Ay,By,tol,varargin)
 %Example:%  integration for (x,y) in [0,1]x[-1,3] and [2,4]x[1,2]:
 %
 %   p1=2.; p2=0.5;
-%   gaussq2d('(p2*x.^2.*y+p1)',[0 2],[1 4],[-1 1],[3 2],[],p1,p2)
+%   fun = '(p2*x.^2.*y+p1)';
+%   assert(gaussq2d(fun,[0 2],[1 4],[-1 1],[3 2],[],p1,p2),[10, 12], 1e-10);
 %
 % See also  gaussq, qrule2d
 

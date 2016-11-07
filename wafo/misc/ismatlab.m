@@ -10,7 +10,8 @@ function a = ismatlab()
 % for running in matlab environment.
 %
 % Example
-%  ismatlab
+%  assert(ismatlab, exist('matlabroot','builtin')~=0)
 %
 % See also isoctave
+
 a = exist('matlabroot','builtin')~=0;

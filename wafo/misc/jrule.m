@@ -19,8 +19,17 @@ function [bp,wf]=jrule(n,alpha,beta,method)
 %       a                                      j=1    
 %
 % Example
-%  [x,w]= jrule(10,0,0)
-%  sum(x.*w)
+%  [x,w]= jrule(10,0,0);
+%  
+%  assert(sum(x.*w), 2.77555756156289e-016, eps)
+%  assert(x, [ 0.973906528517172, 0.865063366688985, 0.679409568299024,...
+%              0.433395394129247, 0.148874338981631, -0.148874338981631,...
+%             -0.433395394129247, -0.679409568299024, -0.865063366688985,...  
+%             -0.973906528517172], 1e-10)
+%  assert(w, [0.0666713443086734, 0.1494513491505790, 0.2190863625159803,...
+%             0.2692667193099939, 0.2955242247147502, 0.2955242247147502,...
+%             0.2692667193099939, 0.2190863625159799, 0.1494513491505790,...   
+%             0.0666713443086734], 1e-10)
 % 
 %  See also qrule, gaussq
 
@@ -80,7 +89,7 @@ end
       k0  = 1;
       kp1 = 2;
       for its=1:MAXIT
-        %Newton’s method carried out simultaneously on the roots.
+        %Newtonï¿½s method carried out simultaneously on the roots.
         tmp = 2 + alfbet;
         L(k0,:)  = 1;
         L(kp1,:) = (alpha-beta+tmp*z)/2;
@@ -106,7 +115,7 @@ end
         
         pp=(n*(alpha-beta-tmp.*z).*L(kp1,:)+2*(n+alpha)*(n+beta)*L(k0,:))./(tmp*(1-z.^2));
         dz = L(kp1,:)./pp;
-        z  = z-dz; % Newton’s formula.
+        z  = z-dz; % Newtonï¿½s formula.
         unfinished = find((abs(dz) > releps*abs(z)));
         
         if not(any(unfinished))

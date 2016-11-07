@@ -10,7 +10,9 @@ function a = isoctave()
 % for running in octave environment.
 %
 % Example
-%  isoctave
+% 
+%  assert(isoctave, exist('octave_core_file_name', 'builtin')~=0)
 %
 % See also ismatlab
-a = exist('octave_core_file_name','builtin')~=0;
+
+a = exist('octave_core_file_name', 'builtin')~=0;

@@ -18,10 +18,10 @@ function [bp,wf]=lrule(n,alpha,method)
 %        0                               j=1    
 %
 % Example
-%  [x,w]= lrule(10,2);
-%  sum(x.*w)
+%  [x, w] = lrule(10,2);
+%  assert(sum(x.*w), 6, 1e-10)
 %  [x,w]= lrule(10,2,0);
-%  sum(x.*w)
+%  assert(sum(x.*w), 6, 1e-10)
 % 
 %  See also quadl
 
@@ -85,7 +85,7 @@ switch method
     kp1 = 2;
     k = 1:length(z);
     for its=1:MAXIT
-      %Newton’s method carried out simultaneously on the roots.
+      %Newtonï¿½s method carried out simultaneously on the roots.
       L(k0,k)  = 0;
       L(kp1,k) = 1;
 
@@ -106,7 +106,7 @@ switch method
       pp(k) = (n*L(kp1,k)-(n+alpha)*Lp(k))./z(k);
       
       dz(k) = L(kp1,k)./pp(k);
-      z(k)  = z(k)-dz(k); % Newton’s formula.
+      z(k)  = z(k)-dz(k); % Newtonï¿½s formula.
       %k = find((abs(dz) > releps.*z));
       unfinished = find((abs(dz) > releps.*z));
       k = unfinished;

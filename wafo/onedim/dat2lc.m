@@ -19,8 +19,10 @@ function lc = dat2lc(x,h,def)
 % Example: 
 %  x = load('sea.dat'); 
 %  lc = dat2lc(x,0.2,1);
-%  plotlc(lc)  
-%  plot(lc(:,1),lc(:,2))
+%  plotlc(lc);
+%  plot(lc(:,1),lc(:,2));
+%
+%  close all;
 %
 %  See also  dat2tp, mm2lc, dat2crossind
 

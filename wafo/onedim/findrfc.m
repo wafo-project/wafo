@@ -5,8 +5,7 @@ function ind=findrfc(tp,h)
 %
 %        TP  = vector of turningpoints (NB! Only values, not sampled times)
 %
-%    RFC_ind = indices to the rainflow cycles of the 
-%		original sequence TP.
+%    RFC_ind = indices to the rainflow cycles of the original sequence TP.
 %
 %         h  = a threshold, must be larger than zero. 
 %              if h>0, then all rainflow cycles with height 
@@ -19,7 +18,11 @@ function ind=findrfc(tp,h)
 %   x = load('sea.dat'); 
 %   tp = dat2tp(x); 
 %   ind = findrfc(tp(:,2),0.3); 
-%   waveplot(x,tp(ind,:),1,1)  
+%   waveplot(x,tp(ind,:),1,1);
+%
+%   assert(length(ind), 1008);
+%   assert(ind(1:5)', [1, 2, 7, 8, 9]);
+%   close all;
 % 
 %  See also  tp2rfc, dat2tp,  rfcfilter. 
   
@@ -42,13 +45,9 @@ function ind=findrfc(tp,h)
 % Revised by pab 24.07.1999
 
 
-
 %disp('FINDRFC is not implemented as a m-function')
 %disp('                   compile the mexfile findrfc.c before you try again.')
 %error('findrfc error')
-
-
-
 
 error(nargchk(2,2,nargin))
    

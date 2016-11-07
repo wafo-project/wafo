@@ -196,7 +196,8 @@ elseif options.method(1)=='i'
    if options.wnc<1
      error('WAFO:MKJONSWAP','Normalized cutoff frequency, wnc, must be larger than one!')
    end
-   area = gaussq(@localspec,0,1) + gaussq(@localspec,1,max(options.wnc,0));
+   area = gaussq(@(x)localspec(x, options),0,1) + ...
+          gaussq(@(x)localspec(x, options),1,max(options.wnc,0));
    % area = gaussq(@localspec,1,options.wc);
    options.Ag = 1/area;
 elseif options.method(1)=='p'
@@ -227,13 +228,12 @@ elseif options.method(1)=='p'
      warning('WAFO:MKJONSWAP','Use integration to calculate Ag when sigmaA~=0.07 or sigmaB~=0.09')
    end
 end
-
-  function S = localspec(wn)
-    Gf = peakEnhancementFactor(wn,options);
-    S = Gf.*ggamspec(wn,options.N, options.M);
-  end % local spec
 end % precalculateAg
 
+function S = localspec(wn, options)
+    Gf = peakEnhancementFactor(wn,options);
+    S = Gf.*ggamspec(wn,options.N, options.M);
+end % local spec
 
 function chkseastate(options)
 %CHKSEASTATE Check that seastate is OK

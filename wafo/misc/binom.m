@@ -10,10 +10,10 @@ function bi = binom(n,k,logb)
 % can be chosen from a collection of N distinct objects, regardless of order.
 %
 % Example:%  
-%   b52  = binom(5,2)       % Should be 10.
-%   bmax = binom(realmax,1) % Should be realmax
-%   assert(b52==10,'binom(5,2) should equal 10')
-%   assert(bmax==realmax,'binom(realmax,1) should equal realmax')
+%   b52  = binom(5,2);       % Should be 10.
+%   bmax = binom(realmax,1); % Should be realmax
+%   assert(b52, 10, eps);
+%   assert(bmax, realmax, 1e-10);
 % 
 % See also pdfhyge, pdfbin, nchoosek
 
@@ -71,7 +71,7 @@ if any(abs(n(:)*eps)>1) %any(abs(k(:)*eps)>2)
   warning('WAFO:BINOM','Result may not be exact.')
 end
 
-nmk = n-k;
+nmk = min(n-k, 1e-4*realmax);
 km1 = k-1;
 nmkp1 = nmk+1;
 % spcase0 = (k-km1)==1;

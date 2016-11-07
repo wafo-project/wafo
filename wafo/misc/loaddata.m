@@ -9,24 +9,12 @@ function data=loaddata(filename)
 %  This routine is used to allow m-functions to load data files
 %  with their own name. ("fun.m" can't use "load fun.dat;v=fun;", but 
 %  can use "v=loaddata('fun.dat');")
-% Example:% 
 %
-% x=loaddata('sea.dat'); size(x)
-
-% varname=filename;
-% i=findstr(varname,'.');
-% if ~isempty(i)
-%   varname=varname(1:max(i)-1);
-% end
-% i=findstr(varname,'\'); % PC systems
-% if ~isempty(i)
-%   varname=varname(max(i)+1:length(varname));
-% end
-% i=findstr(varname,'/'); % Unix systems
-% if ~isempty(i)
-%   varname=varname(max(i)+1:length(varname));
-% end
+% Example:
+%
+%   x = loaddata('sea.dat'); 
+%   assert(size(x), [9524, 2])
+%   assert(x(1:3,2)', [ -1.2004945, -1.0904945, -0.79049454], 1e-6)
+%   assert(x(1:3,1)', [0.05, 0.3, 0.55], 1e-6)
 
 data = load(filename,'-ascii');
-%eval(['data=' varname ';']);
-%eval(['clear ' varname]);

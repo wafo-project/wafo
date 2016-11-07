@@ -4,9 +4,9 @@ function y = humps(x)
 %  Example:
 %    x = linspace(0,1);
 %    y = humps(x);
-%
 %    h = plot(x,y);
-    
+%       
+%    close();
   if nargin<1 
      x = linspace(0, 1);
   end

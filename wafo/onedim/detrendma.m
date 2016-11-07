@@ -13,7 +13,11 @@ function [y, trend] = detrendma(x,L)
 %  x = linspace(0,1,200)';
 %  y = exp(x)+cos(5*2*pi*x)+1e-1*randn(size(x));
 %  [y0, tr] = detrendma(y,20);
-%  plot(x,y,x,y0,'r',x,exp(x),'k',x,tr,'m')
+%  plot(x,y,x,y0,'r',x,exp(x),'k',x,tr,'m');
+%  
+%  assert(tr(101:103), ...
+%         [1.70069362237217, 1.71056785982106, 1.71893856207068], 1e-7)
+%  close all;
 %
 % See also  Reconstruct
 
@@ -25,9 +29,9 @@ function [y, trend] = detrendma(x,L)
 %  - made trend the same size as y
 % By Per A. Brodtkorb  21.04.1999
 
-error(nargchk(2,2,nargin))
-if L<=0,error('L must be positive'),end
-if L~=round(L), error('L must be an integer'),end
+error(nargchk(2,2,nargin));
+if L<=0,error('L must be positive');end
+if L~=round(L), error('L must be an integer');end
 
 r=size(x,1);
 if r==1,
@@ -49,19 +53,10 @@ mn = mean(x(1:2*L+1,:));
 y  = zeros(n,m);
 y(1:L,:)=x(1:L,:)-mn(ones(L,1),:);
 
-%if 1,%new call which is much faster
-  ix      = (L+1):(n-L);
-  trend   = cumsum([mn;(x(ix+L,:)-x(ix-L,:))/(2*L+1)],1);
-  y(ix,:) = x(ix,:)-trend(2:end,:);
-% else % old call slow
-%   trend=zeros(n-2*L,m);
-%   trend(1,:)=mn;
-%   for ix=L+1:n-L,
-%     mn=mn+ (x(ix+L,:)-x(ix-L,:))/(2*L+1);
-%     y(ix,:)=x(ix,:)-mn;
-%     trend(ix-L,:)=mn;
-%   end
-% end
+ix      = (L+1):(n-L);
+trend   = cumsum([mn;(x(ix+L,:)-x(ix-L,:))/(2*L+1)],1);
+y(ix,:) = x(ix,:)-trend(2:end,:);
+
 mn2=trend(end,:);
 
 if nargout>1

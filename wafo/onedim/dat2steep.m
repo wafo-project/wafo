@@ -47,9 +47,14 @@ function [S , H,AC1,AT1,TFRONT1,TREAR1,z_ind2,xn2]=dat2steep(xx,rate,method)
 %  
 % Example:
 %  dt = 0.4;
-%  xs = spec2sdat(specinterp(jonswap,dt),6000); rate=8; method=1;
+%  xs = spec2sdat(specinterp(jonswap,dt),6000); 
+%  rate=8; method=1;
 %  [S,H] = dat2steep(xs,rate,method);
-%  plot(S,H,'.'),xlabel('Vcf [m/s]'),ylabel('Hd [m]')
+%  plot(S,H,'.');
+%  xlabel('Vcf [m/s]');
+%  ylabel('Hd [m]');
+%
+%  close all;
 %
 % See also  wavedef, ampdef, perioddef, interp1, dat2tc
 
@@ -187,20 +192,20 @@ for ix=2:M
       %T=xn(z_ind(4:2:end),1)-xn(z_ind(2:2:(end-1)),1); % Period zero-upcrossing waves
       S = [S ; 2*pi*H./T.^2/g]; 
     otherwise,  error('unknown option')
-   end
-   if nargout>2
-     AC1=[AC1;AC];
-     if nargout>3
-       AT1=[AT1;AT];
-       if nargout>4
-	 TFRONT1=[TFRONT1;TFRONT];
-	 if nargout>5
-	   TREAR1=[TREAR1;TREAR];
-	 end
-       end
-     end
-   end
-    
+  end
+  if nargout>2
+    AC1=[AC1;AC];
+    if nargout>3
+      AT1=[AT1;AT];
+      if nargout>4
+        TFRONT1=[TFRONT1;TFRONT];
+        if nargout>5
+          TREAR1=[TREAR1;TREAR];
+        end
+      end
+    end
+  end
+
    if 0,
      ind=(AC<0.5);
      V(ind)=[];

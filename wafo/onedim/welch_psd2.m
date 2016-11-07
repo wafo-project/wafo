@@ -44,7 +44,9 @@ function [psd,freq]=welch_psd2(signal,window,Fs,overlap,padding,qual)
 % x = load('sea.dat');
 % Fs = 1/diff(x(1:2,1));
 % [Si,fi] = welch_psd2(x(:,2),[],Fs);
-% plot(fi,Si)
+% plot(fi, Si);
+%
+% close all;
 %
 % See also dat2spec
 

@@ -17,9 +17,11 @@ function h = lcplot(lc,plotflag,ma,sa)
 %            (default ma = 0, sa estimated from lc)
 %
 % Example: 
-%   x = load('sea.dat');
+%  x = load('sea.dat');
 %  lc = dat2lc(x,0.2); 
-%  lcplot(lc) 
+%  lcplot(lc);
+%
+%  close all;
 %
 % See also  dat2lc, mm2lc, pdfnorm, polyfit
 
@@ -36,7 +38,7 @@ function h = lcplot(lc,plotflag,ma,sa)
 % - added the option of overplotting of the theoretical one 
 %    for a Gaussian process
 
-error(nargchk(1,4,nargin))
+error(nargchk(1,4,nargin));
 if nargin<2||isempty(plotflag)
  plotflag=2;
 end
@@ -76,13 +78,13 @@ end
 
 %  clf
 hh = stairs(lc(:,1),lc(:,2));
-axis([-1.05*max(abs(lc(:,1))) 1.05*max(abs(lc(:,1))) 0 1.05*cmax])
-title('Crossing spectrum')
-xlabel('level u')
-ylabel(ylabtxt)
+axis([-1.05*max(abs(lc(:,1))) 1.05*max(abs(lc(:,1))) 0 1.05*cmax]);
+title('Crossing spectrum');
+xlabel('level u');
+ylabel(ylabtxt);
 
 % Make a special graph box.
-set(gca,'Box','off','TickLength',0.01*[1 1],'TickDir','out')
+set(gca,'Box','off','TickLength',0.01*[1 1],'TickDir','out');
 
 
 % bar(d(:,1),d(:,2))
@@ -90,9 +92,9 @@ if (mod(plotflag,10)==2)
   y = pdfnorm(lc(:,1),ma,sa.^2);  
   y = cmax*y/y(icmax);%Normalization needed to overplot the crossingspectrum.
   np = get(gca,'NextPlot');    
-  set(gca,'NextPlot','add')    
+  set(gca,'NextPlot','add');
   hh1 = plot(lc(:,1),y,'r--','LineWidth',1);% Plots density line over histogram.
-  set(gca,'NextPlot',np) 
+  set(gca,'NextPlot',np);
 end
 
 if nargout == 1 && plotflag==2

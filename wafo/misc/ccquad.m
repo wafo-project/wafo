@@ -15,8 +15,8 @@
 %Example:% Integration of exp(x) from 0 to 1:
 %
 %   a=0; b=1;
-%   [val,tol] = ccquad('exp(x)',a,b) 
-%   assert(abs(val-exp(1)+1)<=tol,'Integral should be exp(1)-1')
+%   [val,tol] = ccquad('exp(x)',a,b); 
+%   assert(val, exp(1)-1, tol);
 %
 % See also  gaussq, qrule2d
 

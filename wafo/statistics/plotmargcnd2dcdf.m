@@ -203,7 +203,7 @@ for ix=Ngrp:-1:min(grp),
 	axis([0 ceil(xmax) 0 1])
 	% title(['Cumulative density function v given h=' num2str(h1(ix),3) ])
       case 2,
-	%figtext(0.1,0.1,['1-F(v| h=' num2str(h1(ix),Ns)  ')'],'norm');
+	%figtext(0.1,0.1,['1-F(v| h=' num2str(h1(ix),Ns)  ')'],'normalized');
 	ylabel(['1-F(x1|x2=' num2str(h1(ix),Ns)  ')'])
 	xlabel('x1')
 	grid off

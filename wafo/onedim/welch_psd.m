@@ -1,4 +1,4 @@
-function [varargout] = welch_psd(varargin)
+function [varargout] = welch_psd(varargin),
 %WELCH_PSD  Estimate power spectral density using Welch's method
 %
 % CALL: [Pxx, f, options, Pci] = welch_psd(x,options,...)
@@ -39,7 +39,9 @@ function [varargout] = welch_psd(varargin)
 %    opt.nfft = 128;
 %    opt.Fs = 3;
 %    welch_psd(y,opt);
-%    welch_psd(y,'nfft',128,'Fs',3)    % alternatively
+%    welch_psd(y,'nfft',128,'Fs',3);   % alternatively
+%
+%    close all;
 %
 % See also welch_cpsd
 
@@ -118,10 +120,10 @@ if isa(varargin{1},'cell')
       case 'tfe'
         ftype = 4;
       otherwise
-        error('WAFO:SPEC:WELCH','Unknown option: %s',method)
+        error('WAFO:SPEC:WELCH','Unknown option: %s',method);
     end
   catch
-    error('Input must be given as [] = welch_psd({x,y},method,options...)')
+    error('Input must be given as [] = welch_psd({x,y},method,options...)');
   end
   first = 3;
 else
@@ -306,16 +308,16 @@ end
       end
       a=fft(postpad(a.*window, nfft));
       if ftype == 1 % psd
-      	P = a.*conj(a) - Pxx;
-      	Pci = Pci + P.*conj(P);
+        P = a.*conj(a) - Pxx;
+        Pci = Pci + P.*conj(P);
       else          % csd
-      	b = y(offset(i):offset(i)+win_size-1,:);
-      	if trend>=0,
+        b = y(offset(i):offset(i)+win_size-1,:);
+        if trend>=0,
           b=detrend(b,trend);
         end
-      	b = fft(postpad(b.*window, nfft));
-      	P = a.*conj(b) - Pxy;
-      	Pci = Pci + P.*conj(P);
+        b = fft(postpad(b.*window, nfft));
+        P = a.*conj(b) - Pxy;
+        Pci = Pci + P.*conj(P);
       end
     end
       
@@ -384,7 +386,7 @@ f = (0:nfft).'*Fs/nfft;
 %       ylabel('');
 %     end_unwind_protect
   end
-	   
+
   if nargout>=1, 
     varargout{1} = P; 
     if nargout>1
@@ -430,23 +432,23 @@ end % onesidedOrTwosided
 %
 % figure(1); subplot(221); 
 % text(0,0.9,'basic estimate','Units','Normalized'); 
-% pwelch(x',[],Fs); text;   % slip in a test for row vs. column vector
+% welch_psd(x',[],Fs); text;   % slip in a test for row vs. column vector
 % subplot(222); 
 % text(0,0.9,'nfft=1024 instead of 256','Units','Normalized'); 
-% pwelch(x,1024); text;
+% welch_psd(x,1024); text;
 % subplot(223); 
 % text(0,0.9,'boxcar instead of hanning','Units','Normalized');
-% pwelch(x,[],[],boxcar(256)); text;
+% welch_psd(x,[],[],boxcar(256)); text;
 % subplot(224); 
 % text(0,0.9,'no overlap','Units','Normalized'); 
-% pwelch(x,[],[],[],0); text;
+% welch_psd(x,[],[],[],0); text;
 %
 % figure(2); subplot(121);
 % text(0,0.9,'magnitude units, whole range','Units','Normalized'); 
-% pwelch(x,'whole','squared'); text;
+% welch_psd(x,'whole','squared'); text;
 % subplot(122);
 % text(0,0.9,'90% confidence intervals','Units','Normalized'); 
-% pwelch(x,[],[],[],[],0.9); text;
+% welch_psd(x,[],[],[],[],0.9); text;
 % oneplot();
 % %----------------------------------------------------------
 % % plots should show a chebyshev bandpass filter shape

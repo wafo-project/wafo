@@ -117,7 +117,7 @@ if nr2
   ax=axis;
   plot([ax(1) ax(2)],[lev; lev],'k');
   for l=1:length(levels)
-    h=figtext(1.01,lev(l),[num2str(levels(l)*100) '%'],'norm','data');
+    h=figtext(1.01,lev(l),[num2str(levels(l)*100) '%'],'normalized','data');
     set(h,'FontSize',10,'FontAngle','Italic')
   end
 end

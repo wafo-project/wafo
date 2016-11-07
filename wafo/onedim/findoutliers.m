@@ -34,7 +34,10 @@ function [ind, indg]=findoutliers(xx,zcrit,dcrit,ddcrit,plotflag)
 % ddcrit = 9.81/2*dt*dt;
 % zcrit = 0;
 % [inds, indg] = findoutliers(xx,zcrit,dcrit,ddcrit);
-% waveplot(xx,'-',xx(inds,:),1,1,1)
+% waveplot(xx,'-',xx(inds,:),1,1,1);
+%
+% assert(length(inds), 1152);
+% close all;
 %
 % See also  waveplot, reconstruct
 
@@ -67,14 +70,14 @@ if n<m
 end
 
 if n<2, 
-  error('The vector must have more than 2 elements!')
+  error('The vector must have more than 2 elements!');
 end
 
 switch m
  case 1, % OK dimension
  case 2, xn=xn(:,2);
  otherwise, 
-   error('Wrong dimension of input! dim must be 2xN, 1xN, Nx2 or Nx1 ')       
+   error('Wrong dimension of input! dim must be 2xN, 1xN, Nx2 or Nx1 ');
 end
 
 ind=[];indg=[];
@@ -86,15 +89,15 @@ if nargin<2||isempty(zcrit),
 end
 if nargin<3||isempty(dcrit),
   dcrit=1.5*std(xn(~indmiss));
-  disp(['dcrit is set to ' num2str(dcrit)])
+  disp(['dcrit is set to ' num2str(dcrit)]);
 end
 if nargin<4||isempty(ddcrit),
   ddcrit=1.5*std(xn(~indmiss));
-  disp(['ddcrit is set to ' num2str(ddcrit)])
+  disp(sprintf('ddcrit is set to %s', num2str(ddcrit)));
 end
 if findNaN, 
   ind=find(indmiss);
-  disp(['Found ' num2str(length(ind)) ' missing points'])
+  disp(sprintf('Found %d missing points', length(ind)));
   xn(indmiss)=0;%set NaN's to zero 
 end
 
@@ -105,7 +108,7 @@ if  findSpikes , % finding spurious spikes
   tmp=find(((dxn(1:(end-1))>dcrit).*(dxn(2:end))<-dcrit) |...
       ((dxn(1:(end-1))<-dcrit).*(dxn(2:end))>dcrit) )+1;
   %if ~isempty(tmp),
-    disp(['Found ' num2str(length(tmp)) ' spurious spikes'])
+    disp(sprintf('Found %d spurious spikes', length(tmp)));
   %end
   ind=[ind;tmp];
 end
@@ -114,7 +117,7 @@ if findDspikes ,% finding spurious double (two point) spikes
   tmp= find(((dxn(1:(end-2))>dcrit).*(dxn(3:end))<-dcrit) |...
       ((dxn(1:(end-2))<-dcrit).*(dxn(3:end))>dcrit) )+1;
   %if ~isempty(tmp),
-    disp(['Found ' num2str(length(tmp)) ' spurious two point (double) spikes'])
+    disp(sprintf('Found %d spurious two point (double) spikes', length(tmp)));
   %end
   ind=[ind;tmp;tmp+1];%removing both points
 end
@@ -123,14 +126,14 @@ if findjumpsDx ,% finding spurious jumps  in Dx
   % finding spurious positive jumps  
   tmp= find(dxn>dcrit);
   %if ~isempty(tmp),
-    disp(['Found ' num2str(length(tmp)) ' spurious positive jumps of Dx'])
+    disp(sprintf('Found %d spurious positive jumps of Dx', length(tmp)));
   %end
   ind=[ind;tmp+1]; %removing the point after the jump 
 
   % finding spurious negative jumps  
   tmp= find(dxn<-dcrit);
   %if ~isempty(tmp),
-    disp(['Found ' num2str(length(tmp)) ' spurious negative jumps of Dx'])
+    disp(sprintf('Found %d spurious negative jumps of Dx', length(tmp)));
   %end
   ind=[ind;tmp];% tmp+1]; %removing the point before the jump
 end
@@ -139,14 +142,14 @@ if findjumpsD2x ,% finding spurious jumps in D^2x
   % finding spurious positive jumps  
   tmp= find(ddxn>ddcrit)+1;
   %if ~isempty(tmp),
-    disp(['Found ' num2str(length(tmp)) ' spurious positive jumps of D^2x'])
+    disp(sprintf('Found %d spurious positive jumps of D^2x',length(tmp)));
   %end
   ind=[ind;tmp];%tmp+1];%tmp-2]; removing the jump
 
   % finding spurious negative jumps  
   tmp= find(ddxn<-ddcrit)+1;
   %if ~isempty(tmp),
-    disp(['Found ' num2str(length(tmp)) ' spurious negative jumps of D^2x'])
+    disp(sprintf('Found %d spurious negative jumps of D^2x',length(tmp)));
   %end
   ind=[ind;tmp];%tmp+1];% tmp-2];removing the jump
 end
@@ -157,10 +160,10 @@ if zcrit>=0
   indz=find(indzeros)+1;
   %if ~isempty(indz),
     if zcrit==0,
-      disp(['Found ' num2str(length(indz)) ' consecutive equal values'])
+      disp(sprintf('Found %d consecutive equal values',length(indz)));
     else
-      disp(['Found ' num2str(length(indz)) ' consecutive values'])
-      disp(['less than ' num2str(zcrit) ' apart'])
+      disp(sprintf('Found %d consecutive values',length(indz)));
+      disp(sprintf('less than %s apart', num2str(zcrit)));
     end
   %end
   
@@ -186,7 +189,7 @@ end
   % end
 %end
 if ~isempty(ind),
-  disp(['Found the total of ' num2str(length(ind)) ' spurious points'])
+  disp(sprintf('Found the total of %d spurious points', length(ind)));
 end
 
 if (nargout==2)||plotflag

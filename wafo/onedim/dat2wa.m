@@ -1,4 +1,4 @@
-function [T, index,ind] = dat2wa(xn,h,pdef,wdef,rate)
+function [T, index, ind] = dat2wa(xn,h,pdef,wdef,rate),
 %DAT2WA Extracts sequence of wavelengths from data.
 %
 %  CALL:  [T, index] = dat2wa(x,v/h,pdef,wdef/index,rate);
@@ -26,12 +26,12 @@ function [T, index,ind] = dat2wa(xn,h,pdef,wdef,rate)
 %          wave according to the wavedefinition are used.
 %
 %  index = index sequence of one of the following : 
-%	   -level v-crossings (indices to "du" are required to 
+%          -level v-crossings (indices to "du" are required to 
 %           calculate 'd2d', 'd2u', 'u2d' or 'u2u' waveperiods) 
 %          -level v separated trough and crest turningpoints  
-%	    (indices to 'tc' are required to calculate 
-%	    't2t', 't2c', 'c2t' or 'c2c' waveperiods)
-%	   -level v crossings and level v separated trough and 
+%           (indices to 'tc' are required to calculate 
+%           't2t', 't2c', 'c2t' or 'c2c' waveperiods)
+%          -level v crossings and level v separated trough and 
 %           crest turningpoints (indices to "dutc" are
 %           required to calculate t2u, u2c, c2d or d2t
 %           waveperiods)  
@@ -44,8 +44,12 @@ function [T, index,ind] = dat2wa(xn,h,pdef,wdef,rate)
 %
 % Example:
 %  x = load('sea.dat'); x1 = x(1:400,:); 
-%  T = dat2wa(x1,0,'c2c'); % Returns crest2crest waveperiods
-%  subplot(121), waveplot(x1,'-',1,1),subplot(122),histgrm(T)
+%  [T, ind] = dat2wa(x1,0,'c2c'); % Returns crest2crest waveperiods
+%  subplot(121); waveplot(x1,'-',1,1); subplot(122); histgrm(T);
+%
+%  assert(length(T), 22);
+%  assert(ind(1:5)', [ 12, 29, 32, 40, 57]);
+%  close all;
 %
 % See also  dat2tp, dat2tc, dat2crossind, perioddef
 
@@ -57,15 +61,18 @@ function [T, index,ind] = dat2wa(xn,h,pdef,wdef,rate)
 % If the first is a down-crossing then the first is a 'd2t' waveperiod.
 % If the first is a up-crossing then the first is a 'u2c' waveperiod.
 %
-%	Example:
-%		[T ind]=dat2wa(x,0,'all'); %returns all waveperiods
-%		nn = length(T)
-%		% want to extract all t2u waveperiods
-%		if x(ind(1),2)>0 % if first is down-crossing
-%			Tt2u=T(2:4:nn);
-%		else 		% first is up-crossing
-%			Tt2u=T(4:4:nn);
-%		end
+%Example:
+% [T ind]=dat2wa(x,0,'all'); %returns all waveperiods
+% nn = length(T);
+% % want to extract all t2u waveperiods
+% if x(ind(1),2)>0 % if first is down-crossing
+%   Tt2u=T(2:4:nn);
+% else  % first is up-crossing
+%   Tt2u=T(4:4:nn);
+% end
+%
+% assert(nn, 22);
+% assert(ind(1:5), []);
 
 % Tested on: Matlab 5.3, 5.2, 5.1
 % History:

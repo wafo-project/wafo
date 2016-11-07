@@ -14,7 +14,8 @@ function g=gravity(phi)
 %  Edit GRAVITY.M to change default value for PHI.
 %
 % Example:%  
-%    g = gravity
+%    assert(gravity, 9.80629386676700, 1e-10);
+%
 % See also wdensity
 
 % References:

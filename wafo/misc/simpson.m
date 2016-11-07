@@ -27,9 +27,10 @@ function [area,epsi,a,b] = simpson(x,f,dim)
 % spaced use TRAPZ instead.
 %
 % Example:%
-%          x = linspace(0,4,201);
-%          f = exp(-x.^2);
-%          [area,epsi] = simpson(x,f)
+%   x = linspace(0,4,201);
+%   f = exp(-x.^2);
+%   [area,epsi] = simpson(x,f);
+%   assert(area, 0.886226911789523, 1e-10)      
 %
 % See also  trapz
 

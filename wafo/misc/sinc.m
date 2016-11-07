@@ -8,7 +8,9 @@ function y = sinc(x)
 %
 % Example: 
 %  x =linspace(-5,5)'; 
-%  plot(x,sinc(x))
+%  plot(x,sinc(x));
+%
+%  close();
 %
 % See also  sin
 

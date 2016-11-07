@@ -23,11 +23,11 @@ function [x,y] = discretize(fun, a, b, varargin)
 %    [x,y] = discretize(@(x)cos(x), 0, pi);
 %    [xa, ya] = discretize(@(x)cos(x), 0, pi, 'method', 'adaptive');
 %    assert(xa(1:5), ... 
-%      [ 0.        ,  0.19634954,  0.39269908,  0.58904862,  0.78539816], 1e-7)
+%      [ 0.        ,  0.19634954,  0.39269908,  0.58904862,  0.78539816], 1e-7);
 %
-%    plot(x, y, xa, ya, 'r.')
+%    plot(x, y, xa, ya, 'r.');
 % 
-%    close('all')
+%    close('all');
     options = struct('tol', 0.005, 'n', 5, 'method', 'linear');
  
     opt = parseoptions(options, varargin{:});
@@ -58,7 +58,7 @@ function [x, y] = _discretize_linear(fun, a, b, tol, n),
         n = 2 * (n - 1) + 1;
         x = linspace(a, b, n);
         y = fun(x);
-        y00 = interp1(x0, y0, x);
+        y00 = interp1(x0, y0, x, 'linear');
         err = 0.5 * max(abs((y00 - y) ./ (abs(y00 + y) + _TINY)));
         num_tries = num_tries + (err == err0);
     end
@@ -89,7 +89,7 @@ function [x,fx] = _discretize_adaptive(fun, a, b, tol, n),
             # double the sample rate in intervals with the most error
             y = [(x(I) + x(I - 1)) / 2; (x(I + 1) + x(I)) / 2](:).';
             fy = fun(y);
-            fy0 = interp1(x, fx, y);
+            fy0 = interp1(x, fx, y, 'linear');
 
             erri = 0.5 * (abs((fy0 - fy) ./ (abs(fy0 + fy) + _TINY)));
             err = max(erri);
@@ -105,7 +105,7 @@ function [x,fx] = _discretize_adaptive(fun, a, b, tol, n),
         end
     end
     if j>=50,
-        warning('Recursion level limit reached j=' + str(j))
+        warning(sprintf('Recursion level limit reached j=%d', j));
     end
     return
 end

@@ -20,7 +20,7 @@ function [bp,wf]=grule(n,a,b,method)
 %
 % Example: % integral of exp(x) from a = 0 to b = 3 is: exp(3)-exp(0)
 %  [x,w] = grule(11,0,3);
-%   sum(exp(x).*w)
+%   assert(sum(exp(x).*w), 19.0855369231877, 1e-10);
 % 
 %   See also: quadg.
 

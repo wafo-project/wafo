@@ -60,7 +60,9 @@ function [S,fcut] = dat2spec(xn,varargin)
 % Example
 %  x = load('sea.dat');
 %  S = dat2spec(x);
-%  plotspec(S)
+%  plotspec(S);
+%
+%  close all;
 % 
 % See also   dat2tr, dat2cov
 
@@ -72,7 +74,7 @@ function [S,fcut] = dat2spec(xn,varargin)
 
 % References:
 % Georg Lindgren and Holger Rootzen (1986)
-% "Stationära stokastiska processer",  pp 173--176.
+% "Stationï¿½ra stokastiska processer",  pp 173--176.
 % 
 % Gareth Janacek and Louise Swift (1993)
 % "TIME SERIES forecasting, simulation, applications",
@@ -127,7 +129,7 @@ p        = 0.95;
 chopOffHighFreq=0;   % chop off high frequencies in order to get the same 
                      % irregularity factor in the spectrum as in the data
                      % may not be a good idea => default is 0
-		     
+
 method   = 'cov';  % cov. other options from signal toolbox: psd = welch's method, pyulear,pmem =
                    % maximum entropy method 
 dflag    = 'mean'; %'ma','linear' 'mean','none' % detrending option

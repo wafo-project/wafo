@@ -41,11 +41,13 @@ function [options]= parseoptions(varargin)
 %   PARSEOPTIONS with no input and no output arguments displays this help 
 %
 % Examples:
-%  defaultoptions = struct('test',[],'integrate',[] )
-%  parseoptions(defaultoptions,'int','yes')
+%  defaultoptions = struct('test',[],'integrate',[] );
+%  options = parseoptions(defaultoptions,'int','yes');
+%  assert(options, struct('test',[], 'integrate', 'yes'))
 %  opt = defaultoptions;
 %  opt.test = 'yes';  
-%  parseoptions(defaultoptions,'int','yes',opt)
+%  options2 = parseoptions(defaultoptions,'int','yes',opt);
+%  assert(options2, struct('test','yes', 'integrate', 'yes'))
   
 % History
 % Revised pab april 2007

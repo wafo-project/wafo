@@ -113,7 +113,7 @@ tick  = feval(['inv' model ],p,cphat{:});
 ax=axis;hold on
 plot([ax(1) ax(2)],[tick; tick],'b:'); hold off
 for l=1:length(p)
-  h1=figtext(1.03,tick(l),num2str(p(l)) ,'norm','data');
+  h1=figtext(1.03,tick(l),num2str(p(l)) ,'normalized','data');
   set(h1,'FontSize',10,'FontAngle','Italic')
 end
 end

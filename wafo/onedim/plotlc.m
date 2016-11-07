@@ -19,7 +19,10 @@ function h = plotlc(lc,plotflag,ma,sa)
 % Example: 
 %  x = load('sea.dat');
 %  lc = dat2lc(x,0.2); 
-%  plotlc(lc) 
+%  plotlc(lc);
+%
+%  assert(length(lc), 269);
+%  close all;
 %
 % See also  dat2lc, mm2lc, pdfnorm, polyfit
 

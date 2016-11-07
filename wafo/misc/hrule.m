@@ -19,8 +19,13 @@ function [bp,wf] = hrule(n,method)
 %     -inf                           j=1    
 %
 % Example
-%  [x,w]= hrule(10)
-%  sum(x.*w)
+%  [x,w]= hrule(10);
+%  assert(sum(x.*w), -5.2516e-019, eps);
+%  assert(x, [3.43616, 2.53273, 1.75668, 1.03661, 0.34290, -0.34290,...
+%             -1.03661  -1.75668  -2.53273  -3.43616], 1e-4)
+%  assert(w, [7.6404e-006, 1.3436e-003, 3.3874e-002, 2.4014e-001, ...
+%             6.1086e-001  6.1086e-001  2.4014e-001, 3.3874e-002,...
+%             1.3436e-003  7.6404e-006], 1e-4);
 % 
 %  See also qrule, gaussq
 
@@ -81,7 +86,7 @@ switch method
     k0  = 1;
     kp1 = 2;
     for its=1:MAXIT
-      %Newton’s method carried out simultaneously on the roots.
+      %Newtonï¿½s method carried out simultaneously on the roots.
       L(k0,:)  = 0;
       L(kp1,:) = PIM4;
       
@@ -103,7 +108,7 @@ switch method
       pp = sqrt(2*n)*L(k0,:);
       dz = L(kp1,:)./pp;
       
-      z=z-dz; % Newton’s formula.
+      z=z-dz; % Newtonï¿½s formula.
       unfinished=find(abs(dz) > releps);
       
       if (not( any(unfinished)))

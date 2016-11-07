@@ -17,13 +17,15 @@ function hs=vc2sign(H,ratio)
 %  x = load('sea.dat');
 %  [vcf,h] = dat2steep(x); % extract Crest front velocity and wave height.  
 %  hs = vc2sign(h);
-%  plot(hs(:,1),hs(:,2))
-%  xlabel('Ratio'),ylabel('Ratio-significant wave height.')
+%  plot(hs(:,1),hs(:,2));
+%  xlabel('Ratio'); ylabel('Ratio-significant wave height.');
 %  hs3 = vc2sign(h,1/3);
-%  Hs  = hs3(2)               % significant wave height  
+%  assert(hs3(2),  1.77039326808989, 1e-10);   % significant wave height  
 %  S   = dat2spec(x);
-%  Hm0 = spec2char(S,'Hm0')   % significant wave height from spectrum
+%  assert(spec2char(S,'Hm0'), 1.89191906170386, 1e-10);
 %
+%  close all;
+% 
 % See also spec2char  
   
 Hs=sort(H); 

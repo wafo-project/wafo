@@ -19,9 +19,11 @@ function spwaveplot(xx,varargin)
 %         - x2 can  be omitted, but if given it must appear 
 %           before the vectors w_ind, tz_ind
 %
-% Example: Plot waves nr. 6,7,8 and waves nr. 12,13,...,17
+% Example: %Plot waves nr. 6,7,8 and waves nr. 12,13,...,17
 %  x = load('sea.dat'); x1 = x(1:500,:);
-%  spwaveplot(x1,[6:8 12:17])
+%  spwaveplot(x1,[6:8 12:17]);
+%
+%  close all;
 %
 % See also  waveplot, dat2tc
 
@@ -41,26 +43,26 @@ function spwaveplot(xx,varargin)
 
 for iy=1:Nfig
   for ix=1:Nsub,
-    subplot(Nsub,1,mod(ix-1,Nsub)+1)
+    subplot(Nsub,1,mod(ix-1,Nsub)+1);
     ind= tz_ind(2*w_ind(ix)-1):tz_ind(2*w_ind(ix)+2*Nwp(ix)); % indices to wave
-    plot(xx(ind,1),xx(ind,2),sym1);hold on %plot wave
-    plot(xx([ind(1) ind(end)],1),[0 0]),  % plot zero level
+    plot(xx(ind,1),xx(ind,2),sym1);hold on; %plot wave
+    plot(xx([ind(1) ind(end)],1),[0 0]);  % plot zero level
     
     if ~isempty(xx2)
       ax = axis;
-      axis([xx([ind(1) ind(end)],1)' ax(3:4)]) %make sure the axis does not change
-      plot(xx2(:,1),xx2(:,2),sym2) % before we plot xx2 on top
+      axis([xx([ind(1) ind(end)],1)' ax(3:4)]); %make sure the axis does not change
+      plot(xx2(:,1),xx2(:,2),sym2); % before we plot xx2 on top
     end
-    hold off
+    hold off;
     if Nwp(ix)==1,
-      ylabel(['Wave ', int2str(w_ind(ix))])
+      ylabel(['Wave ', int2str(w_ind(ix))]);
     else
-      ylabel(['Wave ', int2str(w_ind(ix)) '-' int2str(w_ind(ix)+Nwp(ix)-1)])
+      ylabel(['Wave ', int2str(w_ind(ix)) '-' int2str(w_ind(ix)+Nwp(ix)-1)]);
     end 
     
   end % Nsub
   xlabel('Time (sec)');
-  wafostamp
+  wafostamp;
   if (mod(ix-1,Nsub)+1==Nsub)&& iy~=Nfig, figure(gcf+1);  end
 end % Nfig
 
@@ -106,7 +108,7 @@ if (Np >= 1) && ~isempty(P{1})
 % waveplot(x1,x2,Nsub)
   w_ind=P{1};
 else
-  error('w_ind must be given')
+  error('w_ind must be given');
 end
 
 if (Np >= 2) && ~isempty(P{2})

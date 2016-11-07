@@ -18,7 +18,9 @@ function [varargout] = welch_cpsd(varargin)
 %  y1 = cos(w1*x) + randn(size(x));
 %  y2 = cos(w2*x) + randn(size(x));
 %  [Pxy,fi] = welch_cpsd(y1,y2);
-%  plot(fi,Pxy)
+%  plot(fi,Pxy);
+%
+%  close all;
 %
 % See also welch_psd, welch_tfe, welch_cohere
 

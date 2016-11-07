@@ -35,7 +35,11 @@ function R = dat2cov(xn,varargin)
 %
 % Example: 
 %   x = load('sea.dat');
-%   rf = dat2cov(x,150,2)
+%   rf = dat2cov(x,150,2);
+%   assert(rf.R(1:3)', ...
+%     [ 0.223686369437041, 0.208384728063068, 0.171107334682617], 1e-10);
+%
+%   close all;
 %
 % See also  dat2cor, covplot
 
@@ -67,7 +71,7 @@ R.stdev = R.stdev*c0;
 R.norm  = 0;
 
 if ((plotflag>0) ),
-  covplot(R,L,plotflag)
+  covplot(R,L,plotflag);
 end
 
 
@@ -89,7 +93,7 @@ if n<m
 end
 
 if n<2, 
-  error('The vector must have more than 2 elements!')
+  error('The vector must have more than 2 elements!');
 end
 
 % Default values
@@ -103,9 +107,6 @@ L=n-1;
 %  else
 %    L=floor(12*sqrt(n));
 %  end
-
-
-
 
 Np=length(P);
 strix=zeros(1,Np);
@@ -129,12 +130,12 @@ if (Na == 0)&&plotflag==0
   plotflag=3;
 end
 if plotflag>3, 
-  error('Invalid option. Plotflag can only be 0,1,2 or 3')
+  error('Invalid option. Plotflag can only be 0,1,2 or 3');
 end
- switch m
+switch m,
  case 1, x=x(:); if isempty(dT),dT=1;end
- case 2,  dT=x(2,1)-x(1,1);x=x(:,2);
- otherwise, error('Wrong dimension of input! dim must be 2xN, 1xN, Nx2 or Nx1 ') 
-              
+ case 2, dT=x(2,1)-x(1,1);x=x(:,2);
+ otherwise, 
+    error('Wrong dimension of input! dim must be 2xN, 1xN, Nx2 or Nx1 ');
 end
 return

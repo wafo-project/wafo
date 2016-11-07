@@ -33,7 +33,9 @@ function [yy,p]= cssmooth(x,y,p,xx,LinExtrap,d2)
 %  x = linspace(0,1).';
 %  y = exp(x)+1e-1*randn(size(x));
 %  pp = cssmooth(x,y,.9); 
-%  plot(x,y,x,cssmooth(x,y,.99,x,0,0.01),'g',x,ppval(pp,x),'k',x,exp(x),'r')
+%  plot(x,y,x,cssmooth(x,y,.99,x,0,0.01),'g',x,ppval(pp,x),'k',x,exp(x),'r');
+%
+%  close all;
 %
 % See also  lc2tr, dat2tr, ppval
 

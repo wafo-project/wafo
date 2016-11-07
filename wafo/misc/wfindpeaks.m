@@ -14,11 +14,15 @@ function [indx, indy] = wfindpeaks(S,Np,min_h,min_p)
 %                   min_p*max(max(S))  min_p*(the largest peak in S)
 %                   are returned (default  0).
 % Example: 
-%  x=(0:0.01:10); S=x.^2+10*sin(3*x)+0.5*sin(50*x); clf, plot(x,S)
-%  ix = wfindpeaks(S',8,5,0.3) % Find highest 8 peaks that are not
-%                             % less that 0.3*"global max" and have 
-%                             % rainflow amplitude larger than 5.
+%    x = (0:0.01:10); 
+%    S = x.^2+10*sin(3*x)+0.5*sin(50*x); 
+%    clf; plot(x,S);
+% % Find highest 8 peaks that are not less that 0.3*"global max" and have 
+% % rainflow amplitude larger than 5.
+%    assert(wfindpeaks(S',8,5,0.3), [909, 695, 482]');
 %
+%   close all;
+% 
 % See also  dat2tp
 
 % GL, Feb 2011, Changed name to  wfindpeaks  to avoid name collision 
@@ -31,7 +35,7 @@ function [indx, indy] = wfindpeaks(S,Np,min_h,min_p)
 %   fixed a bug  
 % by Per A. Brodtkorb  25.09.1999
   
-error(nargchk(1,4,nargin))  
+error(nargchk(1,4,nargin));
 if (nargin <4) || isempty(min_p)
   min_p=0;
 end
@@ -69,17 +73,15 @@ for iy=1:n % find all peaks
     [y ind]=max(S(iy,:));
   end
   if ndim>1,
-    switch iy,
-     case 1,ind2=find((S(iy,ind)>S(iy+1,ind)) );
-     case n,ind2=find((S(iy,ind)>S(iy-1,ind)));
-     otherwise
-      ind2=find((S(iy,ind)>S(iy-1,ind)) & (S(iy,ind)>S(iy+1,ind)));
+    if iy==1, ind2 = find((S(iy,ind)>S(iy+1,ind)) );
+    elseif iy==n, ind2 = find((S(iy,ind)>S(iy-1,ind)));
+    else,
+      ind2 = find((S(iy,ind)>S(iy-1,ind)) & (S(iy,ind)>S(iy+1,ind)));
     end
     if ~isempty(ind2)
-       indP=[indP;ind(ind2) iy*ones(length(ind2),1)];
+       indP = [indP;ind(ind2) iy*ones(length(ind2),1)];
     end      
   end
-  
 end
 
 if isempty(ind)||(isempty(indP)&&(ndim>1))

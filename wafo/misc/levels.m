@@ -5,12 +5,13 @@ function l=levels(param)
 %
 %        ui    = the discrete levels.
 %        param = the parameter matrix = [u_min u_max num_levels].
-% Example:% 
 %
-% param = [2 3.2 4]; 
-% levels(param)
+% Example:
+%
+% param = [1, 2, 3]; 
+% assert(levels(param), [1, 1.5, 2])
 %
 
-l=linspace(param(1),param(2),param(3));
+l = linspace(param(1), param(2), param(3));
 
 %!test assert(levels([1,2,3]), [1,1.5, 2])

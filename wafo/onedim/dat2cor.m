@@ -35,11 +35,14 @@ function [corr,c0] = dat2cor(xn,varargin)
 %
 % Example: 
 %   x = load('sea.dat');
-%   rf = dat2cor(x,150,2)
+%   rf = dat2cor(x,150,2);
+%
+%   assert(rf.R(1:3)', [ 1.0, 0.931593322326778, 0.764943054479577], 1e-10);
+%   close all;
 %
 % See also  dat2cov, covplot
 
-       
+
 %(If you do have the signal toolbox you may modify this file)
 
 % Tested on: Matlab 6.0, 5.3, 5.2, 5.1

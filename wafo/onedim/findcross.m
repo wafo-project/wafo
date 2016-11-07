@@ -10,11 +10,14 @@ function ind = findcross(x,v)
 %	ind = indices to the crossings in the original sequence x.
 %
 % Example
-%  v = 0.75
+%  v = 0.75;
 %  t = linspace(0,7*pi,250); x = sin(t);
-%  ind = findcross(x,v)
-%  plot(t,x,'.',t(ind),x(ind),'r.', t, ones(size(t))*v)
+%  ind = findcross(x,v);
+%  plot(t,x,'.',t(ind),x(ind),'r.', t, ones(size(t))*v);
 %
+%  assert(ind', [ 10,26,81,98,152,169, 224, 240], eps);
+%  close all;
+% 
 % See also dat2crossind, crossdef
 
 % there is also a mex version of this which is much faster,

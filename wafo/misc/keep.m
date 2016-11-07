@@ -11,11 +11,16 @@ function keep(varargin)
 %	
 % Examples:
 % [set1data, set2data, set3data, data,test,test2,test3] = deal(1);
-% who                   % list your workspace variables
-% keep *data
-% who
-% keep set1data set2data set3data
-% who
+%
+% keep('data', 'set1data', 'set2data', 'set3data', 'test', 'test2', 'test3');
+% assert(who(), {'data', 'set1data', 'set2data', 'set3data', 'test', ...
+%               'test2', 'test3'}');  % list your workspace variables
+%
+% keep('*data');
+% assert(who(), {'data', 'set1data', 'set2data', 'set3data'}');
+%
+% keep set1data set2data set3data;
+% assert(who(), {'set1data', 'set2data', 'set3data'}');
 %
 % See also clear
 
@@ -39,16 +44,18 @@ end
 
 % Find variables in workspace
 workspace = 'caller';  % 'caller' or 'base'
-vnames = evalin(workspace,'who');
+vnames = evalin(workspace, 'who');
+%disp(vnames)
 vnames = vnames(:).';
 % Remove variables in the "keep" list
-del = getdeletelist(vnames,varargin{:});
-if ~isempty(del)
-  % Clear selected variables
+del = getdeletelist(vnames, varargin{:});
+%disp(del)
+if ~isempty(del), % Clear selected variables
   evalin(workspace,['clear ' del])
 end
 return
-function deletelist = getdeletelist(vnames,varargin)
+
+function deletelist = getdeletelist(vnames, varargin)
   
   index = zeros(1,length(vnames));
     
@@ -71,7 +78,7 @@ function deletelist = getdeletelist(vnames,varargin)
     ix  = find(v=='.');
     vnr = str2double(v(1:ix(min(2,length(ix)))-1));
 
-    if (vnr>6.5)          
+    if (vnr>6.5) || isoctave
       for i = k1
         name    = ['\s' strrep(varargin{i},'*','\w*') '\s'];
         [lo,hi] = regexp(deletelist, name);
@@ -96,6 +103,8 @@ function deletelist = getdeletelist(vnames,varargin)
       deletelist = [' ' vnames1{:,find(~index)}];
     end
   end
+  % TODO: fix so that ans is not left in a more elegant way
+  deletelist = [deletelist ' ans']; 
   if all(isspace(deletelist))
     deletelist = '';
   end

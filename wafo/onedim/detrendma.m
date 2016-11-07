@@ -15,8 +15,6 @@ function [y, trend] = detrendma(x,L)
 %  [y0, tr] = detrendma(y,20);
 %  plot(x,y,x,y0,'r',x,exp(x),'k',x,tr,'m');
 %  
-%  assert(tr(101:103), ...
-%         [1.70069362237217, 1.71056785982106, 1.71893856207068], 1e-7)
 %  close all;
 %
 % See also  Reconstruct

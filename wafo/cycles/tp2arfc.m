@@ -44,7 +44,9 @@ function [ARFC,ARFC1,res,def] = tp2arfc(x,def,ARFC0,res0)
 % Example:
 %   x = load('sea.dat'); tp=dat2tp(x);
 %   ARFC=tp2arfc(tp);      % Default (min-to-Max cycles in residual)
-%   ccplot(ARFC) 
+%   ccplot(ARFC);
+%
+%   close all;
 %
 % See also  tp2arfc4p, findrfc, dtp2arfm, tp2rfc, tp2mm, dat2tp, rfcfilt
 
@@ -63,7 +65,7 @@ function [ARFC,ARFC1,res,def] = tp2arfc(x,def,ARFC0,res0)
 %   updated help text.
 % Revised by PJ 09-Jan-2000
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1999
+% Created by PJ (Pï¿½r Johannesson) 1999
 
 % Check input arguments
 ni = nargin;

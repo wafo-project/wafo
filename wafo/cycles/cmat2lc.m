@@ -10,10 +10,15 @@ function lc = cmat2lc(param,F)
 %   lc    = a two column matrix with levels and number of upcrossings.
 %
 % Example:
-%  x = load('sea.dat'); TP=dat2tp(x); RFC=tp2rfc(TP); 
-%  param = [-2 2 151]; F = cc2cmat(param,RFC);
-%  lc = cmat2lc(param,F);
-%  plot(lc(:,1),lc(:,2))
+%  x = load('sea.dat'); 
+%  TP = dat2tp(x); 
+%  RFC = tp2rfc(TP); 
+%  param = [-2 2 151]; 
+%  F = cc2cmat(param, RFC);
+%  lc = cmat2lc(param, F);
+%  plot(lc(:,1), lc(:,2));
+%
+%  close all;
 %
 % See also  cc2cmat
 
@@ -23,7 +28,7 @@ function lc = cmat2lc(param,F)
 % Revised by jr 01-Apr-2001
 % - Example added
 % - Updated help 
-% Created by PJ (Pär Johannesson) 14-Jan-2000
+% Created by PJ (Pï¿½r Johannesson) 14-Jan-2000
 
 % Check input arguments
 ni = nargin;

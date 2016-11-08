@@ -21,18 +21,25 @@ function [F,Lim,FF1,FF2] = cmatcombine(F1,F2,in3)
 % according to the conditions given by rangeLim (or Lim).
 %
 % Example:
-%   F1 = triu(ones(8),0)
-%   F2 = 2*F1
-%   [F,Lim,FF1,FF2]=cmatcombine(F1,F2,2)
-%   Lim=[]; Lim.range=2; Lim.min=4; Lim.max=4;
-%   [F,Lim,FF1,FF2]=cmatcombine(F1,F2,Lim)
+%   F1 = triu(ones(8),0);
+%   F2 = 2*F1;
+%   [F, Lim, FF1, FF2] = cmatcombine(F1, F2, 2);
 %
+%   assert(Lim, struct('range', 2, 'min',  8,'max', 1));
+%   assert(F, FF1+FF2, eps);
+%
+%   Lim.range=2; Lim.min=4; Lim.max=4;
+%   [F, Lim, FF1, FF2] = cmatcombine(F1,F2,Lim);
+%
+%   assert(Lim, struct('range', 2, 'min',  4,'max', 4));
+%   assert(F, FF1+FF2, eps);
+%   
 % See also  cmatplot, cc2cmat
 
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 24-Jul-2000
+% Created by PJ (Pï¿½r Johannesson) 24-Jul-2000
 % Updated by PJ 29-Aug-2000
 
 % Check input arguments

@@ -43,16 +43,16 @@
 % - smoothcmat   
 
 % History:
-% Created by PJ (Pär Johannesson) 18-May-2000
-% Updated by PJ (Pär Johannesson) 07-Jul-2005
+% Created by PJ (Pï¿½r Johannesson) 18-May-2000
+% Updated by PJ (Pï¿½r Johannesson) 07-Jul-2005
 
 figure(1), clf
 
 echo('on')
 
 % Load test-signal: deep.dat
-load([waforoot filesep 'wdemos' filesep 'itmkurs' filesep 'deep.dat'])
-x = deep;
+x = load([waforoot filesep 'wdemos' filesep 'itmkurs' filesep 'deep.dat']);
+
 plot(x(:,1),x(:,2))
 
 pause
@@ -302,12 +302,12 @@ pause
 %Test fitgenpar_mld
 
 data0 = rndgenpar(0.3,1,0,200,1);
-x_ML = fzero('fitgenpar_ml',0,[],data0);
-[f,k_ML,s_ML] = fitgenpar_ml(x_ML,data0) % Estimates k_ML and s_ML
+x_ML = fzero(@(x)fitgenparml(x,data0),0);
+[f,k_ML,s_ML] = fitgenparml(x_ML,data0) % Estimates k_ML and s_ML
 data1 = floor(data0*10)/10;
 x=(0:0.1:(max(data1)+0.1))';
 N = histc(data1+0.05,x);
-x_MLD = fzero('fitgenpar_mld',0,[],[x N]);
+x_MLD = fzero(@(y)fitgenpar_mld(y,[x N]),0);
 [f,k_MLD,s_MLD] = fitgenpar_mld(x_MLD,[x N]) % Estimates k_ML and s_ML
 
 %Test lc2rfmextreme

@@ -25,14 +25,16 @@ function [ARFC] = res2arfc(res,def,def_time)
 %   x = load('sea.dat'); tp=dat2tp(x);
 %   [ARFC,res]=tp2arfc4p(tp);      % Default (min-to-Max cycles in residual)
 %   ARFC_res = res2arfc(res);      % Cycles in residual
-%   plotcc(ARFC), hold on, plot(ARFC_res(:,1),ARFC_res(:,2),'r.'), hold off
+%   plotcc(ARFC); hold on; plot(ARFC_res(:,1),ARFC_res(:,2),'r.'); hold off;
+%
+%   close all;
 %
 % See also  tp2arfc, tp2arfc4p, findrfc, dtp2arfm, tp2rfc, dat2tp, rfcfilt
 
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 25-Jul-2000
+% Created by PJ (Pï¿½r Johannesson) 25-Jul-2000
 % Revised by PJ 09-Oct-2000
 %   Some small corrections.
 % Revised by PJ 04-Apr-2001

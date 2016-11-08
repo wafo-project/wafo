@@ -1,7 +1,7 @@
 function [f,k,s] = fitgenparml(x,data)
 %FITGENPARML Internal routine for fitgenpar (ML estimates for GPD data) 
 %
-% CALL:  [f,k,s] = fitgenpar_ml(x,data)
+% CALL:  [f,k,s] = fitgenparml(x,data)
 %
 % f = function values.
 % k = shape parameter of GPD.
@@ -12,7 +12,7 @@ function [f,k,s] = fitgenparml(x,data)
 %
 % Example
 %   data = rndgenpar(0.3,1,0,200,1);
-%   x_ML = fzero(@(p)fitgenpar_ml(p, data),0);
+%   x_ML = fzero(@(p)fitgenparml(p, data),0);
 %   [f,k_ML,s_ML] = fitgenparml(x_ML,data);  % Estimates k_ML and s_ML
 %
 % See also  fitgenpar

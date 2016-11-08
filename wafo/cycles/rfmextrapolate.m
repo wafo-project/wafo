@@ -46,7 +46,9 @@ function [Fest,Pout,Fextreme,Fsmooth,Fest0] = rfmextrapolate2(F,Pin,plotflag)
 %   Frfc = dtp2rfm(xD,64,'CS');
 %   Fest = rfmextrapolate(Frfc,[],1);
 %   Grfc = mctp2rfm({G Gh});
-%   cmatplot({Frfc Fest; Grfc G},4)
+%   cmatplot({Frfc Fest; Grfc G},4);
+%
+%   close all;
 %
 % See also  cmat2extralc, lc2rfmextreme, smoothcmat, cmatcombine
 
@@ -59,7 +61,7 @@ function [Fest,Pout,Fextreme,Fsmooth,Fest0] = rfmextrapolate2(F,Pin,plotflag)
 % Tested  on Matlab  5.3, 6.5
 %
 % History:
-% Created by PJ (Pär Johannesson) 24-Jul-2000
+% Created by PJ (Pï¿½r Johannesson) 24-Jul-2000
 % Updated by PJ 25-Apr-2003
 %   Added input parameter Pin.Lim
 

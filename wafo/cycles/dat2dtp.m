@@ -28,13 +28,15 @@ function [dtp,u,tp] = dat2dtp(param,x,h,ddef)
 % removes small oscillations from data x by rainflow filtering.
 %
 % Example:
-%   x = load('sea.dat'); x=x(1:200,:);     % Load data
+%   x = load('sea.dat'); x=x(1:200,:); 
 %   [dtp,u,tp] = dat2dtp([-2 2 32],x,0.5); % Discrete TP & rainflow filter 0.5
-%   plot(x(:,1),x(:,2),tp(:,1),tp(:,2))
+%   plot(x(:,1), x(:,2), tp(:,1), tp(:,2));
+%
+%   close all;
 %
 % See also  dat2tp, tp2cc, dtp2rfm, rfcfilter.
 
-% Copyright (c) 1999 by Pär Johannesson, 27-Apr-99
+% Copyright (c) 1999 by Pï¿½r Johannesson, 27-Apr-99
 % Toolbox: Rainflow Cycles for Switching Processes V.1.1, 27-Apr-99
 
 % Tested  on Matlab  5.3
@@ -45,12 +47,12 @@ function [dtp,u,tp] = dat2dtp(param,x,h,ddef)
 %   Implemented 'ddef' different methods for discretization.
 % Updated by PJ 18-May-2000
 %   Output 'tp' now works.
-% Updated by PJ (Pär Johannesson) 25-Feb-2000
+% Updated by PJ (Pï¿½r Johannesson) 25-Feb-2000
 %   help
-% Revised by PJ (Pär Johannesson) 12-Jan-2000
+% Revised by PJ (Pï¿½r Johannesson) 12-Jan-2000
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1999
-%   Copyright (c) 1999 by Pär Johannesson, 27-Apr-99
+% Created by PJ (Pï¿½r Johannesson) 1999
+%   Copyright (c) 1999 by Pï¿½r Johannesson, 27-Apr-99
 %   Toolbox: Rainflow Cycles for Switching Processes V.1.1, 27-Apr-99
 
 % Check input arguments

@@ -36,7 +36,9 @@ function [RFM,RFM1,res] = dtp2arfm(x,in2,in3,res0)
 %   x = load('sea.dat');                   % Load data
 %   [dtp,u,tp] = dat2dtp([-2 2 32],x,0.2); % Discrete TP & rainflow filter 0.2
 %   ARFM = dtp2arfm(dtp,32);            % Calculate asymmetric rainflow matrix
-%   cmatplot(u,u,ARFM,3), colorbar      % Plot rainflow matrix
+%   cmatplot(u,u,ARFM,3); colorbar;      % Plot rainflow matrix
+%
+%   close all;
 % 
 % See also  dtp2arfm4p, dtp2rfm, dcc2cmat, tp2rfc, dat2tp
 
@@ -46,9 +48,9 @@ function [RFM,RFM1,res] = dtp2arfm(x,in2,in3,res0)
 % Revised by PJ 26-Jul-2000
 %   New input 'def'. 
 %   Now supports ANFOR and ASTM standards for rainflow counting.
-% Revised by PJ (Pär Johannesson) 12-Jan-2000
+% Revised by PJ (Pï¿½r Johannesson) 12-Jan-2000
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1999
+% Created by PJ (Pï¿½r Johannesson) 1999
 
 % Check input arguments
 

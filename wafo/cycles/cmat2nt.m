@@ -14,15 +14,23 @@ function NT = cmat2nt(F,def)
 %                  troughs upwards to the closest discrete level.
 %
 % Example: 
-%   F = round(triu(rand(4),1)*10)
-%   NT = cmat2nt(F)
+%   F = [0    6    3    5;...
+%        0    0    0   10;...
+%        0    0    0    5;...
+%        0    0    0    0];
+%   NT = cmat2nt(F);
+%
+%   assert(NT, [0    0    0    0;...
+%               14    8    5    0;...
+%               24   18   15    0;...
+%               29   23   20    0]);
 %
 % See also  nt2cmat
 
 % Tested on Matlab 6.0
 %
 % History:
-% Created by PJ (Pär Johannesson) 19-Nov-1999
+% Created by PJ (Pï¿½r Johannesson) 19-Nov-1999
 % Earlier version named 'nt2fr' in WAT
 
 % Check input arguments

@@ -14,9 +14,22 @@ function F = nt2cmat(NT,def)
 %                  troughs upwards to the closest discrete level.
 %
 % Example: 
-%   F0 = round(triu(rand(4),1)*10)
-%   NT = cmat2nt(F0)
-%   F = nt2cmat(NT)
+%   F0 = [0   6   3   8;...
+%         0   0   1   6;...
+%         0   0   0   3;...
+%         0   0   0   0];
+%   NT = cmat2nt(F0);
+%   F = nt2cmat(NT);
+%   
+%   assert(NT, [ 0    0    0    0;...
+%               17   11    8    0;...
+%               24   18   14    0;...
+%               27   21   17    0]);
+%
+%   assert(F, [0   6   3   8;...
+%               0   0   1   6;...
+%               0   0   0   3;...
+%               0   0   0   0]);
 %
 % See also  cmat2nt
 
@@ -25,7 +38,7 @@ function F = nt2cmat(NT,def)
 % History:
 % Revised by PJ 18-May-2000
 %   Updated help text.
-% Created by PJ (Pär Johannesson) 23-Nov-1999
+% Created by PJ (Pï¿½r Johannesson) 23-Nov-1999
 % Earlier version named 'nt2fr' in WAT
   
 % Check input arguments
@@ -58,14 +71,14 @@ elseif def == 11 % same as def=1 but using for-loop
   
 elseif def == 0
   
-  disp(['def = ' num2str(def) ' not yet implemented'])
+  disp(['def = ' num2str(def) ' not yet implemented']);
   
 elseif def == -1
   
-  disp(['def = ' num2str(def) ' not yet implemented'])
+  disp(['def = ' num2str(def) ' not yet implemented']);
   
 else
   
-  disp(['def = ' num2str(def) ': not a valid value of def'])
+  disp(['def = ' num2str(def) ': not a valid value of def']);
   
 end

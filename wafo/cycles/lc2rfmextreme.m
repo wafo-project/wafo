@@ -18,10 +18,12 @@ function [Frfc,u,Nrfc,Nrfc0]=lc2nt(lc,vect)
 % This results in a simple expression for the intensity of interval 
 % crossings, which is the same as the cumulative RFM.
 %
-% Example: Gaussian process
+% Example: % Gaussian process
 %   u = (-5:0.2:5)'; lc = [u exp(-u.^2/2)];
 %   [Frfc,u,Nrfc] = lc2rfmextreme(lc);
-%   cmatplot(u,u,{Frfc Nrfc},3)
+%   cmatplot(u,u,{Frfc Nrfc},3);
+%
+%   close all;
 %
 % See also  cmat2extralc, rfmextrapolate, tp2rfc, cc2cmat, dtp2rfm
 
@@ -34,7 +36,7 @@ function [Frfc,u,Nrfc,Nrfc0]=lc2nt(lc,vect)
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 14-Feb-2000
+% Created by PJ (Pï¿½r Johannesson) 14-Feb-2000
 % Revised by PJ 20-Jul-2000
 % Revised by PJ 03-Oct-2000
 %   Vectorized some calculations. Now much faster.

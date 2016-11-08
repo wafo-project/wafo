@@ -6,13 +6,18 @@ function FF = cmatresamp(F,Method)
 %   F  = Cycle matrix.                [n,n]
 %   FF = Resampled cycle matrix.      [n,n]
 %
-% Resamles by picking the cycles at random with frequencies specified by F. 
-% The result FF contains the same number of cyles as in F.
+% Resamples by picking the cycles at random with frequencies specified by F. 
+% The result FF contains the same number of cycles as in F.
 %
 % Example:
-%   F = round(5*triu(rand(4,4),1))
-%   FF = cmatresamp(F)
-
+%   F = [0   1   3   1;...
+%        0   0   2   5;...
+%        0   0   0   4;...
+%        0   0   0   0];
+%   FF = cmatresamp(F);
+%
+%   assert(sum(FF(:)), sum(F(:)));
+%
 % See also  cmatplot
 
 
@@ -76,7 +81,3 @@ case 3
   FF=reshape(FF1,m,n);
   
 end
-
-  
-  
-  

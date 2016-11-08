@@ -13,14 +13,16 @@ function amp_hist = cmat2amp(param,F)
 %   [dtp,u,tp] = dat2dtp([-2 2 32],x,0.2); % Discrete TP & rainflow filter 0.2
 %   RFM = dtp2rfm(dtp,32);                 % Calculate rainflow matrix
 %   amp_hist = cmat2amp([-2 2 32],RFM);    % Get amplitude histigram
-%   bar(amp_hist(:,1),amp_hist(:,2))       % Plot histogram
+%   bar(amp_hist(:,1),amp_hist(:,2));      % Plot histogram
+%
+%   close all;
 %
 % See also  cc2cmat 
 
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 03-Nov-1999
+% Created by PJ (Pï¿½r Johannesson) 03-Nov-1999
 
 % Check input arguments
 

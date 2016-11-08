@@ -14,14 +14,16 @@ function lc = nt2lc(param,NT)
 %   NT = cmat2nt(F0);
 %   param = [-1 1 50];
 %   lc = nt2lc(param,NT);
-%   plotlc(lc)
+%   plotlc(lc);
+%
+%   close all;
 %
 % See also  cmat2nt, cc2cmat
 
 % Tested on Matlab 6.0
 %
 % History:
-% Created by PJ (Pär Johannesson) 18-May-2000
+% Created by PJ (Pï¿½r Johannesson) 18-May-2000
 
 % Check input arguments
 ni = nargin;

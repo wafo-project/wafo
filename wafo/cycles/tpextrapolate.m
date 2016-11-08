@@ -39,16 +39,21 @@ function [tpe,Pout,I,tpe0] = tpextrapolate(tp,N,Pin,plotflag)
 %   x = load('sea.dat');
 %   tp = dat2tp(x,0.5);
 %   tpe = tpextrapolate(tp,1,[],1);
-%   clf, plot(tp(:,1),tp(:,2),'b',tpe(:,1),tpe(:,2),'r')
+%   clf; plot(tp(:,1),tp(:,2),'b',tpe(:,1),tpe(:,2),'r');
 %   [tpe,Pout,I] = tpextrapolate(tp,1,[],2);
-%   clf, plot(tpe(:,1),tpe(:,2),'b',tpe(I.min,1),tpe(I.min,2),'g*',tpe(I.max,1),tpe(I.max,2),'g*')
+%   clf; 
+%   plot(tpe(:,1),tpe(:,2),'b',...
+%        tpe(I.min,1),tpe(I.min,2),'g*',...
+%        tpe(I.max,1),tpe(I.max,2),'g*');
+%
+%  close all;
 %
 % See also  rfmextrapoalte
 
 % Tested  on Matlab  6.5
 %
 % History:
-% Created by PJ (Pär Johannesson) 16-Apr-2003
+% Created by PJ (Pï¿½r Johannesson) 16-Apr-2003
 % Updated by PJ  11-Jun-2003
 % Updated by PJ  24-Jun-2003
 % Updated by PJ  05-Sep-2003

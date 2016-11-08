@@ -23,16 +23,20 @@ function [ARFC,res] = tp2arfc4p(x,res0,def_time)
 % This routine doesn't use MEX, Fortran or C codes, only matlab code.
 %
 % Example:
-%   x = load('sea.dat'); tp=dat2tp(x);
-%   [ARFC,res]=tp2arfc4p(tp);      % Default (min-to-Max cycles in residual)
-%   ccplot(ARFC), res
+%   x = load('sea.dat'); 
+%   tp = dat2tp(x);
+%   [ARFC, res]=tp2arfc4p(tp);  % Default (min-to-Max cycles in residual)
+%   ccplot(ARFC);
+%   % res
+%
+%   close all;
 %
 % See also  tp2arfc, findrfc, dtp2arfm4p, tp2rfc, dat2tp, rfcfilt
 
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 2000-Jul-12
+% Created by PJ (Pï¿½r Johannesson) 2000-Jul-12
 % Revised by PJ 04-Apr-2001
 % - Added input def_time
 % Check input arguments

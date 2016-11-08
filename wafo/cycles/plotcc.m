@@ -13,10 +13,10 @@ function plotcc(cc,ps)
 % History:
 % Revised by PJ 26-Jul-2000
 %   Now works when cc is 4 column matrix.
-% Revised by PJ (Pär Johannesson) 18-May-2000
+% Revised by PJ (Pï¿½r Johannesson) 18-May-2000
 %   When input cc is a cell-array, 
 %   then each cell i plotted in a subplot. 
-% Revised by PJ (Pär Johannesson) 01-Nov-1999
+% Revised by PJ (Pï¿½r Johannesson) 01-Nov-1999
 %   updated for WAFO
 % Copied from WAT Ver. 1.2
 
@@ -51,5 +51,5 @@ elseif ~isempty(cc)
   axis([-border, border, -border, border]); axis('square')
   xlabel('min')
   ylabel('max')
-  
+
 end

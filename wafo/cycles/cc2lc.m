@@ -28,6 +28,8 @@ function d = cc2lc(cc,def,plotflag,sa)
 %   mM = tp2mm(tp);
 %   lc = cc2lc(mM);
 %
+%   close all;
+%
 % See also  plotlc, tp2lc
 
 % NB! needs normpdf to be able to overplot Rice formula

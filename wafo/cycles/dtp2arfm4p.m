@@ -16,15 +16,19 @@ function [RFM,res] = dtp2arfm4p(x,n,res0)
 % Example:
 %   x = load('sea.dat');                   % Load data
 %   [dtp,u,tp] = dat2dtp([-2 2 32],x,0.2); % Discrete TP & rainflow filter 0.2
-%   [ARFM,res] = dtp2arfm4p(dtp,32);    % Calculate asymmetric rainflow matrix
-%   cmatplot(u,u,ARFM,3), colorbar, res % Plot rainflow matrix
+%   [ARFM,res] = dtp2arfm4p(dtp,32);      % Calculate asymmetric rainflow matrix
+%   cmatplot(u,u,ARFM,3);                  % Plot rainflow matrix
+%   colorbar;  
+%   % res 
+%
+%   close all;
 %
 % See also  dtp2arfm, dtp2rfm, dcc2cmat, tp2rfc4p, dat2tp
 
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 26-Jul-2000
+% Created by PJ (Pï¿½r Johannesson) 26-Jul-2000
 %   Created from 'dtp2arfm'
 
 % Check input arguments

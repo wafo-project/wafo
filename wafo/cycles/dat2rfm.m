@@ -17,20 +17,22 @@ function [RFM,u,param] = dat2rfm(x,h,n)
 %   param = the parameter matrix  [a b n].
 %
 % Example:
-%   x=load('sea.dat');
+%   x = load('sea.dat');
 %   [RFM,u] = dat2rfm(x);    % Default parameters
-%   subplot(1,2,1), cmatplot(u,u,RFM,3)
+%   subplot(1,2,1); cmatplot(u,u,RFM,3);
 %   [RFM,u] = dat2rfm(x,0.5,[-2.5 2.5 50]);
-%   subplot(1,2,2), cmatplot(u,u,RFM,3)
+%   subplot(1,2,2); cmatplot(u,u,RFM,3);
+%
+%   close all;
 %
 % See also  rfcfilter, dat2dtp, dtp2frm
 
-% Copyright (c) 2003 by Pär Johannesson
+% Copyright (c) 2003 by Pï¿½r Johannesson
 
 % Tested  on Matlab  6.5
 %
 % History:
-% Created by PJ (Pär Johannesson) 10-Apr-2003
+% Created by PJ (Pï¿½r Johannesson) 10-Apr-2003
 % Updated by PJ 03-Jun-2003
 
 %%%%
@@ -75,11 +77,10 @@ end
 if length(n)==3
     param = n;
     n=param(3);
-else
-    
+else,
     u_min = min(tp);
     u_max = max(tp);
-    
+
     param = [u_min u_max n];
 end
 

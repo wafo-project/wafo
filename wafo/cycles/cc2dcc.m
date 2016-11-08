@@ -13,6 +13,18 @@ function dcc = cc2dcc(param,cc,ddef)
 %              =-1 causes peaks to be projected downwards and the 
 %                  troughs upwards to the closest discrete level.
 %
+% Example:
+%  x = load('sea.dat');
+%  tp = dat2tp(x);
+%  rfc = tp2rfc(tp);
+%  param = [-2, 2, 41];
+%  dcc = cc2dcc(param,rfc);
+%  u = levels(param);
+%  Frfc = dcc2cmat(dcc,param(3));
+%  cmatplot(u,u,{Frfc}, 4);
+%
+%  close all;
+%  
 % See also  cc2cmat, dcc2cmat, dcc2cc
 
 % Tested  on Matlab  5.3
@@ -20,7 +32,7 @@ function dcc = cc2dcc(param,cc,ddef)
 % History:
 % Updated by PJ 28-Jul-2000
 %   Now correct upper and lower limits of discretization.
-% Created by PJ (Pär Johannesson) 01-Nov-1999
+% Created by PJ (Pï¿½r Johannesson) 01-Nov-1999
 %   This is a new version of 'mkdisc' in WAT
 
 % Check input arguments

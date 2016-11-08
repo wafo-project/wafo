@@ -46,11 +46,13 @@ function  [RFC,RFC1,res,def] = tp2rfc(x,def,RFC0,res0)
 %
 % Example:
 %   x = load('sea.dat'); tp=dat2tp(x);
-%   RFC1=tp2rfc(tp);      % Default (min-to-Max cycles in residual)
-%   ccplot(RFC1) 
-%   RFC2=tp2rfc(tp,'CS'); % Compare with AFNOR/ASTM standard
+%   RFC1 = tp2rfc(tp);      % Default (min-to-Max cycles in residual)
+%   ccplot(RFC1); 
+%   RFC2 = tp2rfc(tp,'CS'); % Compare with AFNOR/ASTM standard
 %   [I,J] = find(RFC1(:,1)~=RFC2(:,1) | RFC1(:,2)~=RFC2(:,2));
-%   hold on,plot(RFC1(I,1),RFC1(I,2),'b+',RFC2(I,1),RFC2(I,2),'rx'), hold off
+%   hold on; plot(RFC1(I,1),RFC1(I,2),'b+',RFC2(I,1),RFC2(I,2),'rx'); hold off;
+%
+%   close all;
 %
 % See also  findrfc, dat2tp, rfcfilter, tp2arfc
   
@@ -68,7 +70,7 @@ function  [RFC,RFC1,res,def] = tp2rfc(x,def,RFC0,res0)
 % Tested  on Matlab  5.3
 %
 % History:
-% Created by PJ (Pär Johannesson) 2000-01-04
+% Created by PJ (Pï¿½r Johannesson) 2000-01-04
 %   Uses same syntax as 'tp2rfc' in WAT
 % Revised by PJ 26-Jul-2000
 %   New format of def.

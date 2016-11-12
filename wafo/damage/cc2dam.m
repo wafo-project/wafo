@@ -16,7 +16,10 @@ function D=cc2dam(cc,beta,K)
 % Example:
 %   x = load('sea.dat'); TP=dat2tp(x); RFC=tp2rfc(TP); 
 %   bv = 3:8;
-%   D = cc2dam(RFC,bv); plot(bv,D,'x-')
+%   D = cc2dam(RFC,bv); 
+%   plot(bv,D,'x-');
+%
+%   close all;
 %
 % See also  cmat2dam
 
@@ -25,7 +28,7 @@ function D=cc2dam(cc,beta,K)
 % History:
 % Revised by PJ  01-Nov-1999
 % - updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
+% Created by PJ (Pï¿½r Johannesson) 1997
 %   from 'Toolbox: Rainflow Cycles for Switching Processes V.1.0'
 
 

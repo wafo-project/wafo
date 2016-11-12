@@ -6,14 +6,16 @@ function figrestore(varargin)
 %  hfig  = handle(s) of figure(s) you wish to restore (Default = 'all')
 %              
 %Examples:    
-%  for ix = 1:5, figure(ix),end
-%  figrestore('all')   %Restores all unhidden figures
-%  figrestore          %same as figrestore('all')
-%  figrestore(gcf)     %Restores the current figure
-%  figrestore(3)       %Restores figure 3
-%  figrestore([2 4])   %Restores figures 2 and 4
+%  for ix = 1:5, figure(ix); end
+%  figrestore('all');   %Restores all unhidden figures
+%  figrestore;          %same as figrestore('all')
+%  figrestore(gcf);     %Restores the current figure
+%  figrestore(3);       %Restores figure 3
+%  figrestore([2 4]);   %Restores figures 2 and 4
 %  % or alternativel
-%  figrestore 2 4  
+%  figrestore 2 4;
+%
+%  close all;
 %
 %See also figcycle, figkeep, figmaximize, figpile, figstack,
 %          figsort, figtile

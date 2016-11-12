@@ -12,9 +12,12 @@ function Dmat = cmat2dmat(param,F,beta,K)
 %   K     = K-value, material parameter (Optional, Default: 1) [1x1]
 %
 % Example:
-%   param = [-1 1 32]; F = mktestmat(param);
+%   param = [-1 1 32]; 
+%   F = mktestmat(param);
 %   Dmat = cmat2dmat(param,F,6);
-%   cmatplot(Dmat)
+%   cmatplot(Dmat);
+%
+%   close all;
 %
 % See also  cmat2dam, cmatplot, cc2cmat
 
@@ -23,7 +26,7 @@ function Dmat = cmat2dmat(param,F,beta,K)
 % History:
 % Revised by PJ  04-Jan-2000
 % -  updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
+% Created by PJ (Pï¿½r Johannesson) 1997
 %   from 'Toolbox: Rainflow Cycles for Switching Processes V.1.0'
 
 

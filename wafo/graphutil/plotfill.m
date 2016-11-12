@@ -5,6 +5,8 @@ function h = plotfill(x,y,color,varargin)
 %  x = linspace(0,10).';
 %  y = [sin(x)+1,sin(x)-1];
 %  plotfill(x,y,'g','facealpha',0.1)
+%
+%  close all;
 % 
 % See also fill
 error(nargchk(2,inf,nargin))

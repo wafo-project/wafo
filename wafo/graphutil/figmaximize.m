@@ -21,6 +21,8 @@ function figmaximize(varargin)
 % %or alternatively
 %  figmaximize 2 4  
 %
+%  close all;
+%
 % See also figcycle, figkeep, figrestore, figpile, figstack,
 %          figsort, figtile
 

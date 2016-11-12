@@ -108,7 +108,8 @@ function options = kdeoptset(varargin)
 %     zero. These spikes should be removed!  
 %  
 % Examples:
-%  kdeoptset('kdebin')
+%  assert(kdeoptset('kdebin'), struct('kernel', 'epan', 'hs', [], ...
+%         'hsMethod', 'hns', 'alpha', 0, 'L2', 1, 'inc', 128));
 %
 % See also  kde, kdebin
 

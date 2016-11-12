@@ -22,7 +22,10 @@ function [mu2, R, Rdd] = kernelstats(kernel)
 %  Note that only the first 4 letters of the kernel name is needed.
 %
 % Example
-%  [mu2,R]=kernelstats('triweight')  
+%  [mu2,R]=kernelstats('triweight');
+%
+%  assert(mu2, 0.111111111111111, eps)
+%  assert(R, 0.815850815850816, eps)
 %
 % See also  mkernel
   

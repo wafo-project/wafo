@@ -13,9 +13,14 @@ function black(lty)
 % Helpdesk->HandleGraphicsObjectProperties->Axes->LineStyleOrder.)
 %
 %Example
-% t=linspace(0,4*2*pi)'; x = sin(t); y = cos(t);
-% figure(1),plot(t,x,t,y), figure(2), black,plot(t,x,t,y)
-% black off % reset ColorOrder and LinstyleOrder to factory settings 
+% t = linspace(0,4*2*pi)'; 
+% x = sin(t); 
+% y = cos(t);
+% figure(1); plot(t,x,t,y); 
+% figure(2); black; plot(t,x,t,y)
+% black off; % reset ColorOrder and LinstyleOrder to factory settings 
+%
+% close all;
 %
 % See also: plot 
 

@@ -14,7 +14,7 @@ function [h00,h1]=fcolorbar(D,L,label,W,hand)
 %         'l'eft
 %         'o'utside (when rescaling of graph is undesireable)
 %         'a'lone   (in a subplot when it refers to several
-%				 graphs in a subplot-figure)
+%          graphs in a subplot-figure)
 % label = string for the color-axis-label               (default= empty)
 % W     = Relative width (ratio of graph width/height)  (default= 1/20)
 % hand  = handles to axes which the colorbar refers to. Use this to
@@ -50,6 +50,8 @@ function [h00,h1]=fcolorbar(D,L,label,W,hand)
 %           % Not equidistant contours.
 % figure(4);  v=[-8 -4 -2 -1 0 1 2 4 8]; 
 % [cs,h]=contourf(x,y,z,v); clabel(cs,h); fcolorbar(v);
+%
+% close all;
 %
 % See also  contourf, clevels
 

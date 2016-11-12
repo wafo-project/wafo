@@ -41,7 +41,7 @@ function fout = fwaitbar(x,name,msg)
 % - added example
 % by Olof Liungman.
 %   Dept. of Oceanography, Earth Sciences Centre
-%   Göteborg University, Sweden
+%   Gï¿½teborg University, Sweden
 %   E-mail: olof.liungman@oce.gu.se
 
 x = max(0,min(100*x,100)); % Make sure 0<=x<=100

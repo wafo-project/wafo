@@ -12,6 +12,8 @@ function figstack(varargin)
 % Example:
 % figstack             % stack all open figures
 % figstack 1:3 5 7     % stack figure 1,2,3,5 and 7
+%
+% close all;
 %  
 % See also: figcycle, figkeep, figmaximize, figrestore, figpile,
 %          figsort, figtile

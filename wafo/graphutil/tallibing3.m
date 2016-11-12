@@ -15,8 +15,10 @@ function h1 = tallibing3(x,y,z,n,size,color)
 % USAGE:   When plotting binned results, the number of datapoints in each
 %          bin can be written in the bins in the plot.
 % Example
-%  [x,y,z]=peaks(20); 
-%   surf(x,y,z); tallibing3(x,y,z,z);
+%  [x,y,z] = peaks(20); 
+%  surf(x,y,z); tallibing3(x,y,z,z);
+%
+%  close all;
 %
 % See also TALLIBING TEXT
 

@@ -13,12 +13,14 @@ function s=ssample(A,m,varargin)
 %  multivariate data-set in the matrix DATA.
 %
 % Example:
-%     data=rndnorm(0,1,500,1);
+%     data = rndnorm(0,1,500,1);
 %     s = ssample(data,100,'kernel','gauss');
 %     f = kdebin(s);  
-%     pdfplot(f),hold on,
+%     pdfplot(f); hold on;
 %     x = linspace(-5,5);
-%     plot(x,pdfnorm(x),'r')  
+%     plot(x,pdfnorm(x),'r');
+%
+%     close all;
 %
 % See also sample
   

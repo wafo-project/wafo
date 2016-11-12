@@ -8,15 +8,15 @@ function S = roadspec(sdata,a,C)
 %  Input: 
 %    sdata = the data vector [wl wu n], where 
 % 
-%	wl = lower truncation frequency  (default 4/257)
-%	wu = upper truncation frequency  (default 4)
-%	n  = number of evaluation points (default 257)
+% wl = lower truncation frequency  (default 4/257)
+% wu = upper truncation frequency  (default 4)
+% n  = number of evaluation points (default 257)
 %     a,C  = constants in the spectral density
 %
 % The model is given by 
 % 
-%  	              S(w) = C/(w^a),  wl < w < wu
-% 
+%                S(w) = C/(w^a),  wl < w < wu
+%
 % Usually 2 < a < 3, see the literature. For the value of  c, 
 % Kamash and Robson (1978) give the values
 %
@@ -24,6 +24,11 @@ function S = roadspec(sdata,a,C)
 % Highway:   3e-8 < C < 800e-8
 % Minor highway: 50e-8 < C < 3000e-8
 % 
+% Example
+%  S = roadspec();
+%  plotspec(S);
+%
+%  close all;
 
 % References:
 % Lindgren, G. (1981).
@@ -34,8 +39,8 @@ function S = roadspec(sdata,a,C)
 % The Application of Isotropy in Road Surface Modelling 
 % Journal of Sound and Vibration, Vol 57, pp 89-100
 %
-% Jogréus, C. (1983).
-% Fordonsrörelser och stokastiska vägmodeller.
+% Jogrï¿½us, C. (1983).
+% Fordonsrï¿½relser och stokastiska vï¿½gmodeller.
 % Master's thesis, Mathematical Statistics, Lund University 
 
 % Tested on Matlab 6.0

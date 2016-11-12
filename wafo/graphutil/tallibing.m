@@ -16,10 +16,13 @@ function h1=tallibing(x,y,n,size,color)
 %          bin can be written on the bins in the plot.
 %
 % EXAMPLE: 
-%  [x,y,z]=peaks(20); 
-%   epcolor(x,y,z); tallibing(x,y,z);
+%  [x,y,z] = peaks(20); 
+%  epcolor(x,y,z); 
+%  tallibing(x,y,z);
 %   % pcolor(x,y,z); shading interp; 
 %
+%  close all;
+%  
 % See also TEXT TALLIBING3
 
 %Time-stamp:<Last updated on 01/01/07 at 12:27:30 by even@gfi.uib.no>

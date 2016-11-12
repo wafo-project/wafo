@@ -31,7 +31,9 @@ function c = gridcount(data,X)
 %  c = gridcount(data,x);
 %  plot(x,c,'.')   % 1D histogram
 %  plot(x,c/dx/N)  % 1D probability density plot
-%  trapz(x,c/dx/N)   
+%  % trapz(x,c/dx/N)   
+%
+%  close all;
 %
 % See also  bincount, kdebin
   

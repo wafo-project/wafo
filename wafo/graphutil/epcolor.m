@@ -17,7 +17,10 @@ function h=epcolor(x,y,data)
 % centered x and y data is stored in object's UserData as 1x2 cell array.
 %
 % Example: 
-% [x,y,z]=peaks(20); epcolor(x,y,z);
+% [x,y,z]=peaks(20); 
+% epcolor(x,y,z);
+%
+% close all;
 %
 % See also PCOLOR
 

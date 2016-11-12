@@ -20,6 +20,8 @@ function [CL,c]=clevels(c)
 % plot(c1(1,:),c1(2,:));
 % cltext(cl)
 %
+% close all;
+%
 % See also  contourc, fcolorbar
 
 % History

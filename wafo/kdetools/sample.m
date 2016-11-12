@@ -14,7 +14,7 @@ function s=sample(A,m,r)
 %
 % Example:
 %     data = rndnorm(0,1,500,3);
-%     s    = sample(data,100,0)
+%     s    = sample(data,100,0);
 %
 
 % History:

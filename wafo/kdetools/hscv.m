@@ -12,10 +12,13 @@ function [h,hvec,score]=hscv(A,kernel,hvec)
 %                               
 %  Note that only the first 4 letters of the kernel name is needed.
 %  
-%  Example: 
-%     data = rndnorm(0,1,20,1)
-%     [hs hvec score] = hscv(data,'epan');
-%     plot(hvec,score) 
+% Example: 
+%   data = rndnorm(0,1,20,1)
+%   [hs hvec score] = hscv(data,'epan');
+%   plot(hvec,score) 
+%
+%   close all;
+%
 % See also  hste, hbcv, hboot, hos, hldpi, hlscv, hstt, kde, kdefun
 
 

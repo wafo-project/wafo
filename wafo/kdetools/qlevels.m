@@ -21,7 +21,9 @@ function [ui, p]=qlevels(pdf,p,x1,x2)
 %   qls = qlevels(pdfnorm(x),[10:20:90 95 99 99.9],x);
 % % compared with the exact values
 %   ql  = pdfnorm(invnorm((100-[10:20:90 95 99 99.9])/200));  
-%   
+%
+%   close all;
+%
 % See also  qlevels2, tranproc
 
 % Tested on: Matlab 5.3

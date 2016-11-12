@@ -15,8 +15,13 @@ function D = cmat2dmat(param,F,beta,K)
 %     D(i) = sum ( K * S^beta(i) ),  S = (max-min)/2
 % 
 % Example:
-%   param = [-1 1 32]; F = mktestmat(param);
-%   bv = 3:8; D = cmat2dam(param,F,bv); plot(bv,D,'x-')
+%   param = [-1 1 32]; 
+%   F = mktestmat(param);
+%   bv = 3:8; 
+%   D = cmat2dam(param,F,bv); 
+%   plot(bv,D,'x-');
+%
+%   close all;
 %
 % See also  cmat2dmat
 
@@ -25,7 +30,7 @@ function D = cmat2dmat(param,F,beta,K)
 % History:
 % Revised by PJ 03-Nov-1999
 % -  updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
+% Created by PJ (Pï¿½r Johannesson) 1997
 %   from 'Toolbox: Rainflow Cycles for Switching Processes V.1.0'
 
 % Check input and otput

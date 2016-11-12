@@ -7,8 +7,8 @@ function [q, p]=qlevels2(r,p,method)
 %    data = data matrix, size N x D (D = # of dimensions)
 %    PL   = percent level vector, length Np (default [10:20:90 95 99 99.9])
 %  method = 1 Interpolation so that F(X_(k)) == (k-0.5)/n. (default)
-% 	    2 Interpolation so that F(X_(k)) == k/(n+1).
-% 	    3 Based on the empirical distribution.
+%           2 Interpolation so that F(X_(k)) == k/(n+1).
+%           3 Based on the empirical distribution.
 %
 % QLEVELS2 sort the columns of data in ascending order and find the  
 %          quantile levels for each column which encloses  P% of the data.  

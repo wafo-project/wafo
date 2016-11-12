@@ -27,9 +27,12 @@ function [h,hvec,score]=hbcv(A,kernel,hvec)
 %  Asymptotically HBCV has a relative slow convergence rate.
 %
 %  Example: 
-%     data = rndnorm(0, 1,20,1)
-%     [hs hvec score] = hbcv(data,'epan');
-%     plot(hvec,score) 
+%   data = rndnorm(0, 1,20,1)
+%   [hs hvec score] = hbcv(data,'epan');
+%   plot(hvec,score);
+%
+%   close all;
+%
 % See also  hste, hboot, hns, hos, hldpi, hlscv, hscv, hstt, kde, kdefun  
 
 

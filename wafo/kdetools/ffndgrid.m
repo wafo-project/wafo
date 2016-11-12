@@ -53,9 +53,11 @@ function [zzgrid, xvec,options] = ffndgrid(x, f, varargin)
 % [XV,YV]=meshgrid(xv{:});
 % text(XV(:),YV(:),int2str(nc(:)))
 % dx = [diff(xv{1}(1:2)) diff(xv{2}(1:2))];
-% contourf(xv{:}, nc/(N*prod(dx))) % 2-D probability density plot.
-% colorbar
-% colormap jet
+% contourf(xv{:}, nc/(N*prod(dx))); % 2-D probability density plot.
+% colorbar;
+% colormap jet;
+%
+% close all;
 %
 % See also  griddata
 

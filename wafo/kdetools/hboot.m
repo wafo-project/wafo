@@ -20,9 +20,12 @@ function [h,hvec,score]=hboot(A,kernel,hvec)
 %  Note that only the first 4 letters of the kernel name is needed.
 %  
 %  Example:
-%     data = rndnorm(0, 1,20,1);
-%     [hs hvec score] = hboot(data,'epan');
-%     plot(hvec,score) 
+%   data = rndnorm(0, 1,20,1);
+%   [hs hvec score] = hboot(data,'epan');
+%   plot(hvec,score);
+%
+%   close all;
+% 
 % See also  hste, hbcv, hos, hldpi, hlscv, hscv, hstt, kde, kdefun 
 
 % tested on : matlab 5.2

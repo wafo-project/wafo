@@ -23,11 +23,11 @@ function H = figtext(x,y,T,x_unit,y_unit,x_justify,y_justify,varargin)
 %                  'middle' places centered text. (default).
 %                  'bottom' places bottom adjusted text.
 %
-%  Example: 
-%       figure(1)
-%       H =  figtext(0,0,'test','normalized',[],'left','top')
+% Example: 
+%   figure(1);
+%   H =  figtext(0,0,'test','normalized',[],'left','top');
 %
-%       close all
+%   close all
 %
 %  See also  text
 

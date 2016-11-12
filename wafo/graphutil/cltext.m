@@ -27,10 +27,13 @@ function [H] = cltext(clevels,PL,N)
 % Examples:
 %  z  = peaks;
 %  cl = max(z(:))-range(z(:))*(.1:.1:.9);
-%  contour(z,cl), cltext(cl)
+%  contour(z,cl); cltext(cl);
 %
-%  data = rndray(1,2000,2); f = kdebin(data,{'kernel','epan','L2',.5,'inc',128});
-%  contour(f.x{:},f.f,f.cl),cltext(f.pl,1)
+%  data = rndray(1,2000,2); 
+%  f = kdebin(data,{'kernel','epan','L2',.5,'inc',128});
+%  contour(f.x{:},f.f,f.cl); cltext(f.pl,1);
+%
+%  close all;
 %
 % See also  pdfplot
 

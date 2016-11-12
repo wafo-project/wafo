@@ -10,7 +10,8 @@ function k=deriv2(x,y,d)
 %
 % Example: 4'th p. derivative wrt. x and 2'nd p. derivative wrt. y at (0,0)
 %
-%          k42=deriv2(0,0,'42')
+%    k42 = deriv2(0,0,'42');
+%    assert(k42, -0.477464829275686)
 %
 % See also  deriv
 

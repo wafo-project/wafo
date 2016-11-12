@@ -13,16 +13,19 @@ function hhh=vline(x,in1,in2)
 % return a handle to the line, so it can be manipulated or deleted.  Also, the HandleVisibility can be 
 % overridden by setting the root's ShowHiddenHandles property to on.
 %
+% Example:
 % h = vline(42,'g','The Answer')
 %
-% returns a handle to a green vertical line on the current axes at x=42, and creates a text object on
-% the current axes, close to the line, which reads "The Answer".
+% % returns a handle to a green vertical line on the current axes at x=42, and 
+% % creates a text object on the current axes, close to the line, which reads 
+% % "The Answer".
 %
-% vline also supports vector inputs to draw multiple lines at once.  For example,
+% % vline also supports vector inputs to draw multiple lines at once:
 %
 % vline([4 8 12],{'g','r','b'},{'l1','lab2','LABELC'})
 %
 % % draws three lines with the appropriate labels and colors.
+% close all;
 
 % 
 % By Brandon Kuczenski for Kensington Labs.

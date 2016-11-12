@@ -12,6 +12,8 @@ function figkeep(varargin)
 %  figkeep [1:3  5 7]
 %  % or 
 %  figkeep([1:3  5 7])  
+%
+%  close all;
 %  
 % See also close, figcycle, figmaximize, figrestore, figpile, figstack,
 %          figsort, figtile

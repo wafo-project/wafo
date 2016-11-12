@@ -21,10 +21,14 @@ function [h,hvec,score]=hlscv(A,kernel,hvec)
 %  Studies have shown that the theoretical and practical performance of
 %  HLSCV are somewhat disappointing. In particular HLSCV is highly
 %  variable and a relative slow convergence rate.
-%  Example: 
-%    data = rndnorm(0,1,20,1)
-%    [hs hvec score] = hlscv(data,'epan');
-%    plot(hvec,score) 
+%
+% Example: 
+%   data = rndnorm(0,1,20,1)
+%   [hs hvec score] = hlscv(data,'epan');
+%   plot(hvec,score);
+%
+%   close all;
+%
 % See also  hste, hbcv, hboot, hos, hldpi, hscv, hstt, kde, kdefun
 
 % Reference:  

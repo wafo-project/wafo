@@ -19,8 +19,20 @@ function h=hldpi2(A,kernel,L)
 %  Note that only the first 4 letters of the kernel name is needed.
 %
 %  Example: 
-%   x  = rndnorm(0,1,50,2);
-%   hs = hldpi2(x,'gauss',1);
+%  % x = rndnorm(0, 1,5,2);
+%  x = [-0.0233845632050972   0.9070186193622006;...
+%        0.6529594866766634   1.3689145060433903;...
+%        0.4477857310723146  -0.6311953712037597;...
+%       -1.9256785038579962   0.5886257667993168;...
+%       -0.5290011931824666  -0.3602090880229930];
+%  assert(hldpi2(x,'gaus',1), [0.766481173078717, 0.613638576524924], 1e-10);
+%  assert(hldpi2(x,'epan',1), [1.68555742909877, 1.34944353204218], 1e-10);
+%  assert(hldpi2(x,'biwe',1), [1.99844931129830, 1.59994222130275], 1e-10);
+%  assert(hldpi2(x,'triw',1), [2.27154261996996, 1.81857849715365], 1e-10);
+%  assert(hldpi2(x,'tria',1), [1.85519600157266, 1.48525478976490], 1e-10);
+%  assert(hldpi2(x,'rect',1), [1.33782781805210, 1.07105404116772], 1e-10);
+%  assert(hldpi2(x,'lapl',1), [0.584350123515550, 0.467825943520494], 1e-10);
+%  assert(hldpi2(x,'logi',1), [0.432440693836477, 0.346208492938435], 1e-10);
 %
 % See also  hste, hbcv, hboot, hos, hlscv, hscv, hstt, kde, kdefun
 
@@ -89,10 +101,13 @@ R = R^d;
 
 %STEconstant = R /(mu2^(2)*n);
 
-sigma1=std(A(:,1));
-sigma2=std(A(:,2));
-
-rho=corrcoef(A);
+sigma1 = std(A(:,1));
+sigma2 = std(A(:,2));
+if ismatlab,
+  rho = corrcoef(A);
+else
+  rho = corr(A);
+end
 rho=rho(1,2);
 
 if L==3,

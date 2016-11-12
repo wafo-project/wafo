@@ -11,8 +11,13 @@ function h=hste(A,kernel,h,inc,maxit,releps,abseps)
 %       h0 = initial starting guess for hs (default h0=hns(A,kernel))
 %
 %  Example: 
-%   x  = rndnorm(0,1,50,1);
-%   hs = hste(x,'gauss');
+%  % data  = rndnorm(0,1,5,2);
+%  data = [-0.0233845632050972   0.9070186193622006;...
+%           0.6529594866766634   1.3689145060433903;...
+%           0.4477857310723146  -0.6311953712037597;...
+%          -1.9256785038579962   0.5886257667993168;...
+%          -0.5290011931824666  -0.3602090880229930];
+%   assert(hste(data,'gauss'), [0.564411435057012   0.431314424407532], 1e-10);
 %
 % See also  hbcv, hboot, hos, hldpi, hlscv, hscv, hstt, kde, kdefun
 
@@ -38,9 +43,6 @@ function h=hste(A,kernel,h,inc,maxit,releps,abseps)
 
 % TODO % NB: this routine can be made faster:
 % TODO % replace the iteration in the end with a Newton Raphson scheme
-
-  
-
 
 
 if nargin<2||isempty(kernel)

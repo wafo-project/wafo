@@ -2,6 +2,11 @@
 %
 % KDEDEMO2 shows that the transformation KDE is a better estimate for
 % Rayleigh distributed data around 0 than the ordinary KDE.
+%
+% Example
+% kdedemo2;
+%
+% close all;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% -*- Mode: Matlab -*- %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% kdedemo2.m --- 
@@ -21,7 +26,7 @@ f = kde(data);
 pdfplot(f)
 title('Ordinary KDE')
 hold on
-plot(x,wraylpdf(x,1),':')
+plot(x,pdfray(x,1),':')
 hold off
  
 %plotnorm((data).^(L2)) % gives a straight line => L2 = 0.5 reasonable

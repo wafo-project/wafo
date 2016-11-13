@@ -36,10 +36,10 @@ function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag)
 %
 % Example: % Simulate using demospec, plot the first frame 
 %  Nx = 2^7; Ny = 2^7; Nt = 100; dx = 10; dy = 10;dt = 1;
-%  S = demospec('dir')
+%  S = demospec('dir');
 %  Y=seasim(S,Nx,Ny,Nt,dx,dy,dt,2,1);  
 %
-%  
+%  close all;
 %
 % See also  seamovie, spec2sdat
   
@@ -245,13 +245,13 @@ elseif plotflag==1
   if min(Nx,Ny)>2
     colormap('winter')
     surfl(Y.x,Y.y,Y.Z(:,:,1),[-30, 45]);
-    shading interp
+    shading interp;
     view(-37.5,20)
     axis([Y.x(1) Y.x(end) Y.y(1) Y.y(end) 7*min(Y.Z(:)) 7*max(Y.Z(:))])
-    set(gca,'xtick',[])   
-    set(gca,'ytick',[])
-    axis('square')
-    axis('off')
+    set(gca,'xtick',[]);
+    set(gca,'ytick',[]);
+    axis('square');
+    axis('off');
   elseif Nt>1
     if Nx>1
       contour(Y.t,Y.x,Y.Z,[0 0])

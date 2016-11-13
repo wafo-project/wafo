@@ -1,5 +1,5 @@
 % WAFO Toolbox
-% Version 2.5.2   07-Feb-2011 
+% Version 2.6.2   05-Jan-2016 
 % 
 %   Wave Analysis for Fatigue and Oceanography (WAFO) Toolbox
 % 
@@ -27,6 +27,7 @@
 %                Alpha-Dec or Windows. 
 % GRAPHUTIL    - Utilities for plotting standards and figure manipulation
 % KDETOOLS     - Kernel-density estimation.
+% LAGRANGE     - Routines for generation and analysis of random 1st and 2nd order Lagrange waves.
 % MARKOV       - Routines for Markov loads, switching Markov loads, and 
 %                their connection to rainflow cycles.
 % MISC         - Miscellaneous routines. Ex: numerical integration, smoothing 

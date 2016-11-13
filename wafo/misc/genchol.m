@@ -21,8 +21,10 @@ function [L,P,r] = genchol(A,tol)
 %  H = hilb(10);
 %  tol   = 1e-6;
 %  [L,P] = genchol(H,tol);
-%  spy(L*L.'-H(P,P))
+%  spy(L*L.'-H(P,P));
 %
+% close all;
+% 
 % See also  chol  
   
 %error(nargoutchk(2,2,,nargout))

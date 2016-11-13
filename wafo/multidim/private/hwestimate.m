@@ -1,4 +1,4 @@
-function Hw = HwEstimate(Sf,SfBest,Hw,pos);
+function Hw = hwestimate(Sf,SfBest,Hw,pos);
 %HWESTIMATE  Estimate absolute value of transfer function H(w) from sensor spectra
 %
 % CALL Hw = hwestimate(Sf,SfBest,Hw,pos)

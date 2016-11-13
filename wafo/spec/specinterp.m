@@ -123,7 +123,7 @@ if doInterpolate>0
   %wnc = min(wnNew,wnOld-1e-5);
   wnc = wnNew;
   for ix = 1:np
-    [x, _y] = discretize(@(x)evalspec(x,ix), 0, wnc, 'method','adaptive');
+    [x, _y] = discretize(@(x)evalspec(x,ix), 0, wnc, 'method','adaptive', 'n', 129);
     dwMin = min(min(diff(x)),dwMin);
   end
   

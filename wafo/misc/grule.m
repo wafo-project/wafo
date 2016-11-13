@@ -22,7 +22,7 @@ function [bp,wf]=grule(n,a,b,method)
 %  [x,w] = grule(11,0,3);
 %   assert(sum(exp(x).*w), 19.0855369231877, 1e-10);
 % 
-%   See also: quadg.
+% See also: quadg.
 
 
 % Reference 

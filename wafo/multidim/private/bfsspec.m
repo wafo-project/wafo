@@ -1,4 +1,4 @@
-function SfBest = bfsSpec(Sf,Hw,pos,bfs);
+function SfBest = bfsspec(Sf,Hw,pos,bfs);
 %BFSSPEC Estimate frequency spectrum for the surface elevation from the bfs timeseries
 %
 %  CALL:  SfBest = bfsSpec(Sf,Hw,pos,bfs);

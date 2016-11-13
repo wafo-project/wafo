@@ -16,7 +16,7 @@ function H1 = geth1line(filename,format,N)
 %  GETH1LINE is used by MKCONTENTS to simply generate a formatted
 %  contents file for a directory with m-files.
 %  
-%  Examples:
+% Examples:
 %  assert(geth1line('geth1line',1), ...
 %   'geth1line     - Extracts the first comment line (the H1 line) of a m-file');
 %  assert(geth1line('geth1line',0), ...

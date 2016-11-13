@@ -24,8 +24,10 @@ function [F_rfc,FF,FFr,T] = mctp2arfm(F,c_m)
 %   F = mktestmat(param,[-0.2 0.2],0.15,2);
 %   Frfc = mctp2rfm({F []});
 %   Farfc = mctp2arfm({F []});
-%   cmatplot(u,u,{Frfc Farfc},3)
-%   sum(sum(abs((Farfc+Farfc')-(Frfc+Frfc')))) % should be zero
+%   cmatplot(u,u,{Frfc Farfc},3);
+%   assert(sum(sum(abs((Farfc+Farfc')-(Frfc+Frfc')))), 0, 1e-10) % should be zero
+%
+%  close all;
 %
 % See also  arfm2mctp, smctp2arfm, mctp2rfm, cmatplot
 
@@ -41,8 +43,8 @@ function [F_rfc,FF,FFr,T] = mctp2arfm(F,c_m)
 % History:
 % Revised by PJ  09-Apr-2001
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1998
-% Copyright (c) 1997-1998 by Pär Johannesson
+% Created by PJ (Pï¿½r Johannesson) 1998
+% Copyright (c) 1997-1998 by Pï¿½r Johannesson
 % Toolbox: Rainflow Cycles for Switching Processes V.1.1, 22-Jan-1998
 
 % This program used the formulation where the probabilities

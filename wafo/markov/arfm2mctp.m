@@ -13,7 +13,12 @@ function [F,T] = arfm2mctp(Frfc)
 %   Farfc = mctp2arfm({F []});
 %   F1 = arfm2mctp(Farfc);
 %   cmatplot(u,u,{F+F' F1},3);
-%   sum(sum(abs(F1-(F+F')))) % should be zero
+%   assert(F1(20,21:25), [0.00209800691364310, 0.00266223402503216,...
+%                         0.00300934711658560, 0.00303029619424592,...
+%                         0.00271822008031848], 1e-10);
+%   assert(sum(sum(abs(F1-(F+F')))), 0, 1e-10) % should be zero
+%
+%   close all;
 %
 % See also  rfm2mctp, mctp2arfm, smctp2arfm, cmatplot
 
@@ -29,8 +34,8 @@ function [F,T] = arfm2mctp(Frfc)
 % History:
 % Revised by PJ  09-Apr-2001
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1998
-% Copyright (c) 1997-1998 by Pär Johannesson
+% Created by PJ (Pï¿½r Johannesson) 1998
+% Copyright (c) 1997-1998 by Pï¿½r Johannesson
 % Toolbox: Rainflow Cycles for Switching Processes V.1.1, 22-Jan-1998
 
 % Recursive formulation a'la Igor

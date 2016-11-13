@@ -25,6 +25,8 @@ function [F_rfc,mu_rfc] = smc2rfm(P,Qc,def)
 %   Frfc = smc2rfm(P,{F1;F2});
 %   cmatplot(u,u,Frfc)
 %
+%   close all;
+%
 % See also  mc2rfm, smctp2rfm, smc2stat, cmatplot
 
 % References
@@ -46,8 +48,8 @@ function [F_rfc,mu_rfc] = smc2rfm(P,Qc,def)
 %   Changer disp(...) to warning(...) .
 % Revised by PJ  23-Nov-1999
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
-%   Copyright (c) 1997 by Pär Johannesson
+% Created by PJ (Pï¿½r Johannesson) 1997
+%   Copyright (c) 1997 by Pï¿½r Johannesson
 %   Toolbox: Rainflow Cycles for Switching Processes V.1.0, 2-Oct-1997
 
 

@@ -14,17 +14,19 @@ function hmmplot(varargin)
 %   fontsize= Fontsize of text.
 %
 % Examples: Switching AR(1)-process. (Example 3 in thesis)
-%   P= [0.975 0.02 0.005; 0.01 0.98 0.01; 0.005 0.02 0.975];
-%   C = [1 1 1]';
-%   A = [1 -0.5; 1 -0.3; 1 0.5];
-%   m = [-1 0 3]';
-%   s2 = [1 1 1.44]';
-%   [x,z] = sarmasim(C,A,m,s2,P,500);
-%   hmmplot(x,z)
-%   hmmplot(x,z,(0:499)/400,[1 3],'Switching AR(1)-process','X(t)')
-%   hmmplot(x,z,[],[1 3],'','',1,20)
+%  P = [0.975 0.02 0.005; 0.01 0.98 0.01; 0.005 0.02 0.975];
+%  C = [1 1 1]';
+%  A = [1 -0.5; 1 -0.3; 1 0.5];
+%  m = [-1 0 3]';
+%  s2 = [1 1 1.44]';
+%  [x,z] = sarmasim(C,A,m,s2,P,500);
+%  hmmplot(x,z)
+%  hmmplot(x,z,(0:499)/400,[1 3],'Switching AR(1)-process','X(t)')
+%  hmmplot(x,z,[],[1 3],'','',1,20)
+%
+%  close all;
 
-% Copyright (c) 1997 by Pär Johannesson
+% Copyright (c) 1997 by Pï¿½r Johannesson
 % Toolbox: Rainflow Cycles for Switching Processes V.1.0, 2-Oct-1997
 
 plothmm(varargin{:})

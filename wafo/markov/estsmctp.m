@@ -54,7 +54,7 @@ function [Fest,Est,OPTIONS] = estsmctp(Fobs,whatEst,method,known,whatKnown,init,
 %   M2.x0=[0.3 0.4]; M2.s=0.15; M2.lam=1;
 %   F1 = mktestmat([-1 1 8],M1.x0,M1.s,M1.lam);
 %   F2 = mktestmat([-1 1 8],M2.x0,M2.s,M2.lam);
-%   P=[1-0.1 0.1; 0.05 1-0.05]             % Transition matrix
+%   P=[1-0.1 0.1; 0.05 1-0.05];             % Transition matrix
 %   [xD,z] = smctpsim(P,{F1 []; F2 []},5000); % Simulate
 %   Fobs = dtp2rfm(xD,8);
 %
@@ -72,6 +72,7 @@ function [Fest,Est,OPTIONS] = estsmctp(Fobs,whatEst,method,known,whatKnown,init,
 %
 %  % Further examples of using ESTSMCP can be found in WDEMOS/ITMKURS,
 %  % especially in the script ITMKURS_LAB2.
+%
 % See also
 
 % Updated by PJ 07-Apr-2005
@@ -85,7 +86,7 @@ no = nargout;
 error(nargchk(6,7,ni));
 
 if ni < 7
-  OPTIONS = [];
+  OPTIONS = struct();
 end
 
 if ~isfield(known,'NOsubzero')
@@ -121,10 +122,10 @@ case 'P'      % Estimate P
 
   try 
     % For Matlab 5.3 and higher ???
-    [X,OPTIONS] = fminsearch('f_smctp',X0,OPTIONS,Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fminsearch(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   catch
     % For Matlab 5.2 and lower ???
-    [X,OPTIONS] = fmins('f_smctp',X0,OPTIONS,[],Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fmins(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   end
 
   Pest = tr_x2p(X,1);
@@ -137,10 +138,10 @@ case 'MeanStd' % Estimate Mean and Std
 
   try 
     % For Matlab 5.3 and higher ???
-    [X,OPTIONS] = fminsearch('f_smctp',X0,OPTIONS,Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fminsearch(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   catch
     % For Matlab 5.2 and lower ???
-    [X,OPTIONS] = fmins('f_smctp',X0,OPTIONS,[],Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fmins(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   end
 
   r = length(X)/2;
@@ -158,10 +159,10 @@ case 'P,MeanStd' % Estimate P, Mean and Std
 
   try 
     % For Matlab 5.3 and higher ???
-    [X,OPTIONS] = fminsearch('f_smctp',X0,OPTIONS,Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fminsearch(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   catch
     % For Matlab 5.2 and lower ???
-    [X,OPTIONS] = fmins('f_smctp',X0,OPTIONS,[],Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fmins(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   end
 
   r=(-1+sqrt(1+4*length(X)))/2;
@@ -200,10 +201,10 @@ case {'CalcF','P,CalcF'} % Estimate P, Model parameters
     
   try 
     % For Matlab 5.3 and higher ???
-    [X,OPTIONS] = fminsearch('f_smctp',X0,OPTIONS,Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fminsearch(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   catch
     % For Matlab 5.2 and lower ???
-    [X,OPTIONS] = fmins('f_smctp',X0,OPTIONS,[],Fobs,whatEst,method,known,whatKnown,init);
+    [X,OPTIONS] = fmins(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
   end
 
   % transform vector to model
@@ -263,10 +264,10 @@ case {'SimF','P,SimF'} % Estimate P, Model parameters
     % Estimate
     try 
       % For Matlab 5.3 and higher ???
-      [X,OPTIONS] = fminsearch('f_smctp',X0,OPTIONS,Fobs,whatEst,method,known,whatKnown,init);
+      [X,OPTIONS] = fminsearch(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
     catch
       % For Matlab 5.2 and lower ???
-      [X,OPTIONS] = fmins('f_smctp',X0,OPTIONS,[],Fobs,whatEst,method,known,whatKnown,init);
+      [X,OPTIONS] = fmins(@(x)f_smctp(x, Fobs,whatEst,method,known,whatKnown,init),X0,OPTIONS);
     end
 
     % transform vector to model

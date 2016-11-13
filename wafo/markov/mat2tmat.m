@@ -21,19 +21,32 @@ function P = mat2tmat(F,def,K)
 % i.e. normalizes each row sum to 1.
 %
 % Example: 
-%   F = magic(5)
-%   mat2tmat(F)
-%   mat2tmat(F,1)
-%   mat2tmat(F,-1)
-%   mat2tmat(F,-1,-3)
-%   mat2tmat(F,-1,0)
+%  F = magic(3);
+%  assert(F, [ 8   1   6;...
+%              3   5   7;...
+%              4   9   2]);
+%  assert(mat2tmat(F), ...
+%         [0.5333333333333333   0.0666666666666667   0.4000000000000000;...
+%          0.2000000000000000   0.3333333333333333   0.4666666666666667;...
+%          0.2666666666666667   0.6000000000000000   0.1333333333333333], 1e-10);
+%  assert(mat2tmat(F,1),[0.0   0.142857142857143   0.857142857142857;...
+%                        0.0,  0.0, 1.0;...
+%                        0.0,  0.0, 0.0], 1e-10);
+%  assert(mat2tmat(F,-1), [0.0,   0.0,   0.0;...
+%                          1.0,   0.0,   0.0;...
+%                          0.307692307692308   0.692307692307692   0.0], 1e-10);
+%  assert(mat2tmat(F,-1,-2), [ 0   0   0; 0   0   0; 1   0   0], 1e-10);
+%  assert(mat2tmat(F,-1,0),... 
+%                  [1.0,   0.0,   0.0;...
+%                   0.3750,   0.6250,   0.0;...
+%                   0.266666666666667,   0.60,   0.133333333333333], 1e-10);
 
 % Tested  on Matlab  5.3
 %
 % History:
 % Revised by PJ  23-Nov-1999
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1998
+% Created by PJ (Pï¿½r Johannesson) 1998
 %   from 'Toolbox: Rainflow Cycles for Switching Processes V.1.1'
 
 % Check input arguments

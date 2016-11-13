@@ -8,9 +8,10 @@ function [ro,PP]=mc2stat(P)
 % P  = transition matrix.         [rxr]
 %
 % Example: 
-%   F = magic(5)
-%   P = mat2tmat(F)
-%   ro = mc2stat(P)
+%   F = magic(5);
+%   P = mat2tmat(F);
+%   ro = mc2stat(P);
+%   assert(ro, ones(1,5)*0.2, eps)
 %
 % See also  mat2tmat, mc2reverse, smc2stat, mctp2stat
   
@@ -19,7 +20,7 @@ function [ro,PP]=mc2stat(P)
 % History:
 % Revised by PJ  23-Nov-1999
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1998
+% Created by PJ (Pï¿½r Johannesson) 1998
 %   from 'Toolbox: Rainflow Cycles for Switching Processes V.1.0'
 %   previous name: 'statf_mc'
 

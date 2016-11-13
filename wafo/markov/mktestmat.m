@@ -28,16 +28,20 @@ function [F,Fh] = mktestmat(param,x0,s,lam,NOsubzero)
 %
 % Example:
 %   [F,Fh] = mktestmat([-1 1 32],[-0.2 0.2], 0.25,1/2);
-%   u=levels([-1 1 32]); cmatplot(u,u,F,3), axis('square')
+%   u = levels([-1 1 32]); 
+%   cmatplot(u,u,F,3); axis('square');
 %   [F,Fh] = mktestmat([-1 1 32],[-0.2 0.2], 0.25,1/2,-Inf);
+%   cmatplot(u,u,F,3); axis('square');
+%
+%   close all;
 
 % Tested  on Matlab  5.3
 %
 % History:
 % Revised by PJ  23-Nov-1999
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
-%   Copyright (c) 1997 by Pär Johannesson
+% Created by PJ (Pï¿½r Johannesson) 1997
+%   Copyright (c) 1997 by Pï¿½r Johannesson
 %   Toolbox: Rainflow Cycles for Switching Processes V.1.0, 2-Oct-1997
 
 

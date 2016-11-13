@@ -1,4 +1,4 @@
-function logL = logLcmat(Fobs,F,def)
+function logL = loglcmat(Fobs,F,def)
 % LOGLCMAT  log-Likelihood of cycle matrix.
 %
 % computes the log-Likelihood of an observed
@@ -8,7 +8,7 @@ function logL = logLcmat(Fobs,F,def)
 %   logL = C + D,
 %   C = log(N!)-sum(log(N_ij!)),  D = sum(N_ij*log(g_ij))
 %
-% logL = logLcmat(Fobs,F,def)
+% logL = loglcmat(Fobs,F,def)
 %
 % Fobs  = Observation of cycle matrix
 % F     = Expected cycle matrix

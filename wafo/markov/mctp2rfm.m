@@ -22,7 +22,9 @@ function [F_rfc,mu_rfc] = mctp2rfm(F,c_m)
 %   param = [-1 1 32]; u = levels(param);
 %   F = mktestmat(param,[-0.2 0.2],0.15,2);
 %   Frfc = mctp2rfm({F []});
-%   cmatplot(u,u,Frfc)
+%   cmatplot(u,u,Frfc);
+%
+%   close all;
 %
 % See also  rfm2mctp, smctp2rfm, mctp2arfm, cmatplot, mc2rfm
 
@@ -43,8 +45,8 @@ function [F_rfc,mu_rfc] = mctp2rfm(F,c_m)
 % History:
 % Revised by PJ  23-Nov-1999
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
-%   Copyright (c) 1997 by Pär Johannesson
+% Created by PJ (Pï¿½r Johannesson) 1997
+%   Copyright (c) 1997 by Pï¿½r Johannesson
 %   Toolbox: Rainflow Cycles for Switching Processes V.1.0, 2-Oct-1997
 
 % Check input arguments

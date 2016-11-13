@@ -17,9 +17,12 @@ function [F_rfc,mu_rfc] = mc2rfm(Q,def)
 %   (2) the rainflow intensity for a discretized Markov chain.
 %
 % Example: 
-%   F = magic(5)
-%   Q = mat2tmat(F)
-%   Frfc = mc2rfm(Q)
+%   F = magic(3);
+%   Q = mat2tmat(F);
+%   Frfc = mc2rfm(Q);
+%   assert(Frfc, [0.0,   0.006666666666667, 0.148888888888889;...
+%                 0.0,   0.0,   0.140;...
+%                 0.0,   0.0,   0.0], 1e-10)
 %
 % See also  smc2rfm, mctp2rfm, mc2stat, mc2reverse, cmatplot
 
@@ -40,8 +43,8 @@ function [F_rfc,mu_rfc] = mc2rfm(Q,def)
 % History:
 % Revised by PJ  23-Nov-1999
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
-%   Copyright (c) 1997 by Pär Johannesson
+% Created by PJ (Pï¿½r Johannesson) 1997
+%   Copyright (c) 1997 by Pï¿½r Johannesson
 %   Toolbox: Rainflow Cycles for Switching Processes V.1.0, 2-Oct-1997
 
 % Check input arguments

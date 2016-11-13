@@ -17,9 +17,9 @@ function [Qr,QQ,FF,FFr] = mctp2reverse(F)
 % If a matrix F{1,2}=[], then the process will
 % be assumed to be time-reversible.
 %
-% Se also 
+% Ses also 
 
-% Copyright (c) 1999 by Pär Johannesson
+% Copyright (c) 1999 by Pï¿½r Johannesson
 % Toolbox: Rainflow Cycles for Switching Processes V.1.0, 2-Oct-1997
 
 % Check input arguments

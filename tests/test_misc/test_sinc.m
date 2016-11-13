@@ -3,7 +3,7 @@ function test_suite=test_sinc()
 end
 function test_sinc_()
    x =linspace(-5,5)';  
-  plot(x,sinc(x)) 
+  plot(x,sinc(x)); 
  
-  close()
+  close();
 end

@@ -6,5 +6,5 @@ function test_humps_()
     y = humps(x); 
     h = plot(x,y); 
         
-    close()
+    close();
 end

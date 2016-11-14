@@ -66,6 +66,8 @@ function [Hw, Gwt, kw,Hwt,ee]=tran(w,theta,pos,def,h,g,rho,bet,igam,thx,thy,kw)
 %  S = dat2dspec([t eta n_x n_y],[pos types',bfs'],h,256,101);
 %  plotspec(S)
 %
+%  close all;
+%
 % See also  dat2dspec, sensortype, sensortypeid, wdensity, gravity
 
 % Reference
@@ -203,13 +205,13 @@ switch def
   %             Surface curvatures
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  case 6,                                   % n_xx = Eta_xx = Surface curvature (x-dir)
+  case 6,                           % n_xx = Eta_xx = Surface curvature (x-dir)
     Hw = kw.^2;
     Gwt = -cthx(:,Onef).^2.*ee; 
-  case 7,                                   % n_yy = Eta_yy = Surface curvature (y-dir)
+  case 7,                           % n_yy = Eta_yy = Surface curvature (y-dir)
     Hw = kw.^2;
     Gwt = -cthy(:,Onef).^2.*ee; 
-  case 8,                                   % n_xy = Eta_xy = Surface curvature (xy-dir)
+  case 8,                           % n_xy = Eta_xy = Surface curvature (xy-dir)
     Hw = kw.^2;
     Gwt = -cthx(:,Onef).*cthy(:,Onef).*ee; 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

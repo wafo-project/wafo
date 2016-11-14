@@ -26,12 +26,10 @@ function sensorid = sensortypeid(sensortype)
 %   'Z_p'  : Water particle displacement in z-direction from its mean position
 %
 % Example:
-% sensortypeid(strvcat('W','v'))
-% sensortypeid('rubbish')  
+% assert(sensortypeid(strvcat('W','v', 'n')), [12,11,1]')
+% assert(isnan(sensortypeid('rubbish')))
 %
 % See also sensortype, id
-  
-
 
 %History
 % by pab 2005

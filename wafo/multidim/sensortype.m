@@ -1,4 +1,4 @@
-function sensor = sensortype(sensorid)
+function [sensor] = sensortype(sensorid)
 %SENSORTYPE Return sensortype name
 %
 %  CALL:   sensor = sensortype(sensorid)
@@ -26,11 +26,13 @@ function sensor = sensortype(sensorid)
 %   'Z_p'  : Water particle displacement in z-direction from its mean position
 %
 % Example:
-% sensortype(1:18)
+% validNames = {'n','n_t','n_tt','n_x','n_y','n_xx','n_yy','n_xy','p','u',...
+%               'v','w','u_t', 'v_t','w_t','x_p','y_p','z_p','nan'};
+% for i=1:19,
+%   assert(sensortype(i), validNames{i});
+% end
 %
 % See also sensortypeid, tran
-  
-
 
 %History
 % by pab 2005
@@ -40,7 +42,7 @@ function sensor = sensortype(sensorid)
   validNames = {'n','n_t','n_tt','n_x','n_y','n_xx',...
     'n_yy','n_xy','p','u','v','w','u_t',....
     'v_t','w_t','x_p','y_p','z_p','nan'};
-  N = size(validNames,1)-1;
+  N = length(validNames)-1;
   if nargin<1||isempty(sensorid)
     sensorid = 1;
   end

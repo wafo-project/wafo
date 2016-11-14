@@ -11,10 +11,10 @@ function [r]=ratio(a,b,sa,sb)
 %           f(x,1)=cosh(x), f(x,-1)=sinh(x)
 %
 % Examples:
-% ratio(2,1,1,1)   % gives r=cosh(2)/cosh(1)
-% ratio(2,1,1,-1)  % gives r=cosh(2)/sinh(1)
-% ratio(2,1,-1,1)  % gives r=sinh(2)/cosh(1)
-% ratio(2,1,-1,-1) % gives r=sinh(2)/sinh(1)
+%  assert(ratio(2,1,1,1), cosh(2)/cosh(1), 1e-10)
+%  assert(ratio(2,1,1,-1), cosh(2)/sinh(1), 1e-10)
+%  assert(ratio(2,1,-1,1), sinh(2)/cosh(1), 1e-10)
+%  assert(ratio(2,1,-1,-1), sinh(2)/sinh(1), 1e-10)
 %
 % See also  tran
 
@@ -24,7 +24,7 @@ function [r]=ratio(a,b,sa,sb)
 % commented out old call  
 % added todo comment  
 % revised pab 09.10.2002
-% -fixed bug: replaced * with .* thanks to Françoise GIRARD 
+% -fixed bug: replaced * with .* thanks to Franï¿½oise GIRARD 
 % -added more checks when a==b and when a<0 or b<0 => made it more robust
 % revised pab 07.11.2001
 % -added comnsize + see also line

@@ -29,7 +29,9 @@ function D = testmeasurements(pos,type,thet0,f0,N,dt,amp,d,g,thetx,thety)
 %   pos = [0 0 0;0 40 0; 20 20 0];
 %   D = testmeasurements(pos,type,th0);
 %   S = dat2dspec(D,[pos type' bfs'],h);
-%   plotspec(S)
+%   plotspec(S);
+%
+%   close all;
 %
 % See also  testbuoy, dat2dspec, tran
 

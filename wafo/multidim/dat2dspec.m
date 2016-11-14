@@ -118,11 +118,11 @@ function [Sd,D,Sw,Fcof,Gwt,Sxy,Sxy1] = dat2dspec(xn,pos,h,nfft,nt,method,varargi
 
   
 opt = specoptset('plotflag','off','dflag','mean','ftype','w',....
-		 'thtype','r','nharm',2,'delay',0,'gravity',[],'wdensity',[],...
-		 'bet',[],'igam',[],'x_axisdir',[],'y_axisdir',[],...
-		 'maxIter',25,'coefAbsTol',0.01,'errorTol',[],...
-		 'minModelOrder',1,'relax',[]);
-	     
+     'thtype','r','nharm',2,'delay',0,'gravity',[],'wdensity',[],...
+     'bet',[],'igam',[],'x_axisdir',[],'y_axisdir',[],...
+     'maxIter',25,'coefAbsTol',0.01,'errorTol',[],...
+     'minModelOrder',1,'relax',[]);
+
 % If just 'defaults' passed in, return the default options in Sd
 if nargin==1 && nargout <= 1 && isequal(xn,'defaults')
   Sd = opt; 
@@ -268,7 +268,7 @@ xx(:,2:m) = (xx(:,2:m)-mn(ones(n,1),:))./normfact(ones(n,1),:);% remove mean
 %----------------------------------------------------------------------
 Hw  = zeros(m-1,nf);     % a function of frequency only
 Gwt = zeros(m-1,nt,nf);  % a function of frequency and direction combined.
-%EE  = Gwt;			 
+%EE  = Gwt;
 
 Sxy = zeros(m-1,m-1,nf);
 

@@ -53,6 +53,8 @@ function [svec, dvec] = disufq(A,w,kw,h,g,nmin,nmax)
 % plot(xs(:,1),xs(:,2),'b',xs(:,1),xs(:,2)+x2s,'r',xs(:,1),x2s,'g')
 % legend('linear','non-linear','2nd order comp')      
 % 
+% close all;
+% 
 % See also  spec2nlsdat, spec2linspec  
 
 

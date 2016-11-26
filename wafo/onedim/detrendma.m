@@ -10,6 +10,10 @@ function [y, trend] = detrendma(x,L)
 %    L     = determines the size of the moving average window
 %
 % Example:
+%  x0 = linspace(1, 5, 5);
+%  L = 1;
+%  assert(detrendma(x0, L), [-1, 0, 0, 0, 1])
+% 
 %  x = linspace(0,1,200)';
 %  y = exp(x)+cos(5*2*pi*x)+1e-1*randn(size(x));
 %  [y0, tr] = detrendma(y,20);
@@ -49,10 +53,10 @@ end
 
 mn = mean(x(1:2*L+1,:));
 y  = zeros(n,m);
-y(1:L,:)=x(1:L,:)-mn(ones(L,1),:);
+y(1:L+1,:)=x(1:L+1,:)-mn(ones(L+1,1),:);
 
-ix      = (L+1):(n-L);
-trend   = cumsum([mn;(x(ix+L,:)-x(ix-L,:))/(2*L+1)],1);
+ix      = (L+2):(n-L);
+trend   = cumsum([mn;(x(ix+L,:)-x(ix-L,:))/(2*L)],1);
 y(ix,:) = x(ix,:)-trend(2:end,:);
 
 mn2=trend(end,:);

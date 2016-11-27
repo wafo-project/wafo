@@ -21,7 +21,8 @@ function [y, trend] = detrendma(x,L)
 %  
 %  close all;
 %
-% See also  Reconstruct
+% See also 
+% Reconstruct
 
 % tested on : matlab 5.3
 % revised pab 01.08.2001

@@ -5,7 +5,7 @@ function [g, test, cmax, irr, g2]= dat2tr(x,def,varargin)
 %
 %   g,g2   = the smoothed and empirical transformation, respectively. 
 %            A two column matrix if multip=0.  
-%            If multip=1 it ís a 2*(m-1) column matrix where the
+%            If multip=1 it ï¿½s a 2*(m-1) column matrix where the
 %            first and second column is the transform 
 %            for values in column 2 and third and fourth column is the
 %            transform for values in column 3 ......
@@ -76,7 +76,7 @@ function [g, test, cmax, irr, g2]= dat2tr(x,def,varargin)
 % g0 = dat2tr(xs,[],'plot','iter');             % Monitor the development
 % g1 = dat2tr(xs,'mnon','gvar', .5 );           % More weight on all points
 % g2 = dat2tr(xs,'nonl','gvar', [3.5 .5 3.5]);  % Less weight on the ends
-% hold on, trplot(g1,g)                                   % Check the fit
+% hold on, trplot(g1,g)                         % Check the fit
 % trplot(g2)
 %
 % See also  troptset, lc2tr, cdf2tr, trplot

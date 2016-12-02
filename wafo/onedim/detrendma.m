@@ -63,7 +63,7 @@ y(ix,:) = x(ix,:)-trend(2:end,:);
 mn2=trend(end,:);
 
 if nargout>1
-  trend=[mn(ones(L-1,1),:);trend;mn2(ones(L,1),:)];
+  trend=[mn(ones(L,1),:);trend;mn2(ones(L,1),:)];
   if r==1,  trend = trend.'; end
 end
 

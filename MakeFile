@@ -45,7 +45,7 @@ help:
 	@echo "  COVER_HTML_DIR     Coverage HTML output directory"
 	@echo ""
 
-RUNTESTS_ARGS='${TESTDIR}'
+RUNTESTS_ARGS='${TESTDIR} -recursive'
 ifdef JUNIT_XML
 	RUNTESTS_ARGS +=,'-junit_xml','$(JUNIT_XML)'
 endif

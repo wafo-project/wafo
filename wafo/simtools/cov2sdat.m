@@ -26,6 +26,8 @@ function [x, xder]=cov2sdat(R,np,iseed)
 % [x1, x2] = cov2sdat(spec2cov(jonswap),np);
 % waveplot(x1,'r',x2,'g',1,1)  
 %
+% close all;
+%
 % See also  spec2sdat, tranproc
 
 % Reference 

@@ -52,7 +52,7 @@ function [g, test, g2] = lc2tr(cross,ma,sa,varargin)
 % g0 = lc2tr(lc,0,Hm0/4,'plot','iter');         % Monitor the development
 % g1 = lc2tr(lc,0,Hm0/4,troptset('gvar', .5 )); % Equal weight on all points
 % g2 = lc2tr(lc,0,Hm0/4,'gvar', [3.5 .5 3.5]);  % Less weight on the ends
-% hold on, trplot(g1,g)                                   % Check the fit
+% hold on, trplot(g1,g)                         % Check the fit
 % trplot(g2)
 %
 % See also  troptset, dat2tr, trplot, findcross, cssmooth

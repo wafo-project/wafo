@@ -43,6 +43,8 @@ function X = duffsim(T,dt,z,a,b,alf,iseed,method)
 %  Se  = oscspec(w,z/sqrt(b),sqrt(b),2*sqrt(z/b));
 %  plotspec(Se),hold on,
 %  plotspec(S,'r'),hold off, shg
+%
+%  close all;
 % 
 % See also oscspec
 

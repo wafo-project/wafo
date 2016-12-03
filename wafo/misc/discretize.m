@@ -79,14 +79,14 @@ function [x,fx] = _discretize_adaptive(fun, a, b, tol, n),
     err0 = inf;
     _TINY = realmin;
     num_tries = 0;
-    # while (err != err0 and err > tol and n < nmax):
+    % while (err != err0 and err > tol and n < nmax):
     for j = [1:50],
         if num_tries<5 && any(erri > tol),
             err0 = err;
-            # find top errors
+            % find top errors
 
             I = find(erri > tol);
-            # double the sample rate in intervals with the most error
+            % double the sample rate in intervals with the most error
             y = [(x(I) + x(I - 1)) / 2; (x(I + 1) + x(I)) / 2](:).';
             fy = fun(y);
             fy0 = interp1(x, fx, y, 'linear');

@@ -1,5 +1,7 @@
 |wafo_logo|
+
 |tests_img| |coverage_img|
+
 ==========================================
 Wave Analysis for Fatigue and Oceanography
 ==========================================

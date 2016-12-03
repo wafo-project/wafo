@@ -1,4 +1,5 @@
 |wafo_logo|
+|tests_img| |coverage_img|
 ==========================================
 Wave Analysis for Fatigue and Oceanography
 ==========================================
@@ -43,6 +44,12 @@ For more information, see the page about WAFO: <http://www.maths.lth.se/matstat/
 
 
 .. |wafo_logo| image:: https://github.com/wafo-project/pywafo/blob/master/wafo/data/wafoLogoNewWithoutBorder.png
-    :target: https://github.com/wafo-project/pywafo
+    :target: https://github.com/wafo-project/wafo
 
 
+.. |tests_img| image:: https://travis-ci.org/wafo-project/wafo.svg?branch=master
+    :target: https://travis-ci.org/wafo-project/wafo
+
+
+.. |coverage_img| image:: https://coveralls.io/repos/github/wafo-project/wafo/badge.svg?branch=master
+:target: https://coveralls.io/github/wafo-project/wafo?branch=master

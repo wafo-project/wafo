@@ -54,4 +54,4 @@ For more information, see the page about WAFO: <http://www.maths.lth.se/matstat/
 
 
 .. |coverage_img| image:: https://coveralls.io/repos/github/wafo-project/wafo/badge.svg?branch=master
-:target: https://coveralls.io/github/wafo-project/wafo?branch=master
+    :target: https://coveralls.io/github/wafo-project/wafo?branch=master

@@ -7,7 +7,14 @@ function wd = cdtomfile(file)
 %
 %   WD = CDTOMFILE returns the current directory as a string.
 %
-%   See also CD, PWD.
+% Example
+%  p0 = pwd();
+%  cdtomfile('cdtomfile');
+%  p1 = pwd();
+%  assert(p1, fullfile(waforoot, 'fileutil');
+%  cd(p0);
+%
+% See also CD, PWD.
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  2000-07-19 15:11:45

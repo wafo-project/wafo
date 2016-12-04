@@ -228,11 +228,11 @@ if 0,
   end
   Psum = sum(P1toM,2);
   subplot(2,1,1);
-  plot(theta,Dtheta-Psum,'o','MarkerSize',2), legend('Dteta-Psum');
+  plot(theta,Dtheta-Psum,'o','MarkerSize',2); legend('Dteta-Psum');
   subplot(2,1,2);
-  plot(theta,Dtheta,'o','MarkerSize',2); hold on
+  plot(theta,Dtheta,'o','MarkerSize',2); hold on;
   plot(theta,Psum,'m'); hold off;legend('Dteta','Psum');
-  pause 
+  pause;
 end   
 
 % The parameters below are calculated for 

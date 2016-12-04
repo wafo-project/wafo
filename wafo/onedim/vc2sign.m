@@ -47,11 +47,11 @@ if (nargin<2)
   hs(:,3)=Hs';
 else
   if ratio <= 0 
-    error('ratio  must be >0.')
+    error('ratio  must be >0.');
   end
 
   if ratio > 1
-    error('ratio  must be <=1.')
+    error('ratio  must be <=1.');
   end
 
   N3=ceil((1-ratio)*N); 

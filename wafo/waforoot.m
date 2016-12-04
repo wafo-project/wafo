@@ -34,8 +34,8 @@ fullfilename = mfilename('fullpath');
 
 [rootdir,fname ] = fileparts(fullfilename);
 if isempty(rootdir)
-  disp(sprintf('Cannot locate %s.m',fname))
-  disp('You must add the path to the WAFO Toolbox')
-  disp('to the Matlab-path.')
-  error('!!')
+  disp(sprintf('Cannot locate %s.m',fname));
+  disp('You must add the path to the WAFO Toolbox');
+  disp('to the Matlab-path.');
+  error('!!');
 end

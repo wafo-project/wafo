@@ -200,5 +200,5 @@ end
 
  if plotflag,
    %xn2=[xn(:,1)   spline(xn(indg,1),xn(indg,2),xn(:,1)) ]; 
-   waveplot(xx(indg,:),xx(ind,:),20)
+   waveplot(xx(indg,:),xx(ind,:),20);
  end

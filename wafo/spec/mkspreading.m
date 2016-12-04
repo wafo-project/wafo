@@ -238,7 +238,7 @@ switch type(1)
   case 'w'
     D = @(varargin)wnormal(options,varargin{:});
   otherwise
-    error('WAFO:MKSPREADING','Unknown type of spreading function')
+    error('WAFO:MKSPREADING','Unknown type of spreading function');
 end
 
 end % mkspreading function

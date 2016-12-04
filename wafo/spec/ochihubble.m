@@ -90,15 +90,15 @@ end
 
 
 
-if monitor
+if monitor,
   disp(['Hm0, def      = ' num2str([Hm0 def])]);
 end
 
 
-if plotflag
+if plotflag,
   ih=ishold;
   plotspec(S,plotflag);
-  hold on
+  hold on;
   plotspec(S1,plotflag,'k--');
-  if ~ih,hold off,end
+  if ~ih,hold off;end
 end

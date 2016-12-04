@@ -12,8 +12,18 @@ function  diary2m(fileout,filein)
 % and messages so that only issued commands themselves
 % are left. The result is written into a file FILEOUT.
 %
-%	Warning: the output file may still contain errors and
-%	may need some additional editing before execution.
+% Warning: the output file may still contain errors and
+% may need some additional editing before execution.
+%
+% Example
+%  
+%  diary on
+%  x = linspace(0,10);
+%  diary off
+%  diary2m('diaryex.m')
+%  txt = freadtxt('diaryex.m');
+%  assert(ddeblank(txt)(1:19), ...
+%         'x = linspace(0,10);')
 
 
 % History
@@ -51,7 +61,7 @@ while morelines      % While there are more lines in the file
   str = [str(1:lstr) '  '];
   lstr = length(str);
   shift = all(str(1:2)=='>>');
-  isex = shift|isnext;
+  isex = shift||isnext;
   if isex            % If executable, write into output
     fnd = find(str=='%');       % Find comments
     numbr = sort([1:lstr fnd]); % Copy comments character
@@ -67,7 +77,7 @@ while morelines      % While there are more lines in the file
   % Is next line a continuation of executable line .....
   lstr = find(~iscomm&str~=' ', 1, 'last' );
   fnd = max(1,lstr-2:lstr);
-  isnext = isbr|all(str(fnd)=='...');
+  isnext = isbr || ~isempty(fnd) && all(str(fnd)=='...');
 end                 % No more lines    '''''''''''''''''''''''
 fprintf(fido,'\n');
 

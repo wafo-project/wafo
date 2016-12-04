@@ -209,9 +209,9 @@ function [Hwind,Hswell] = mktspec(options)
   
     if monitor
       if Rps > 0.1
-        disp('     Spectrum for Wind dominated sea')
+        disp('     Spectrum for Wind dominated sea');
       else
-        disp('     Spectrum for pure wind sea')
+        disp('     Spectrum for pure wind sea');
       end
     end
   else %swell dominated seas

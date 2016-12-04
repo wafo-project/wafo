@@ -155,7 +155,7 @@ end
 if plotflag
   ih=ishold;
   plotspec(S,plotflag);
-  hold on
+  hold on;
   plotspec(S1,plotflag,'k--');
-  if ~ih,hold off,end
+  if ~ih,hold off;end
 end

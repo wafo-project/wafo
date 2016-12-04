@@ -147,12 +147,12 @@ else
    Sw.note=strcat('Wind, secondary peak of Torsethaugen, Hm0=',num2str(Hm0),', Tp=',num2str(Tp));
 end
 if plotflag
-  plotspec(S,plotflag,'b')
+  plotspec(S,plotflag,'b');
   ih = ishold;
-  hold on
-  plotspec(Ss,plotflag,'b--')
-  plotspec(Sw,plotflag,'b--')
-  if ~ih, hold off, end
+  hold on;
+  plotspec(Ss,plotflag,'b--');
+  plotspec(Sw,plotflag,'b--');
+  if ~ih, hold off; end
 end
 
 

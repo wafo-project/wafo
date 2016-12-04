@@ -117,14 +117,14 @@ elseif iscell(fact)||ischar(fact)
     if length(ind)==1,
       nfact(ix)=ind;
     else
-      error(['Not a valid factor: ' fact{ix}])
+      error(['Not a valid factor: ' fact{ix}]);
     end
   end 
 else
   nfact = fact;
 end
 if any(nfact>15 | nfact<1)
-  error('Factor outside range (1,...,15)')
+  error('Factor outside range (1,...,15)');
 end
 
 if nargin<3||isempty(T)

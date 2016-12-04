@@ -89,8 +89,7 @@ if stamp~=0
     %h1=figtext(0,0,caption,'normalized','normalized','left','bottom');
     %set(h1,'FontSize',10,'Tag',tag)
   end
-  if 1,
-    
+  try
     bannerFile = fullfile(waforoot,'data','wafoLogoNewWithoutBorder.png');
     %setbanner(handles,bannerFile)
     [banner,MAP,ALPHA] = imread( bannerFile); % Read the image file banner.jpg
@@ -98,36 +97,24 @@ if stamp~=0
   
     ax(2) = axes('Position',[.70 .01 .2 .05],'Visible','off','tag',tag);
     axis equal
- 
     axes(ax(2));
   
     image(banner)
     set(ax(2), 'Visible', 'off'); %, 'Position', [50 50 info.Width info.Height]);
-    if stamp>1
-      stamptxt =[flag,' '];
-    else
-      stamptxt =[date,' ',flag,' '];
-    end
-    
+  catch
+    warning(['Unable to load: ' bannerFile])
+  end  
+  if stamp>1
+    stamptxt =[flag,' '];
   else
-    % Old call
-    if stamp>1
-      stamptxt =['WAFO ',flag,' '];
-    else
-      stamptxt =['WAFO ' date,' ',flag,' '];
-    end
+     stamptxt =[date,' ',flag,' '];
   end
+    
    txtProp1 = {'units','normalized','tag',tag,'FontSize',10,...
      'HorizontalAlignment','right','VerticalAlignment','bottom','FontAngle','Italic'};
   axes(ax(1));
    h2 = text(1,0,stamptxt,txtProp1{:});
-%    h2=figtext(1,0,stamptxt,'normalized','normalized','right','bottom');
-%   % old call
-%   %h=figtext(0,-0.1,'made by WAFO','normalized','normalized','left');
-%   set(h2,'FontSize',10,'FontAngle','Italic','Tag',tag)
-  
-  
-  
+
   % create DeleteProxy object (an invisible text object in
   % the first axes) so that the other axes will be deleted
   % properly.

@@ -1,8 +1,14 @@
 function test_suite=test_dat2dspec()
   initTestSuite;
 end
+function f = fwaitbar(x, f, msg)
+% Trick deliberately overwrite fwaitbar
+if isempty(f),
+  f = figure()
+end
+
 function test_dat2dspec_()
-   S  = jonswap; 
+  S  = jonswap; 
   D  = spreading(linspace(-pi,pi,51),'cos2s'); 
   Sd = mkdspec(S,D,1); 
   Nx = 3; Ny = 2; Nt = 2^14; dx = 10; dy = 10;dt = 0.5; 

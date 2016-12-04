@@ -31,7 +31,7 @@ function  [names,no,nc] = getnames(string,Ltype)
 
 % Handle input ...............................................
 
-error(nargchk(0,2,nargin))
+error(nargchk(0,2,nargin));
 if nargin == 0
   help getnames
   return

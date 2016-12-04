@@ -1,0 +1,27 @@
+mat2html is a perl script that reads each matlab .m file in a directory
+to produce a corresponding .html file of help documentation and cross
+reference information. An index file named index.html is written with
+links to all of the html files produced. The options are:
+
+  -h  Print this help message.
+  -i  Include matlab source in the html documentation
+  -M  To index a matlab directory different from the current directory.
+  -H  To place html files in a different directory.
+
+Typical usages are:
+
+  mat2html
+  mat2html -M matlab -H html
+
+One useful thing
+to do is, in your matlab directory, create an html directory. Then
+do
+
+mat2html -M /usr/local/src/matlab4.2/toolbox/.  -H html -i
+
+Then open netscape or mosaic on the file html/index.html.
+
+Presto, instant documentation on your favorite toolbox.
+
+Jeff Kantor
+jeff@control.cheg.nd.edu

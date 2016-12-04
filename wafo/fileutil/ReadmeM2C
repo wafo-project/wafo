@@ -1,0 +1,65 @@
+
+# A Perl program to convert "bonehead" matlab to C mex files 
+# sutiable for use with MATLAB version 4.X
+#
+# Call the program as:
+#
+# m2c m_file_name
+#
+# Note that the ".m" is left off of the m-file name
+#
+# Dos users call the program as:
+#
+# perl m2c m_filename
+#
+# A new file called m_filename.c is created.
+#
+# This program converts matlab programs into C "mex" programs.
+# It places numerous restrictions on the matlab program to be converted.
+# It should only be used if necessary in order to speed up do-loop sections
+# in your program. It is not intended as a compiler for an entire matlab
+# program.
+#
+# Don't expect miracles. This program will do about 90% of the grunt work
+# of converting matlab to C. However, you need to look at the C code
+# for a sanity check. You can run the code through "cc -E" to see how the
+# numerous DEFINE statements get expanded.
+#
+# Additional performance can be attained if all of your array indices
+# are integer values. Change the DEFINE statements to remove the
+# "(int)" conversions and change all of the index variables from
+# double to integer. Also, change the "i=i+1" to "i++" if it is an
+# integer and being incremented by one. Finally, don't forget the -O 
+# switch when compiling with cmex.
+#
+# The basic strategy is: 
+#
+#   1) find the place in your m-file which has the non-vectorizable
+#   do-loops
+#   2) Cut this part out of the program and put it into a separate
+#   matlab function m-file
+#   3) Test the program to make sure the function works.
+#   4) FORTRAN-ize the function using the rules below. You must
+#   expand each vector and matrix operation into x(i,j)-looking
+#   commands
+#   5) Repeat step 3
+#   6) Run M2C on the function file and compile into a mex file
+#   7) Repeat step 3 with the mex file
+#
+# Here are the current rules which need to be followed:
+#
+#    1) No array operations are allowed. Everything MUST be element-by-element
+#    2) Only one statement per line. This includes for, if and end statements.
+#    3) No MATLAB function calls allowed. Only the function calls listed in the
+#    operators section at the bottom of this script are allowed.
+#    4) All arrays MUST be declared explicitly using the ones or zeros command.
+#    The only exceptions are the right hand side arguments to the fuction.
+#    3) Undeclared scalars are OK. 
+#    5) No complex operations are supported.
+#    6) Length, ones and zeros operations must be the only operation on the 
+#    line. ex: a = length(b) + 1; is illegal. The " + 1" will not be seen.
+#    7) Array indices must be simple scalars. X(i+1, 2*j) is NOT ok.
+
+
+Mike Evanoff
+evanoff@radix.com

@@ -1,4 +1,4 @@
-function [Fsmooth,h] = smthcmat(F,method,h,NOsubzero,alpha)
+function [Fsmooth,h] = smoothcmat(F,method,h,NOsubzero,alpha)
 %SMOOTHCMAT Smooth a cycle matrix using (adaptive) kernel smoothing
 %
 % CALL:  Fsmooth = smoothcmat(F,method);
@@ -30,7 +30,7 @@ function [Fsmooth,h] = smthcmat(F,method,h,NOsubzero,alpha)
 %   Updated help text.
 % Revised by PJ  01-Nov-1999
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1997
+% Created by PJ (Par Johannesson) 1997
 %   from 'Toolbox: Rainflow Cycles for Switching Processes V.1.0'
 
 % Check input arguments

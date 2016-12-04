@@ -77,7 +77,7 @@ path(wafop,path); % Add WAFO path first in search path
 
 opt = lower(opt);  % To lower case
 optNr = 1*strcmp(opt,'minimum') + 2*strcmp(opt,'normal') + ...
-	3*strcmp(opt,'full');
+        3*strcmp(opt,'full');
 
 p = {wafop};
 if optNr >= 1 % Add paths to WAFO routines
@@ -106,6 +106,7 @@ if add % Add paths
     p(end+1) = {'-end'};
   end
   addpath(p{:});
+  disp(['WAFO path: ' wafop]);
   disp(['WAFO toolbox paths set: ' opt ' initiation']);
   
   WAFO_WSTATS_DEFAULT_PLOTFLAG = 0;

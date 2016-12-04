@@ -1,4 +1,4 @@
-function [Fest,Pout,Fextreme,Fsmooth,Fest0] = rfmextrapolate2(F,Pin,plotflag)
+function [Fest,Pout,Fextreme,Fsmooth,Fest0] = rfmextrapolate(F,Pin,plotflag)
 
 %RFMEXTRAPOLATE Extrapolates a rainflow matrix.
 %

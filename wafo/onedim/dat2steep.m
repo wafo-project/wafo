@@ -79,8 +79,8 @@ function [S , H,AC1,AT1,TFRONT1,TREAR1,z_ind2,xn2]=dat2steep(xx,rate,method)
 % by pab 11.11.98
 
 %    
-  
-  error(nargchk(1,3,nargin))
+
+error(nargchk(1,3,nargin));
 if nargin<3||isempty(method),  
   method=1; % want crestfrontvelocity
 end
@@ -191,7 +191,7 @@ for ix=2:M
       T = diff(ecross(xn(:,1),xn(:,2), z_ind(2:2:end),0));
       %T=xn(z_ind(4:2:end),1)-xn(z_ind(2:2:(end-1)),1); % Period zero-upcrossing waves
       S = [S ; 2*pi*H./T.^2/g]; 
-    otherwise,  error('unknown option')
+    otherwise,  error('unknown option');
   end
   if nargout>2
     AC1=[AC1;AC];
@@ -212,6 +212,6 @@ for ix=2:M
      H(ind)=[];
    end
 end 
-close(h9)
+close(h9);
 return
 

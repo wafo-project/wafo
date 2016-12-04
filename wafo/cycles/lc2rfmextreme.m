@@ -1,4 +1,4 @@
-function [Frfc,u,Nrfc,Nrfc0]=lc2nt(lc,vect)
+function [Frfc,u,Nrfc,Nrfc0]=lc2rfmextreme(lc,vect)
 %LC2RFMEXTREME Compute extreme RFM from level crossings.
 %
 % CALL: Frfc = lc2nt(lc)

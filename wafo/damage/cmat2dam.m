@@ -1,4 +1,4 @@
-function D = cmat2dmat(param,F,beta,K)
+function D = cmat2dam(param,F,beta,K)
 %CMAT2DAM Calculates the total Palmgren-Miner damage of a cycle matrix.
 % 
 % CALL:  D = cmat2dam(param,F,beta,K);

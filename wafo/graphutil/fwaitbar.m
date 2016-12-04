@@ -41,7 +41,7 @@ function fout = fwaitbar(x,name,msg)
 % - added example
 % by Olof Liungman.
 %   Dept. of Oceanography, Earth Sciences Centre
-%   G�teborg University, Sweden
+%   Goteborg University, Sweden
 %   E-mail: olof.liungman@oce.gu.se
 
 x = max(0,min(100*x,100)); % Make sure 0<=x<=100
@@ -98,8 +98,8 @@ else
    titleHandle = ud{2};
 
    xpatch = get(p,'xdata');
-   xpatch = [xpatch(2) x x xpatch(2)];
-   set(p,'Xdata',xpatch)
+   xpatch(2:3) = x;
+   set(p,'Xdata',xpatch(:))
 
 end
 if ~isempty(msg),set(titleHandle,'string',msg,'Color','k'),end

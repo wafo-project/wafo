@@ -5,7 +5,9 @@ function varargout = kde1dgui(varargin)
 %
 %  Example
 %   data = rndray(1,100,1);
+%  if ismatlab,
 %   kde1dgui
+%  end
 % 
 % See also  kde2dgui, kde
 

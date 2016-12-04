@@ -54,7 +54,7 @@ function  list = extract(v,no,nc,nfill,align)
 %  Kirill K. Pankratov,  kirill@plume.mit.edu
 %  8-22-94
 
-error(nargchk(3,5,nargin))
+error(nargchk(3,5,nargin));
 nfilldflt = [0 32]; % Defaults for filling (0 for numbers
                     % or blank for strings)
 cellOutPut = (1==0);                    
@@ -142,6 +142,3 @@ else
 end
 
 return
-
-
-

@@ -14,13 +14,13 @@ function t = freadtxt(file)
 % revised pab 04.10.2000
 
 if nargin == 0,
-  error(' File name is not specified.')
+  error(' File name is not specified.');
 end
 
 [fid,msg] = fopen(file,'r');          % Open file to read
 if fid==-1,
-  disp(sprintf('Something wrong with opening file: %s',file))
-  disp(msg),
+  disp(sprintf('Something wrong with opening file: %s',file));
+  disp(msg);
   t = '';
  return, 
 end

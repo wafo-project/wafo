@@ -18,13 +18,13 @@ function s = vectoriz(s)
 %History
 % by pab 25.01.2001
 
-error(nargchk(1,1,nargin))
+error(nargchk(1,1,nargin));
 switch class(s)
   case 'inline',  v = s.expr; %formula(s); 
     islin=1;
   case 'char',    v = s;    islin=0;
   otherwise, 
-    error('VECTORIZ: Input must be string expression or inline object')
+    error('VECTORIZ: Input must be string expression or inline object');
 end
 
 ind = find((v=='^') | (v=='*') | (v=='/'));

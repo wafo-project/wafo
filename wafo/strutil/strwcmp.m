@@ -35,9 +35,9 @@ function status = strwcmp(string1, string2, casesense)
 %  1998-04-01.
 %----------------------------------------------------------------------O
 
-error(nargchk(2,3,nargin))
+error(nargchk(2,3,nargin));
 if ~(ischar(string1)||iscell(string1)||ischar(string2)||iscell(string2))
-  error('Input must be a string or cellarray of strings.')
+  error('Input must be a string or cellarray of strings.');
 end
 
 if nargin<3||isempty(casesense),casesense = 'exact';end
@@ -52,7 +52,7 @@ if iscell(string1),
     sz2 = size(string2);
     N2 = prod(sz2);
     if ~(all(sz1==sz2)||N1==1||N2==1), 
-      error('Cellarrays must have common size or one scalar cell.')
+      error('Cellarrays must have common size or one scalar cell.');
     end
     sz     = max(sz1,sz2);
     status = zeros(sz);
@@ -85,13 +85,13 @@ status  = 1;
 string1 = string1.';   string2 = string2.'; % added pab 10.12.2000
 string1 = string1(:)'; string2 = string2(:)';
 if ~isa(string1, 'char') || ~isa(string2, 'char')
-  error('### strwcmp: both input arguments must be character arrays')
+  error('### strwcmp: both input arguments must be character arrays');
 end
 
 if any(string1 == '*')
   mask = string1;
   if any(string2 == '*')
-    error('### strwcmp: only one input string may contain ''*''.')
+    error('### strwcmp: only one input string may contain ''*''.');
   end
   string = string2;
 else

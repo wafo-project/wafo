@@ -35,7 +35,7 @@ function [names,p0,p1] = findname(s1,s2,flag)
 %  02/05/95
 
  % Handle input .............................
-error(nargchk(2,3,nargin))
+error(nargchk(2,3,nargin));
 if nargin < 3||isempty(flag),  flag='exact';  end
 
 % Initialize output

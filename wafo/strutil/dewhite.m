@@ -24,7 +24,7 @@ error(nargchk(1, 1, nargin));
 
 if isempty(s), s1=s; return; end
 if ~(ischar(s)||iscell(s))
-  error('Input must be a string or cellarray of strings.')
+  error('Input must be a string or cellarray of strings.');
 end
 
 if iscell(s),

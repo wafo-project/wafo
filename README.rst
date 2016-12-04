@@ -9,7 +9,7 @@ Wave Analysis for Fatigue and Oceanography
 Description
 ===========
 
-WAFO is a toolbox Python routines for statistical analysis and simulation of
+WAFO is a matlab toolbox for statistical analysis and simulation of
 random waves and random loads. WAFO is freely redistributable software, see WAFO
 icence, cf. the GNU General Public License (GPL) and contain tools for:
 

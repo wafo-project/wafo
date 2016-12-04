@@ -1,31 +1,32 @@
 function [ind , Nc]= dat2crossind(x,v,wdef,nowarning)
 %DAT2CROSSIND Finds indices to level v down and/or upcrossings from data
 %
-%CALL: [ind, Nc]= dat2crossind(x,v,wdef/cdef,nowarning);
+% CALL:  [ind, Nc]= dat2crossind(x,v,wdef/cdef,nowarning);
 %
-%   ind  = indices to the level v crossings of the original sequence x
-%   Nc   = number of crossings (i.e.length of ind) 
-%
-%   x   = the surface elevation data
-%   v   = the reference level (default  v = mean of  x)
-%   wdef = defines the type of wave. Possible options are
+%  ind  = indices to the level v crossings of the original sequence x
+%  Nc   = number of crossings (i.e.length of ind) 
+%  x    = the surface elevation data
+%  v    = the reference level (default  v = mean of  x)
+%  wdef = defines the type of wave. Possible options are
 %        'dw', 'uw', 'cw', 'tw' or 'none'. (Default 'none').
 %        If wdef='none' all crossings will be returned,
 %        otherwise only the crossings which defines a 
 %        wave according to the wave definition will be returned.
-%   cdef = defines the type crossings returned. Possible options are
+%  cdef = defines the type crossings returned. Possible options are
 %        'd' 'u' or 'all'. (Default 'all').
 %        If def='d' all down-crossings will be returned.
 %        Similarly if def='u' only the up-crossings will be returned
 %        otherwise 'all' the crossings will be returned.
-%   nowarning = true suppresses warning for no crossings (default = false)
+%  nowarning = true suppresses warning for no crossings (default = false)
 %
 % Example: 
 %   t = linspace(0,7*pi,250); 
 %   x = sin(t);
-%   [ind, Nc] = dat2crossind(x,0.75,'u')
-%   plot(t,x,'.',t(ind),x(ind),'o')  
+%   [ind, Nc] = dat2crossind(x,0.75,'u');
+%   plot(t,x,'.',t(ind),x(ind),'o');
 %
+%   assert(ind', [ 10,81,152,224], eps);
+%   close all;
 % See also  findcross, wavedef, crossdef
 
 %Tested on: Matlab 8.6, 8.1, 6.0, 5.3, 5.2, 5.1
@@ -40,11 +41,8 @@ function [ind , Nc]= dat2crossind(x,v,wdef,nowarning)
 % - Added example, updated help 
 % By Per A. Brodtkorb 07.07.1998,  27.07.1998.  
 
-if verLessThan('matlab','7.12')
-    error(nargchk(1,4,nargin))
-else
-    narginchk(1,4)
-end
+error(nargchk(1,4,nargin))
+
 xn=x;
 if nargin<4,
     nowarning=false;
@@ -56,7 +54,7 @@ if n<m
 end
 
 if n<2, 
-  error('The vector must have more than 2 elements!')
+  error('The vector must have more than 2 elements!');
 end
 
 %istime=1;
@@ -64,7 +62,7 @@ end
 switch m
  case 1, %istime=0;
  case 2, xn= xn(:,2);% dimension OK!
- otherwise, error('Wrong dimension of input! dim must be 2xN, 1xN, Nx2 or Nx1 ')          
+ otherwise, error('Wrong dimension of input! dim must be 2xN, 1xN, Nx2 or Nx1 ');
 end
 
 if ((nargin<3) || isempty(wdef)),
@@ -73,7 +71,7 @@ end
 
 if ((nargin<2) || isempty(v)),
   v = mean(xn);
-  disp(['   The level v is set to: ', num2str(v)])
+  disp(['   The level v is set to: ', num2str(v)]);
 end
 
 
@@ -85,8 +83,8 @@ ind = findcross(xn,v); % faster than find
 if isempty(ind), %added pab 12.06.2001
    Nc = 0; 
    if nowarning == false
-       txt = sprintf('No level v = %0.5g crossings found in x',v);   
-       warning(txt)
+       txt = sprintf('No level v = %0.5g crossings found in x',v);
+       warning(txt);
    end
    return,
 end
@@ -119,7 +117,7 @@ switch wdef   % switch wdef/cdef
     % wavedef, i.e., make sure length(ind) is odd
     if ~(mod(Nc,2)), % if Nc is even do
       ind(end)=[];
-    end	
+    end
   case {'tw','cw'},
     % make sure that the first is a level v down-crossing if wdef == 'tw'
     % or make sure that the first is a level v up-crossing if wdef == 'cw'
@@ -132,10 +130,10 @@ switch wdef   % switch wdef/cdef
     % wavedef, i.e., make sure length(ind) is even
     if (mod(Nc,2)), % if Nc is odd do
       ind(end)=[];
-    end	
+    end
   case {'du','all','none'},
     % do nothing
- otherwise,  error('Unknown wave/crossing definition!')
+ otherwise,  error('Unknown wave/crossing definition!');
 end
 if nargout>1,
   Nc=length(ind); % number of level v crossings

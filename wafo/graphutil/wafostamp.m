@@ -91,7 +91,7 @@ if stamp~=0
   end
   if 1,
     
-    bannerFile = fullfile(waforoot,'data','wafologoNewWithoutBorder.png');
+    bannerFile = fullfile(waforoot,'data','wafoLogoNewWithoutBorder.png');
     %setbanner(handles,bannerFile)
     [banner,MAP,ALPHA] = imread( bannerFile); % Read the image file banner.jpg
     %info           = imfinfo(bannerFile); % Determine the size of the image file

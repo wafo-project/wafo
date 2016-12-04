@@ -91,14 +91,14 @@ end
 
 
 if monitor
-  disp(['Hm0, def      = ' num2str([Hm0 def])])
+  disp(['Hm0, def      = ' num2str([Hm0 def])]);
 end
 
 
 if plotflag
   ih=ishold;
-  plotspec(S,plotflag)
+  plotspec(S,plotflag);
   hold on
-  plotspec(S1,plotflag,'k--')
+  plotspec(S1,plotflag,'k--');
   if ~ih,hold off,end
 end

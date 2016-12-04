@@ -47,9 +47,9 @@ function [Snew]=spec2spec(S,newtype,phi,v)
 % revised by es 28.01.2000: correction and improvement of change to 'k1d'  
 % by es 13.08.99
 
-error(nargchk(1,4,nargin))  
+error(nargchk(1,4,nargin));
 if nargin<0||isempty(S)
-  error('Needs an input spectrum')
+  error('Needs an input spectrum');
 end
 
 Snew = S; 
@@ -63,30 +63,23 @@ if (nargin<4||isempty(v))
   v=0;
 end
 
-% New call: pab 21Sep2004
 Snew = rotspec(Snew,phi);
-% Old call: pab 21Sep2004
-%if ~isfield(Snew,'phi') | isempty(Snew.phi), 
-%  Snew.phi=0;
-%end
-%Snew.phi=mod(Snew.phi+phi+pi,2*pi)-pi;  %such that -pi<phi<pi
-
 
 newtype=lower(newtype);
 if strcmpi(S.type,newtype)
-%   disp(' Message: New type identical to old type')
+  %   disp(' Message: New type identical to old type')
   return
 end
 
 if ~any(strcmpi(newtype,{'dir','freq','k2d','k1d','encdir','enc'}))    
   % Check if newtype is a proper type
-  error('Not known new type, check spelling')
+  error('Not known new type, check spelling');
 end
 
 indim=sum(size(S.S)>1); %dimension of old spectrum
 if indim==1 %then new spectrum can not have dimension larger
   if strcmp(newtype(end-2:end),'dir')||strcmp(newtype(end-2:end),'k2d')
-    error('Impossible to transform from one dimension to two')
+    error('Impossible to transform from one dimension to two');
   end
 end
 
@@ -119,7 +112,7 @@ switch lower(S.type)
       case 'enc' % from freq
           Snew=dir2enc(Snew,1,v);
       otherwise
-        error('Specified transformation not possible')
+        error('Specified transformation not possible');
     end
   case 'k2d'
    switch newtype
@@ -165,7 +158,7 @@ switch lower(S.type)
      Snew=spec2spec(Snew,'dir');
      Snew=spec2spec(Snew,'enc',v);
     otherwise 
-     error('Specified transformation not possible')
+     error('Specified transformation not possible');
    end
  case 'k1d'
   switch newtype
@@ -175,7 +168,7 @@ switch lower(S.type)
     Snew = spa2time(Snew);
     Snew = spec2spec(Snew,'enc',v);
    otherwise      
-    error('Specified transformation not possible')
+    error('Specified transformation not possible');
   end
 
  case 'encdir'
@@ -185,14 +178,14 @@ switch lower(S.type)
     Snew.type = 'enc';
     Snew      = rmfield(Snew,'theta');
    otherwise
-    error('Specified transformation not possible or not yet available')
+    error('Specified transformation not possible or not yet available');
   end
  case 'enc'
   switch newtype 
    case 'freq' % from 'enc'  
     Snew.type='freq';
    otherwise
-    error('Specified transformation not possible or not yet available')
+    error('Specified transformation not possible or not yet available');
   end
 end
 Snew.date=datestr(now);

@@ -76,7 +76,7 @@ function [H, Hw, Hs]=mktorsethaugen(varargin)
 % New enhanced implementation based on old torsethaugen function from 1999.
 
 
-error(nargchk(0,inf,nargin))
+error(nargchk(0,inf,nargin));
 
 options = struct('Hm0',7,'Tp',11,'method','integration','wnc',6,'chkseastate','on');
 
@@ -119,24 +119,24 @@ Hm0 = options.Hm0;
 Tp = options.Tp;
 
 if Hm0<0
-  error('WAFO:MKTORSETHAUGEN','Hm0 can not be negative!')
+  error('WAFO:MKTORSETHAUGEN','Hm0 can not be negative!');
 end
 
 if Tp<=0
-  error('WAFO:MKTORSETHAUGEN','Tp must be positve!')
+  error('WAFO:MKTORSETHAUGEN','Tp must be positve!');
 end
 
 
 if Hm0==0
-  warning('WAFO:MKTORSETHAUGEN','Hm0 is zero!')
+  warning('WAFO:MKTORSETHAUGEN','Hm0 is zero!');
 end
 
 
 if Hm0>11 || Hm0>max((Tp/3.6).^2, (Tp-2)*12/11)
-  warning('WAFO:TORSETHAUGEN','Hm0 is outside the valid range.\n The validity of the spectral density is questionable')
+  warning('WAFO:TORSETHAUGEN','Hm0 is outside the valid range.\n The validity of the spectral density is questionable');
 end
 if Tp>20||Tp<3
-  warning('WAFO:TORSETHAUGEN','Tp is outside the valid range.\n The validity of the spectral density is questionable')
+  warning('WAFO:TORSETHAUGEN','Tp is outside the valid range.\n The validity of the spectral density is questionable');
 end
 
 
@@ -247,23 +247,23 @@ function [Hwind,Hswell] = mktspec(options)
     gammaw = 1;
     if monitor
       if Rpw > 0.1
-        disp('     Spectrum for swell dominated sea')
+        disp('     Spectrum for swell dominated sea');
       else
-        disp('     Spectrum for pure swell sea')
+        disp('     Spectrum for pure swell sea');
       end
     end
   end
   
   if monitor,
     if (3.6*sqrt(Hm0)<= Tp && Tp<=5*sqrt(Hm0))
-      disp('     Jonswap range')
+      disp('     Jonswap range');
     end
-    disp(['Hm0 = ' num2str(Hm0)])
-    disp(['Ns, Ms = ' num2str([Ns Ms]) '  Nw, Mw = ' num2str([Nw Mw])])
-    disp(['gammas = ' num2str(gammas) ' gammaw = ' num2str(gammaw)])
-    disp(['Rps = ' num2str(Rps) ' Rpw = ' num2str(Rpw)])
-    disp(['Hps = ' num2str(Hps) ' Hpw = ' num2str(Hpw)])
-    disp(['Tps = ' num2str(Tps) ' Tpw = ' num2str(Tpw)])
+    disp(['Hm0 = ' num2str(Hm0)]);
+    disp(['Ns, Ms = ' num2str([Ns Ms]) '  Nw, Mw = ' num2str([Nw Mw])]);
+    disp(['gammas = ' num2str(gammas) ' gammaw = ' num2str(gammaw)]);
+    disp(['Rps = ' num2str(Rps) ' Rpw = ' num2str(Rpw)]);
+    disp(['Hps = ' num2str(Hps) ' Hpw = ' num2str(Hpw)]);
+    disp(['Tps = ' num2str(Tps) ' Tpw = ' num2str(Tpw)]);
   end
 
   %G0s=Ms/((Ns/Ms)^(-(Ns-1)/Ms)*gamma((Ns-1)/Ms )); %normalizing factor

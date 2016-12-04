@@ -50,7 +50,7 @@ function seastate = getjonswapseastate(u10,fetch,method)
 % by pab 6 jan2006
 %
 
-error(nargchk(1,3,nargin))
+error(nargchk(1,3,nargin));
 if nargin < 2 || isempty(fetch)
   fetch = 150000;
 end
@@ -68,25 +68,25 @@ if strncmpi(method,'hasselman',1)
   if method(end)=='3',
     % Hasselman et.al (1973)
     A       = 0.076*zeta^(-0.22);
-    ny      = 3.5*zeta^(-0.33);               % dimensionless peakfrequency, Table 1
-    epsilon1 = 9.91e-8*zeta.^1.1;             % dimensionless surface variance, Table 1
+    ny      = 3.5*zeta^(-0.33);       % dimensionless peakfrequency, Table 1
+    epsilon1 = 9.91e-8*zeta.^1.1;     % dimensionless surface variance, Table 1
   else
     % Hasselman et.al (1976)
     A       = 0.0662*zeta^(-0.2);
-    ny      = 2.84*zeta^(-0.3);               % dimensionless peakfrequency, Table 1
-    epsilon1 = 1.6e-7*zeta;                   % dimensionless surface variance, Eq.4
+    ny      = 2.84*zeta^(-0.3);       % dimensionless peakfrequency, Table 1
+    epsilon1 = 1.6e-7*zeta;           % dimensionless surface variance, Eq.4
   end
   sa      = 0.07;
   sb      = 0.09;
   gam     = 3.3;
 else
   A       = 0.074*zeta^(-0.22);               % Eq. 10
-  ny      = 3.57*zeta^(-0.33);                % dimensionless peakfrequency, Eq. 11
-  epsilon1 = 3.512e-4*A*ny^(-4)*zeta^(-0.1);  % dimensionless surface variance, Eq.12
-  sa      = 0.05468*ny^(-0.32);               % Eq. 13
-  sb      = 0.078314*ny^(-0.16);              % Eq. 14
-  gam     = max(17.54*zeta^(-0.28384),1);     % Eq. 15
+  ny      = 3.57*zeta^(-0.33);           % dimensionless peakfrequency, Eq. 11
+  epsilon1 = 3.512e-4*A*ny^(-4)*zeta^(-0.1); % dimensionless surface variance, Eq.12
+  sa      = 0.05468*ny^(-0.32);              % Eq. 13
+  sb      = 0.078314*ny^(-0.16);             % Eq. 14
+  gam     = max(17.54*zeta^(-0.28384),1);    % Eq. 15
 end
-Tp      = u10/(ny*g);                          % Table 1
-Hm0     = 4*sqrt(epsilon1)*u10^2/g;            % Table 1
+Tp      = u10/(ny*g);                        % Table 1
+Hm0     = 4*sqrt(epsilon1)*u10^2/g;          % Table 1
 seastate = [Hm0, Tp, gam, sa, sb, A];

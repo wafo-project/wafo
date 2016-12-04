@@ -130,5 +130,5 @@ if exist('intype','var')
   S=spec2spec(S,intype);
 end  
 if plotflag
-  plotspec(S)
+  plotspec(S);
 end

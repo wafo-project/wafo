@@ -63,7 +63,7 @@ for j=1:length(fact)
       f = S.(vari);
       bw(j)=2/m(1)^2*simpson(f,f(:).*S.S(:).^2);
     otherwise
-      error('Factor outside range (1,...,4)')
+      error('Factor outside range (1,...,4)');
   end
 end
 

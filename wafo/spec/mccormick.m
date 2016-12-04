@@ -88,7 +88,7 @@ S1.note=['McCormick, Hm0 = ' num2str(Hm0)  ', Tp = ' num2str(Tp) ', Tz = ' num2s
 
 
 if monitor
-  disp(['Hm0, Tp, Tz     = ' num2str([Hm0 Tp Tz])])
+  disp(['Hm0, Tp, Tz     = ' num2str([Hm0 Tp Tz])]);
 end
 if Hm0>0
   TpdTz = Tp/Tz;
@@ -98,18 +98,13 @@ if Hm0>0
   M=1./fminbnd(@(x) localoptfun(x,TpdTz),0.01,5);
   wp=2*pi/Tp;
 
-  %% for w>0 % avoid division by zero
-  %     k=find(w>0);
-  %     S1.S(k)=(M+1)*(Hm0/4)^2/wp*(wp./w(k)).^(M+1).*exp(-(M+1)/M*(wp./w(k)).^M);
-
-  
   wn = w./wp;
   S1.S =      (Hm0/4)^2/wp*ggamspec(wn,M+1,M);
 
 end
 
 if plotflag
-  plotspec(S1,plotflag)
+  plotspec(S1,plotflag);
 end
 
 function y = localoptfun(x,TpdTz)

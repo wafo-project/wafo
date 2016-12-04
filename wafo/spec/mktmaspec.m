@@ -84,7 +84,7 @@ function H = mktmaspec(varargin)
 %      so that the transfer function value is low. This low range is 
 %      especially important when studying velocities and accelerations.
 
-  error(nargchk(0,inf,nargin))
+  error(nargchk(0,inf,nargin));
 
 
   options = struct('h',42,'Hm0',7,'Tp',11,'gamma',[],...

@@ -73,11 +73,11 @@ if numel(k2)>1 % non-scalar
       k=k(:);
       k=k(:,ones(1,size(k2,1)))';
     else
-      error('Input dimensions do not match')
+      error('Input dimensions do not match');
     end
   else % both matrices
     if any(size(k)~=size(k2))
-      error('Input dimensions do not match')
+      error('Input dimensions do not match');
     end   
   end
 end
@@ -99,8 +99,8 @@ if any(ix)
 end
 iy=find(w<0);
 if any(iy)
-  disp('Warning: waves and current are in opposite directions')
-  disp('         making some of the frequencies negative.')
-  disp('         Here we are forcing the negative frequencies to zero')
+  disp('Warning: waves and current are in opposite directions');
+  disp('         making some of the frequencies negative.');
+  disp('         Here we are forcing the negative frequencies to zero');
   w(iy)=0; % force w to zero 
 end

@@ -64,10 +64,10 @@ function S = cov2spec(R,rate,nugget,trunc,fast)
 % do not result in negative spectral estimates
 
 if ~isstruct(R)
-  error('Incorrect input Covariance, see help datastructures')
+  error('Incorrect input Covariance, see help datastructures');
 end
 if ndims(R.R)>2||(min(size(R.R))>1),
-  error('This function is only capable of 1D covariances')
+  error('This function is only capable of 1D covariances');
 end
 
 if nargin<3||isempty(nugget)

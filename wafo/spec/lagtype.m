@@ -22,8 +22,7 @@ function ltype = lagtype(R)
 names=fieldnames(R); 
 ind=find(strcmp(names,'x')+strcmp(names,'y')+strcmp(names,'t')); %options are 'x' and 'y' and 't' 
 if isempty(ind)
-  error('This is not a Covariance structure')
- % ltype=[];
+  error('This is not a Covariance structure');
 else
   ltype=char(names(ind)).'; 
 end

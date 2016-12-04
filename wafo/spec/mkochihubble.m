@@ -49,7 +49,7 @@ function [H,Hw,Hs] = mkochihubble(varargin)
 % based on old ohspec2 function
 
 
-error(nargchk(0,inf,nargin))
+error(nargchk(0,inf,nargin));
 options = struct('Hm0',7,'def',1,'chkseastate','on');
 if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
   H = options;
@@ -62,7 +62,7 @@ else
 end
 
 if strcmpi(options.chkseastate,'on')
-  chkseastate(options)
+  chkseastate(options);
 end
 
 [Hw,Hs] = mkohspec(options);
@@ -124,16 +124,16 @@ function chkseastate(options)
 Hm0 = options.Hm0;
 
 if Hm0<0
-  error('WAFO:MKOCHIHUBBLE','Hm0 can not be negative!')
+  error('WAFO:MKOCHIHUBBLE','Hm0 can not be negative!');
 end
 
 if options.def<1 || 11<options.def
-  error('WAFO:MKOCHIHUBBLE','Def must be an integer freom 1 to 11!')
+  error('WAFO:MKOCHIHUBBLE','Def must be an integer freom 1 to 11!');
 end
 
 
 if Hm0==0
-  warning('WAFO:MKOCHIHUBBLE','Hm0 is zero!')
+  warning('WAFO:MKOCHIHUBBLE','Hm0 is zero!');
 end
 
 end % chkseastate

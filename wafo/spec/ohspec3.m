@@ -1,7 +1,7 @@
 function [S, S1] = ohspec3(w,def,plotflag)
 % OHSPEC3 Calculates Bimodal Ochi-Hubble spectral densities
 %         from mixed sea states
-% RSP
+%
 %  CALL:  [S S1] = ohspec3(w,def,plotflag); 
 %
 %        S    = a struct containing the total spectral density
@@ -25,7 +25,7 @@ function [S, S1] = ohspec3(w,def,plotflag)
 %             Target spectra parameters:
 %    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %   def     Hm0s    Hm0w     Tps     Tpw     Ls     Lw
-%  ииииииииииииииииииииииииииииииииииииииииииииииииииии
+%  -----------------------------------------------------
 %    1      5.5     3.5     14.3     9.1     3.0    6.5
 %    2      6.5     2.0     14.3     6.7     3.5    4.0
 %    3      5.5     3.5     22.2     6.5     3.0    6.0
@@ -76,7 +76,7 @@ elseif length(def)>1
     [S(ix) S1(ix,1:2)]=ohspec3(w,def(ix));
   end %
   if plotflag
-     plotspec(S,plotflag)
+     plotspec(S,plotflag);
   end
   return
 end
@@ -154,8 +154,8 @@ end
 
 if plotflag
   ih=ishold;
-  plotspec(S,plotflag)
+  plotspec(S,plotflag);
   hold on
-  plotspec(S1,plotflag,'k--')
+  plotspec(S1,plotflag,'k--');
   if ~ih,hold off,end
 end

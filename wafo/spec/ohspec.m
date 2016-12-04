@@ -52,10 +52,7 @@ w = [];
 if nargin<3||isempty(plotflag)
   plotflag=0;
 end
-% Old call
-%if nargin<1|isempty(w)
-%  w=linspace(0,3,257).';
-%end
+
 sdata2=[7 11 3]; % default values
 if nargin<2||isempty(sdata)
 else
@@ -88,32 +85,22 @@ Hm0     = sdata2(1);
 Tp      = sdata2(2);
 L       = sdata2(3);
 S1.note = ['Ochi-Hubble, Hm0 = ' num2str(Hm0)  ', Tp = ' num2str(Tp), ...
-	', L = ' num2str(L)];
+           ', L = ' num2str(L)];
 if monitor
-  disp(['Hm0, Tp      = ' num2str([Hm0 Tp])])
+  disp(['Hm0, Tp      = ' num2str([Hm0 Tp])]);
 end
 
 
 if Hm0>0
   wp = 2*pi/Tp;
-  % New call pab jan 2007
   wn = w/wp;
   N = 4*L+1;
   M = 4;
   
   S1.S = (Hm0/4)^2/wp * ggamspec(wn,N,M);
-%   if 0,
-%     k  = find(w>0);  % avoid division by zero
-%     %Old call
-%     %S1.S(k)=0.25*((L-0.25)*wp^4)^L/gamma(L)*Hm0^2./(w(k).^(4*L+1)).*exp(-(L-0.25)*(wp./w(k)).^4);
-% 
-%     % New call pab 24.11.2000
-%     B = (L+0.25);
-%     S1.S(k)=0.25*(B*wp^4)^L/gamma(L)*Hm0^2./(w(k).^(4*L+1)).*exp(-B*(wp./w(k)).^4);
-%  end
 end
 
 
 if plotflag
-  plotspec(S1,plotflag)
+  plotspec(S1,plotflag);
 end

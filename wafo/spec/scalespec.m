@@ -133,6 +133,6 @@ if exist('intype','var')
   Sn=spec2spec(Sn,intype);
 end  
 if plotflag
-  plotspec(Sn)
+  plotspec(Sn);
 end
  

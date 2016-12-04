@@ -60,7 +60,7 @@ function H=mkbretschneider(varargin)
 % his spectrum in 1959, ITTC, ISSC and Pierson-Moskovitz spectra came first
 % in 1964.
 
-error(nargchk(0,inf,nargin))
+error(nargchk(0,inf,nargin));
 options = struct('Hm0',7,'Tp',11,'N',5,'M',4,'chkseastate','on');
 if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
   H = options;
@@ -69,7 +69,7 @@ end
 options = parseoptions(options,varargin{:});
 
 if strcmpi(options.chkseastate,'on')
-  chkseastate(options)
+  chkseastate(options);
 end
 
 
@@ -103,16 +103,16 @@ function chkseastate(options)
   Hm0 = options.Hm0;
 
   if Hm0<0
-    error('WAFO:MKBRETSCHNEIDER','Hm0 can not be negative!')
+    error('WAFO:MKBRETSCHNEIDER','Hm0 can not be negative!');
   end
 
   if Tp<=0
-    error('WAFO:MKBRETSCHNEIDER','Tp must be positve!')
+    error('WAFO:MKBRETSCHNEIDER','Tp must be positve!');
   end
 
 
   if Hm0==0
-    warning('WAFO:MKBRETSCHNEIDER','Hm0 is zero!')
+    warning('WAFO:MKBRETSCHNEIDER','Hm0 is zero!');
   end
 
 end % chkseastate

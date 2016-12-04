@@ -92,7 +92,7 @@ Tp      = sdata(2);
 S1.note = sprintf('Pierson-Moskowitz, Hm0 = %g, Tp = %g', Hm0,Tp);
 
 if monitor
-  disp(S1.note)
+  disp(S1.note);
 end
 
 
@@ -103,27 +103,8 @@ if Hm0>0
    wn = w/wp;
    S1.S = (Hm0/4)^2/wp * ggamspec(wn,N,M);
 end
-  % for w>0 % avoid division by zero
-%   k = find(w>0);
-%   if any(k)
-%     if 0,% Old call kept just in case  S(w) = 5*Hm0^2/(wp*wn^5)*exp(-5/4*wn^-4)
-%       Tm01 = Tp/1.2965;
-%       w1   = 2*pi/Tm01;
-%       S1.S(k)=0.11*Hm0^2*w1^4./(w(k).^5).*exp(-.44*(w1./w(k)).^4);
-%     else
-%       N = 5;
-%       M = 4;
-%       wp = 2*pi/Tp;
-%       wn = w/wp;
-%       B  = (N-1)/M;
-%       G0 = (N/M).^(B)*(M/gamma(B)); % Normalizing factor related to Pierson-Moskovitz form
-%       G1 = (Hm0/4)^2/wp*G0; % [m^2 s]
-%       S1.S(k) = G1.*wn(k).^(-N).*exp(-(N/M)*wn(k).^(-M));
-%     end
-%   end
-% end
 
 
 if plotflag
-  plotspec(S1,plotflag)
+  plotspec(S1,plotflag);
 end

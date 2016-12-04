@@ -179,7 +179,7 @@ function [D,options] = mkspreading(type,varargin)
 % By es, jr 1999.11.25
 
 
-error(nargchk(0,inf,nargin))
+error(nargchk(0,inf,nargin));
 
 options = struct('theta0',0,'method','mitsuyasu',...
   'sp',[15 15],'m',[5 -2.5],'wnlimits',[0 1 inf]);
@@ -194,11 +194,11 @@ options = parseoptions(options,varargin{:});
 
 
 if length(options.wnlimits)~=3
-  error('WAFO:MKSPREADING','option.wnlimits must have 3 elements')
+  error('WAFO:MKSPREADING','option.wnlimits must have 3 elements');
 end
 
 if length(options.m)~=2
-  error('WAFO:MKSPREADING','option.m must have 3 elements')
+  error('WAFO:MKSPREADING','option.m must have 3 elements');
 end
 
 % if isempty(options.wc) 
@@ -360,7 +360,7 @@ end % get spread
       if isnumeric(options.theta0)
         th0 = options.theta0(:).';
       else
-        error('WAFO:MKSPREADING','options.theta0 contains an unsupported datatype')
+        error('WAFO:MKSPREADING','options.theta0 contains an unsupported datatype');
       end
   end
   
@@ -373,7 +373,7 @@ end % get spread
     % make sure -pi<=TH<pi
     TH = mod(theta(:,ones(1,Nw))-th0(ones(Nt,1),:)+pi,2*pi)-pi; 
   elseif Nt0~=1,
-    error('WAFO:MKSPREADING','The length of theta0 must equal to 1 or the length of w')
+    error('WAFO:MKSPREADING','The length of theta0 must equal to 1 or the length of w');
   else
 
     TH = mod(theta-th0+pi,2*pi)-pi; % make sure -pi<=TH<pi
@@ -386,7 +386,7 @@ end % get spread
   %~~~~~~~~~~~~~~~~
   s = getspread(w,options);
   if any(s<0), 
-    error('WAFO:MKSPREADING','The COS2S spread parameter, S(w), value must be larger than 0')
+    error('WAFO:MKSPREADING','The COS2S spread parameter, S(w), value must be larger than 0');
   end
   
   if type(1)=='c'
@@ -480,7 +480,7 @@ function [D, phi0] = cos2s(options, theta,w,wc)
       X = r1(ones(Nt,1),:);
     end
     if any(X>=1),
-      error('WAFO:MKSPREADING:POISSON','POISSON spreading: X value must be less than 1'),
+      error('WAFO:MKSPREADING:POISSON','POISSON spreading: X value must be less than 1');
     end
     D    = (1-X.^2)./(1-(2*cos(TH)-X).*X)/(2*pi);
   end % function poissong
@@ -634,7 +634,7 @@ end
 
   [par,TH,phi0,Nt] = inputchk(options, theta,w,wc, 'box');
   if any(par>pi), 
-    error('WAFO:MKSPREADING:BOX','BOX-CAR spreading: The A value must be less than pi'),
+    error('WAFO:MKSPREADING:BOX','BOX-CAR spreading: The A value must be less than pi');
   end
   if options.method(1)=='n'
     A = par; 

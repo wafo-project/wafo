@@ -143,14 +143,14 @@ if iscell(fact)
     if length(ind)==1,
       nfact(ix)=ind;
     else
-      error(['Not a valid factor: ' fact{ix}])
+      error(['Not a valid factor: ' fact{ix}]);
     end
   end 
 else
   nfact = fact;
 end
 if any(nfact>26 | nfact<1)
-  error('Factor outside range (1,...,26)')
+  error('Factor outside range (1,...,26)');
 end
 
 vari = 'w';
@@ -159,7 +159,7 @@ if isfield(S,'k2d')
 elseif isfield(S,'theta') 
   S = ttspec(S,'w','r'); % Make sure it is directional spectrum given in radians
 else
-  error('Directional spectra required!')
+  error('Directional spectra required!');
 end
 
 phi = 0;
@@ -176,10 +176,10 @@ Dtf     = S.S;
 [Nt Nf] = size(Dtf);
 
 if length(w)~=Nf, 
-  error('Length of frequency vector S.f or S.w must equal size(S.S,2)'),
+  error('Length of frequency vector S.f or S.w must equal size(S.S,2)');
 end
 if length(theta)~=Nt, 
-  error('Length of angular vector S.theta must equal size(S.S,1)'),
+  error('Length of angular vector S.theta must equal size(S.S,1)');
 end
 
 Sf      = simpson(S.theta,Dtf,1);
@@ -227,11 +227,11 @@ if 0,
     P1toM(:,ix) = a(ix)*cos((ix-1)*theta)+b(ix)*sin((ix-1)*theta);
   end
   Psum = sum(P1toM,2);
-  subplot(2,1,1)
-  plot(theta,Dtheta-Psum,'o','MarkerSize',2), legend('Dteta-Psum')
-  subplot(2,1,2)
-  plot(theta,Dtheta,'o','MarkerSize',2), hold on
-  plot(theta,Psum,'m'), hold off,legend('Dteta','Psum')
+  subplot(2,1,1);
+  plot(theta,Dtheta-Psum,'o','MarkerSize',2), legend('Dteta-Psum');
+  subplot(2,1,2);
+  plot(theta,Dtheta,'o','MarkerSize',2); hold on
+  plot(theta,Psum,'m'); hold off;legend('Dteta','Psum');
   pause 
 end   
 
@@ -352,10 +352,6 @@ if transform2degrees, % Change from radians to degrees
   for ix = ind,
     ch{ix} = ch{ix}*180/pi;
   end 
-  % Old call:
-  %r2d = ones(1,11);
-  %r2d([1:3 5 7 ]) = 180/pi;
-  %ch = ch.*r2d;
 end
 
 % select the appropriate values

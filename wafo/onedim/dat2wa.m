@@ -86,7 +86,7 @@ function [T, index, ind] = dat2wa(xn,h,pdef,wdef,rate),
 %  - added interpolation before extracting the parameters
 % last modified by Per A. Brodtkorb 07.08.98
 
-  error(nargchk(1,5,nargin))
+error(nargchk(1,5,nargin));
 x=xn;
 
 [n m]= size(x);
@@ -96,12 +96,12 @@ if n<m
 end
 
 if n<2, 
-  error('The vector must have more than 2 elements!')
+  error('The vector must have more than 2 elements!');
 end
 
 switch m
  case 2, % dimension OK!
- otherwise, error('Wrong dimension of input! dim must be 2xN or Nx2 ')
+ otherwise, error('Wrong dimension of input! dim must be 2xN or Nx2 ');
 end
 
 if ((nargin<4) || isempty(wdef)),
@@ -136,10 +136,10 @@ end
 if ((nargin<2) || isempty(h)) ,
   if (pdef(1)=='m') || (pdef(1)=='M'),
     h=0;
-    disp(['   The minimum rfc height, h,  is set to: ', num2str(h)])
+    disp(['   The minimum rfc height, h,  is set to: ', num2str(h)]);
   else
     h=mean(x(:,2));
-    disp(['   The level l is set to: ', num2str(h)])
+    disp(['   The level l is set to: ', num2str(h)]);
     % l is h in order to save number of arguments in the 
     % function call. Hopefully not too confusing!
   end
@@ -178,7 +178,7 @@ if (x(index(1),2)>x(index(2),2)), % if first is down-crossing or max
     case 'c2d', start=4;
     otherwise, error('Unknown option!');
   end %switch pdef
-else 			% first is up-crossing or min 
+else      % first is up-crossing or min 
   switch pdef 
     case 'all', start=1;	% secret option!
     case {'u2c','m2M', 't2c', 'u2d','m2m','t2t','u2u'} , start=1;

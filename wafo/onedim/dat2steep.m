@@ -107,7 +107,7 @@ end
 
 h9 = waitbar(0,'Please wait... for dat2steep to finish.');
 for ix=2:M
-  waitbar((ix-1)/(M-1),h9)
+  waitbar((ix-1)/(M-1),h9);
   if interpolate,
     %disp(['   ...interpolating column ' int2str(ix)])
     %    xn=[ti ;  interp1(xx(:,1),xx(:,2),ti,'*linear') ]'; 
@@ -120,7 +120,7 @@ for ix=2:M
    else
      xn(:,2)=xx(:,ix);
   end
- % disp('   ...extracting parameters')
+ % disp('   ...extracting parameters');
   [tc tc_ind,z_ind]=dat2tc(xn,0,'tw'); % finding trough to trough waves
   if nargout>6
     if M==2,
@@ -164,7 +164,7 @@ for ix=2:M
       H = [H;AC+AT(1:end-1)] ; % Hd
       S = [S ; AC./TFRONT];
       
-    case -1,% extracting crest rear velocity [m/s] and  
+    case -1,  % extracting crest rear velocity [m/s] and  
            % Zero-upcrossing wave height [m]
       H = [H ; AC+AT(2:end)]; 
       S = [S ; AC./TREAR];

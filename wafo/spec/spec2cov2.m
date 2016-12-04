@@ -28,9 +28,9 @@ function R = spec2cov2(S,nr,Nt,dt)
 % by pab 24.11.2003
 % based on code from spec2XXpdf programmes
   
-error(nargchk(1,4,nargin))
+error(nargchk(1,4,nargin));
 if ~isstruct(S)
-  error('Incorrect input spectrum, see help datastructures')
+  error('Incorrect input spectrum, see help datastructures');
 end
   
 if nargin<2||isempty(nr)
@@ -72,15 +72,15 @@ switch ftype
   vari = 'x';
 end
 msg1 = sprintf(['The step dt = %g in computation of the density is too' ...
-		' small.'],dt);
+                ' small.'],dt);
 msg2 = sprintf(['The step dt = %g step is small, may cause numerical' ...
-		' inaccuracies.'],dt);
+                ' inaccuracies.'],dt);
 
 if (checkdt < 2^-16/dt)
-  disp(msg1)
-  disp('The computed covariance (by FFT(2^K)) may differ from the theoretical.')
-  disp('Solution:')
-  error('use larger dt or sparser grid for spectrum.')
+  disp(msg1);
+  disp('The computed covariance (by FFT(2^K)) may differ from the theoretical.');
+  disp('Solution:');
+  error('use larger dt or sparser grid for spectrum.');
 end
 
 % Calculating covariances
@@ -103,10 +103,10 @@ if Nt+1>=5
   
   cc2 = R(1,1)-R(5,1)*(R(5,1)/R(1,1));
   if (cc2<EPS0)
-    warning('WAFO:SPEC2COV2',msg1)
+    warning('WAFO:SPEC2COV2',msg1);
   end
 end
 if (cc<EPS0)
-  disp(msg2)
+  disp(msg2);
 end
 return

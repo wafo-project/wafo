@@ -31,13 +31,13 @@ function Snew=dir2enc(S,d,v)
 % TODO % The numerical accuracy of the method is pure. 
 % TODO % Should remove singularity by e.g. splitting the integral.
 
-error(nargchk(1,3,nargin))  
+error(nargchk(1,3,nargin));
 if nargin<0 || isempty(S)
-  error('Needs an input spectrum')
+  error('Needs an input spectrum');
 end
 
 if ~any(strcmpi(S.type,{'dir','freq'}))
-  error('Spectrum must be of type dir or freq ')
+  error('Spectrum must be of type dir or freq ');
 end
 
 if (nargin<2 || isempty(d))

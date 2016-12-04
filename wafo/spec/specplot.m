@@ -42,4 +42,4 @@ function specplot(S,varargin)
 %
 % See also  dat2spec, createspec, simpson
 
-plotspec(S,varargin{:})
+plotspec(S,varargin{:});

@@ -6,6 +6,6 @@ function test_createspec_()
     S.date = ''; 
     names = {'S', 'w', 'theta', 'tr', 'h', 'type', 'phi','norm','note', 'date'}; 
     vals = {[],[],[],[],inf,'dir', 0, 0, [], ''}; 
-    assert(fieldnames(S), names') 
-    assert(struct2cell(S), vals')
+    assert(fieldnames(S), names'); 
+    assert(struct2cell(S), vals');
 end

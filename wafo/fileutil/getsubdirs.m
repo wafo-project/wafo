@@ -13,7 +13,7 @@ function  direc = getsubdirs(rootdir,N,direc)
 %  for i=1:length(d),
 %   [folder, names{i}] = fileparts(d{i});
 %  end
-%  assert(names(1:4), {'wafo', '@data_1d', '@data_2d' '@data_3d'})
+%  assert(names(2:4), {'@data_1d', '@data_2d' '@data_3d'})
 %
 % See also: dir 
 

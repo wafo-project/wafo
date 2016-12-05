@@ -20,8 +20,8 @@ function locations = locate(varargin)
 %   for i=1:length(loc0),
 %    [folder, names{i}] = fileparts(loc0{i});
 %   end
-%   i0 = [strmatch('pdfplot', names), strmatch('trplot', names), ...
-%         strmatch('nplot', names)]; 
+%   i0 = [strmatch('pdfplot', names)(1), strmatch('trplot', names)(1), ...
+%         strmatch('nplot', names)(1)]; 
 %   assert(names(i0), {'pdfplot','trplot','nplot'});
 %
 %   See also DIR, SYSGLOB.

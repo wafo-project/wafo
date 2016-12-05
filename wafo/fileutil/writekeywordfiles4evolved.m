@@ -6,7 +6,7 @@ function writekeywordfiles4evolved(mdirs)
 % mdirs     = cellarray or character array with directories to search for
 %             M-files. (default '.')
 % 
-% Example % 
+% SkipExample % 
 %   writekeywordfiles4evolved('signal')
 %
 % See also

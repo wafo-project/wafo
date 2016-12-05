@@ -17,7 +17,7 @@ function tmp = mk_moxunit_tests(dirs,varargin)
 %    .method    : 'unittest' Extract test from commentblocks tagged with % UNITTEST %
 %                 'example'  Extract test from exampleblocks in the help header
 %                 'all'      Extract both example and unittests (default)
-% Example
+% SkipExample
 %  mk_moxunit_tests('wafo/spec', 'recursive', true)
 % 
 % See also m2htmlx, getsubdirs

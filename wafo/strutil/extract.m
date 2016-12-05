@@ -58,7 +58,7 @@ error(nargchk(3,5,nargin));
 nfilldflt = [0 32]; % Defaults for filling (0 for numbers
                     % or blank for strings)
 cellOutPut = (1==0);                    
-		    
+
  % Handle input ...........................................
 if nargin<4||isempty(nfill) || (length(nfill)>1 && ~strncmpi(nfill,'cell',2)), 
   if ischar(v)

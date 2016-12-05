@@ -27,7 +27,10 @@ function [C,D,M,G2] = finddep(ldirs,edirs)
 % If only ldirs is given then G=M.
 %
 % Example
-%    [C,W,M] = finddep(pwd);
+%    [C,W,M] = finddep(fullfile(waforoot, 'fileutil'));
+%    assert(W.m(1:4), {'Contents.m','bindiff.m','cdtomfile.m','diary2m.m'});
+%    assert(size(C{1,1}), [51,51]);
+%    assert(C{1,1}(1:4,1:4), sparse([2,3,4],[2,3,4], ones(1, 3)));
 %
 % See also: getnames, strmatch 
 
@@ -120,7 +123,9 @@ for ix=1:k1
     % extract only the legal names (and remove duplicates)
     s = munique(getnames(s)); % More robust and faster
     HH = munique(getnames(HH)); % More robust and faster
-    if any(s>32)||any(HH>32),
+    if any(s>32) || any(HH>32),
+      s = cellstr(s);
+      HH = cellstr(HH);
       for k =1:n2
         word = strtok(M(k,:),'.'); % remove .m-ending
         % See if in the list

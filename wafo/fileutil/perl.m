@@ -34,14 +34,14 @@ function result = perl(varargin)
     thisArg = varargin{i};
     if (isempty(thisArg) || ~ischar(thisArg))
       error('All input arguments must be valid strings.');
-    elseif (exist(thisArg,file)==2)
+    elseif (exist(thisArg, 'file')==2)
       % This is a valid file on the MATLAB path
       if isempty(dir(thisArg))
-	% Not complete file specification
-	% - file is not in current directory
-	% - OR filename specified without extension
-	% ==> get full file path
-	thisArg = which(thisArg);
+        % Not complete file specification
+        % - file is not in current directory
+        % - OR filename specified without extension
+        % ==> get full file path
+        thisArg = which(thisArg);
       end
     end
   
@@ -77,7 +77,7 @@ function result = perl(varargin)
    % Check for errors in shell command
    if (status~=0)
      errorTxt = sprintf('System error: %s \nCommand executed: %s\n',...
-		   result,  cmdString);
+     result,  cmdString);
      error(errorTxt);
    end
    return

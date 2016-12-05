@@ -9,10 +9,15 @@ function mfiles = getmfiles(mdirs,recursive,mfiles, exclude,exclude_patterns)
 % recursive = 1 if a recursive search should be used
 %             0 if only MDIRS should be searched (default)
 %
-% Examples:
-%  mfiles = getmfiles;
-%  mfiles = getmfiles('signal')  
+% Example:
 %  
+%  mfiles = getmfiles(fullfile(waforoot, 'fileutil'));
+%  names = {};
+%  for i=1:length(mfiles),
+%   [folder, names{i}] = fileparts(mfiles{i});
+%  end
+%  assert(names(1:3), {'Contents','bindiff','cdtomfile'});
+% 
 % See also: getsubdirs
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% -*- Mode: Matlab -*- %%%%%%%%%%%%%%%%%%%%%%%%%%%%

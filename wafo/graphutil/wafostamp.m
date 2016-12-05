@@ -96,13 +96,13 @@ if stamp~=0
     %info           = imfinfo(bannerFile); % Determine the size of the image file
   
     ax(2) = axes('Position',[.70 .01 .2 .05],'Visible','off','tag',tag);
-    axis equal
+    axis equal;
     axes(ax(2));
   
-    image(banner)
+    image(banner);
     set(ax(2), 'Visible', 'off'); %, 'Position', [50 50 info.Width info.Height]);
   catch
-    warning(['Unable to load: ' bannerFile])
+    warning(['Unable to load: ' bannerFile]);
   end  
   if stamp>1
     stamptxt =[flag,' '];

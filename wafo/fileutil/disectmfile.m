@@ -17,8 +17,10 @@ function info = disectmfile(fname)
 %     .name  : function name
 %
 % Example
-%  t = disectmfile('disectmfile')
-% 
+%  if ismatlab(),
+%    t = disectmfile('disectmfile')
+%  end
+%
 % See also scan, mlint
 
 % Tested on: matlab 7

@@ -8,8 +8,13 @@ function  direc = getsubdirs(rootdir,N,direc)
 %  N        = maximum number of recursive calls (default 10).
 %
 % Example
-%  d = getsubdirs('.', 3) 
-%  
+%  d = getsubdirs(waforoot, 3);
+%  names = {};
+%  for i=1:length(d),
+%   [folder, names{i}] = fileparts(d{i});
+%  end
+%  assert(names(1:4), {'wafo', '@data_1d', '@data_2d' '@data_3d'})
+%
 % See also: dir 
 
 % History

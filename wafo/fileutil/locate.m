@@ -14,8 +14,15 @@ function locations = locate(varargin)
 %
 %   Examples:
 %
-%     locate *plot.m    - Find all files ending with 'plot.m'.
-%     locate im*        - Find all files starting with 'im'.
+%   loc0 = locate('*plot.m');    % Find all files ending with 'plot.m'.
+%   loc1 = locate('im*');        % Find all files starting with 'im'.
+%   names = {};
+%   for i=1:length(loc0),
+%    [folder, names{i}] = fileparts(loc0{i});
+%   end
+%   i0 = [strmatch('pdfplot', names), strmatch('trplot', names), ...
+%         strmatch('nplot', names)]; 
+%   assert(names(i0), {'pdfplot','trplot','nplot'});
 %
 %   See also DIR, SYSGLOB.
 

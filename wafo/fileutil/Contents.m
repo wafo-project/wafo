@@ -18,7 +18,6 @@
 % geth1line                   - Extracts the first comment line (the H1 line) of a m-file 
 % getmfileinfo                - Return info about mfile such as subroutines, functions called etc. 
 % getmfiles                   - Return M-files found from a list of directories. 
-% h1line                      - Extracts the first comment line (the H1 line) of a m-file 
 % hexview                     - View a file in hexadecimal mode. 
 % history2file                - Writes all History notes in M-files to file 
 % isdirectory                 - True if argument is a directory. 

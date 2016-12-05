@@ -24,11 +24,12 @@ function  [names,exst] = findref(filein,nex,varargin)
 %  See FNAMES function for details.
 %
 % Example: % Return only built-in and MEX functions
-%	   % (including all "math" functions) used in the
-%	   % INTERP function
-%   findref('interp',3:5,'math')
-%	 
-% See also: fnames, exist	
+%   % (including all "math" functions) used in the
+%   % findref function
+%  ref = findref('findref',3:5,'math');
+%  assert(ref, strvcat('error', 'exist', 'floor'));
+% 
+% See also: fnames, exist
 
 
 % History:
@@ -75,7 +76,7 @@ for jj = nex;
   nn = (nn | floor(exst)==jj);
 end
 nn    = find(nn);
-names = names(nn,:);
+names = deblank(names(nn,:));
 exst  = exst(nn);
 return
 

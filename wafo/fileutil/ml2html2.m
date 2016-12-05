@@ -27,8 +27,8 @@ function ml2html2(rdir,htmldir,sdef,intyp)
 %directory that is encountered containing
 %.html files corresponding to every .m file.
 %
-% Example
-% rdir = pwd;
+% SkipExample
+% rdir = fullfile(waforoot, 'fileutil');
 % htmldir = [];  
 % sdef = 1;
 % typ = [1 1 0 0 0]; 

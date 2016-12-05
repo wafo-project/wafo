@@ -15,13 +15,14 @@ function  diary2m(fileout,filein)
 % Warning: the output file may still contain errors and
 % may need some additional editing before execution.
 %
-% Example
-%  
-%  diary on
+% SkipExample
+%  diary_name = tempname();
+%  diary(diary_name);
 %  x = linspace(0,10);
-%  diary off
-%  diary2m('diaryex.m')
-%  txt = freadtxt('diaryex.m');
+%  diary off;
+%  mfile = [tempname() '.m'];
+%  diary2m(mfile, diary_name)
+%  txt = freadtxt(mfile);
 %  assert(ddeblank(txt)(1:19), ...
 %         'x = linspace(0,10);')
 

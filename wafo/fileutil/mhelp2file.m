@@ -7,7 +7,7 @@ function mhelp2file(rpwd,file)
 % file  = name of outfile
 %
 % Example
-% mhelp2file
+% mhelp2file(waforoot)
 % 
 
 error(nargchk(0,2,nargin))

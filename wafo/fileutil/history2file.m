@@ -11,7 +11,7 @@ function  history2file(rpwd,outfile,files2include)
 %                 possibly with (Default '-all')
 %
 % Example
-% history2file(fullfile(wafopath,'onedim'),1,'gaussq.m')
+% history2file(fullfile(waforoot,'onedim'),[],'gaussq.m')
 % 
 error(nargchk(0,3,nargin))
 if nargin<1||isempty(rpwd),
@@ -33,8 +33,8 @@ else
     Nf = numel(files2include);
     pathstr = cell(1,Nf);
     for ix = 1:Nf
-      [patstr{ix},name,ext,vrsn] = fileparts(files2include{ix});
-      files2include{ix} = [name '.m' vrsn];
+      [patstr{ix}, name, ext] = fileparts(files2include{ix});
+      files2include{ix} = [name '.m'];
     end
   end
 end

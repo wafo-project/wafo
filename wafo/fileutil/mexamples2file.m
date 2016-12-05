@@ -6,8 +6,9 @@ function mexamples2file(rpwd,file)
 % rpwd  = path to root directory (Default current directory).
 % file  = name of outfile
 %
-% Example
-% mexamples2file
+% SkipExample
+% filename = tempname();
+% mexamples2file(fullfile(waforoot, 'fileutil'), filename)
 % 
 
 error(nargchk(0,2,nargin))

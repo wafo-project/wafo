@@ -11,6 +11,12 @@ function list = file2cell(file, opt)
 %      2 - remove trailing empty cells
 %      3 - remove leading and trailing empty cells
 %      4 - remove all empty cells
+%
+% Example
+%
+% list = file2cell('file2cell.m');
+% assert(list{1},'function list = file2cell(file, opt)');
+%
 
 %   Author:      Peter J. Acklam
 %   Time-stamp:  2000-05-30 12:41:48

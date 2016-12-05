@@ -43,9 +43,15 @@ function  info1 = getmfileinfo(mfile,varargin)
 %  See FNAMES function for details.
 %
 % Example: % Return functions (including all "math" functions) used in
-%          % the INTERP function
-%  info1 = getmfileinfo('interp.m','math','trivia')
-%	 
+%          % the getmfileinfo function
+%
+%  info1 = getmfileinfo('getmfileinfo.m', 'math','trivia');
+%  assert(info1.todo.comment{1}(1:30), ' Unable to extract/distinguish')
+%  assert(info1.synopsis{1}, 'info1 = getmfileinfo(mfile,varargin)');
+%  assert(info1.subroutine.names{1}, 'removedoubleblanks');
+%  assert(info1.subroutine.synopsis{1}, 'str = removedoubleblanks(str)')
+%  assert(info1.functions_called(2:5)', {'all','any','brackets','cell'});
+% 
 % See also: fnames
 
 
@@ -469,8 +475,8 @@ if any(i_functionWords)
   end
 end
 
-i_keyWords = find(ismember(lower(names),matlabKeywords,'rows'));
-nn =   setdiff(find(i_assg==0),statementNumbers(no(i_keyWords)));
+i_keyWords = find(ismember(lower(names), cellstr(matlabKeywords)));
+nn =   setdiff(find(i_assg==0), statementNumbers(no(i_keyWords)));
 if any(nn)
    % statements with no assignment and no matlab keywords:
    % i.e., statements like: 
@@ -500,25 +506,25 @@ if any(nn)
    end
    if any(nn),
       variablenames = char(variablenames,...
-			      setdiff(names(nn,:),char(subroutine.names),'rows'));
+                          setdiff(names(nn,:), subroutine.names));
    end
 end
 % Choose only those on the right-hand side
 % which definitely is not a variable name
 
-names = setdiff(names(~leftSide,:),variablenames,'rows');
+names = setdiff(names(~leftSide,:),cellstr(variablenames));
 if any(i_exclamation)
   names = char(names,'system');
 end
 if ~isempty(names),
   % or a global variable
-  names = setdiff(names,char(info1.global),'rows');
+  names = setdiff(names,info1.global);
   if ~isempty(names),
     % or a persistent variable
-    names = setdiff(names,char(info1.persistent),'rows');
+    names = setdiff(names, info1.persistent);
     if ~isempty(names)
       % or subfunction name
-      names = setdiff(names,char(subroutine.names),'rows');
+      names = setdiff(names, subroutine.names);
     end
   end
 end
@@ -541,7 +547,7 @@ if any(i0) && ~isempty(names),
   names2remove = char(trivialFunctionNames(find(i0)));
   % Remove standards: "trivia" such as "zeros", "ones"
   % and "controls" such as "for", "if", "end"
-  names = setdiff(names,names2remove,'rows');
+  names = setdiff(names, cellstr(names2remove));
 end
 if any(names(:)) && all(names(1,:)<=space)
   names(1,:) = [];

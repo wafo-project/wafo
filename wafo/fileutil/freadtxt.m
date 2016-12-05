@@ -6,6 +6,10 @@ function t = freadtxt(file)
 %   txt  = character vector containing the file data
 %   file = string containing the name of the file
 %
+% Example
+% txt = freadtxt(fullfile(waforoot, 'fileutil', 'freadtxt.m'));
+% assert(txt(1:27), 'function t = freadtxt(file)');
+%
 % See also: fread
 
 % history:
@@ -25,5 +29,5 @@ if fid==-1,
  return, 
 end
 t = fread(fid,inf,'*char').';   % Read file
-fclose(fid);                         % Close file
+fclose(fid);                    % Close file
 return

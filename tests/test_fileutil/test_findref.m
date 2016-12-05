@@ -5,7 +5,7 @@ function test_findref_()
     % (including all "math" functions) used in the 
    % findref function 
   [folder, root] = fileparts(waforoot);
-  if root=='wafo',
+  if strcmpi(root,'wafo'),
      ref = findref('findref',3:5,'math'); 
      assert(ref, strvcat('error', 'exist', 'floor'));
   end

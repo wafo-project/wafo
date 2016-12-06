@@ -42,11 +42,13 @@ function [phat] = fitgenpar(data,varargin)
 %   R = rndgenpar(0.3,1,0,40,1);
 %   
 %   phat = fitgenpar(R,'method','ls');
-%   figure(1), plotfitsumry(phat)
+%   figure(1); plotfitsumry(phat);
 %   phat2 = fitgenpar(R,'method','ml');
-%   figure(2), plotfitsumry(phat2)
+%   figure(2); plotfitsumry(phat2);
 %   phat3 = fitgenpar(R,'method','mps');
-%   figure(3), plotfitsumry(phat3)
+%   figure(3); plotfitsumry(phat3);
+%
+%   close all;
 % 
 % See also plotfitsumry, pdfgenpar, cdfgenpar, invgenpar, rndgenpar, momgenpar
 

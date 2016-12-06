@@ -32,8 +32,10 @@ function [F,Flo,Fup] = cdfgenpar(x,varargin)
 %   p5 = cdfgenpar(x,-1.25,1); p6 = cdfgenpar(x,-1,1);
 %   p7 = cdfgenpar(x,-0.75,1); p8 = cdfgenpar(x,-0.5,1);
 %
-%   subplot(211),plot(x,p1,x,p2,x,p3,x,p4),title('k>0')
-%   subplot(212),plot(x,p4,x,p5,x,p6,x,p8),title('k<0'),shg
+%   subplot(211);plot(x,p1,x,p2,x,p3,x,p4),title('k>0');
+%   subplot(212);plot(x,p4,x,p5,x,p6,x,p8),title('k<0');
+%
+%   close all;
 %
 % See also pdfgenpar, invgenpar, rndgenpar, fitgenpar, momgenpar
 
@@ -68,7 +70,7 @@ function [F,Flo,Fup] = cdfgenpar(x,varargin)
 % - distribution for k==0 was wrong, now fixed
 % Revised by jr 22.12.1999
 % Modified by PJ 08-Mar-2000
-%   Hjälptext
+%   Hjelptext
 % revised ms 14.06.2000
 % - updated header info
 % - changed name to cdfgenpar (from gpdcdf)

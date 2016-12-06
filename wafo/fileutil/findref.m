@@ -26,8 +26,11 @@ function  [names,exst] = findref(filein,nex,varargin)
 % Example: % Return only built-in and MEX functions
 %   % (including all "math" functions) used in the
 %   % findref function
-%  ref = findref('findref',3:5,'math');
-%  assert(ref, strvcat('error', 'exist', 'floor'));
+%  [folder, root] = fileparts(waforoot);
+%  if strcmpi(root,'wafo'),
+%     ref = findref('findref',3:5,'math'); 
+%     assert(ref, strvcat('error', 'exist', 'floor'));
+%  end
 % 
 % See also: fnames, exist
 

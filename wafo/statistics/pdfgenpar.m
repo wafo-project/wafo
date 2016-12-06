@@ -28,8 +28,10 @@ function f = pdfgenpar(x,varargin)
 %   p5 = pdfgenpar(x,0,1);    p6 = pdfgenpar(x,-0.5,1);
 %   p7 = pdfgenpar(x,-0.75,1);p8 = pdfgenpar(x,-1,1);
 %   
-%   subplot(211), plot(x,p1,x,p2,x,p3,x,p4), title('k>0')
-%   subplot(212), plot(x,p5,x,p6,x,p7,x,p8), title('k<=0'), shg
+%   subplot(211); plot(x,p1,x,p2,x,p3,x,p4); title('k>0');
+%   subplot(212); plot(x,p5,x,p6,x,p7,x,p8); title('k<=0');
+%
+%   close all;
 %
 % See also cdfgenpar, invgenpar, rndgenpar fitgenpar, momgenpar
  

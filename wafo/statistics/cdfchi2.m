@@ -22,8 +22,15 @@ function [F,Flo,Fup] = cdfchi2(x,varargin)
 %
 % Example: 
 %   x = linspace(0,15,200);
-%   p1 = cdfchi2(x,2); p2 = cdfchi2(x,3);
-%   plot(x,p1,x,p2)
+%   p1 = cdfchi2(x,2); 
+%   p2 = cdfchi2(x,3);
+%   assert(p1(1:50:end), ...
+%   [0.0, 0.848083174802328   0.976921278221860   0.996493953857845], 1e-10)
+%   assert(p2(1:50:end), ...
+%          [0, 0.712469071706393, 0.943402058537635, 0.989821273700460], 1e-10)
+%   plot(x,p1,x,p2);
+%
+%   close all;
 %
 % See also pdfchi2, rndchi2, fitchi2, momchi2
 

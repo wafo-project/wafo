@@ -8,13 +8,13 @@ function  [ci, y] = ciboot(x,fun,method,alpha,B,varargin)
 %   x       = data
 %   fun     = function handle or name of function
 %   method  = Bootstrap method
-%        	  1.  Normal approximation (std is bootstrap).
-%	          2.  Simple bootstrap principle (bad, don't use).
-%	          3.  Studentized, std is computed via jackknife (If T is
-%	            'mean' this done the fast way via the routine TESTMEAN1B).
-%       	  4.  Studentized, std is 30 samples' bootstrap.
-%	          5.  Efron's  method.              (default)
-%	          6.  Efron's  method with bias correction (BC).  
+%           1.  Normal approximation (std is bootstrap).
+%           2.  Simple bootstrap principle (bad, don't use).
+%           3.  Studentized, std is computed via jackknife (If T is
+%             'mean' this done the fast way via the routine TESTMEAN1B).
+%           4.  Studentized, std is 30 samples' bootstrap.
+%           5.  Efron's  method.              (default)
+%           6.  Efron's  method with bias correction (BC).  
 %   alpha   = Confidence coefficent           (default 0.05)
 %   B       = The number of bootstrap resamples 
 %             (default B = 1000 for method 3 and fun='mean'
@@ -23,17 +23,30 @@ function  [ci, y] = ciboot(x,fun,method,alpha,B,varargin)
 %
 % CIBOOT Compute a 100(1-alpha)% confidence interval for fun(X) based on a 
 % bootstrap technique. Often FUN(X) is a number but it may also be a 
-%	vector or even a matrix. Every row of the result CI is of the form 
-%	  
-%	      [LeftLimit, PointEstimate, RightLimit]
+% vector or even a matrix. Every row of the result CI is of the form 
 %
-%	  and the corresponding element of T(X) is found by noting 
-%	  that t = T(X); t = t(:); is used in the routine. 
+%      [LeftLimit, PointEstimate, RightLimit]
 %
-%	  Example 
-%    X = rand(13,2), C = cov(X), ci = ciboot(X,'cov')
+%  and the corresponding element of T(X) is found by noting 
+%  that t = T(X); t = t(:); is used in the routine. 
 %
-%	  See also stdboot and stdjack.
+%  Example 
+%    abstol = 1e-5
+%    reltol = 0.5
+%    X =  [0.636620   0.995173   0.879845   0.292531   0.721456;...
+%          0.190022   0.806725   0.448761   0.370546   0.079624].';
+%    C = cov(X); 
+%    method = 6
+%    ci = ciboot(X,'cov', method);
+%    assert(C, [ 0.072462,   0.036949;
+%                0.036949   0.078306], abstol);
+%    assert(C(:), ci(:,2), -abstol)
+%    assert(ci, [ 0.0144   0.0724   0.1345;
+%                -0.0205   0.0369   0.0760;
+%                -0.0205   0.0369   0.0760;
+%                 0.0167   0.0783   0.1449], -reltol);
+%
+%  See also stdboot and stdjack.
  
 %       Anders Holtsberg, 1994, 1998
 %       Copyright (c) Anders Holtsberg

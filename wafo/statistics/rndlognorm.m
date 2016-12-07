@@ -9,7 +9,9 @@ function R = rndlognorm(varargin)
 %             giving the size of R (see zeros for options).
 % Example:
 %   R = rndlognorm(1,2,100,2);
-%   plotnorm(log(R)),shg
+%   plotnorm(log(R));
+%
+%   close all;
 %
 % See also pdflognorm, cdflognorm, invlognorm, fitlognorm, momlognorm
 

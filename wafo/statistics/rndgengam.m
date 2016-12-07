@@ -12,7 +12,9 @@ function R = rndgengam(varargin)
 %             giving the size of R (see zeros for options). 
 % Example:
 %   R=rndgengam(1,2,4,1,100);
-%   plotweib(R),shg
+%   plotweib(R);
+%
+%   close all;
 %
 % See also pdfgengam, cdfgengam, invgengam, fitgengam, momgengam 
 

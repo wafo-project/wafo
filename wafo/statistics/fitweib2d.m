@@ -15,9 +15,11 @@ function phat=fitweib2d(data1,data2,varargin)
 %  phat = fitweib2d(R(:,1),R(:,2),'method','sml');
 %  x = linspace(0,6,200); 
 %  f = pdfweib2d(x,x,phat,'mesh',true,'wdata',true);
-%  mesh(f),figure(gcf+1),
-%  contour(f), hold on 
-%  plot(R(:,1),R(:,2),'.'), hold off
+%  mesh(f); figure(gcf+1);
+%  contour(f); hold on;
+%  plot(R(:,1),R(:,2),'.'); hold off;
+%
+%   close all;
 %
 % See also  fitweib, likweib2d, invnorm, hypgf, corrcoef
 

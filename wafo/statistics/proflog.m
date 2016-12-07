@@ -49,8 +49,8 @@ function [Lp,CI,nphat]=proflog(phat1,varargin)
 % 'lowertail', respectively
 %
 % Examples % MLE and better CI for phat.params(1)
-%   R = rndweib(1,3,0,100,1);                      
-%   phat = fitweib(R)         
+%   R = rndweib(1,3,0,100,1);
+%   phat = fitweib(R);
 %   opt = proflog('defaults');
 %   opt.i = 2;opt.plotflag=1;
 %   [Lp,CI] = proflog(phat,opt)
@@ -63,7 +63,9 @@ function [Lp,CI,nphat]=proflog(phat1,varargin)
 %   [phat2] = fitgenpar(R2(R2>m)-m,'method','mps');
 %   [x,xlo,xup] = invgenpar(1/9900,phat2,'lowertail',false);
 %   [Lp2,CI2] = proflog(phat2,'i',2,'x',x,'link',@lnkgenpar,'plotflag',1);
-%   [Lp3,CI3] = proflog(phat2,'i',2,'logR',-log(9900),'link',@lnkgenpar,'plot',1);
+%   [Lp3,CI3] = proflog(phat2,'i',2,'logR',-log(9900),'link',@lnkgenpar,'plotflag',1);
+%
+%   close all;
 %
 % See also loglike, logps, optimset
 

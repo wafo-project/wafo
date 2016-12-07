@@ -19,7 +19,9 @@ function [phat]=fitgam(data,varargin)
 % Example:
 %   R = rndgam(5,1,1,100);
 %   phat = fitgam(R);
-%   plotfitsumry(phat)
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  pdfgam, cdfgam, invgam, rndgam, momgam
 

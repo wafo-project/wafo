@@ -22,6 +22,8 @@ function [r1, r2, ind]= rndweib2d(varargin)
 %   plotweib(R1);
 %   plot(R1,R2,'.')
 %
+%   close all;
+%
 % See also  pdfweib2d, cdfweib2d, fitweib2d, momweib2d, invcweib2d
 
 %

@@ -22,8 +22,8 @@ function R = rndbeta(varargin)
 % Example:
 %    par = {1,1}
 %    X = rndbeta(par{:},1000,1);
-%    [mean(X) var(X),skew(X),kurt(X)]   % Estimated mean and variance
-%    [mom{1:4}] = mombeta(par{:})       % True mean and variance
+%    [mean(X) var(X),skew(X),kurt(X)];   % Estimated mean and variance
+%    [mom{1:4}] = mombeta(par{:});       % True mean and variance
 %
 % See also pdfbeta, cdfbeta, rndbeta, fitbeta, mombeta
 

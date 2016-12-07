@@ -14,8 +14,10 @@ function [phat]=fitbray(data1,varargin)
 % Example:
 %  a = .9; b = 105; sz = [100,1]
 %  R = sort(rndbeta(a,b,sz));
-%  phat = fitbray(R,'fixpar',[nan 105,nan])
-%  plotedf(R,[R pdfbray(R,phat)])
+%  phat = fitbray(R,'fixpar',[nan 105,nan]);
+%  plotedf(R,[R pdfbray(R,phat)]);
+%
+%  close all;
 %
 % See also  pdfbray, cdfbray, fitbeta
 

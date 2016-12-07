@@ -14,10 +14,12 @@ function  F = cdfhyge(k,varargin)
 %   f(x;n,K,N) = K!/(K-x)!/x!*(N-K)!/(N-K-n+x)!/(n-x)! (N-n)!*n!/N!
 %
 % Example
-% n = 10; K = 30; N = 100;
-% x = 0:min(n,K)
-% f = cdfhyge(x,n,K,N);
-% bar(x,f), shg
+%  n = 10; K = 30; N = 100;
+%  x = 0:min(n,K);
+%  f = cdfhyge(x,n,K,N);
+%  bar(x,f);
+%
+%  close all;
 %
 % See also pdfhyge,  invhyge, rndhyge, whypgfit, momhyge
 

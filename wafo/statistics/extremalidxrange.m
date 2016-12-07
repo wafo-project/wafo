@@ -46,7 +46,7 @@ function  [ei, Tc] = extremalidxrange(data,varargin)
 % Reference
 % Christopher A. T. Ferro, Johan Segers (2003)
 % Inference for clusters of extreme values
-% Journal of the Royal Statistical Society: Series B (Statistical Methodology) 65 (2), 545–556.
+% Journal of the Royal Statistical Society: Series B (Statistical Methodology) 65 (2), 545ï¿½556.
 % doi:10.1111/1467-9868.00401
 
 %
@@ -141,39 +141,39 @@ Tc =  createwdata('data',TNmin(:,2),'args',u,...
 'dataCI',tCI,'title','Minimum Cluster distance','labels',{'Threshold','distance'},...
     'workspace',options);
   
-if ~isoctave
+
   ei = wdata(ei);
   Tc = wdata(Tc);
   if options.plotflag>0
     plot(ei,options.plotflag,'.')
   end
-end
+
 
 %%
 function [ei,Tc] = ciextremalidx(t,method,alpha,B)
-Ti = diff(t); % interexceedance times
-ei = ciboot(Ti,@lcl_extrml_idx,method,alpha,B);
+  Ti = diff(t); % interexceedance times
+  ei = ciboot(Ti,@lcl_extrml_idx,method,alpha,B);
 
-if nargout>1
-  N = length(Ti)+1;
-  C = floor(N*ei)+1;
-  sTi = -sort(-Ti);
-  Tc = sTi(min(C,N-1)).'; % declustering time
-  k = find(ei==1);
-  if any(k)
-    Tc(k) = min(Ti);    
+  if nargout>1
+    N = length(Ti)+1;
+    C = floor(N*ei)+1;
+    sTi = -sort(-Ti);
+    Tc = sTi(min(C,N-1)).'; % declustering time
+    k = find(ei==1);
+    if any(k)
+      Tc(k) = min(Ti);    
+    end
+    Tc = fliplr(Tc);
   end
-  Tc = fliplr(Tc);
-end
 
 
 function ei = lcl_extrml_idx(Ti)
-Tmax = max(Ti); 
-if Tmax<=1,
-  ei = 0;
-elseif Tmax<=2
-  ei = min(1,2*mean(Ti).^2/mean(Ti.^2));
-else
-  ei = min(1,2*mean(Ti-1).^2/mean((Ti-1).*(Ti-2)));
-end
+  Tmax = max(Ti); 
+  if Tmax<=1,
+    ei = 0;
+  elseif Tmax<=2
+    ei = min(1,2*mean(Ti).^2/mean(Ti.^2));
+  else
+    ei = min(1,2*mean(Ti-1).^2/mean((Ti-1).*(Ti-2)));
+  end
 

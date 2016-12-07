@@ -19,8 +19,10 @@ function [phat]=fitbeta(data, varargin)
 %          
 % Example:
 %   R=rndbeta(2,2,1,100);
-%   phat = fitbeta(R)
-%   plotfitsumry(phat)
+%   phat = fitbeta(R);
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  pdfbeta, cdfbeta, rndbeta, invbeta, mombeta
 

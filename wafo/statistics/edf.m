@@ -16,8 +16,10 @@ function [varargout] = edf(z,varargin)
 % Example:
 %   R = rndgev(.8,1,11,1,100);
 %   x = linspace(5,15,200);
-%   F = edf(R)
-%   plot(F), hold on, plot(x,cdfgev(x,.8,1,11),'g')
+%   F = edf(R);
+%   plot(F); hold on; plot(x,cdfgev(x,.8,1,11),'g');
+%
+%   close all;
 %
 % See also  cumtrapz, edfcnd
 

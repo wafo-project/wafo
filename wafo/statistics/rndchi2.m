@@ -16,7 +16,9 @@ function R = rndchi2(varargin)
 %
 % Example:
 %   R=rndchi2(2,1,100);
-%   plot(R,'.'), shg
+%   plot(R,'.');
+%
+%   close all;
 %
 % See also  rndgam, pdfchi2, cdfchi2, fitchi2, momchi2
 

@@ -11,11 +11,11 @@ function r = ranktrf(x)
 % Example
 %  a = rand(5,1);
 %  r = ranktrf(a(:));
-%  [a,r]
+%  
 %  a2 = a;
 %  a2(1) = a(2);
 %  r2 = ranktrf(a2(:));
-%  [a2,r2]
+%  
 % 
 % See also spearman, testmean1r, testmean2r
 

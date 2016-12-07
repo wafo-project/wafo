@@ -17,8 +17,10 @@ function [phat2] = fitinvnorm(data,varargin)
 %
 % Example:
 %   R=rndinvnorm(2,2,100,2);
-%   phat=fitinvnorm(R)
-%   plotfitsumry(phat)
+%   phat=fitinvnorm(R);
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  pdfinvnorm, cdfinvnorm, invinvnorm, rndinvnorm, mominvnorm
 

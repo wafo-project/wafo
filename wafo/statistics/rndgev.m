@@ -26,11 +26,13 @@ function R = rndgev(varargin)
 %
 % Example:
 %   R1=rndgev(0.5,5,0,1,100);  % Finite end-point (R1<4)
-%   plotgumb(R1),shg
+%   plotgumb(R1);
 %   R2=rndgev(0,2,0,1,100);    % Gumbel
-%   plotgumb(R2),shg
+%   plotgumb(R2);
 %   R3=rndgev(-.5,.2,0,1,100); % Heavy tailed
-%   plotgumb(R3),shg
+%   plotgumb(R3);
+%
+%   close all;
 %
 % See also  pdfgev, cdfgev, invgev, fitgev, momgev
 

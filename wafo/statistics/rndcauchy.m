@@ -17,7 +17,9 @@
 % Example:
 %   R=rndcauchy(1,10,1,100);
 %   F = edf(R);
-%   phat=plotqq(F(:,2),cdfcauchy(F(:,1),1,10))
+%   phat=plotqq(F(:,2), cdfcauchy(F(:,1),1,10))
+%
+%   close all;
 %
 % See also cdfcauchy, invcauchy, rndcauchy, fitcauchy, momcauchy
 

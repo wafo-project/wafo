@@ -16,7 +16,9 @@ function R = rndgam(varargin)
 %
 % Example:
 %   R = rndgam(1,2,1,100);
-%   plotweib(R),shg
+%   plotweib(R);
+%
+%   close all;
 %
 % See also pdfgam, cdfgam, invgam, fitgam, momgam 
 

@@ -20,7 +20,9 @@ function R = rndfrech(varargin)
 %
 % Example:
 %   R=rndfrech(1,10,1,100);
-%   phat=plotweib(R), shg
+%   phat=plotweib(R);
+%
+%   close all;
 %
 % See also  pdffrech,  cdffrech, invfrech, wfrechfit, momfrech 
 

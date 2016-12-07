@@ -12,7 +12,9 @@ function R = rndnorm(varargin)
 % Examples:
 %   R  = rndnorm(1,2,100,2,2);
 %   R2 = rndnorm(1,2,[100,3,2]);
-%   plotnorm([R(:,:,1) R2(:,:,2)])
+%   plotnorm([R(:,:,1) R2(:,:,2)]);
+%
+%   close all;
 %
 % See also  pdfnorm, cdfnorm, invnorm, fitnorm, momnorm
 

@@ -14,8 +14,10 @@ function [V,H,ind] = rndmarg2d(N,phat)
 %    phat.pdfoptions.numpar =ones(1,2);
 %    [y1,y2] = rndmarg2d(1000,phat);
 %    f = pdfmarg2d(x1,x1,phat,'wdata',true,'mesh', true);
-%    plot(f), hold on
-%    plot(y1,y2,'.'), hold off
+%    plot(f); hold on;
+%    plot(y1,y2,'.'); hold off;
+%
+%    close all;
 % 
 %  See also  fitmarg2d , pdfmarg2d, cdfmarg2d
 

@@ -17,8 +17,10 @@ function phat = fitraymod(data,varargin)
 %          
 % Example:
 %   R=rndraymod(2,2,1,100);
-%   phat = fitraymod(R)
-%   plotfitsumry(phat)
+%   phat = fitraymod(R);
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  pdfraymod, cdfraymod, rndraymod, invraymod, momraymod
 

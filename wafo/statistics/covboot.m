@@ -1,19 +1,22 @@
 function [C,y] = covboot(x,fun,B,varargin)
 %COVBOOT  Bootstrap estimate of the variance of a parameter estimate.
 %
-%	  C = covboot(X,fun,B)
-%	  
-%	  Computes the T(X) many times using resampled data and  
-%	  uses the result to compute an estimate of the variance  
+%   C = covboot(X,fun,B)
+%
+%   Computes the T(X) many times using resampled data and  
+%   uses the result to compute an estimate of the variance  
 %         of T(X) assuming that X is a representative sample from  
 %         the underlying distribution of X. If T is multidimensional 
 %         then the covariance matrix is estimated. An optional third 
-%	  input argument sets the number of resamples, default is 200.
+%   input argument sets the number of resamples, default is 200.
 %
-%	  Example 
-%    X = rand(13,2), m = mean(X), ci = covboot(X,'mean')
+%  Example 
+%   X = [0.953428   0.170874  0.883878   0.862775 0.059614   0.967474;
+%        0.348978   0.288828  0.790103   0.031843 0.620033   0.442350]';
+%   m = mean(X); 
+%   ci = covboot(X,'mean');
 %
-%	  See also cov, covjack, and ciboot.
+%  See also cov, covjack, and ciboot.
 
 %       Anders Holtsberg, 11-01-95
 %       Copyright (c) Anders Holtsberg

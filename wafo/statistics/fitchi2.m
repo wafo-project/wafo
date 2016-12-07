@@ -18,8 +18,10 @@ function [phat]=fitchi2(data,varargin)
 %          
 % Example:
 %   R=rndchi2(2,1,100);
-%   phat = fitchi2(R)
-%   plotfitsumry(phat)
+%   phat = fitchi2(R);
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  pdfchi2, cdfchi2, invchi2, rndchi2, fitchi2, momchi2
 

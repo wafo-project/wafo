@@ -17,7 +17,9 @@ function R = rndweib(varargin)
 %
 % Example:
 %   R=rndweib(1,10,0,1,100);
-%   phat=plotweib(R)
+%   phat=plotweib(R);
+%
+%   close all;
 %
 % See also pdfweib,  cdfweib, invweib, fitweib, momweib
 

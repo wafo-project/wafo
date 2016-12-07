@@ -22,15 +22,17 @@ function [phat]=fitweib(data,varargin)
 %                 optimization routine (see optimset for details))
 % 
 % Example:
-%  sz = [1 100]
-%   R=rndweib(10,2,1,sz);
+%   sz = [1 100];
+%   R = rndweib(10,2,1,sz);
 %   phat = fitweib(R);
 %   x = linspace(0,25,200).';
 %   [p,plo,pup] = cdfweib(x,phat);
-%   plotflag = 1012
-%   plotedf(R,[],plotflag), hold on
-%   f = wdata(p,x); set(f,'dataCI',[plo pup])
-%   plot(f,'r',plotflag-1), hold off
+%   plotflag = 1012;
+%   plotedf(R,[],plotflag); hold on;
+%   f = wdata(p,x); set(f,'dataCI',[plo pup]);
+%   plot(f,'r',plotflag-1); hold off;
+%
+%   close all;
 %
 % See also  cdfweib, pdfweib, invweib, rndweib, momweib
 

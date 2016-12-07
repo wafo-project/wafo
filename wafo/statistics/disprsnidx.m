@@ -41,6 +41,8 @@ function  [di,b_u,ok_u] = disprsnidx(data,varargin)
 %  plot(di) % a threshold around 1 seems appropriate.
 %  vline(u)
 %
+%  close all;
+%
 % See also reslife, fitgenparrange, extremalidx
 
 
@@ -51,7 +53,7 @@ function  [di,b_u,ok_u] = disprsnidx(data,varargin)
 % the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public
 % License for more details.
 % The GNU General Public License can be obtained from http://www.gnu.org/copyleft/gpl.html. You
-% can also obtain it by writing to the Free Software Foundation, Inc., 59 Temple Place – Suite 330, Boston,
+% can also obtain it by writing to the Free Software Foundation, Inc., 59 Temple Place ï¿½ Suite 330, Boston,
 % MA 02111-1307, USA.
 
 
@@ -168,13 +170,9 @@ di = createwdata('data',di1,'args',u,...
 'dataCI',options.CI,'title',titleTxt,'labels',{'Threshold','Dispersion Index'},...
     'workspace',options,'note',titleTxt,'caption',CItxt);
 
-
-if ~isoctave
-  %di =
-  %createpdf('f',[di1,options.CI],'x',{u},'title',titleTxt,'labx',{'Threshold','Dispersion Index'});
-  di = wdata(di);
-  if options.plotflag>0
-    plot(di,options.plotflag,'.')
-  end
+di = wdata(di);
+if options.plotflag>0
+  plot(di,options.plotflag,'.')
 end
+
 

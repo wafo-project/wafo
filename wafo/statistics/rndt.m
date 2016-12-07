@@ -14,7 +14,7 @@ function R = rndt(varargin)
 % Examples:
 %   R  = rndt(1,1,100);
 %   R2 = rndt(1:10);
-%   R3 = rndt(4,[2 2 3])
+%   R3 = rndt(4,[2 2 3]);
 %  
 % See also  pdft,  cdft, invt, fitt, momt
 

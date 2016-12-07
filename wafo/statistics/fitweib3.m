@@ -14,7 +14,10 @@ function [phat, cov, pci]=fitweib3(data1, plotflag)
 % 
 % Example:
 %   R=rndweib(1,3,1,200)+3;
-%   [phat, cov] = fitweib3(R)
+%   [phat, cov] = fitweib3(R);
+%   plotfitsumry(phat)
+%
+%   close all;
 %
 % See also  cdfweib
 

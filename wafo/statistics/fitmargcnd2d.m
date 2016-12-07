@@ -45,9 +45,11 @@ function  [phat] =fitmargcnd2d(V,H,dist,res,method,monitor,chat0)
 %   f = pdfmargcnd2d2(x1,x1,phat); 
 %   fs = pdfmargcnd2d2(x1,x1,sphat); 
 %   fe = pdfmargcnd2d2(x1,x1,phat0); 
-%   pdfplot(fs); hold on,
-%   pdfplot(fe,'k--')
-%   plot(R(:,1),R(:,2),'.'),hold off
+%   pdfplot(fs); hold on;
+%   pdfplot(fe,'k--');
+%   plot(R(:,1),R(:,2),'.'); hold off;
+%
+%   close all;
 %
 % See also rndmargcnd2d, pdfmargcnd2d, cdfmargcnd2d prbmargcnd2d
 

@@ -13,8 +13,8 @@ function  X = rndbin(varargin)
 % Example:
 %   par = {10,0.2}
 %   X = rndbin(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]        % Estimated mean and variance
-%   [mom{1:4}] = mombin(par{:}) % True mean and variance
+%   moments = [mean(X) var(X),skew(X),kurt(X)];   % Estimated moments
+%   [mom{1:4}] = mombin(par{:}); % True mean and variance
 %
 % See also  pdfbin, cdfbin, invbin, fitbin, mombin
 

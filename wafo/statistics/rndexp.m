@@ -16,7 +16,9 @@ function R = rndexp(varargin)
 %
 % Example:
 %   R=rndexp(5,1,100);
-%   phat=plotweib(R),shg     % Exp is Weibull with b=1
+%   phat=plotweib(R);     % Exp is Weibull with b=1
+%
+%  close all;
 %
 % See also  pdfexp, cdfexp, invexp,  fitexp, momexp
 

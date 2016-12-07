@@ -6,7 +6,7 @@ function [V,H] = rndmargcnd2d(N,phat,csm,lin)
 %    X1,X2   = N random points in R^2.
 %    N       = number of points generated
 %    phat    = parameter structure array (see fitmargcnd2d)
-%    csma..c =  vector of internal smoothing parameters (default [1 1 1])
+%    csma..c =  vector of internal smoothing parameters (default [1 1ï¿½1])
 %               0 -> LS-straight line
 %               1 -> cubic spline interpolant
 %   lina..c  = vector defining the extrapolation of parameter A,B and C, respectively 
@@ -19,9 +19,10 @@ function [V,H] = rndmargcnd2d(N,phat,csm,lin)
 %   phat.dist={'rayl','rayl'};
 %   [y1,y2] = rndmargcnd2d(1000,phat);
 %   f = pdfmargcnd2d2(x1,x1,phat);
-%   pdfplot(f), hold on
-%   plot(y1,y2,'.'), hold off
+%   pdfplot(f); hold on;
+%   plot(y1,y2,'.'); hold off;
 %   
+%   close all;
 %
 % See also  fitmargcnd2d , pdfmargcnd2d
 

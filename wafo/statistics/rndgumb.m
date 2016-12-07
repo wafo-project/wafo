@@ -22,7 +22,9 @@ function R  = rndgumb(varargin)
 %
 % Example:
 %   R=rndgumb(5,10,1,100);
-%   plotgumb(R);,shg
+%   plotgumb(R);
+%
+%   close all;
 %
 % See also  fitgumb, pdfgumb, cdfgumb, invgumb, momgumb
 

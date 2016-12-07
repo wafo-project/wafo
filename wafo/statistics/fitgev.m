@@ -29,8 +29,8 @@ function [phat] = fitgev(data,varargin)
 %
 % Example:  
 %   R = rndgev(0.2,2,7.5,200,1);
-%   phat= fitgev(R,'method','pwm')
-%   phat2 = fitgev(R,'method','ml')
+%   phat= fitgev(R,'method','pwm');
+%   phat2 = fitgev(R,'method','ml');
 %
 % See also  cdfgev
 

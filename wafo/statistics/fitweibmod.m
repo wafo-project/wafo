@@ -25,8 +25,10 @@ function phat =fitweibmod(data, varargin)
 %  sz = [1 100]
 %   R=rndweib(2,2,0,sz);
 %   Rt=R(R>1)-1;  % Truncated weibul with a=2, b=2, c=1
-%   [phat] = fitweibmod(Rt)
-%   plotfitsumry(phat)
+%   [phat] = fitweibmod(Rt);
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  cdfweibmod, pdfweibmod, invweibmod, rndweibmod, momweibmod
 

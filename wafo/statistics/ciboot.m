@@ -31,8 +31,8 @@ function  [ci, y] = ciboot(x,fun,method,alpha,B,varargin)
 %  that t = T(X); t = t(:); is used in the routine. 
 %
 %  Example 
-%    abstol = 1e-5
-%    reltol = 0.5
+%    abstol = 1e-5;
+%    reltol = 0.5;
 %    X =  [0.636620   0.995173   0.879845   0.292531   0.721456;...
 %          0.190022   0.806725   0.448761   0.370546   0.079624].';
 %    C = cov(X); 

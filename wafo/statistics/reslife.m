@@ -32,7 +32,9 @@ function mrl=reslife(data,varargin)
 %  opt.Nu = 20;
 %  R = rndgenpar(0.2,2,2,100,1);
 %  mrl = reslife(R,opt);
-%  plot(mrl)
+%  plot(mrl);
+%
+%  close all;
 %  
 % See also plotreslife, fitgenpar, fitgenparrange, disprsnidx
 
@@ -118,14 +120,11 @@ mrl = createwdata('data',mrl1,'args',u,...
 'dataCI',options.CI,'title',titleTxt,'labels',{'Threshold','Mean Excess'},...
     'workspace',options,'note',titleTxt);
   
-if ~isoctave
-  %mrl =
-  %createpdf('f',[mrl1,options.CI],'x',{u},'title',titleTxt,'labx',{'Threshold','Mean Excess'});
-  mrl = wdata(mrl);
-  if options.plotflag>0
-    plot(mrl,options.plotflag,'.')
-  end
+mrl = wdata(mrl);
+if options.plotflag>0
+  plot(mrl,options.plotflag,'.')
 end
+
 % ps2 = 'r--';
 % plot(u,mrl1,'.',u,mrlu,ps2,u,mrll,ps2)
 % xlabel('Threshold');

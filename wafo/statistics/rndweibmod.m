@@ -17,7 +17,9 @@ function R = rndweibmod(varargin)
 %
 % Example:
 %   R=rndweibmod(1,2,2,1,100);
-%   phat=plotweib(R)
+%   phat=plotweib(R);
+%
+%   close all;
 %
 % See also pdfweibmod,  cdfweibmod, invweibmod, fitweibmod, momweibmod
 

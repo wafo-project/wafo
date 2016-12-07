@@ -9,16 +9,18 @@ function v = clickslct(x,y,arg3,arg4)
 %   text = a character array or cell array of text strings to annotate 
 %          the identified  points.
 %
-%	  This routine plots x versus y and waits for mouse clicks
-%	  to clickslct points. Click with left button on points and 
-%	  end with middle button or space bar. Plotsymbol and text 
-%	  strings are optional input arguments. 
+%   This routine plots x versus y and waits for mouse clicks
+%   to clickslct points. Click with left button on points and 
+%   end with middle button or space bar. Plotsymbol and text 
+%   strings are optional input arguments. 
 %
-% Examples:
+% Simple-example:
 %   x = rand(50,1);y=rand(50,1);
-%   v = clickslct(x,y)                              % click on 2 points 
+%   v = clickslct(x,y)     % click on 2 points 
 % % look closer on them 
-%   v2 = clickslct(x(v),y(v),'r.',{'test','test2'}) 
+%   v2 = clickslct(x(v),y(v), 'r.', {'test','test2'}) 
+%
+%   close all;
 %
 % See also ginput
 

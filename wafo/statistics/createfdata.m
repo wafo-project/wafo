@@ -1,4 +1,4 @@
-function f=createfdata(varargin)
+function f = createfdata(varargin)
 % CREATEFDATA Distribution parameter struct constructor
 %
 % CALL:  f=createfdata(list)
@@ -24,19 +24,14 @@ function f=createfdata(varargin)
 %
 %
 %  Examples:   
-%   f = createfdata('dist','pdfgenpar')  %gives the structure
-% %     distribution: 'pdfgenpar'
-% %           params: []
-% %       lowerbound: []
-% %       upperbound: []
-% %            alpha: []
-% %       covariance: []
-% %         variance: []
-% %       loglikemax: []
-% %             data: []
-% %           method: []
-% %             note: []
-% %             date: '07-Sep-2007 11:09:24'
+%   f = createfdata('dist','pdfgenpar');
+%   f.date = '';
+%   assert(f, 
+%          struct('distribution', 'pdfgenpar','params', [], 'lowerbound', [],...
+%                  'upperbound', [], 'fixpar', [], 'alpha', [], 'covariance', [],...
+%                  'variance', [], 'loglikemax', [], 'logpsmax' , [], ...
+%                  'pvalue', [], 'dataname', [], 'data', [],... 
+%                  'method', [], 'pdfoptions',[],'note', [], 'date', ''));
 %
 % See also  fdata
 
@@ -58,9 +53,6 @@ function f=createfdata(varargin)
 %     You should have received a copy of the GNU Lesser General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 names = {'distribution','params','upperbound','lowerbound',...
   'fixpar','alpha', 'covariance','variance','loglikemax',...
   'logpsmax','pvalue','dataname','data','method','pdfoptions','note','date'};
@@ -73,7 +65,7 @@ names = {'distribution','params','upperbound','lowerbound',...
 n    = length(names);
 c    = cell(1,n);
 c{n} = datestr(now);
-f    = cell2struct(c,names,2);
+f    = cell2struct(c, names, 2);
 if nargin>0
   f = parseoptions(f,varargin{:});
 end

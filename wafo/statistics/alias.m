@@ -10,8 +10,15 @@ function [I00,I11] = alias(I0,order)
 % Example
 %   I = sudg(6,2);  % Design generator
 %   I0 = cdr(I);    % Complete defining relation
-%   alias(I0)       % The complete alias structure
-%   alias(I0,3)     % Alias structure neglecting interactions larger than  3
+%   I00 = alias(I0);     % The complete alias structure
+%   I003 = alias(I0,3);  % Alias structure neglecting interactions larger than 3
+%   assert(cellstr(I003)', 
+%          {'A + BCE + DEF +', 'B + ACE + CDF +', 'C + ABE + BDF +', ...
+%           'D + AEF + BCF +', 'E + ABC + ADF +', 'F + ADE + BCD +', ...
+%           'AB + CE + +', 'AC + BE + +', 'BC + AE + DF +', 'AD + EF + +', ...
+%           'BD + CF + +', 'CD + BF + +', 'DE + AF + +', ...
+%           'ABD + CDE + BEF + ACF', 'ACD + BDE + CEF + ABF',...
+%           'ABCE + ADEF + BCDF +'})
 %
 % See also  cdr
 

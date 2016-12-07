@@ -17,8 +17,10 @@ function [phat2] = fitray(data,varargin)
 %
 % Example:
 %   R=rndray(2,100,2);
-%   phat=fitray(R)
-%   plotfitsumry(phat)
+%   phat=fitray(R);
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  pdfray, cdfray, invray, rndray, momray
 

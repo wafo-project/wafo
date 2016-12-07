@@ -15,10 +15,12 @@ function [phat2] = fitexp(data,varargin)
 %
 % Example:
 %   R=rndexp(2,100,1);
-%   [mhat]=fitexp(R,'plotflag',1)
-%   R=rndexp(2,100,3);
-%   [mhat2]=fitexp(R)
-%   plotfitsumry(mhat2,3)
+%   [mhat] = fitexp(R,'plotflag',1);
+%   R = rndexp(2,100,3);
+%   [mhat2] = fitexp(R);
+%   plotfitsumry(mhat2,3);
+%
+%   close all;
 %
 % See also  pdfexp, cdfexp, invexp, rndexp, momexp
 

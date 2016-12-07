@@ -20,7 +20,9 @@ function R = rndray(varargin)
 %
 % Example:
 %   R=rndray(2,1,100);
-%   plotray(R);shg
+%   plotray(R);
+%
+%   close all;
 %
 % See also  pdfray, cdfray, invray, fitray, momray
 

@@ -38,9 +38,9 @@ function [T, pvalue, Tn,H]=logps(phat,data,varargin)
 % Example: %MPS and asymptotic covariance of phat:
 %   R = rndweib(1,3,0,100,1);                      
 %   phat0 = [1.3 2.5];                             %initial guess
-%   phat = fminsearch('logps',phat0,[],R,'cdfweib')
-%   [L, cov] = loglike(phat,R,'pdfweib')
-%   [T,pval,Tn] = logps(phat,R,'cdfweib')
+%   phat = fminsearch(@(x)logps(x, R, 'cdfweib'), phat0);
+%   [L, cov] = loglike(phat,R,'pdfweib');
+%   [T,pval,Tn] = logps(phat,R,'cdfweib');
 %   Tncrit = invchi2(1-0.05,length(R));
 %
 % See also loglike, proflog

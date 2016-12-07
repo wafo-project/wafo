@@ -19,9 +19,11 @@ function  [F,Flo,Fup] = cdfbin(x,varargin)
 %
 % Example
 %  n = 10; p = 0.05;
-%  x = -1:n+1
+%  x = -1:n+1;
 %  F = cdfbin(x,n,p);
-%  stairs(x,F),shg
+%  stairs(x,F);
+%
+%  close all;
 %
 % See also cdfbin, invbin, rndbin, fitbin, mombin
 

@@ -16,7 +16,9 @@ function R = rndpois(varargin)
 %
 % Example:
 %   R=rndpois(5,1,100);
-%   phat=plotweib(R),shg    
+%   phat=plotweib(R);
+%
+%   close all;
 %
 % See also  pdfpois, cdfpois, invpois,  fitpois, mompois
 

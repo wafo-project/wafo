@@ -435,7 +435,9 @@ function [CI,Lp,nphat] = ciproflog(phat1,varargin)
       hold_state = ishold;
       hold on;
       plot(repmat(CI,2,1),repmat([lowLevel;LLmax],1,2),'r');
-      hold(hold_state);
+      if ~hold_state
+        hold off;
+      end
     end
   end
 end % main

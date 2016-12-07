@@ -21,11 +21,14 @@ function F = cdfmarg2d(V,H,varargin)
 % Example: % 2D Weibull Rayleigh with marginal parameters [2 3] and 3,
 %         % respectively and interaction parameter of 10 : 
 %  opts = cdfmarg2d('defaults');
-%  params = {2,3,3,10}
-%  opts=parseoptions(opts,'numpar',[2,1],'distribution',{'pdfweib','pdfray'},'meshgrid',true,'wdata',true);
+%  params = {2,3,3,10};
+%  opts = parseoptions(opts,'numpar',[2,1],'distribution',...
+%                      {'pdfweib','pdfray'},'meshgrid',true,'wdata',true);
 %  x = linspace(0,5,50); x2 = linspace(0,10);
 %  F = cdfmarg2d(x,x2,params{:},opts);
-%  surf(F)
+%  surf(F);
+%
+%  close all;
 % 
 % See also pdfmarg2d, fitmarg2d, rndmarg2d
 

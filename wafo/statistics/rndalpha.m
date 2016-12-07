@@ -15,9 +15,11 @@ function R = rndalpha(varargin)
 %
 % Example:
 %   R=rndalpha(0.5,1,100);
-%   plot(R,'.')
+%   plot(R,'.');
 %   R=rndalpha(2,1,100);
-%   plotnorm(R)
+%   plotnorm(R);
+%
+%   close all;
 % 
 % See also  zeros
 

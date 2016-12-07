@@ -16,7 +16,9 @@ function R = rndinvnorm(varargin)
 % Examples:
 %   R = rndinvnorm(2,2,100,2);
 %   R2 = rndinvnorm(2,3,[100,2]);
-%   plotqq(R(:,1),R2(:,1)),shg
+%   plotqq(R(:,1),R2(:,1));
+%
+%   close all;
 %
 % See also pdfinvnorm, cdfinvnorm, invinvnorm, fitinvnorm, mominvnorm
 

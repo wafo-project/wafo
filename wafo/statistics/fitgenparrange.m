@@ -26,9 +26,11 @@ function [shape,scale,pvalue] = fitgenparrange(data,varargin)
 %  opt.Nu = 20;
 %  R = rndgenpar(0.2,2,2,100,1);
 %  [shape,scale] = fitgenparrange(R-2,opt);
-%  plot(shape), figure(gcf+1)
-%  plot(scale)
+%  plot(shape); figure(gcf+1)
+%  plot(scale);
 %  
+%  close all;
+% 
 % See also fitgenpar, reslife, disprsnidx
 
 %
@@ -157,17 +159,17 @@ pvalue = createwdata('data',pvalue1,'args',u,...
 'title',titleTxt3,'labels',{'Threshold','P-value'},...
   'workspace',options,'note',titleTxt3);
 
-if ~isoctave
-  shape = wdata(shape);
-  scale = wdata(scale);
-  pvalue = wdata(pvalue);
-  if options.plotflag>0
-    subplot(2,1,1)
-    plot(shape,options.plotflag,'.')
-    subplot(2,1,2)
-    plot(scale,options.plotflag,'.')
-  end
+
+shape = wdata(shape);
+scale = wdata(scale);
+pvalue = wdata(pvalue);
+if options.plotflag>0
+  subplot(2,1,1)
+  plot(shape,options.plotflag,'.')
+  subplot(2,1,2)
+  plot(scale,options.plotflag,'.')
 end
+
 
 
 

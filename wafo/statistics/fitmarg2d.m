@@ -22,12 +22,12 @@ function  phato=fitmarg2d(V,H,varargin)
 %                   optimization routine (see optimset for details))
 %
 % Example:
-% sz = [1000,1];
+%  sz = [1000,1];
 %  R1 = rndweib(1,2,0,sz);
 %  R2 = rndray(2,sz);
 %  opts = fitmarg2d('defaults');
 %  opts = parseoptions(opts,'distribution',{'pdfweib','pdfray'});
-%  Phat2 = fitmarg2d(R1,R2,opts)
+%  Phat2 = fitmarg2d(R1,R2,opts);
 % 
 % See also  rndmarg2d,  pdfmarg2d, cdfmarg2d, cdfmargcnd2d
 

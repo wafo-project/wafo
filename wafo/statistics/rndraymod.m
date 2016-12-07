@@ -20,7 +20,9 @@ function R = rndraymod(varargin)
 %
 % Example:
 %   R=rndraymod(2,1,1,100);
-%   plotray(R);shg
+%   plotray(R);
+%
+%   close all;
 %
 % See also  pdfraymod, cdfraymod, invraymod, fitraymod, momraymod
 

@@ -10,7 +10,7 @@ function  X = rndhyge(varargin)
 %
 % Example
 %  sz = [100,1];
-%  R = rndhyge(20,39,100,sz)
+%  R = rndhyge(20,39,100,sz);
 % 
 % See also pdfhyge, cdfhyge, invhyge, fithyge, momhyge
 

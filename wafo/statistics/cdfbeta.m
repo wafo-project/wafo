@@ -27,8 +27,11 @@ function [F,Flo,Fup] = cdfbeta(x,varargin)
 %   
 % Example: 
 %   x = linspace(0,1,200);
-%   p1 = cdfbeta(x,1,1); p2 = cdfbeta(x,2,2);
-%   plot(x,p1,x,p2)
+%   p1 = cdfbeta(x,1,1); 
+%   p2 = cdfbeta(x,2,2);
+%   plot(x,p1,x,p2);
+%
+%   close all;
 %
 % See also invbeta, pdfbeta, rndbeta, fitbeta, mombeta
 

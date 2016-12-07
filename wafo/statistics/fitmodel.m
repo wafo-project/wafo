@@ -14,10 +14,12 @@ function [fit,res,sd,dof] = fitmodel(y,model)
 %   D = ffd(3);                    % complete 2^3 design in standard order.
 %   y = [60 72 54 68 52 83 45 80]; % Responses to design D.
 %   [ef, id] = yates(y);           % Calculate effects
-%   nplot(ef,id)                   % Identify model
+%   nplot(ef,id);                   % Identify model
 %   model = strvcat('A','B','AC'); % model parameters
 %   [fit,res,sd,dof] = fitmodel(y,model);
 %   plotnorm(res)                 % Diagnostic check on fitted model.
+%
+%   close all;
 % 
 % See also  nplot, yates
 

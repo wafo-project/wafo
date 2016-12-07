@@ -12,18 +12,20 @@ function [F,G] = edfcnd(z,c,G,varargin)
 %            returned from the FITXXX functions(optional).
 %   options = options struct with fieldnames
 %     .method : The method  is
-%	            1. Interpolation so that F(X_(k)) == (k-0.5)/n.
-%	            2. Interpolation so that F(X_(k)) == k/(n+1).    (default)
-%	            3. The empirical distribution. F(X_(k)) = k/n
+%             1. Interpolation so that F(X_(k)) == (k-0.5)/n.
+%             2. Interpolation so that F(X_(k)) == k/(n+1).    (default)
+%             3. The empirical distribution. F(X_(k)) = k/n
 %     .wdata : If TRUE return as wdata object 
 %              otherwise as two column matrix (default)
 % 
 % Example:
-%   x=linspace(0,6,200)';
+%   x = linspace(0,6,200)';
 %   R = rndray(2,100,1);
-%   [Fc,Gc] = edfcnd(R,1,[x,cdfray(x,2)]) %  plot
-%   plot(Fc),hold on, plot(Gc,'r'), hold off
-%   F = edf(R)
+%   [Fc,Gc] = edfcnd(R,1,[x,cdfray(x,2)]);
+%   plot(Fc); hold on; plot(Gc,'r'); hold off;
+%   F = edf(R);
+%
+%   close all;
 %
 % See also edf, pdfplot, cumtrapz
 

@@ -19,8 +19,10 @@ function [phat2]=fitt(data,varargin)
 %          
 % Example:
 %   R=rndt(2,1,100);
-%   phat = fitt(R) 
-%   plotfitsumry(phat)
+%   phat = fitt(R);
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  cdft, plotfitsumry
 

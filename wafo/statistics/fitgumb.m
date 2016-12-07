@@ -14,7 +14,9 @@ function [phat] = fitgumb(data,varargin)
 % Example:
 %   R = rndgumb(1,2,100,1,'trunc',1);
 %   phat = fitgumb(R);
-%   plotfitsumry(phat)
+%   plotfitsumry(phat);
+%
+%   close all;
 %
 % See also  pdfgumb, cdfgumb, invgumb, rndgumb, momgumb plotgumb
 

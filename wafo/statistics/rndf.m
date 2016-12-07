@@ -15,8 +15,10 @@ function R = rndf(varargin)
 % 
 % Example:
 %   R=sort(rndf(10,10,100,1));
-%   plotedf(R),hold on
-%   plot(R,cdff(R,10,10),'r'), hold off,shg
+%   plotedf(R); hold on;
+%   plot(R,cdff(R,10,10),'r'); hold off;
+%
+%   close all;
 %
 % See also  pdff, cdff, invf, fitf, momf
   

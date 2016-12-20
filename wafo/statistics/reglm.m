@@ -31,7 +31,7 @@
 % Example 
 % 
 %  x=(1:10)';  % Covariate
-%  y= x+randn(10,1)
+%  y= x+randn(10,1);
 %  b = reglm(y,x);
 %  b.display() % members and methods
 %  b.get()     % return members
@@ -41,6 +41,8 @@
 %
 %  b2 = reglm(y,[x,x.^2]);
 %  b2.compare(b)
+%
+%  close all;
 % 
 % See also regsteplm, reglm>predict regglm, reglogit, regnonlm
 
@@ -69,7 +71,7 @@
 
 % References:
 % - Matlab 7.0 documentation (pdf)
-% - 《大学数学实验》 姜启源 等 (textbook)
+% - 锟斤拷锟斤拷学锟斤拷学实锟介》 锟斤拷锟斤拷源 锟斤拷 (textbook)
 % - http://www.netnam.vn/unescocourse/statistics/12_5.htm
 % - wsolve.m in octave-forge
 % - http://www.stanford.edu/class/ee263/ls_ln_matlab.pdf

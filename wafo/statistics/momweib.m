@@ -1,21 +1,22 @@
-function [m,v,sk,ku]= momweib(a,c)
+function [m,v,sk,ku]= momweib(a,b, c)
 %MOMWEIB Mean and variance for the Weibull  distribution.
 % 
-% CALL:  [m,v,sk,ku] = momweib(a,c)
+% CALL:  [m,v,sk,ku] = momweib(a, b, c)
 %
 %   m, v = the mean and variance, respectively 
 %  sk,ku = the skewness and kurtosis, respectively. 
-%   a, c = parameters of the Weibull distribution (see cdfweib).
+%   a, b, c = parameters of the Weibull distribution (see cdfweib).
 %
 %  Mean (m) and variance (v) for the Weibull distribution is
 %
-%  m=a*gamma(1+1/c)  and  v=a^2*gamma(1+2/c)-m^2;
+%  m=m0 + c  and  v=a^2*gamma(1+2/b)-m0^2 where m0 = a*gamma(1+1/b).
 %
 % Example:
-%   par = {1,2}
-%   X = rndweib(par{:},10000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]        % Estimated mean and variance
-%   [m,v,sk,ku] = momweib(par{:}) % True mean and variance
+%   par = {1, 2, 1};
+%   X = rndweib(par{:}, 10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momweib(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdfweib, cdfweib, invweib, rndweib,  fitweib
 
@@ -45,15 +46,18 @@ function [m,v,sk,ku]= momweib(a,c)
 %   - added comnsize
 % added ms 15.06.2000
 
-error(nargchk(2,2,nargin))
-
+error(nargchk(2,3,nargin));
+if nargin<3 || isempty(c),
+  c=0;
+end
 a(a<=0) = nan;
-c(c<=0) = nan;
+b(b<=0) = nan;
 try
-  m =  a .* gamma(1 + (1 ./ c));
-  v = a.^ 2 .* gamma(1 + (2 ./ c)) - m.^ 2;
-  sk = (a.^3.*gamma(1+(3./c))-3.*m.*v-m.^3)./v.^(3/2);
-  ku = (a.^4*gamma(1+4./c)-4*sk.*v.^(3/2).*m-6*m.^2.*v-m.^4)/v.^2;
+  m0 =  a .* gamma(1 + (1 ./ b)) + c*0;
+  v = a.^ 2 .* gamma(1 + (2 ./ b)) - m0.^ 2;
+  sk = (a.^3.*gamma(1+(3./b))-3.*m0.*v-m0.^3)./v.^(3/2);
+  ku = (a.^4*gamma(1+4./b)-4*sk.*v.^(3/2).*m0-6*m0.^2.*v-m0.^4)/v.^2;
+  m = m0 + c;
 catch
-  error('a and c must be of common size or scalar.');
+  error('a, b and c must be of common size or scalar.');
 end

@@ -7,7 +7,7 @@ function name = getdistname(dist)
 %          invXXX and fitXXX functions
 %
 % Example
-%  model = getdistname('pdfgev')
+%  assert(getdistname('pdfgev'), 'gev');
 % 
 % See also
 

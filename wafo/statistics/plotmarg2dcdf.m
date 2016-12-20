@@ -27,13 +27,15 @@ function plotmarg2dcdf(V,H,varargin)
 % 
 % Example:
 %  R = rndray(2,1000,2); x1 = linspace(0,10)';
-%  phat = createfdata('distribution',@pdfmarg2d,'params',[2 2 .5])
+%  phat = createfdata('distribution',@pdfmarg2d,'params',[2 2 .5]);
 %  phat.pdfoptions.distribution={'pdfray','pdfray'};
 %  phat.pdfoptions.numpar =ones(1,2);
 %  d1 = data_1d();
 %  survivalPlotflag = 10;
 %  plotflag = d1.plotscaleflag('ylog')+ d1.plottypeflag('plot')+survivalPlotflag;
 %  plotmarg2dcdf(R(:,1),R(:,2),phat,[],plotflag,[3 3 1],{'k-','g-'});
+%
+%  close all;
 %
 %  See also  cdfmarg2d, edf
 

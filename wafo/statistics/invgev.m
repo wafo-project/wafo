@@ -28,13 +28,16 @@ function [x,xlo,xup] = invgev(F,varargin)
 %  for k(x-m)/s<=1 (when k<=0) and x<m+s/k (when k>0).
 %
 % Example:
-%  k=1;s=1;m= 0;    
-%  opt = {'lowertail',false,'logp',false}
-%  F0 = [logspace(log10(realmin),-1) linspace(0.2,1-1e-3) logspace(log10(1-sqrt(eps)),log1p(-eps)/log10(10))];
+%  k=1;s=1;m= 0;
+%  opt = {'lowertail',false,'logp',false};
+%  F0 = [logspace(log10(realmin),-1) linspace(0.2,1-1e-3),...
+%        logspace(log10(1-sqrt(eps)),log1p(-eps)/log10(10))];
 %  %F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %  x  = invgev(F0,k,s,m,opt{:});
 %  F  = cdfgev(x,k,s,m,opt{:});
-%  semilogy(abs(F-F0)./F0+eps), shg % relative error
+%  semilogy(abs(F-F0)./F0+eps); % relative error
+%
+%   close all;
 %
 % See also pdfgev, cdfgev, rndgev, fitgev, momgev
 

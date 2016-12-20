@@ -15,11 +15,13 @@ function [ax11, h11, h22  ]=plotmarg2dmom(V,H,phat,condon ,res)
 %
 % Example:
 %  x1=linspace(0,10)';
-%  phat = createfdata('distribution',@pdfmarg2d,'params',[2 2 .5])
+%  phat = createfdata('distribution',@pdfmarg2d,'params',[2 2 .5]);
 %  phat.pdfoptions.distribution={'pdfray','pdfray'};
 %  phat.pdfoptions.numpar =ones(1,2);
 %  [y1,y2] = rndmarg2d(2000,phat);
 %  plotmarg2dmom(y1,y2,phat,2); 
+%
+%  close all;
 % 
 %  See also  mommarg2d
 

@@ -13,10 +13,11 @@ function [m,v,sk,ku]= momgengam(varargin)
 %  v=b^2*(gamma(a+2/c)/gamma(a)-gamma(a+1/c)^2/gamma(a)^2);
 %
 % Example:
-%   param = {2,2,0.5};N = 1000;  
-%   x = rndgengam(param{:},N,1);
-%   [mean(x),var(x),skew(x),kurt(x)]  
-%   [m,v,sk,ku] = momgengam(param{:})
+%   param = {2,2,0.5};  
+%   X = rndgengam(param{:}, 10000, 1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momgengam(par{:}); % True mean and variance
+%   assert(moments, mom, -0.2);
 %
 % See also  pdfgengam, cdfgengam, invgengam, rndgengam, fitgengam
 

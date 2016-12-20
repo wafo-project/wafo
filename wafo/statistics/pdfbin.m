@@ -23,9 +23,9 @@ function  f = pdfbin(x,varargin)
 %   p = 0.05;      % Defect probability
 %   defects = 0:n; % All possible outcomes of a day
 %   f = pdfbin(defects,n,p);
-%   stairs(defects,f), shg
+%   stairs(defects,f);
 %   [x,i] = max(f);
-%   defects(i)  % Most likely number of defective objects found in one day.
+%   assert(defects(i), 2)  % Most likely number of defective objects found in one day.
 %
 % See also cdfbin, invbin, rndbin, fitbin, mombin
 

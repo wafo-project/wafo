@@ -11,10 +11,11 @@ function [m,v,sk,ku]= momnorm(varargin)
 %  m=m0  and  v=v0;
 %
 % Example:
-%   par = {-1,1}
+%   par = {-1,1};
 %   X = rndnorm(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]       % Estimated mean and variance
-%   [m,v] = momnorm(par{:}) % True mean and variance
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momnorm(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdfnorm, cdfnorm, invnorm, rndnorm, fitnorm
 

@@ -21,6 +21,8 @@ function [x,xlo,xup] = invnorm(F,varargin)
 %   F = linspace(0,1,100);
 %   x = invnorm(F,2.5,0.6);
 %   plot(F,x)
+%
+%   close all;
 % 
 % See also  cdfnorm, pdfnorm, rndnorm, momnorm, fitnorm
 

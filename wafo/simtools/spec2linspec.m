@@ -157,10 +157,10 @@ for ix=1:maxSim
   %[tf21,fi] = tfe(x2(:,2),x1(:,2),1024,Fs,[],512);
   %Hw11 = interp1q(fi,tf21.*conj(tf21),freq);
   if 1 || ix==1
-    Hw1  = exp(interp1q( S2.w,log(abs(S1.S./S2.S)),freq));  
+    Hw1  = exp(interp1( S2.w,log(abs(S1.S./S2.S)),freq, 'linear'));  
   else
     % Geometric mean
-    Hw1 =  exp((interp1q( S2.w,log(abs(S1.S./S2.S)),freq)+log(Hw2))/2);  
+    Hw1 =  exp((interp1( S2.w,log(abs(S1.S./S2.S)),freq, 'linear')+log(Hw2))/2);  
   end
   %Hw1  = (interp1q( S2.w,abs(S1.S./S2.S),freq)+Hw2)/2;
   %plot(freq, abs(Hw11-Hw1),'g')

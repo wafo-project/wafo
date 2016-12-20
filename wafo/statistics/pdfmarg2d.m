@@ -22,11 +22,14 @@ function f = pdfmarg2d(V,H,varargin)
 %          % respectively for the marginal distributions, and
 %          % a interaction parameter of 10:
 %  opts = pdfmarg2d('defaults');
-%  params = {2,3,3,10}
-%  opts=parseoptions(opts,'numpar',[2,1],'distribution',{'pdfweib','pdfray'},'meshgrid',true,'wdata',true);
+%  params = {2,3,3,10};
+%  opts=parseoptions(opts,'numpar',[2,1],'distribution',...
+%                    {'pdfweib','pdfray'},'meshgrid',true,'wdata',true);
 %  x = linspace(0,5,50); x2 = linspace(0,10);
 %  f = pdfmarg2d(x,x2,params{:},opts);
-%  plot(f)
+%  plot(f);
+%
+%  close all;
 % 
 % See also   cdfmarg2d, invcmarg2d, fitmarg2d, rndmarg2d
 
@@ -147,10 +150,12 @@ fh = fhh(H,PH{:});
      cl = [];
    end
    captn = sprintf('pdfmarg2d: (%s,%s)',VDIST,HDIST);
-   f = createwdata('args',{Vin,Hin},'data',f,'caption',captn,'contourLevels',cl,'percentLevels',pl,'workspace',options);
-   if ~isoctave
-     f = wdata(f);
-   end
+   f = createwdata('args',{Vin,Hin},'data',f,'caption',captn,...
+                  'contourLevels',cl,'percentLevels',pl,...
+                  'workspace',options);
+   
+   f = wdata(f);
+   
  end
 end
 

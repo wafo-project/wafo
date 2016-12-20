@@ -12,10 +12,11 @@ function [m,v,sk,ku]= momt(df)
 %  m=0 if df>1  and  v=df/(df-2) if df>2
 %
 % Example:
-%   par = {10}
-%   X = rndt(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]       % Estimated mean and variance
-%   [m,v,sk,ku] = momt(par{:}) % True mean and variance
+%   par = {10};
+%   X = rndt(par{:}, 10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momt(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdft, cdft, invt, rndt, fitt
 

@@ -12,10 +12,12 @@ function [m,v,sk,ku]= mombeta(varargin)
 %      m = a/(a+b) and v = a*b/(a+b)^2/(a+b+1)  if a>0, b>0
 %
 % Example
-%   par = {1,1}
-%   X = rndbeta(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [mom{1:4}] = mombeta(par{:}) % True mean and variance
+%   par = {1,1};
+%   X = rndbeta(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};         % Estimated mean and variance
+%   [mom{1:4}] = mombeta(par{:}); % True mean and variance
+%
+%   assert(moments, mom, 0.05)
 %
 % See also  pdfbeta, cdfbeta, invbeta, rndbeta, fitbeta
 

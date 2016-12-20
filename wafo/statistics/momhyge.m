@@ -14,10 +14,11 @@ function [m,v,sk,ku]= momhyge(n,K,N)
 %  m=n*K/N  and  v=n*K/N*(1-K/N)*(N-n)/(N-1));
 %
 % Example:
-%   par = {10,30,100}
-%   X = rndhyge(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]        % Estimated mean and variance
-%   [m,v,sk,ku] = momhyge(par{:}) % True mean and variance
+%   par = {10,30,100};
+%   X = rndhyge(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momhyge(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdfhyge, cdfhyge, invhyge, rndhyge, fithyge
 

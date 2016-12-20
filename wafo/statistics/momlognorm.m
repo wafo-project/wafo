@@ -12,10 +12,11 @@ function [m,v,sk,ku]= momlognorm(m0,v0)
 %  m=exp(m0+v0/2)  and  v=exp(2*m0+v0)*(exp(v0)-1);
 %
 % Example:
-%   par = {-1,1}
-%   X = rndlognorm(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)] % Estimated mean and variance
-%   [m,v,sk,ku] = momlognorm(par{:})            % True values
+%   par = {-1, 0.1};
+%   X = rndlognorm(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momlognorm(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdflognorm, cdflognorm, invlognorm, rndlognorm, fitlognorm
 

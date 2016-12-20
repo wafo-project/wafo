@@ -98,12 +98,11 @@ if strcmpi(options.method,'ml') || ...
     'loglikemax', -loglike(phat0,data,'pdfgumb'),...
     'logpsmax',-LPS,'pvalue',pvalue,...
     'pdfoptions',struct('trunc',options.trunc), 'note',sprintf('Moran''s statistic on fit: pvalue = %g',pvalue));
-  
+
+    phat = fdata(phat);
+
     if options.plotflag
       plotfitsumry(phat,options.plotflag)
-    end
-    if ~isoctave
-      phat = fdata(phat);
     end
   end
 else

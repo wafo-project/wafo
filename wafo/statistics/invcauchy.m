@@ -20,13 +20,14 @@
 %
 %
 % Example: 
-%  a=1;b=2;    
-%  opt = {'lowertail',false,'logp',false}
+%  a=1;b=2;
+%  opt = {'lowertail',false,'logp',false};
 %  F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %  x  = invcauchy(F0,a,b,opt{:});
 %  F  = cdfcauchy(x,a,b,opt{:});
-%  semilogy(abs(F-F0)./F0+eps), shg % relative error
+%  semilogy(abs(F-F0)./F0+eps) % relative error
 %  
+%  close all;
 %
 % See also pdfcauchy, cdfcauchy, invcauchy, rndcauchy, fitcauchy, momcauchy
 

@@ -1,13 +1,14 @@
-function [shape,scale,pvalue] = fitgenparrange(data,varargin)
-%FITGENPARRANGE Parameter estimates for GPD model over a range of thresholds
+function [shape,scale,pvalue] = fitgenparrangepos(data,varargin)
+%FITGENPARRANGEPOS Parameter estimates for GPD model over a range of thresholds
 %
-% CALL  [shape,scale] = fitgenparrange(data,options)
+% CALL  [shape,scale] = fitgenparrangepos(data,options)
 %
 % shape, 
 %   scale = WDATA objects with estimated GPD parameters as function of
 %           threshold.
 % data    = vector of data.
 % options = options structure defining the range of thresholds.
+%        .method : Method used in the fitting
 %        .Nmin : Minimum number of extremes to include. (Default Nmin = 10).
 %        .umin : Minimum threshold (default min(data))
 %        .umax : Maximum threshold (default max(data))
@@ -26,8 +27,10 @@ function [shape,scale,pvalue] = fitgenparrange(data,varargin)
 %  R = rndgenpar(0.1,2,2,100,1);
 %  [shape,scale] = fitgenparrangepos(R-2,opt); figure(gcf+1);
 %  plot(shape); figure(gcf+1);
-%  plot(scale)
+%  plot(scale);
 %  
+%  close all;
+% 
 % See also fitgenpar, reslife, disprsnidx
 
 %
@@ -138,15 +141,15 @@ for ix=1:options.Nu;
     end
   end
 end
-max_point
+%max_point
 
-if any(tmp)
+if false && any(tmp)
     mRL = sum(tmp)./sum(tmp~=0);
 
-    [df,ix] =  min(abs(tmp(:,end-1)-1.15*mRL(end-1)))
-    [df1,ix1] =  min(abs(tmp(:,end)-1.15*mRL(end)))
-    semilogx(1./returnPrbs,mRL,'ro'), hold on
-    u(ix),u(ix1)
+    [df,ix] =  min(abs(tmp(:,end-1)-1.15*mRL(end-1)));
+    [df1,ix1] =  min(abs(tmp(:,end)-1.15*mRL(end)));
+    semilogx(1./returnPrbs,mRL,'ro'); hold on;
+    % u(ix),u(ix1)
 end
 p = 1-options.alpha;
 alpha2 = options.alpha/2;

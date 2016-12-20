@@ -30,7 +30,7 @@ function [ef, id]=yates(y,varargin)
 %   D1 = ffd(7,I);                  % 2^(7-4) design in standard order.
 %   y1 = [69 52 60 83 71 50 59 88]; % Responses to design D1.
 %   [ef1,id1] = yates(y1);
-%   alias(cdr(I),3)                 % associate with id1 
+%   I3 = alias(cdr(I),3);                 % associate with id1 
 %
 % See also  fitmodel, getmodel, alias, cdr, sudg, ffd ,plotresponse, nplot
 

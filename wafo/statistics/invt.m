@@ -9,7 +9,9 @@ function [x,xlo,xup] = invt(F,varargin)
 %  Example:
 %    F = linspace(0,1,100);
 %    x = invt(F,1);
-%    plot(F,x)
+%    plot(F,x);
+%
+%    close all;
 %
 % See also pdft, cdft, rndt, fitt, momt
 

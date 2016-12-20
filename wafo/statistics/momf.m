@@ -14,10 +14,11 @@ function [m,v,sk,ku]= momf(varargin)
 %      v = 2*m^2*(df1+df2-2)/(df2-4)/df1  if df2>4
 %
 % Example
-%   par = {9,9}
+%   par = {9, 150};
 %   X = rndf(par{:},10000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [mom{1:4}] = momf(par{:}) % True mean and variance
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momf(par{:}); % True mean and variance
+%   assert(moments, mom, -0.2);
 %
 % See also pdff, cdff, invf, rndf, fitf
 
@@ -61,18 +62,13 @@ try
   v = 2*m.^2.*(c+a-2)./(c-4)./a;
 
   c(c<=6) = nan;
-
-  sk = 	(2*(2.*a+c-2))./(c-6).*sqrt((2.*(c-4))./(a.*(c+a-2)));
+  sk = (2*(2.*a+c-2))./(c-6).*sqrt((2.*(c-4))./(a.*(c+a-2)));
 
   c(c<=8) = nan;
-
-  ku =   (12.*(20*c-8.*c.^2+c.^3+44.*a-32.*a.*c+5.*c.^2.*a-22.*a.^2+5.*c.*a.^2-16))./(a.*(c-6).*(c-8).*(a+c-2));
+  ku = 12.*(a.*(5*c-22).*(a+c-2) + (c-4).*(c-2).^2)./(a.*(c-6).*(c-8).*(a+c-2)) + 3;
   if isscalar(m)
     m = m(ones(size(a)));
   end
 catch
-  
-%[iscmn m,a] = iscomnsize(m,a);
-%if ~iscmn
   error('df1 and df2 must be of common size or scalar.');
 end

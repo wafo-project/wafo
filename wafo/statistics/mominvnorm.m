@@ -12,10 +12,11 @@ function [m,v,sk,ku]= mominvnorm(m0,l0)
 %  m=m0  and  v=m0^3/l0;
 %
 % Example:
-%   par = {1,1}
-%   X = rndinvnorm(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [m,v,sk,ku] = mominvnorm(par{:}) % True mean and variance
+%   par = {1,10};
+%   X = rndinvnorm(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = mominvnorm(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdfinvnorm, cdfinvnorm, invinvnorm, rndinvnorm
 

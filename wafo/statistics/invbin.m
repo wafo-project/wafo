@@ -19,10 +19,12 @@ function  x = invbin(F,varargin)
 %
 % Example
 %  n = 10; p = 0.05;
-%  xo = -1:n+1
+%  xo = -1:n+1;
 %  F = cdfbin(xo,n,p);
 %  x = invbin(F,n,p);
-%  plot(abs((x-xo))), shg
+%  plot(abs((x-xo)));
+%
+%  close all;
 %
 % See also pdfbin, cdfbin, rndbin, invbin, fitbin, mombin
 

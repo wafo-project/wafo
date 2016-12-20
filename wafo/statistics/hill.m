@@ -1,7 +1,14 @@
 function [hc,hi,ht,u1] = hill(data,k1,k2,Nmin)
 % HILL Return the hill estimator for the tail index
 %
-% 
+% Example
+%  R = rndgenpar(0.1,2,2,100,1);
+%  [hc,hi,ht,u1] = hill(R);
+%  plot(hc); vline(u1); figure(gcf+1)
+%  plot(hi); vline(u1); figure(gcf+1)
+%  plot(ht); vline(u1);
+%
+%  close all;
 
 %
 %     This program is free software; you can redistribute it and/or modify
@@ -73,8 +80,8 @@ hi = createwdata('data',tailindex,'args',k1,...
 
  
   
-if ~isoctave
-  hc = wdata(hc);
-  hi = wdata(hi);
-  ht = wdata(ht);
-end
+
+hc = wdata(hc);
+hi = wdata(hi);
+ht = wdata(ht);
+

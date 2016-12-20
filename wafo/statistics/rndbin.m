@@ -11,7 +11,7 @@ function  X = rndbin(varargin)
 %            as returned from FITBIN. 
 %
 % Example:
-%   par = {10,0.2}
+%   par = {10,0.2};
 %   X = rndbin(par{:},1000,1);
 %   moments = [mean(X) var(X),skew(X),kurt(X)];   % Estimated moments
 %   [mom{1:4}] = mombin(par{:}); % True mean and variance

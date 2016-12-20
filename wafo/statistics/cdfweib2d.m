@@ -34,9 +34,9 @@ function [F ,err] = cdfweib2d(x1,x2,varargin)
 %   x = linspace(0,6,200); [X1,X2] = meshgrid(x); 
 %   phat = {2 2  3 2.5 .8};
 %   f = pdfweib2d(X1,X2,phat{:});
-%   contour(x,x,f), hold on,
-%   plot( [0  2  2 0 0], [0 0 1 1 0],'g-'), hold off % Mark the region
-%   cdfweib2d(2,1,phat{:})  % Calculate the probability of marked region
+%   contour(x,x,f); hold on;
+%   plot( [0  2  2 0 0], [0 0 1 1 0],'g-'); hold off; % Mark the region
+%   prb = cdfweib2d(2,1,phat{:});  % Calculate the probability of marked region
 % 
 % See also  pdfweib2d, prbweib2d, rndweib2d, fitweib2d, momweib2d, quad2dg, gaussq
 

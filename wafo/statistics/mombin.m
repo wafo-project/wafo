@@ -12,10 +12,11 @@ function [m,v,sk,ku]= mombin(varargin)
 %  m=n*p  and  v=n*p*(1-p);
 %
 % Example:
-%   par = {10,0.2}
-%   X = rndbin(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]        % Estimated mean and variance
-%   [mom{1:4}] = mombin(par{:}) % True mean and variance
+%   par = {10,0.2};
+%   X = rndbin(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = mombin(par{:}); % True mean and variance
+%   assert(moments, mom, 0.05)
 %
 % See also pdfbin, cdfbin, invbin, rndbin, fitbin
 

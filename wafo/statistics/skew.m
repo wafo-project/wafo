@@ -9,10 +9,10 @@ function s = skew(X,dim)
 %                                              dimension of X)
 %
 % Example:
-%   R=rndgumb(2,2,100,2);
-%   skew(R)
+%   R = rndgumb(2,2,100,2);
+%   sk = skew(R);
 %   
-%   skew(1:10) % = 0
+%   assert(skew(1:10), 0)
 %
 % See also  mean, var, kurt
 

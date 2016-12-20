@@ -14,16 +14,18 @@ function  f = pdfhyge(x,varargin)
 %   f(x;n,K,N) = K!/(K-x)!/x!*(N-K)!/(N-K-n+x)!/(n-x)! (N-n)!*n!/N!
 %
 % Example
-% n = 10; K = 30; N = 100;
-% x = 0:min(n,K)
-% f = pdfhyge(x,n,K,N);
+%  n = 10; K = 30; N = 100;
+%  x = 0:min(n,K);
+%  f = pdfhyge(x,n,K,N);
 %
-%  % When n/N is small one can use the binomial approximation for the pdf
-% f1 = pdfbin(x,n,K/N)
-% subplot(2,1,1),bar(x,f),shg
-% subplot(2,1,2),bar(x,f1),shg
+%   % When n/N is small one can use the binomial approximation for the pdf
+%  f1 = pdfbin(x,n,K/N);
+%  subplot(2,1,1);bar(x,f);
+%  subplot(2,1,2);bar(x,f1);
 %
-% semilogy(x,abs(f1-f)), shg 
+%  semilogy(x,abs(f1-f));
+%
+%  close all;
 %
 % See also cdfhyge, invhyge, rndhyge, fithyge, momhyge, binom
 

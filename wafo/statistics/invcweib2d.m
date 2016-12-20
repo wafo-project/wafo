@@ -29,7 +29,9 @@ function [x, ind]= invcweib2d(x1,p,varargin)
 %  phat = {2 2  3 2.5 .8};
 %  F = cdfweib2d(x,x2,phat{:},'condon',2);
 %  x1 = invcweib2d(x2,F,phat{[3:4 1:2 5]}); 
-%  semilogy(abs(x-x1)./x+eps)
+%  semilogy(abs(x-x1)./x+eps);
+%
+%  close all;
 %
 % See also  pdfweib2d, cdfweib2d, rndweib2d, fitweib2d, momweib2d
 

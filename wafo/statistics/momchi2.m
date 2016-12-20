@@ -12,10 +12,11 @@ function [m,v,sk,ku]= momchi2(varargin)
 %  m=p  and  v=2p;
 %
 % Example: 
-%   par = {5}
-%   X = rndchi2(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [m,v,sk,ku] = momchi2(par{:}) % True mean and variance
+%   par = {5};
+%   X = rndchi2(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momchi2(par{:}); % True mean and variance
+%   assert(moments, mom, 0.2)
 %
 % See also pdfchi2, cdfchi2, invchi2, rndchi2, fitchi2
 

@@ -24,7 +24,9 @@ function [x,xlo,xup] = invweib(F,varargin)
 % Example:
 %   F = linspace(0,1,100);
 %   x = invweib(F,10,5);
-%   plot(F,x)
+%   plot(F,x);
+%
+%   close all;
 %
 % See also pdfweib, cdfweib, rndweib, fitweib, momweib
 

@@ -15,9 +15,9 @@ function  q = percentile(x,p,method)
 %  accepts  x  being a vector and  p  a matrix!
 %
 % Example
-%  method = 3
+%  method = 3;
 %  x = rndgumb(2,2,1,100);
-%  q  = percentile(x,[0.25 0.5 0.75],method) % 25% 50% and 75% quantile
+%  q  = percentile(x,[0.25 0.5 0.75],method); % 25% 50% and 75% quantile
 % 
 % See also plotqq
 

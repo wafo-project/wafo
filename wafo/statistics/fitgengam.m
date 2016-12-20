@@ -182,9 +182,9 @@ end
 if options.plotflag
   plotfitsumry(phat,options.plotflag)
 end
-if ~isoctave
-  phat = fdata(phat);
-end
+
+phat = fdata(phat);
+
 
 
   function [L] = fitgengamls(phat,x,logR,options)

@@ -9,6 +9,7 @@ function  k = invhyge(F,varargin)
 %  p = [-1 0.5, 2];
 %  n = 10;K = 30; N = 100;
 %  k = invhyge(p,n,K,N);
+%  assert(k, [nan, 3, nan]);
 %
 % See also pdfhyge, cdfhyge, rndhyge, whypgfit, momhyge
 

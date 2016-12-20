@@ -12,10 +12,11 @@ function [m,v,sk,ku] = mompois(L)
 %  m=L  and  v=L;
 %
 % Example:
-%   par = {10}
+%   par = {10};
 %   X = rndpois(par{:},100000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [mom{1:4}] = mompois(par{:}) % True mean and variance
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = mompois(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdfpois, cdfpois, invpois, rndpois, fitpois
 

@@ -165,8 +165,8 @@ Fs      = [0; fs(:); (np/2)*df];
 Su      = [0; abs(Si(:))/2; 0];
 
 Smax = max(Su);
-%Si = interp1(Fs,Su,f,'linear');
-Si = interp1q(Fs,Su,f);
+Si = interp1(Fs,Su,f,'linear');
+% Si = interp1q(Fs,Su,f);
 
 % If the spectrum does not decay rapidly enough towards zero, the
 % contribution from the wave components at the  upper tail can be very

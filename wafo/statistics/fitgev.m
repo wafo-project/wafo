@@ -134,6 +134,11 @@ switch lower(method),
     error('Uknown method: %s',method)
 end
 phat.dataname = inputname(1); 
+phat = fdata(phat);
+
+if options.plotflag 
+  plotfitsumry(phat,options.plotflag)
+end
 
 function [phat] = pwmfit(data,options)
 
@@ -151,13 +156,8 @@ phat = createfdata(options,'dist','pdfgev',...
   'covar',pcov,'var',pvar,...
   'dataname',inputname(1),'data',data,...
   'loglikemax', -LL,'logps',-LPS,'pvalue',pvalue);
-if options.plotflag 
-  plotfitsumry(phat,options.plotflag)
-end
 
-if ~isoctave
-  phat = fdata(phat);
-end
+
 
 function [phat,pcov] = pwmfit2(data)
 %PWMFIT

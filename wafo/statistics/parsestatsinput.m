@@ -17,8 +17,10 @@ function [param,options,rndsize,phat] = parsestatsinput(Np,options,varargin)
 %               corresponding values.
 %
 % Example
-% opt = struct('covariance',[],'alpha',[]);
-% [param,options] = parsestatsinput(2,opt,1,'cov',2,'alpha',0.05)
+%  opt = struct('covariance',[],'alpha',[]);
+%  [param,options] = parsestatsinput(2,opt,1,'cov',2,'alpha',0.05);
+%  assert(options, struct('covariance', 2, 'alpha', 0.05))
+%  assert(param, {1,[]})
 %
 % See also parseoptions
 

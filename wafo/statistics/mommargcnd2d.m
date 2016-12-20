@@ -17,10 +17,12 @@ function [M,V] = mommargcnd2d(phat,condon,cvar,csm,lin)
 %  phat.x={[x1,exp(-0.1*x1)] 2 };
 %  phat.dist={'rayl','rayl'};
 %  [M,V]=mommargcnd2d(phat,2,x1);
-%  plot(x1,M,'r--',x1,sqrt(V),'k-')
-%  title(' Conditional mean and standard deviation')
-%  legend('E(x1|x2)','std(x1|x2)')
-%  xlabel('x2')
+%  plot(x1,M,'r--',x1,sqrt(V),'k-');
+%  title(' Conditional mean and standard deviation');
+%  legend('E(x1|x2)','std(x1|x2)');
+%  xlabel('x2');
+%
+%  close all;
 %
 % See also  fitmargcnd2d, margcnd2dsmfun
 

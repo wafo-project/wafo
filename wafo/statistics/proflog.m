@@ -53,7 +53,7 @@ function [Lp,CI,nphat]=proflog(phat1,varargin)
 %   phat = fitweib(R);
 %   opt = proflog('defaults');
 %   opt.i = 2;opt.plotflag=1;
-%   [Lp,CI] = proflog(phat,opt)
+%   [Lp,CI] = proflog(phat,opt);
 %   [x,xlo,xup] = invweib(1/990,phat,'lowertail',false);
 %   [Lp0,CI0] = proflog(phat,'i',2,'x',x,'link',@lnkweib,'plotflag',1);
 %

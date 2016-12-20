@@ -26,10 +26,12 @@ function phat = mlest(dist,phat0,data,options1,varargin)
 %   R = rndbeta(2,0.5,1,100);
 %   phat0 = [2,2];
 %   phat =  mlest(@pdfbeta,phat0,R);
-%   plotfitsumry(phat)
+%   plotfitsumry(phat);
 %   fixpar = [2,nan];
 %   phat2 = mlest(@pdfbeta,phat0(2),R,{'fixpar',fixpar});
-%   plotfitsumry(phat2)
+%   plotfitsumry(phat2);
+%
+%   close all;
 %
 % See also loglike, logps, fminsearch, optimset
 
@@ -172,9 +174,8 @@ phat = createfdata(options,'dist',dist,...
 if options.plotflag 
   plotfitsumry(phat,options.plotflag)
 end
-
+phat = fdata(phat);
 if ~isoctave
-  phat = fdata(phat);
   warning(warnstate);
 end
 

@@ -12,9 +12,8 @@ function r = iqrange(X,dim)
 % the distribution have heavy tails.
 %
 % Example:
-%   sz = [100,2];
-%   R=rndgumb(2,2,sz);
-%   iqrange(R)
+%   R= linspace(0,20);
+%   assert(iqrange(R), 10.101, -0.0001)
 %
 % See also  std
 

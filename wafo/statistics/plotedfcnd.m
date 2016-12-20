@@ -21,10 +21,12 @@ function [F,G] = plotedfcnd(z,varargin)
 % NOTE:  SYM can be given anywhere after X
 % 
 % Example:
-%   x=linspace(0,6,200)';
+%   x = linspace(0,6,200)';
 %   R = rndray(2,100,1);
-%   plotedfcnd(R,1,[x,cdfray(x,2)],'g','b') %  plot
-%   F = edf(R)
+%   plotedfcnd(R,1,[x,cdfray(x,2)],'g','b'); %  plot
+%   F = edf(R);
+%
+%  close all;
 %
 % See also edfcnd, plotedf, pdfplot, cumtrapz
 

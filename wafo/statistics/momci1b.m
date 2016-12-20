@@ -15,10 +15,15 @@ function [cimean,cistd,ciskew,cikurt] = momci1b(x,alpha,B)
 %  based on a bootstrap technique. 
 %
 % Example
-%   x = rndnorm(0,1,100,1);
-%   [cim,cistd,cisk,ciku] = momci1b(x) 
+%   x = rndnorm(0,1,1000,1);
+%   [cim,cistd,cisk,ciku] = momci1b(x, 0.01, 5000);
 %
-%	See also testmean1boot, testmean1n, testmean1r.
+%   assert(cim(1)<0 && 0<cim(3))
+%   assert(cistd(1)<1 && 1<cistd(3))
+%   assert(cisk(1)<0 && 0<cisk(3))
+%   assert(ciku(1)<3 && 3<ciku(3))
+%
+% See also testmean1boot, testmean1n, testmean1r.
 
 % by pab nov 2007
 %  Based on testmean1b by     Anders Holtsberg, 27-07-95

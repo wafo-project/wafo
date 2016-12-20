@@ -16,18 +16,21 @@
 %  
 %   Example:
 %     L = 10; N = 40;  
-%     opt = {'lowertail',true,'logp',false}
+%     opt = {'lowertail',true,'logp',false};
 %     F0 = cdfpois(0:N,L,opt{:});
 %     x  = invpois(F0,L,opt{:});
 %     F  = cdfpois(x,L,opt{:});
-%     semilogy(abs(F-F0)./F0+eps), shg % relative error
+%     semilogy(abs(F-F0)./F0+eps); % relative error
 %   
-%     opt = {'lowertail',true,'logp',true}
+%     opt = {'lowertail',true,'logp',true};
 %     x0 = 1:N;
 %     F  = cdfpois(x0,L,opt{:});
 %     x  = invpois(F,L,opt{:});
 %     N0 = length(x0);
-%     semilogy(1:N0,abs(x-x0)./x0+eps),shg % relative error
+%     semilogy(1:N0,abs(x-x0)./x0+eps); % relative error
+%
+%     assert(x, x0)
+%     close all;
 %  
 %   See also  pdfpois, cdfpois, fitpois, rndpois, mompois
 
@@ -97,27 +100,19 @@ end %if
 
   k = find ((F == 1) & (L > 0));
   if (any (k))
-    x(k) = Inf;
+      x(k) = Inf;
   end %if
 
   k = find (F<1 & ok & (0<L & L < 10000));
   if (any (k))
-    x(k) = 0;
-    if (isscalar (L))
-      cdf = exp (-L) * ones (size (k));
-    else
-      cdf = exp (-L(k));
-    end %if
+    x(k) = -2;
+    cdf = zeros(size(k));
     iter = 0;
     while (iter<=options.maxiter)
-      m = find (cdf < F(k));
-      if (any (m))
+      m = find(cdf <= F(k)+eps);
+      if (any(m))
         x(k(m)) = x(k(m)) + 1;
-        if (isscalar (L))
-          cdf(m) = cdf(m) + pdfpois(x(k(m)), L);
-        else
-          cdf(m) = cdf(m) + pdfpois (x(k(m)), L(k(m)));
-        end
+        cdf(m) = cdfpois(x(k(m))+1, L);
       else
         break;
       end %if

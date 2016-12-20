@@ -46,8 +46,6 @@ function plotmargcnd2dfit(PV1,sPV1,plotflag)
 % by pab 
 
 
-
-
 if nargin<3||isempty(plotflag)
   plotflag=4;
 elseif plotflag<1

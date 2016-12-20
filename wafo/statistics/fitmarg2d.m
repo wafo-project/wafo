@@ -101,8 +101,7 @@ Np2 = numel(ph.params);
 pdfoptions = struct('numpar',[Np1,Np2],'distribution',[],'condon',0);
 pdfoptions.distribution = options.distribution;
 if isempty(options.start)
-  rho= corrcoef(V,H);
-  rho=rho(2,1);
+  rho= corr(V,H);
   psi=findPsi(rho);
 
   phat0=[pv.params ph.params psi ];

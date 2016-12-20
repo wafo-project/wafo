@@ -15,10 +15,9 @@ function [V,H] = rndmargcnd2d(N,phat,csm,lin)
 %
 % Example: Random points from a 2D Rayleigh distribution
 %   x1=linspace(0,10)';
-%   phat.x={[x1,exp(-0.1*x1)] 2 };
-%   phat.dist={'rayl','rayl'};
+%   phat = struct('x',{[x1,exp(-0.1*x1)] 2}, 'dist', {'rayl', 'rayl'});
 %   [y1,y2] = rndmargcnd2d(1000,phat);
-%   f = pdfmargcnd2d2(x1,x1,phat);
+%   f = pdfmargcnd2d(x1,x1,phat);
 %   pdfplot(f); hold on;
 %   plot(y1,y2,'.'); hold off;
 %   

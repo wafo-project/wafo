@@ -80,16 +80,16 @@ for i = 1:p
    end
 end
 
-hold off
+hold off;
 H0 =plot(Z(:,1), Z(:,2), plotsymbol);
 axis([0 p 0 p])
-hold on
+hold on;
 for i = 0:p
    plot([0,p],[i,i],'-')
    plot([i,i],[0,p],'-')
 end
 
-rho = corrcoef(X);% Put correlation coefficient in the plot
+rho = corr(X);% Put correlation coefficient in the plot
 for i=1:p-1, 
    for j=i+1:p     
      figtext(i-1+0.01,p-j+0.01,['\rho = ' num2str(rho(i,j),2)],'data','data','left','bottom')
@@ -102,8 +102,8 @@ if ~isempty(labl)
      figtext(-.3,p-j+0.5,labl(j,:),'data','data','left','middle')
      set(gca,'DefaultTextRotation',0)
      figtext(j-0.5,-.3,labl(j,:),'data','data','center','bottom')
-   end	
-end	
+   end
+end
 
 % Remove xtick and ytick
 set(gca,'xtick',[],'ytick',[])

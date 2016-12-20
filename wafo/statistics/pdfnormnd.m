@@ -14,11 +14,13 @@ function pdf = pdfnormnd(X,varargin)
 %         .logp   : if TRUE, density, p, returned as log(p).
 %
 % Example: % Bivariate Gaussian distribution
-% x = linspace(-5,5);
-% [X1 X2] = meshgrid(x);
-% f = reshape(pdfnormnd([X1(:),X2(:)]),100,100);
-% [area,epsi] = simpson(x,f);
-% [area2,epsi2] = simpson(x,area)
+%  x = linspace(-5,5);
+%  [X1 X2] = meshgrid(x);
+%  f = reshape(pdfnormnd([X1(:),X2(:)]),100,100);
+%  [area,epsi] = simpson(x,f);
+%  [area2,epsi2] = simpson(x,area);
+%
+%  assert(area2, 1.00000, 1.0e-5)
 %
 %See also  pdfnorm, cdfnormnd, rndnormnd, fitnormnd
 

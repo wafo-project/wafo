@@ -33,12 +33,12 @@ function [pval, cimean, cisigma] = testmean2n(x,y,alpha,vartype)
 % sz2 = [1 15];
 % x = rndnorm(24.2,20,sz1);
 % y = rndnorm(23.2,10,sz2);
-% [pval, cimean, cisigma] = testmean2n(x,y) 
+% [pval, cimean, cisigma] = testmean2n(x,y);
 % [pval2, cimean2, cisigma2] = testmean2n(x,y,[],'unequal') 
 %
-% type testmean2n % Detailed recommendations  
+% % type testmean2n % Detailed recommendations  
 %
-%	See also testmean2r.
+% See also testmean2r.
 
 % Reference
 % Legendre, P. and D. Borcard. Statistical comparison of univariate tests

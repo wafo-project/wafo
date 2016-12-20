@@ -133,6 +133,5 @@ end
 if options.plotflag 
   plotfitsumry(phat2,options.plotflag)
 end
-if ~isoctave
-  phat2 = fdata(phat2);
-end
+
+phat2 = fdata(phat2);

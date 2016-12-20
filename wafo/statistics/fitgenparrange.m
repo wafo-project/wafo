@@ -26,7 +26,7 @@ function [shape,scale,pvalue] = fitgenparrange(data,varargin)
 %  opt.Nu = 20;
 %  R = rndgenpar(0.2,2,2,100,1);
 %  [shape,scale] = fitgenparrange(R-2,opt);
-%  plot(shape); figure(gcf+1)
+%  plot(shape); figure(gcf+1);
 %  plot(scale);
 %  
 %  close all;

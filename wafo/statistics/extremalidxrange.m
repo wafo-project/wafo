@@ -24,21 +24,23 @@ function  [ei, Tc] = extremalidxrange(data,varargin)
 %
 % Example
 %  xn = load('sea.dat');
-%  umin = max(xn(:,2))/2
+%  umin = max(xn(:,2))/2;
 %  opt = extremalidxrange('defaults');
 %  opt.umin = umin;
 %  opt.umax = 1.6;
 %  opt.Nu = 20;
 %  Ie = findpot(xn,umin);
 %  di = disprsnidx(xn(Ie,:),opt,'Tb', 100);
-%  plot(di) % a threshold around 1 seems appropriate.
+%  plot(di); % a threshold around 1 seems appropriate.
 %  [ei,Tc] = extremalidxrange([Ie,xn(Ie,2)],opt);
-%  subplot(2,1,1),plot(ei)
-%  subplot(2,1,2),plot(Tc)
+%  subplot(2,1,1); plot(ei);
+%  subplot(2,1,2); plot(Tc);
 %  Tc = ceil(interp1(Tc.args,Tc.dataCI(:,2),1.2));
 %  Tmin = xn(Tc,1)-xn(1,1);
 %  Ie12 = findpot(xn,1.2,Tmin);
 %  [ei12,Tc12] = extremalidxrange([Ie12,xn(Ie12,2)],opt,'umin',1.2);
+%
+%  close all;
 %
 % See also reslife, fitgenparrange, disprsnidxrange, findpot, decluster
 

@@ -28,11 +28,16 @@ function [M ,V ,Tm ,cvar, tolm, tolv] = momweib2d(varargin)
 % (The marginal distribution of X2 is weibull with parameters A2 and B2) 
 %
 % Examples:
-%  par = {2 2  3 2.5 .8};
-%   [m v] = momweib2d(par{:}) %  mean and covariance
+%   par = {2 2  3 2.5 .8};
+%   [m v] = momweib2d(par{:}); %  mean and covariance
+%   assert(m, [ 1.7725   2.6618], 1e-4)
+%   assert(v, [  0.85841   0.63979;...
+%                0.63979   1.29732], 1e-4)
 %   x = linspace(0,6)';
 %   [m v] = momweib2d(par{:},'condon',2,'cvar',x);
-%   plot(x,m,'r--', x,sqrt(v),'g-') % conditional mean and standard deviation.
+%   plot(x,m,'r--', x,sqrt(v),'g-'); % conditional mean and standard deviation.
+%
+%   close all;
 %
 % See also pdfweib2d, cdfweib2d, rndweib2d, fitweib2d, ellipke, hypgf, gamma
 
@@ -53,7 +58,7 @@ function [M ,V ,Tm ,cvar, tolm, tolv] = momweib2d(varargin)
 
 
 %   References:
-%     Dag Myrhaug & Håvard Rue
+%     Dag Myrhaug & Hï¿½vard Rue
 %  Journal of Ship Research, Vol 42, No3, Sept 1998, pp 199-205 
 
 %tested on: matlab 5.1

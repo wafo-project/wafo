@@ -22,9 +22,11 @@ function [y ,eps2] = cdfmargcnd2d(V,H,phat,condon)
 %   x1=linspace(0,10)';
 %   phat.x={[x1,exp(-0.1*x1)] 2 };
 %   phat.dist={'rayl','rayl'};
-%   cdfmargcnd2d(2,1,phat)
+%   prb = cdfmargcnd2d(2,1,phat);
 %   f = pdfmargcnd2d(x1,x1,phat);
-%   pdfplot(f)
+%   pdfplot(f);
+%
+%   close all;
 %
 % See also  fitmargcnd2d, rndmargcnd2d, pdfmargcnd2d, prbmargcnd2d
 

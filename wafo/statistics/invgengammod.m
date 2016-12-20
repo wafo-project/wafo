@@ -23,7 +23,9 @@ function [x,xlo,xup] = invgengammod(F,varargin)
 %   x = linspace(0,1,200);
 %   p1 = invgengam(x,0.5,1,1); p2 = invgengam(x,1,2,1);
 %   p3 = invgengam(x,2,1,2); p4 = invgengam(x,2,2,2);
-%   plot(x,p1,x,p2,x,p3,x,p4)
+%   plot(x,p1,x,p2,x,p3,x,p4);
+%
+%   close all;
 %
 % See also  pdfgengammod, cdfgengammod, rndgengammod, fitgengammod,
 %           momgengammod

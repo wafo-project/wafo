@@ -33,7 +33,7 @@ function  [di,ei,Tmin] = disprsnidxrange(data,varargin)
 % Example
 %  xn = load('sea.dat');
 %  Ie = findpot(xn,0,5);
-%  di = disprsnidx(xn(Ie,:),'Tb', 100);
+%  di = disprsnidxrange(xn(Ie,:),'Tb', 100);
 %  plot(di) % a threshold around 1 seems appropriate.
 %
 % See also reslife, fitgenparrange, extremalidxrange
@@ -46,7 +46,7 @@ function  [di,ei,Tmin] = disprsnidxrange(data,varargin)
 % the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public
 % License for more details.
 % The GNU General Public License can be obtained from http://www.gnu.org/copyleft/gpl.html. You
-% can also obtain it by writing to the Free Software Foundation, Inc., 59 Temple Place – Suite 330, Boston,
+% can also obtain it by writing to the Free Software Foundation, Inc., 59 Temple Place ï¿½ Suite 330, Boston,
 % MA 02111-1307, USA.
 
 
@@ -165,14 +165,12 @@ Tmin =  createwdata('data',ti(TNmin),'args',u,...
 'title','Minimum Cluster distance','labels',{'Threshold','distance'},...
     'workspace',options);
   
-if ~isoctave
-  %di =
-  %createpdf('f',[di1,options.CI],'x',{u},'title',titleTxt,'labx',{'Threshold','Dispersion Index'});
-  di = wdata(di);
-  ei = wdata(ei);
-  Tmin = wdata(Tmin);
-  if options.plotflag>0
-    plot(di,options.plotflag,'.')
-  end
+
+di = wdata(di);
+ei = wdata(ei);
+Tmin = wdata(Tmin);
+if options.plotflag>0
+  plot(di,options.plotflag,'.')
 end
+
 

@@ -17,7 +17,7 @@ function f = pdfpois(x,varargin)
 %        f(x) = L^x exp(-L)/x!, 0<=L, x=0,1,2,....
 %
 %  Example
-% -log(pdfpois(0:7, 1) .* gamma(1+ (0:7))) % =1
+%  assert(-log(pdfpois(0:7, 1) .* gamma(1+ (0:7))), ones(1,8), 1e-13)
 %
 % See also cdfpois, invpois, rndpois, fitpois, mompois
 

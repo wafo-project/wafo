@@ -12,10 +12,11 @@ function [m,v,sk,ku]= momray(b)
 %  m=b*(pi/2)^(1/2)  and  v=(2-pi/2)*b^2;
 %
 % Example:
-%   par = {3}
+%   par = {3};
 %   X = rndray(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]      % Estimated mean and variance
-%   [m,v,sk,ku] = momray(par{:}) % True mean and variance
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momray(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also pdfray, cdfray, invray, rndray, fitray
 

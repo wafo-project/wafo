@@ -12,10 +12,11 @@ function [m,v,sk,ku]= momfrech(varargin)
 %  m=a*gamma(1-1/c)  (if c>1) and  v=a^2*(gamma(1-2/c))-m^2  (if c>2)
 %
 % Example:
-%   par = {1,10}
+%   par = {5, 15};
 %   X = rndfrech(par{:},10000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]        % Estimated mean and variance
-%   [m,v,sk,ku] = momfrech(par{:}) % True mean and variance
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momfrech(par{:}); % True mean and variance
+%   assert(moments, mom, -0.3);
 %
 % See also  pdffrech, cdffrech, invfrech, rndfrech, fitfrech 
 
@@ -63,7 +64,7 @@ try
   sk = (a.^3.*gamma(1-(3./c))-3.*m.*v-m.^3)./v.^(3/2);
   c(c<=4) = nan;
   ku = (a.^4*gamma(1-4./c)-4*sk.*v.^(3/2).*m-6*m.^2.*v-m.^4)/v.^2;
-catch
+  tch
    error('a and c must be of common size or scalar.');
 end
 

@@ -26,11 +26,11 @@ function [lmom,err] = lmoment(Q,m)
 %  R = rndray(1,N,1);
 %  lmom = lmoment(R,4);                   % Estimated 
 %  tlmom = lmoment(@(x)invray(x,1),4);    % True values
-%  100*(lmom-tlmom)./tlmom                 % Error in percent
+%  assert(lmom, tlmom, 0.3);
 %  emom = [mean(R),var(R),skew(R),kurt(R)]; % Estimated
 %  [mom{1:4}] = momray(1);                 % True values
 %  tmom = [mom{:}]; 
-%  100*(emom-tmom)./tmom                   % Error in percent
+%  assert(lmom, tlmom, 0.3);
 %
 % See also mean, std, skew, kurt
 

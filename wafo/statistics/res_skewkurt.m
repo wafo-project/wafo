@@ -31,6 +31,9 @@ function mrl=res_skewkurt(data,varargin)
 %  Ie = findpot(xn,0,5);
 %  mrl = res_skewkurt(xn(Ie,2),opt);
 %  plot(mrl)
+%  axis([0,2,-10,10])
+%
+%  close all;
 %  
 % See also reslife, fitgenpar, fitgenparrange, disprsnidx
 
@@ -112,12 +115,12 @@ mrl = createwdata('data',lmr,'args',u,...
 'title',titleTxt,'labels',{'Threshold','Ratio'},...
     'workspace',options,'note',titleTxt);
   
-if ~isoctave
-  mrl = wdata(mrl);
-  if options.plotflag>0
-    plot(mrl,options.plotflag,'.')
-  end
+
+mrl = wdata(mrl);
+if options.plotflag>0
+  plot(mrl,options.plotflag,'.')
 end
+
 
 
 

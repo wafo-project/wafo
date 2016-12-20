@@ -19,6 +19,8 @@ function [x,xlo,xup] = invlognorm(F,varargin)
 %   x = invlognorm(F,0,1);
 %   plot(F,x)
 %
+%   close all;
+%
 % See also cdflognorm, pdflognorm, rndlognorm, fitlognorm, momlognorm
 
 %

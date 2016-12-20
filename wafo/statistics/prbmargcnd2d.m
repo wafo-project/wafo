@@ -13,12 +13,12 @@ function  [y ,eps1] = prbmargcnd2d(phat,x1lo,x1up,x2lo,x2up)
 % 
 % Example
 %  x1=linspace(0,10)';
-%  phat.x={[x1,exp(-0.1*x1)] 2 };
-%  phat.dist={'rayl','rayl'};
-%  prbmargcnd2d(phat,1,2,1,2)
+%  phat.x = {[x1,exp(-0.1*x1)] 2 };
+%  phat.dist = {'rayl','rayl'};
+%  prb = prbmargcnd2d(phat,1,2,1,2);
 %  f = pdfmargcnd2d2(x1,x1,phat);
-%  pdfplot(f); hold on,
-%  plot([ 1 1 2 2 1],[1 2 2 1 1]), hold off
+%  pdfplot(f); hold on;
+%  plot([ 1 1 2 2 1],[1 2 2 1 1]); hold off;
 %
 %  See also  fitmargcnd2d rndmargcnd2d pdfmargcnd2d cdfmargcnd2d
 

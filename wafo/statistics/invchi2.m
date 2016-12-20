@@ -22,7 +22,9 @@ function [x,xlo,xup] = invchi2(F,varargin)
 % Example:
 %     F = linspace(0,1,100);
 %     x = invchi2(F,1);
-%     plot(F,x), shg
+%     plot(F,x);
+%
+%     close all;
 %
 % See also invgam, pdfchi2, cdfchi2, rndchi2, fitchi2, momchi2
 

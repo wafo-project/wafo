@@ -8,8 +8,10 @@ function phat = plotweib(x)
 %          X = data vector or matrix
 %
 % Example:
-%   R=rndweib(2,2,0,1,100);
-%   phat=plotweib(R),shg
+%   R = rndweib(2,2,0,1,100);
+%   phat = plotweib(R);
+%
+%   close all;
 %
 % See also  cdfweib, invweib
 

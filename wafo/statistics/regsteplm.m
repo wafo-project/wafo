@@ -38,14 +38,16 @@ function [Q, I, B, BB] = regsteplm(y,x,varargin)
 % 
 %  Example
 %  x=(1:10)';  % Covariate
-%  y= x+rand(10,1)
+%  y= x+rand(10,1);
 %  [Q,ix,B,BB] = regsteplm(y,[x x.^2,cos(x),sin(x),exp(x)]);
-%  plot(Q),xlabel('Number of parameters'),ylabel('Q')
+%  plot(Q),xlabel('Number of parameters'),ylabel('Q');
 %  % chose model with 2 parameters
 %  iy = find(BB(:,2));
 %  b = reglm(y,x(:,iy(1:end-1)));
 %  [y1,ylo,yup] = b.predict(); 
-%  plot(x, y,'o',x,y1,x,[ylo,yup],'r','LineWidth',2)
+%  plot(x, y,'o',x,y1,x,[ylo,yup],'r','LineWidth',2);
+%
+%  close all;
 %
 %  See also reglm and polyfit.
 

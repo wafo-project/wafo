@@ -211,9 +211,9 @@ ciU = phat0+tcrit.*sqrt(pvar);
 if options.plotflag 
   plotfitsumry(phat,options.plotflag)
 end
-if ~isoctave
-  phat = fdata(phat);
-end
+
+phat = fdata(phat);
+
 %   function H = myhessian(phat1)
 %     [L,pcov,H] = loglike(phat1,phat.data,phat.)
 %   end

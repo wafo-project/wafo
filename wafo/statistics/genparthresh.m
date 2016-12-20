@@ -32,6 +32,8 @@ function [u,shape,scale,pvalue] = genparthresh(data,varargin)
 %  plot(scale), figure(gcf+1)
 %  plot(pvalue)
 %
+%  close all;
+%
 % See also fitgenpar, reslife, disprsnidx
 
 %
@@ -211,7 +213,7 @@ pvalue = createwdata('data',pvalue1,'args',u1,...
 'title',titleTxt3,'labels',{'Threshold','P-value'},...
   'workspace',options,'note',titleTxt3);
 
-if ~isoctave
+
   shape = wdata(shape);
   scale = wdata(scale);
   pvalue = wdata(pvalue);
@@ -221,7 +223,7 @@ if ~isoctave
     subplot(2,1,2)
     plot(scale,options.plotflag,'.')
   end
-end
+
 end
 
 

@@ -36,7 +36,7 @@ function  [ci, y] = ciboot(x,fun,method,alpha,B,varargin)
 %    X =  [0.636620   0.995173   0.879845   0.292531   0.721456;...
 %          0.190022   0.806725   0.448761   0.370546   0.079624].';
 %    C = cov(X); 
-%    method = 6
+%    method = 6;
 %    ci = ciboot(X,'cov', method);
 %    assert(C, [ 0.072462,   0.036949;
 %                0.036949   0.078306], abstol);

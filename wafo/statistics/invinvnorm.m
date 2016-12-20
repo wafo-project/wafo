@@ -19,12 +19,15 @@ function [x,xlo,xup] = invinvnorm(F,varargin)
 %
 % Example:
 %   a=1;b=1;    
-%   opt = {'lowertail',false,'logp',false}
-%   F0 = [logspace(log10(realmin),-1) linspace(0.2,1-1e-3) logspace(log10(1-sqrt(eps)),log1p(-eps)/log10(10))];
+%   opt = {'lowertail',false,'logp',false};
+%   F0 = [logspace(log10(realmin),-1) linspace(0.2,1-1e-3),...
+%         logspace(log10(1-sqrt(eps)),log1p(-eps)/log10(10))];
 %   %F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %   x  = invinvnorm(F0,a,b,opt{:});
 %   F  = cdfinvnorm(x,a,b,opt{:});
-%   semilogy(abs(F-F0)./F0+eps), shg % relative error
+%   semilogy(abs(F-F0)./F0+eps); % relative error
+%
+%   close all;
 %
 % See also pdfinvnorm, cdfinvnorm, rndinvnorm, fitinvnorm, mominvnorm
 

@@ -12,10 +12,11 @@ function [m,v,sk,ku]= momexp(varargin)
 %  m=m0  and  v=m0^2;
 %
 % Example:
-%   par = {4}
-%   X = rndexp(par{:},1000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [m,v,sk,ku] = momexp(par{:}) % True mean and variance
+%   par = {1};
+%   X = rndexp(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momexp(par{:}); % True mean and variance
+%   assert(moments, mom, -0.2)
 %
 % See also pdfexp, cdfexp, invexp, rndexp, fitexp
 

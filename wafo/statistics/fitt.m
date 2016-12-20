@@ -18,8 +18,11 @@ function [phat2]=fitt(data,varargin)
 %                 optimization routine (see optimset for details)
 %          
 % Example:
-%   R=rndt(2,1,100);
+%   R = rndt(2,1,100);
 %   phat = fitt(R);
+%   plotfitsumry(phat);
+%
+%   phat = fitt(R, 'method', 'mps');
 %   plotfitsumry(phat);
 %
 %   close all;
@@ -69,21 +72,18 @@ phat0 = max(round(2*sa/(sa-1)),1);
 
 pdfoptions = struct('disable',true);
 if strcmpi(options.method,'ml'),  % Maximum Likelihood
-  dist = @pdft;
-  likfun = @loglike;
+  dist = 'pdft';
+  likfun = @(x) loglike(x, data, pdfoptions, dist);
 elseif strcmpi(options.method,'mps')  %Maximum product spacing
- dist  = @cdft;
- likfun = @logps;
+  dist  = 'cdft';
+  likfun = @(x) logps(x, data, pdfoptions, dist);
 else
   error(['Unknown method ' options.method '.']);
 end
 
-
-
-phat = round(fminsearch(likfun,phat0,options.optimset,data,pdfoptions,dist));
+phat = round(fminsearch(likfun, phat0,options.optimset));
 
 %  phat = round(fmins('loglike',phat0,[],[],data,1,'pdft'));
-
 
 phat = [phat-1 phat phat+1] +(phat==1);
 Np = length(phat);

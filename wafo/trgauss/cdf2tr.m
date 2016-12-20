@@ -80,7 +80,8 @@ end
 Ne = opt.ne;
 if length(Fx1)>opt.ntr && opt.ntr>0
   x0 = linspace(Fx1(1+Ne,1),Fx1(end-Ne,1),opt.ntr)';
-  Fx = [ x0,interp1q(Fx1(:,1),Fx1(:,2),x0)];
+  Fx = [ x0,interp1(Fx1(:,1),Fx1(:,2),x0, 'linear')];
+  % Fx = [ x0,interp1q(Fx1(:,1),Fx1(:,2),x0)];
   Ne=0;
 else
   Fx = Fx1;

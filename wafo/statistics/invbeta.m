@@ -30,17 +30,19 @@ function [x,xlo,xup] = invbeta(F,varargin)
 %
 % Example:
 %   a=1;b=2;    
-%   opt = {'lowertail',false,'logp',false}
+%   opt = {'lowertail',false,'logp',false};
 %   F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %   x  = invbeta(F0,a,b,opt{:});
 %   F  = cdfbeta(x,a,b,opt{:});
-%   semilogy(abs(F-F0)./F0+eps), shg % relative error
+%   semilogy(abs(F-F0)./F0+eps); % relative error
 %
 %   a=1;b=2;
 %   x0 = [logspace(log10(realmin),-1) linspace(0.2,0.5)];
 %   F  = cdfbeta(x0,a,b);
 %   x  = invbeta(F,a,b);
-%   semilogy(abs(x-x0)./x0+eps),shg % relative error
+%   semilogy(abs(x-x0)./x0+eps); % relative error
+%
+%   close all;
 %
 % See also pdfbeta, cdfbeta, rndbeta, fitbeta, mombeta
 

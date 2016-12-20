@@ -16,10 +16,11 @@ function [m,v,sk,ku]= momgumb(varargin)
 %  constant 0.5772...
 %
 % Example:
-%   par = {5,10}
+%   par = {5,10};
 %   X = rndgumb(par{:},10000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]        % Estimated mean and variance
-%   [m,v,sk,ku] = momgumb(par{:}) % True mean and variance
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momgumb(par{:}); % True mean and variance
+%   assert(moments, mom, -0.25);
 %
 % See also  pdfgumb, cdfgumb, invgumb, rndgumb, fitgumb,
 
@@ -77,12 +78,10 @@ try
   
   if options.trunc, %This is not correct (ms)
     warning('WAFO:MOMGUMB','mean and variance not correct!')
-    tmp=1-exp(-exp( b./a));
+    tmp = -expm1(-exp( b./a));
     m=m./tmp;
     v=v./tmp;
   end
-  
-  
   [csz,v,sk,ku]=comnsize(v,sk,ku,m);
 catch
   error('a and b  must be of common size or scalar.');

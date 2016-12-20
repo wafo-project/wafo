@@ -133,7 +133,8 @@ Fs      = [0; fs(:); (np/2)*df];
 Su      = [0; abs(Si(:))/2; 0];
 
 Smax = max(Su);
-Si = interp1q(Fs,Su,f);
+%Si = interp1q(Fs,Su,f);
+Si = interp1(Fs,Su,f, 'linear');
 
 tmp  = find(Si>Smax*reltol2ndorder);
 Hm0  = spec2char(S,'Hm0');

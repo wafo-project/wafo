@@ -29,7 +29,11 @@ function [b,varargout] = subsref(self,index)
 
 persistent legalMethodName legalFieldName outPutMethods thisClassTag
 if isempty(legalMethodName) || isempty(legalFieldName) || isempty(outPutMethods)
-  legalMethodName = methods(self,'-full');
+  if isoctave
+    legalMethodName = methods(self);
+   else
+    legalMethodName = methods(self,'-full');
+   end
   legalFieldName = fieldnames(self);
   outPutMethods = {'char','fieldnames'};
   thisClassTag = sprintf('WAFO:%s:%s',upper(mfilename('class')),upper(mfilename));

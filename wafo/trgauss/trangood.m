@@ -18,7 +18,7 @@ function f = trangood(ff,nmin,mini,maxi,nmax)
 %  extrapolates  ff  linearly outside the range of  ff(:,1)
 %  with X uniformly spaced.
 %
-% See also   tranproc, interp1q
+% See also   tranproc, interp1
 
 
 % History:
@@ -72,8 +72,8 @@ if ( (nf<nmin) ||(nmax<nf) || any(abs(diff(df))>10*eps*(f(nf,1)-f(1,1))) )
     x = (f(1,1):df:f(nf,1)).';
   end
   % New call pab 11.11.2000: This is much quicker
-  f = [ x interp1q(f(:,1),f(:,2),x)];     
-  %f = [ x interp1(f(:,1),f(:,2),x,'linear')];  
+  %f = [ x interp1q(f(:,1),f(:,2),x)];     
+  f = [ x interp1(f(:,1),f(:,2),x,'linear')];  
 end
 % f(:,1) is now uniformly spaced
 df = f(2,1)-f(1,1);

@@ -17,10 +17,11 @@ function [m,v,sk,ku]= momgenpar(varargin)
 % k<-0.5.
 %
 % Example:
-%   par = {0.5,1,1}
-%   X = rndgenpar(par{:},100000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [m,v,sk,ku] = momgenpar(par{:}) % True mean and variance
+%   par = {0.5,1,1};
+%   X = rndgenpar(par{:}, 100000, 1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momgenpar(par{:}); % True mean and variance
+%   assert(moments, mom, -0.2);
 %
 % See also pdfgenpar, cdfgenpar, invgenpar, rndgenpar, fitgenpar
 

@@ -202,8 +202,8 @@ fs(end) = [];
 Fs      = [0; fs(:); (np/2)*df];
 Su      = [0; abs(Si(:))/2; 0];
 
-%Si = interp1(Fs,Su,f,'linear');
-Si = interp1q(Fs,Su,f);
+Si = interp1(Fs,Su,f,'linear');
+% Si = interp1q(Fs,Su,f);
 Su=[0; Si; 0; Si((np/2)-1:-1:1)];
 
 clear Si Fs

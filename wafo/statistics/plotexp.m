@@ -8,8 +8,8 @@ function phat = plotexp(x)
 %          X = data vector or matrix
 %
 % Example:
-%   R=rndexp(2,1,100);
-%   phat=plotexp(R),shg
+%   R = rndexp(2,1,100);
+%   phat = plotexp(R);
 %
 % See also  cdfexp, plotweib
 

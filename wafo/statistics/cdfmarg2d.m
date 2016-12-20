@@ -134,9 +134,8 @@ if options.wdata
   cl = [];
   pl = [];
   F = createwdata('args',{Vin,Hin},'data',F,'caption',captn,'contourLevels',cl,'percentLevels',pl,'workspace',options);
-  if ~isoctave
-    F = wdata(F);
-  end
+
+  F = wdata(F);
 end
 
 end

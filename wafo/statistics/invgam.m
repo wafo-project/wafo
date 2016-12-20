@@ -25,11 +25,12 @@ function [x,xlo,xup] = invgam(F,varargin)
 % Example:
 %   a=1;b=1;    
 %   opt = {'lowertail',false,'logp',false};
-%   F0 = [logspace(log10(realmin),-1) linspace(0.2,1-1e-3) logspace(log10(1-sqrt(eps)),log1p(-eps)/log10(10))];
+%   F0 = [logspace(log10(realmin),-1) linspace(0.2,1-1e-3), ...
+%         logspace(log10(1-sqrt(eps)),log1p(-eps)/log10(10))];
 %   %F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %   x  = invgam(F0,a,b,opt{:});
 %   F  = cdfgam(x,a,b,opt{:});
-%   semilogy(abs(F-F0)./F0+eps), shg % relative error
+%   semilogy(abs(F-F0)./F0+eps); % relative error
 % 
 %   opt = {'lowertail',false,'logp',true};
 %   x0 = [logspace(-90,log10(a/10)), linspace(a/5,3*a), ...
@@ -37,7 +38,9 @@ function [x,xlo,xup] = invgam(F,varargin)
 %   F  = cdfgam(x0,a,b,opt{:});
 %   x  = invgam(F,a,b,opt{:});
 %   N0 = length(x0);
-%   semilogy(1:N0,abs(x-x0)./x0+eps),shg % relative error
+%   semilogy(1:N0,abs(x-x0)./x0+eps); % relative error
+%
+%   close all;
 %
 % See also  pdfgam, cdfgam, fitgam, rndgam, momgam
 
@@ -124,26 +127,26 @@ if any(k1)
   ak      = a(k1);
   xnew    = aprx_invgamma(F(k1),ak,options);
   if true
-  logPrbk = logPrb(k1);
-  smlprb = logPrbk<=log(0.5);
-  logPrbk(~smlprb) = log(-expm1(logPrbk(~smlprb)));
-  if options.lowertail
-    if any(smlprb(:))
-      xnew(smlprb) = newtonlogx(xnew(smlprb),logPrbk(smlprb),ak(smlprb),options);
-    end
-    if any(~smlprb(:))
-      xnew(~smlprb) = newtonx(xnew(~smlprb),logPrbk(~smlprb),ak(~smlprb),options);
-    end
-  else
-    if any(smlprb(:))
-      xnew(smlprb) = newtonx(xnew(smlprb),logPrbk(smlprb),ak(smlprb),options);
-    end
-    if any(~smlprb(:))
-      xnew(~smlprb) = newtonlogx(xnew(~smlprb),logPrbk(~smlprb),ak(~smlprb),options);
+    logPrbk = logPrb(k1);
+    smlprb = logPrbk<=log(0.5);
+    logPrbk(~smlprb) = log(-expm1(logPrbk(~smlprb)));
+    if options.lowertail
+      if any(smlprb(:))
+        xnew(smlprb) = newtonlogx(xnew(smlprb),logPrbk(smlprb),ak(smlprb),options);
+      end
+      if any(~smlprb(:))
+        xnew(~smlprb) = newtonx(xnew(~smlprb),logPrbk(~smlprb),ak(~smlprb),options);
+      end
+    else
+      if any(smlprb(:))
+        xnew(smlprb) = newtonx(xnew(smlprb),logPrbk(smlprb),ak(smlprb),options);
+      end
+      if any(~smlprb(:))
+        xnew(~smlprb) = newtonlogx(xnew(~smlprb),logPrbk(~smlprb),ak(~smlprb),options);
+      end
     end
   end
-  end
-   q(k1) = xnew;   
+  q(k1) = xnew;   
 end
 
 x = q.*b;

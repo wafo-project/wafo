@@ -22,8 +22,10 @@ function [x,xlo,xup] = invraymod(F,varargin)
 %
 % Example:
 %   F = linspace(0,1,100);
-%   x = invray(F,1);
-%   plot(F,x)
+%   x = invraymod(F,1);
+%   plot(F,x);
+%  
+%   close all;
 %
 % See also pdfraymod, cdfraymod, rndraymod, fitraymod, momraymod
 

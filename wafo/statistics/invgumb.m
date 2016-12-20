@@ -27,11 +27,13 @@ function [x,xlo,xup] = invgumb(F,varargin)
 %
 % Example: 
 %  a=1;b=2;    
-%  opt = {'lowertail',false,'logp',false}
+%  opt = {'lowertail',false,'logp',false};
 %  F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %  x  = invgumb(F0,a,b,opt{:});
 %  F  = cdfgumb(x,a,b,opt{:});
-%  semilogy(abs(F-F0)./F0+eps), shg % relative error
+%  semilogy(abs(F-F0)./F0+eps); % relative error
+%
+%   close all;
 %
 % See also  pdfgumb, cdfgumb, rndgumb, fitgumb, momgumb, plotgumb
 

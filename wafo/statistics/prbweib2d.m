@@ -20,12 +20,12 @@ function  [P ,err] = prbweib2d(x1lo,x1up,x2lo,x2up,varargin)
 %  The size of P is the common size of XILO and XIUP.  
 % 
 % Example
-%  x1=linspace(0,10)';
+%  x1 = linspace(0,10)';
 %  phat = {1 2 .5 1.5 .8};
-%  prbweib2d(1,2,1,2,phat{:})
+%  prb = prbweib2d(1,2,1,2,phat{:});
 %  f = pdfweib2d(x1,x1,phat{:},'meshgrid',true,'wdata',true);
 %  plot(f); hold on,
-%  plot([ 1 1 2 2 1],[1 2 2 1 1]), hold off
+%  plot([ 1 1 2 2 1],[1 2 2 1 1]); hold off;
 %
 %  See also  pdfweib2d, cdfweib2d pdfweib, gaussq2d, gaussq
 

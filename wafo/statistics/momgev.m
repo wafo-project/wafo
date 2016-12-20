@@ -15,10 +15,11 @@ function [m,v,sk,ku]= momgev(varargin)
 %  Note: mean only exists for k>-1 and variance for k>-0.5
 %
 % Example:
-%  param = {0.5,2,0};N = 1000;  
-%  x = rndgev(param{:},N,1);
-%  [mean(x), var(x),skew(x),kurt(x)]
-%  [m,v,sk,ku] = momgev(param{:})
+%   par = {0.5,2,0};  
+%   X = rndgev(par{:}, 10000, 1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momgev(par{:}); % True mean and variance
+%   assert(moments, mom, -0.2);
 %
 % See also pdfgev, cdfgev, invgev, rndgev, fitgev
   
@@ -86,7 +87,7 @@ try
    gam2k =  expm1(gammaln(2*k+1)-2*gammaln(k+1))./k.^2;
    gam2k(sml) = pi^2/6; % psi(1,1);
    
-   v = (s.*g1).^2.*gam2k;  
+   v = (s.*g1).^2.*gam2k;
    
    g3 = g(3);
    g3(k<=-1/3) = nan;
@@ -112,40 +113,5 @@ try
 catch
   error('k s and m0 must be of common size or scalar.');
 end
-% 
-% [errorcode k,s,m0] = comnsize(k,s,m0);
-% if errorcode > 0
-%     error('k s and m0 must be of common size or scalar.');
-% end
-% 
-% % Initialize  m  and v to zero.
-% m = zeros(size(k));
-% v=m;
-% ok = (s > 0 & k>-1 );
-% k1=find(ok);
-% if any(k1),
-%   m(k1) = (m0(k1).*k(k1)+s(k1))./k(k1)-s(k1).*gamma(k(k1)+1)./k(k1);
-% end
-% 
-% ok1 = (s>0 & k>-0.5 );
-% k2=find(ok1);
-% if any(k2),
-% v(k2) = (m0(k2).*k(k2)+s(k2)).^2./(k(k2).^2)+...
-%     (-2*m0(k2).*k(k2)-2*s(k2)).*s(k2).*gamma(k(k2)+1)./...
-%     (k(k2).^2)+s(k2).^2*gamma(2*k(k2)+1)./(k(k2).^2)-m(k2).^2;
-% end
-% 
-% 
-% k3 = find(~ok);     
-% if any(k3)
-%   tmp = NaN;
-%   m(k3) = tmp(ones(size(k1)));
-% end
-% k4 = find(~ok1);     
-% if any(k4)
-%   tmp = NaN;
-%   v(k4) = tmp(ones(size(k1)));
-% end
-% 
 
 

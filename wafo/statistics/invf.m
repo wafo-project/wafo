@@ -20,11 +20,13 @@ function [x, xlo,xup] = invf(F,varargin)
 %
 % Example:
 %   df1=1;df2=2;    
-%   opt = {'lowertail',true,'logp',false}
+%   opt = {'lowertail',true,'logp',false};
 %   F0 = [logspace(-300,-1) linspace(0.11,0.5)];
 %   x  = invf(F0,df1,df2,opt{:});
 %   F  = cdff(x,df1,df2,opt{:});
-%   semilogy(abs(F-F0)./F0+eps), shg % relative error
+%   semilogy(abs(F-F0)./F0+eps); % relative error
+%
+%   close all;
 %
 % See also pdff, cdff, rndf, wffit, momf
 

@@ -8,8 +8,10 @@ function phat = plotgumb(x)
 %          X = data vector or matrix
 %
 % Example:
-%   R=rndgumb(2,0,1,100);
-%   phat=plotgumb(R),shg
+%   R = rndgumb(2,0,1,100);
+%   phat=plotgumb(R);
+%
+%   close all;
 %
 % See also pdfgumb, prbgumb, rndgumb, fitgumb, momgumb
 

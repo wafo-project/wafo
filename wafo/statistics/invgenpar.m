@@ -30,7 +30,9 @@ function [x,xlo,xup] = invgenpar(F,varargin)
 % Example:
 %   F = linspace(0,1,100);
 %   x = invgenpar(F,0.3,2);
-%   plot(F,x)
+%   plot(F,x);
+%
+%   close all;
 %
 % See also  cdfgenpar, cdfgenpar, rndgenpar fitgenpar, momgenpar
 

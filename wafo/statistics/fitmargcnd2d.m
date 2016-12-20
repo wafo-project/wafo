@@ -204,7 +204,7 @@ for ix=1:Ngrp,
     for iy=1:min(min(noverlap,ix-1),Ngrp-ix)
       kup = (grp==ix+iy);
       if any(kup)
-	ind = (ind | (grp==ix-iy) | kup);
+        ind = (ind | (grp==ix-iy) | kup);
       end
     end 
   end             
@@ -230,7 +230,7 @@ for ix=1:Ngrp,
     end
     % conditional fitting 
     [ pvhat(ix, 2:npar+1),...
-      pvci(ix,1:2*npar)]=distfit(tmp(:),dist{1},method{1},monitor,chat00);
+      pvci(ix,1:2*npar)] = distfit(tmp(:),dist{1},method{1},monitor,chat00);
     if monitor
       axis(ax)
       xlabel([name1 ' |  '  name2 '=' num2str(pvhat(ix,1)) ])
@@ -275,73 +275,52 @@ function [pvhat,pvci]=distfit(tmp,dist,method,monitor,chat)
   end
   if strncmpi(method,'mle',3),
     switch lower(dist(1:2)),
-      case 'tr', [pvhat, tmp2] = fitraymod(tmp,monitor) ;
-      case 'ra', [pvhat, tmp2] = fitray(tmp,monitor) ;
-      case 'tg', [pvhat, tmp2] = fitgumb(tmp,monitor);
-      case 'gu', [pvhat, tmp2] = fitgumb(tmp,monitor);
-      case 'lo', [pvhat, tmp2] = fitnorm(log(tmp),monitor);
-      case 'ga', [pvhat, tmp2] = fitgam(tmp,monitor);
-     case 'gg',  [pvhat, tmp2] = fitgengam(tmp,monitor,chat0);
-	%if any(pvhat<0),pvhat(1:3) =NaN; end
-      case 'we', [pvhat, tmp2] = fitweib(tmp,monitor);
-      case 'tw', [pvhat, tmp2] = fitweibmod(tmp,monitor);
-	%[tmp tmp2]=gumbfit(log(tmp));
-	%pvhat=[exp(tmp(2)) 1/tmp(1) ]
+      case 'tr', pvhat = fitraymod(tmp,'plotflag', monitor) ;
+      case 'ra', pvhat = fitray(tmp, 'plotflag', monitor) ;
+      case 'tg', pvhat = fitgumb(tmp,'plotflag', monitor);
+      case 'gu', pvhat = fitgumb(tmp,'plotflag', monitor);
+      case 'lo', pvhat = fitnorm(log(tmp),'plotflag', monitor);
+      case 'ga', pvhat = fitgam(tmp, 'plotflag', monitor);
+      case 'gg', pvhat = fitgengam(tmp, 'plotflag', monitor,chat0);
+      case 'we', pvhat = fitweib(tmp,'plotflag', monitor);
+      case 'tw', pvhat = fitweibmod(tmp, 'plotflag', monitor);
       otherwise, error('Unknown distribution')
     end
-    if any(isnan(pvhat))
-      pvci=[pvhat pvhat];
-    else
-      tz=size(tmp2);
-      alpha=0.05; % 95% confidense interval
-      pint = [alpha/2; 1-alpha/2];
-      if tz(1)==tz(2),
-        sa = diag(tmp2)';
-      else
-        sa  = tmp2(:)';
-      end
-      nt=length(sa);
-      %pvhat
-      pvci = invnorm(repmat(pint,[1 nt]),[pvhat;pvhat],[sa;sa]);
-      pvci=pvci(:).';
-    end
+    pvci = [pvhat.lowerbound, pvhat.upperbound];
+    pvhat = pvhat.params;
+
     if 0 %monitor
       switch lower(dist(1:2)),
-	case 'ra',plotray(tmp);
-	case 'gu',plotgumb(tmp);
-	case 'tg',plotgumb(tmp);
-	case 'lo',plotnorm(log(tmp));
-	case 'ga',plotresq(tmp,'pdfgam');
-	case 'gg',plotresq(tmp,'pdfgengam');
-	case 'we',plotweib(tmp);
-	otherwise, error('Unknown distribution')
+        case 'ra',plotray(tmp);
+        case 'gu',plotgumb(tmp);
+        case 'tg',plotgumb(tmp);
+        case 'lo',plotnorm(log(tmp));
+        case 'ga',plotresq(tmp,'pdfgam');
+        case 'gg',plotresq(tmp,'pdfgengam');
+        case 'we',plotweib(tmp);
+        otherwise, error('Unknown distribution')
       end    
     end
     
   else  % MOM fit
    
     switch lower(dist(1:2))
-     case {'tg','gu'} ,  pvhat =plotgumb(tmp);
-      
+     case {'tg','gu'} ,  pvhat = plotgumb(tmp);
      case 'we', pvhat = plotweib(tmp);
-      
      case 'lo', pvhat = plotnorm(log(tmp));
-      
      case 'ga', ma=mean(tmp);sa=var(tmp);
        pvhat=[ma^2/sa sa/ma];
-      
      case 'ra', error('MOM is not implemented for Rayleigh distribution')	 
      otherwise , error('Unknown distribution')
     end
     pvci = repmat(nan,1,2*length(pvhat));
-    
     if monitor
       switch lower(dist(1:2)),
-	case {'gu' 'tg'}, plotgumb(tmp);
-	case 'lo',  plotnorm(log(tmp));
-	case 'ga', plotresq(tmp,'pdfgam');
-	case 'we',  plotweib(tmp);
-	otherwise, error('Unknown distribution')
+        case {'gu' 'tg'}, plotgumb(tmp);
+        case 'lo',  plotnorm(log(tmp));
+        case 'ga', plotresq(tmp,'pdfgam');
+        case 'we',  plotweib(tmp);
+        otherwise, error('Unknown distribution')
       end
     end
   end

@@ -26,9 +26,9 @@ function [LL,pcov,H]=loglike(phat,data,varargin)
 % Example: MLE and asymptotic covariance of phat:
 %   R = rndweib(1,3,0,100,1);                      
 %   phat0 = [1.3 2.5];                             %initial guess
-%   phat = fminsearch('loglike',phat0,[],R,'pdfweib')
-%   [L, cov] = loglike(phat,R,'pdfweib')
-%   [phat2] = fitweib(R)                     % compare with fitweib
+%   phat = fminsearch(@(x)loglike(x,R,'pdfweib') ,phat0);
+%   [L, cov] = loglike(phat,R,'pdfweib');
+%   [phat2] = fitweib(R);                     % compare with fitweib
 %
 % See also logps, proflog
 

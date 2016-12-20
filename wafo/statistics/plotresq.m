@@ -28,6 +28,8 @@ function h = plotresq(x,dist, varargin)
 %   R = rndgam(1,2,100,1);
 %   plotresq(R,'pdfgam');
 %
+%   close all;
+%
 % See also plotresprb plotqq
 
 %
@@ -86,7 +88,7 @@ end
 model = getdistname(dist);
 if isempty(cphat)
   phat  = feval( ['fit' model],x);% MLE of the distribution parameters
-  cphat = num2cell(phat,1);
+  cphat = num2cell(phat.params,1);
 end
 
 n=length(x);

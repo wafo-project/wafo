@@ -7,8 +7,9 @@ function [r,xmax,xmin] = range(x)
 %   x = vector or matrix
 %
 % Example:
-%   x=rndexp(5,1,10)
+%   x = linspace(1,10);
 %   [r,xmax,xmin] = range(x);
+%   assert([r,xmax,xmin], [9, 10,1])
 %
 % See also  max, min, iqrange
 

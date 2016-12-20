@@ -25,7 +25,9 @@ function [F,Flo,Fup] = cdfweib(x,varargin)
 % Example: 
 %   x = linspace(0,6,200);
 %   p1 = cdfweib(x,1,1); p2 = cdfweib(x,2,2);
-%   plot(x,p1,x,p2), shg
+%   plot(x,p1,x,p2);
+%
+%   close all;
 %
 % See also pdfweib, invweib, rndweib, fitweib, momweib
 

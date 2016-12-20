@@ -24,7 +24,9 @@ function [x,xlo,xup] = invray(F,varargin)
 % Example:
 %   F = linspace(0,1,100);
 %   x = invray(F,1);
-%   plot(F,x)
+%   plot(F,x);
+%
+%   close all;
 %
 % See also pdfray, cdfray, rndray, fitray, momray
 

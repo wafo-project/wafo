@@ -141,7 +141,8 @@ end
 ncr = length(cross);
 if ncr>opt.ntr && opt.ntr>0,
    x0 = linspace(cross(1+Ne,1),cross(end-Ne,1),opt.ntr)';
-   cros = [ x0,interp1q(cross(:,1),cross(:,2),x0)];
+   cros = [ x0,interp1(cross(:,1),cross(:,2),x0, 'linear')];
+   %cros = [ x0,interp1q(cross(:,1),cross(:,2),x0)];
    Ne=0;
    ncr = opt.ntr;
 else

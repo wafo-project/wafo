@@ -23,7 +23,9 @@ function [x,xlo,xup] = invweibmod(F,varargin)
 % Example:
 %   F = linspace(0,1,100);
 %   x = invweibmod(F,10,5);
-%   plot(F,x)
+%   plot(F,x);
+%
+%   close all;
 %
 % See also pdfweibmod, cdfweibmod, rndweibmod, fitweibmod, momweibmod
 

@@ -13,13 +13,14 @@ function [m,v,sk,ku]= momgam(varargin)
 %  m=ab  and  v=ab^2;
 %
 % Example:
-%   par = {2,1}
-%   X = rndgam(par{:},100000,1);
-%   [mean(X) var(X),skew(X),kurt(X)]         % Estimated mean and variance
-%   [m,v,sk,ku] = momgam(par{:}) % True mean and variance
+%   par = {2,1};
+%   X = rndgam(par{:},10000,1);
+%   moments = {mean(X) var(X),skew(X),kurt(X)};   % Estimated mean and variance
+%   [mom{1:4}] = momgam(par{:}); % True mean and variance
+%   assert(moments, mom, -0.2)
 %
 % See also pdfgam, cdfgam, invgam, rndgam, fitgam
-%
+
 %     This program is free software; you can redistribute it and/or modify
 %     it under the terms of the GNU Lesser General Public License as published by
 %     the Free Software Foundation; either version 3 of the License, or

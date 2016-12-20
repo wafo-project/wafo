@@ -17,11 +17,13 @@ function [M ,V ,Tm ,cvar, tolm, tolv] = mommarg2d(phat,varargin)
 %   phat = createfdata('distribution', @pdfmarg2d,'params', [1 2 10]);
 %   phat.pdfoptions.distribution = {'pdfray','pdfray'};
 %   phat.pdfoptions.numpar = [1 1];
-%   [M,V]=mommarg2d(phat,'condon',2,'cvar',x1);
-%   plot(x1,M,'r--',x1,sqrt(V),'k-')
-%   title(' Conditional mean and standard deviation')
-%   legend('E(x1|x2)','std(x1|x2)')
-%   xlabel('x2')
+%   [M,V] = mommarg2d(phat,'condon',2,'cvar',x1);
+%   plot(x1,M,'r--',x1,sqrt(V),'k-');
+%   title(' Conditional mean and standard deviation');
+%   legend('E(x1|x2)','std(x1|x2)');
+%   xlabel('x2');
+%
+%   close all;
 % 
 % See also  pdfmarg2d, fitmarg2d rndmarg2d
 

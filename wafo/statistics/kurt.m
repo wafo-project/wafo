@@ -9,8 +9,8 @@ function k = kurt(X,dim)
 %                                              dimension of X)
 %
 % Example:  
-%   R=rndgumb(2,2,100,2);
-%   kurt(R)
+%   R = rndgumb(2,2,100,2);
+%   kurt(R);
 %
 % See also   mean, varskew, skew
 

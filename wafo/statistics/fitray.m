@@ -131,11 +131,10 @@ for ix = 1:m
   phat2(ix).loglikemax = -loglike(phat2(ix).params,data(:,ix),@pdfray);
 end
 
+phat2 = fdata(phat2);
+
 if options.plotflag 
   plotfitsumry(phat2,options.plotflag)
-end
-if ~isoctave
-  phat2 = fdata(phat2);
 end
 
 

@@ -33,14 +33,14 @@ function [x,y] = discretize(fun, a, b, varargin)
     opt = parseoptions(options, varargin{:});
   
     if opt.method(1)=='a',
-        [x,y] = _discretize_adaptive(fun, a, b, opt.tol, opt.n);
+        [x,y] = discretize_adaptive(fun, a, b, opt.tol, opt.n);
     else
-        [x,y] = _discretize_linear(fun, a, b, opt.tol, opt.n);
+        [x,y] = discretize_linear(fun, a, b, opt.tol, opt.n);
     end
 end
 
 
-function [x, y] = _discretize_linear(fun, a, b, tol, n),
+function [x, y] = discretize_linear(fun, a, b, tol, n),
     % Automatic discretization of function, linear gridding
     
     x = linspace(a, b, n);
@@ -66,7 +66,7 @@ function [x, y] = _discretize_linear(fun, a, b, tol, n),
 end
 
 
-function [x,fx] = _discretize_adaptive(fun, a, b, tol, n),
+function [x,fx] = discretize_adaptive(fun, a, b, tol, n),
     % Automatic discretization of function, adaptive gridding.
     
     n = n+ (mod(n, 2) == 0);  # make sure n is odd

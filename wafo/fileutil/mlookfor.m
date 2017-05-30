@@ -21,17 +21,6 @@ function mlookfor( varargin )
 %     * Logical operators that are allowed are (ordered by increasing
 %       precedence) 'or', 'and' and 'not'.
 %
-%   Examples
-%   --------
-%   1) To find all m-files that contain 'pseudo' and 'inverse':
-%
-%         mlookfor pseudo and inverse
-%
-%   2) To find all m-files that contain 'pseudo' or 'generalized' and
-%      'inverse':
-%
-%         mlookfor inverse and ( pseudo or generalized )
-%
 %      Note that
 %
 %         mlookfor inverse and pseudo or generalized
@@ -45,15 +34,6 @@ function mlookfor( varargin )
 %      would cause an error and would have to be rewritten as
 %
 %         mlookfor( '( pseudo or generalized ) and inverse' )
-%
-%   3) To find all m-files that contain 'pseudoinverse' or
-%      'pseudo-inverse', use
-%
-%         mlookfor pseudoinverse or pseudo-inverse
-%
-%      or a regular expression where the '-' is optional, like
-%
-%         mlookfor /pseudo-?inverse/
 %
 %   Some details
 %   ------------
@@ -69,6 +49,29 @@ function mlookfor( varargin )
 %   See the perlre(5) manual page for more details about the Perl
 %   regular expression syntax.  Typing 'perldoc perlre' at a shell
 %   command line should give you this page.
+
+%
+%   Examples
+%   --------
+% %   1) To find all m-files that contain 'pseudo' and 'inverse':
+%
+%         mlookfor pseudo and inverse
+%
+% %  2) To find all m-files that contain 'pseudo' or 'generalized' and
+% %     'inverse':
+%
+%         mlookfor inverse and ( pseudo or generalized )
+%
+%
+% %  3) To find all m-files that contain 'pseudoinverse' or
+% %     'pseudo-inverse', use
+%
+%         mlookfor pseudoinverse or pseudo-inverse
+%
+% %     or a regular expression where the '-' is optional, like
+%
+%         mlookfor /pseudo-?inverse/
+%
 %
 %   See also LOOKFOR.
 

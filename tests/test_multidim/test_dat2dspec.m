@@ -13,7 +13,7 @@ function test_dat2dspec_()
   Sd = mkdspec(S,D,1); 
   Nx = 3; Ny = 2; Nt = 2^14; dx = 10; dy = 10;dt = 0.5; 
   plotflag = 0;
-  use_waitbar = 0
+  use_waitbar = 0;
   F = seasim(Sd,Nx,Ny,Nt,dx,dy,dt,1,plotflag, use_waitbar);  
   Z  = permute(F.Z,[3 1 2]); 
   [X,Y] = meshgrid(F.x,F.y); 

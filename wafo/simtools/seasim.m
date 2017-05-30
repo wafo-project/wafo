@@ -38,7 +38,7 @@ function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag,use_waitbar)
 %  Nx = 2^7; Ny = 2^7; Nt = 100; dx = 10; dy = 10;dt = 1;
 %  S = demospec('dir');
 %  plotflag = 1;
-%  use_waitbar = 0
+%  use_waitbar = 0;
 %  Y=seasim(S,Nx,Ny,Nt,dx,dy,dt,2,plotflag, use_waitbar);  
 %
 %  close all;

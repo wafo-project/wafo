@@ -31,7 +31,7 @@ if isunix,
   return, 
 end
 
-if strncmpi(computer,'pc',2)
+if ispc
   path = getenv('PATH');
   k = find( path == pathsep );              % find path separators
   k = [ 0 k length(path)+1 ];               % find directory boundaries

@@ -9,8 +9,6 @@ function figkeep(varargin)
 %  for ix = 1:10,figure(ix),end
 %  figkeep 1:3  5 7 
 %  % or 
-%  figkeep [1:3  5 7]
-%  % or 
 %  figkeep([1:3  5 7])  
 %
 %  close all;

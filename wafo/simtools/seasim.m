@@ -1,4 +1,4 @@
-function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag)
+function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag,use_waitbar)
 %SEASIM Spectral simulation of a Gaussian sea, 2D (x,t) or 3D (x,y,t)
 %
 % CALL:  [Y, Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag)
@@ -37,7 +37,9 @@ function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag)
 % Example: % Simulate using demospec, plot the first frame 
 %  Nx = 2^7; Ny = 2^7; Nt = 100; dx = 10; dy = 10;dt = 1;
 %  S = demospec('dir');
-%  Y=seasim(S,Nx,Ny,Nt,dx,dy,dt,2,1);  
+%  plotflag = 1;
+%  use_waitbar = 0
+%  Y=seasim(S,Nx,Ny,Nt,dx,dy,dt,2,plotflag, use_waitbar);  
 %
 %  close all;
 %
@@ -104,6 +106,10 @@ end
 if nargin<9||isempty(plotflag)
   plotflag=0;
 end
+if nargin<10||isempty(use_waitbar)
+  use_waitbar=1;
+end
+
 t=(0:Nt-1)'*dt;
 x=(0:Nx-1)'*dx;  
 y=(0:Ny-1)'*dy;  
@@ -120,13 +126,18 @@ if fftdim~=2
   Sdiscr  = (randn(np,nf)+i*randn(np,nf)).*sqrt(Sdiscr);
   [k1,k2] = w2k(spec.w,spec.theta+spec.phi,spec.h,spec.g);
   Sxy = zeros(nf,Nxy);
-  
-  h = fwaitbar(0,[],' Integration ... ');
+  if use_waitbar
+	h = fwaitbar(0,[],' Integration ... ');
+  end
   for ix=1:Nxy,
     Sxy(:,ix) = simpson(0:np-1,Sdiscr.*exp(i*(Xi(ix)*k1+Yi(ix)*k2))).';
-    fwaitbar(ix/Nxy,h)
+	if use_waitbar
+		fwaitbar(ix/Nxy,h)
+	end
   end 
-  close(h)
+  if use_waitbar
+	close(h)
+  end
   clear Sdiscr k1 k2
   nfft=2^nextpow2(2*nf-2);
   

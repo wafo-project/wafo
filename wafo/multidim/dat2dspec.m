@@ -42,7 +42,9 @@ function [Sd,D,Sw,Fcof,Gwt,Sxy,Sxy1] = dat2dspec(xn,pos,h,nfft,nt,method,varargi
 %  D  = spreading(linspace(-pi,pi,51),'cos2s');
 %  Sd = mkdspec(S,D,1);
 %  Nx = 3; Ny = 2; Nt = 2^14; dx = 10; dy = 10;dt = 0.5;
-%  F  = seasim(Sd,Nx,Ny,Nt,dx,dy,dt,1,0);
+%  plotflag = 0;
+%  use_waitbar = 0
+%  F = seasim(Sd,Nx,Ny,Nt,dx,dy,dt,1,plotflag, use_waitbar); 
 %  Z  = permute(F.Z,[3 1 2]);
 %  [X,Y] = meshgrid(F.x,F.y);
 %  N = Nx*Ny;

@@ -49,7 +49,7 @@ function [x, y] = discretize_linear(fun, a, b, tol, n),
     err0 = inf;
     err = 10000;
     nmax = 2 ** 20;
-    _TINY = realmin;
+    TINY = realmin;
     num_tries = 0;
     while (num_tries<5 && err > tol && n < nmax),
         err0 = err;
@@ -59,7 +59,7 @@ function [x, y] = discretize_linear(fun, a, b, tol, n),
         x = linspace(a, b, n);
         y = fun(x);
         y00 = interp1(x0, y0, x, 'linear');
-        err = 0.5 * max(abs((y00 - y) ./ (abs(y00 + y) + _TINY)));
+        err = 0.5 * max(abs((y00 - y) ./ (abs(y00 + y) + TINY)));
         num_tries = num_tries + (abs (err - err0) <= tol/2);
     end
     return 
@@ -77,7 +77,7 @@ function [x,fx] = discretize_adaptive(fun, a, b, tol, n),
     erri = [zeros(1, n2); ones(1,n2)](:).';
     err = max(erri);
     err0 = inf;
-    _TINY = realmin;
+    TINY = realmin;
     num_tries = 0;
     % while (err != err0 and err > tol and n < nmax):
     for j = [1:50],
@@ -91,7 +91,7 @@ function [x,fx] = discretize_adaptive(fun, a, b, tol, n),
             fy = fun(y);
             fy0 = interp1(x, fx, y, 'linear');
 
-            erri = 0.5 * (abs((fy0 - fy) ./ (abs(fy0 + fy) + _TINY)));
+            erri = 0.5 * (abs((fy0 - fy) ./ (abs(fy0 + fy) + TINY)));
             err = max(erri);
 
             x = [x, y];

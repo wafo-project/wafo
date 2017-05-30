@@ -19,7 +19,7 @@ function gam = getjonswappeakedness(Hm0,Tp)
 %  NOTE: The size of GAMMA is the common size of Hm0 and Tp.
 %  
 % Example
-% assert(getjonswappeakedness(7,[5, 11, 25), [7, 2.38529836797459   1], 1e-10)
+% assert(getjonswappeakedness(7,[5, 11, 25], [7, 2.38529836797459   1], 1e-10)
 % Hm0 = linspace(1,20);
 % Tp = Hm0;
 % [T,H] = meshgrid(Tp,Hm0);

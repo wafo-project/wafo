@@ -2,7 +2,7 @@ function test_suite=test_getjonswappeakedness()
   initTestSuite;
 end
 function test_getjonswappeakedness_()
-  assert(getjonswappeakedness(7,[5, 11, 25), [7, 2.38529836797459   1], 1e-10) 
+  assert(getjonswappeakedness(7,[5, 11, 25], [7, 2.38529836797459   1], 1e-10) 
  Hm0 = linspace(1,20); 
  Tp = Hm0; 
  [T,H] = meshgrid(Tp,Hm0); 

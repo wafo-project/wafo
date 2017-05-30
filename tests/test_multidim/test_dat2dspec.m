@@ -3,10 +3,10 @@ function test_suite=test_dat2dspec()
 end
 function f = fwaitbar(x, f, msg)
 % Trick deliberately overwrite fwaitbar
-if isempty(f),
-  f = figure()
+  if isempty(f),
+    f = figure()
+  end
 end
-
 function test_dat2dspec_()
   S  = jonswap; 
   D  = spreading(linspace(-pi,pi,51),'cos2s'); 

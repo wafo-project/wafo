@@ -11,7 +11,7 @@ function wd = cdtomfile(file)
 %  p0 = pwd();
 %  cdtomfile('cdtomfile');
 %  p1 = pwd();
-%  assert(p1, fullfile(waforoot, 'fileutil');
+%  assert(p1, fullfile(waforoot, 'fileutil'));
 %  cd(p0);
 %
 % See also CD, PWD.

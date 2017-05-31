@@ -1,4 +1,4 @@
-function [x,y] = discretize(fun, a, b, varargin)
+function [x,y] = wdiscretize(fun, a, b, varargin)
 %    Automatic discretization of function
 %
 %    Parameters
@@ -20,8 +20,8 @@ function [x,y] = discretize(fun, a, b, varargin)
 %    y : fun(x)
 %
 % Example
-%  [x,y] = discretize(@(x)cos(x), 0, pi);
-%  [xa, ya] = discretize(@(x)cos(x), 0, pi, 'method', 'adaptive');
+%  [x,y] = wdiscretize(@(x)cos(x), 0, pi);
+%  [xa, ya] = wdiscretize(@(x)cos(x), 0, pi, 'method', 'adaptive');
 %  assert(xa(1:5), ... 
 %      [ 0.        ,  0.19634954,  0.39269908,  0.58904862,  0.78539816], 1e-7);
 %

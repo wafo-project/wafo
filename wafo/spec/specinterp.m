@@ -8,7 +8,7 @@ function Snew = specinterp(S,dt,Nmin,Nmax,method)
 %         dt = wanted sampling interval (default as given by S, see spec2dt)
 %              unit: [s] if frequency-spectrum, [m] if wave number spectrum  
 %       Nmin = minimum number of frequencies. (default 0)
-%       Nmax = minimum number of frequencies  (default 2^13+1 = 8193)
+%       Nmax = maximum number of frequencies  (default 2^13+1 = 8193)
 %      method = interpolation method (see interp1). (default 'pchip')
 %              
 % To be used before simulation (e.g. spec2sdat) or evaluation of covariance
@@ -17,8 +17,8 @@ function Snew = specinterp(S,dt,Nmin,Nmax,method)
 % the right max-frequency, w(end)=pi/dt, f(end)=1/(2*dt), or k(end)=pi/dt.
 % The objective is that output frequency grid should be at least as dense as
 % the input grid, have equidistant spacing and length equal to 2^k+1 (>=Nmin).
-% If the max frequency is changed, the number of points in the spectrum is maximized to
-% 2^13+1. 
+% If the max frequency is changed, the number of points in the spectrum is 
+% maximized to Nmax. 
 % NB! Also zero-padding down to zero freq, if S does not start there. 
 %     If empty input dt, this is the only effect.
 %  
@@ -67,7 +67,7 @@ end
 if nargin<5||isempty(method)
   method = 'pchip';
 end
-
+Nmax = Nmax + mod(Nmax, 2);  % Make sure Nmax is odd
 
 % Find how many points that is needed
 nfft   = 2^nextpow2(max(n-1,Nmin-1));
@@ -123,7 +123,8 @@ if doInterpolate>0
   %wnc = min(wnNew,wnOld-1e-5);
   wnc = wnNew;
   for ix = 1:np
-    [x, y] = wdiscretize(@(x)evalspec(x,ix), 0, wnc, 'method','adaptive', 'n', 129);
+    [x, y] = wdiscretize(@(x)evalspec(x,ix), 0, wnc, 'method','adaptive', ...
+                'n', 129, 'nmax', Nmax, 'maxtries', 5);
     dwMin = min(min(diff(x)),dwMin);
   end
   
@@ -132,7 +133,7 @@ if doInterpolate>0
     if (nfft<=2^15+1) && (newNfft>2^15+1)
       warning('WAFO:SPECINTERP','Spectrum matrix is very large (>33k). Memory problems may occur.')
     end
-    nfft = newNfft;
+    nfft = min(newNfft, max(Nmax, 2^15+1));
   end
   
   Snew.(ftype) = linspace(0,wnNew,nfft).';

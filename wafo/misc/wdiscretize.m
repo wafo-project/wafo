@@ -10,9 +10,14 @@ function [x,y] = wdiscretize(fun, a, b, varargin)
 %    tol : real, scalar, default 0.005
 %        absoute error tolerance
 %    n : scalar integer, default n=5
-%        number of values
+%        number of values to start the discretization with.
 %    method : string, default 'linear'
 %        defining method of gridding, options are 'linear' and 'adaptive'
+%    nmax : scalar integer default 2 ** 15 + 1
+%        maximum number of values 
+%    maxtries : scalar integer default 5
+%        maximum number of attempts to decrease the maximum error before
+%        termination.
 %
 %    Returns
 %    -------
@@ -28,19 +33,19 @@ function [x,y] = wdiscretize(fun, a, b, varargin)
 %  plot(x, y, xa, ya, 'r.');
 % 
 %  close('all');
-    options = struct('tol', 0.005, 'n', 5, 'method', 'linear');
+    options = struct('tol', 0.005, 'n', 5, 'method', 'linear', 'nmax', 2**15+1, 'maxtries', 5);
  
     opt = parseoptions(options, varargin{:});
   
     if opt.method(1)=='a',
-        [x,y] = discretize_adaptive(fun, a, b, opt.tol, opt.n);
+        [x,y] = discretize_adaptive(fun, a, b, opt.tol, opt.n, opt.nmax, opt.maxtries);
     else
-        [x,y] = discretize_linear(fun, a, b, opt.tol, opt.n);
+        [x,y] = discretize_linear(fun, a, b, opt.tol, opt.n, opt.nmax, opt.maxtries);
     end
 end
 
 
-function [x, y] = discretize_linear(fun, a, b, tol, n),
+function [x, y] = discretize_linear(fun, a, b, tol, n, nmax, maxtries),
     % Automatic discretization of function, linear gridding
     
     x = linspace(a, b, n);
@@ -48,10 +53,9 @@ function [x, y] = discretize_linear(fun, a, b, tol, n),
 
     err0 = inf;
     err = 10000;
-    nmax = 2 ** 20;
     TINY = realmin;
     num_tries = 0;
-    while (num_tries<5 && err > tol && n < nmax),
+    while (num_tries<maxtries && err > tol && n < nmax),
         err0 = err;
         x0 = x;
         y0 = y;
@@ -59,17 +63,17 @@ function [x, y] = discretize_linear(fun, a, b, tol, n),
         x = linspace(a, b, n);
         y = fun(x);
         y00 = interp1(x0, y0, x, 'linear');
-        err = 0.5 * max(abs((y00 - y) ./ (abs(y00 + y) + TINY)));
+        err = 0.5 * max(abs(y00 - y) ./ (abs(y00) + abs(y) + TINY + tol));
         num_tries = num_tries + (abs (err - err0) <= tol/2);
     end
     return 
 end
 
 
-function [x,fx] = discretize_adaptive(fun, a, b, tol, n),
+function [x,fx] = discretize_adaptive(fun, a, b, tol, n, nmax, maxtries),
     % Automatic discretization of function, adaptive gridding.
     
-    n = n+ (mod(n, 2) == 0);  # make sure n is odd
+    n = n + (mod(n, 2) == 0);  # make sure n is odd
     x = linspace(a, b, n);
     fx = fun(x);
 
@@ -81,7 +85,7 @@ function [x,fx] = discretize_adaptive(fun, a, b, tol, n),
     num_tries = 0;
     % while (err != err0 and err > tol and n < nmax):
     for j = [1:50],
-        if num_tries<5 && any(erri > tol),
+        if num_tries<maxtries && err > tol && length(fx) < nmax,
             err0 = err;
             % find top errors
 
@@ -90,8 +94,7 @@ function [x,fx] = discretize_adaptive(fun, a, b, tol, n),
             y = [(x(I) + x(I - 1)) / 2; (x(I + 1) + x(I)) / 2](:).';
             fy = fun(y);
             fy0 = interp1(x, fx, y, 'linear');
-
-            erri = 0.5 * (abs((fy0 - fy) ./ (abs(fy0 + fy) + TINY)));
+            erri = 0.5 * (abs(fy0 - fy) ./ (abs(fy0) + abs(fy) + TINY + tol));
             err = max(erri);
 
             x = [x, y];
@@ -99,13 +102,18 @@ function [x,fx] = discretize_adaptive(fun, a, b, tol, n),
             erri = [zeros(1,length(fx)), erri](I);
             fx = [fx, fy](I);
 
-            num_tries = num_tries + (abs (err - err0) <= tol/2);
+            num_tries = num_tries + (abs(err - err0) <= tol/2);
         else,
             break
         end
     end
+    if any(erri > tol),
+        warning('WAFO:WDISCRETIZE', ...
+          sprintf('Adaptive discretization did not converge! Check function for sharp edges! (max error = %g, n=%d) ', err, length(fx)))
+    end
     if j>=50,
-        warning(sprintf('Recursion level limit reached j=%d', j));
+        warning('WAFO:WDISCRETIZE',...
+          sprintf('Recursion level limit reached j=%d', j));
     end
     return
 end

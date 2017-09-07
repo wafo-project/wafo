@@ -46,13 +46,14 @@ function [F,G] = edfcnd(z,c,G,varargin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-% Tested on: Matlab 5.3, 5.2, 5.1
+% Tested on: Matlab 9, 8, 7, 5.3, 5.2, 5.1
 % History:
 % by pab2007
 % based on old empdistr.
 
 options = struct('method',2,'wdata',false);
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = parseoptions(options,varargin{:});
 
 % default values

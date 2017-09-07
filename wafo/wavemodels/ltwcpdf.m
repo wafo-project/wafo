@@ -89,8 +89,8 @@ function p = ltwcpdf(t,h,Pt1,Ph1, def,condon)
 
 
 
-error(nargchk(2,6,nargin))
-
+%error(nargchk(2,6,nargin))
+narginchk(2,6)
 if nargin < 5||isempty(def),  def=0; end
 if nargin < 6||isempty(condon),  condon=0; end
 

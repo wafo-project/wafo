@@ -57,7 +57,8 @@ txt = 'Number of opening and closing characters do not match'; % warning text
 bracketMisMatch = false;
 
  % Handle input ...................
-error(nargchk(1,4,nargin))
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 if nargin < 4||isempty(chex),
   chex = chexdflt;
 end

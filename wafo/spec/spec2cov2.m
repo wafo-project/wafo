@@ -28,7 +28,8 @@ function R = spec2cov2(S,nr,Nt,dt)
 % by pab 24.11.2003
 % based on code from spec2XXpdf programmes
   
-error(nargchk(1,4,nargin));
+%error(nargchk(1,4,nargin));
+narginchk(1,4)
 if ~isstruct(S)
   error('Incorrect input spectrum, see help datastructures');
 end

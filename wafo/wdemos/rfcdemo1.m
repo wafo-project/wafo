@@ -53,8 +53,8 @@ fprintf(1,'Type "help rfcdemo1" for further information\n\n');
 
 ni = nargin;
 %no = nargout;
-error(nargchk(0,6,ni));
-
+%error(nargchk(0,6,ni));
+narginchk(0,6)
 Zstr='123456789';
 
 % Add path to rfcdemo1

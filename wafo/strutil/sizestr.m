@@ -29,7 +29,8 @@ function str = sizestr(array, before, between, after)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error(nargchk(1, 4, nargin));
+   %error(nargchk(1, 4, nargin));
+   narginchk(1,4)
    if nargin < 2||isempty(before),  before  = '[';          end
    if nargin < 3||isempty(between), between = 'x';          end
    if nargin < 4||isempty(after), 

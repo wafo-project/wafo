@@ -32,8 +32,8 @@
 
 function inv = invdiscrete(x, v, p)
 
-error(nargchk(3,3,nargin))
-  
+%error(nargchk(3,3,nargin))
+narginchk(3,3)  
   sz = size (x);
   tag1= 'WAFO:INVDISCRETE';
   if (~isvector (v))

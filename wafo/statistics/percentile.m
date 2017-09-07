@@ -27,7 +27,7 @@ function  q = percentile(x,p,method)
 %  Lund University
 %  http://www.maths.lth.se/matstat/stixbox
 
-% Tested on: Matlab 5.3
+% Tested on: Matlab 5.3, 7, 8, 9
 % History:
 % revised pab 2007
 % -added example
@@ -50,7 +50,8 @@ function  q = percentile(x,p,method)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(2,3,nargin))
+%error(nargchk(2,3,nargin))
+narginchk(2,3)
 if nargin<3||isempty(method), method=1; end
 if min(size(x)) == 1
    x = x(:);

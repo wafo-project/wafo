@@ -46,8 +46,8 @@ function p = mk87pdf2(Hd,Scf,Hs,Tz)
 %  - 
 % by  Per A. Brodtkorb 1998
 
-error(nargchk(3,4,nargin))
-
+%error(nargchk(3,4,nargin))
+narginchk(3,4)
 if nargin < 4||isempty(Tz),  Tz = 8; end
 if nargin < 3||isempty(Hs),  Hs = 6; end
 

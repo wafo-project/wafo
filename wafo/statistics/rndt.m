@@ -42,8 +42,8 @@ function R = rndt(varargin)
 
 
 
-error(nargchk(1,inf,nargin))
-
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 1;
 options = struct; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

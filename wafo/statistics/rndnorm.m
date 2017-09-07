@@ -33,7 +33,7 @@ function R = rndnorm(varargin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-% tested on: matlab 5.3
+% tested on: matlab 5.3, 7, 8, 9
 % History:
 % revised pab 23.10.2000
 %  - added default mu,v
@@ -41,7 +41,8 @@ function R = rndnorm(varargin)
 %  - added greater flexibility on the sizing of R
 % by ??
 
-error(nargchk(0,inf,nargin))
+%error(nargchk(0,inf,nargin))
+narginchk(0,inf)
 options = struct; % default options
 Np = 2;
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

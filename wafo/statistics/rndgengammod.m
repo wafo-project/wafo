@@ -43,7 +43,8 @@ function R = rndgengammod(varargin)
 % History: 
 % By pab 2007
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 3;
 options = []; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

@@ -39,8 +39,8 @@ function outstr = substr( str, offset, len )
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
 % Check number of input arguments.
-error( nargchk( 2, 3, nargin ) );
-
+%error( nargchk( 2, 3, nargin ) );
+narginchk(2,3)
 n = length(str);
 
 % Get lower index.

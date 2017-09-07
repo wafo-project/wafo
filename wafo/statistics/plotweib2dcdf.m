@@ -66,7 +66,8 @@ sym = {'b.','r--'}; % default plot symbols for the empirical
 ih = ishold; % save hold state
 
 
-error(nargchk(2,15,nargin))
+%error(nargchk(2,15,nargin))
+narginchk(2,15)
 Np = 5;
 options = struct('condon',2,'resolution',[],'plotflag',1,'rows',3,'cols',3,'numfigs',1); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

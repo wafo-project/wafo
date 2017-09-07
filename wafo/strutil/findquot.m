@@ -45,8 +45,9 @@ function  [mask_q,mask_c,inl,linenum] = findquot(string)
 %  - reordered the output arguments so that inl and linenum come last
 % by  Kirill K. Pankratov, kirill@plume.mit.edu  12/26/94
 
-error(nargchk(1,1,nargin))
- % Determine the new line character .........................
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
+% Determine the new line character .........................
 ch_nl            = [13 10]; % New line characters
 quoteCharacter   = '''';    % char(39);
 

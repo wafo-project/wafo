@@ -53,7 +53,8 @@ function [F, Flo,Fup] = cdfray(x,varargin)
 %  - added comnsize, nargchk
 % added ms 15.06.2000
 
-error(nargchk(2,8,nargin))
+%error(nargchk(2,8,nargin))
+narginchk(2,8)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 1;

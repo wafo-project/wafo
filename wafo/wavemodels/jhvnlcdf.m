@@ -62,8 +62,8 @@ function f = jhvnlcdf(Hd,Vcf,Hm0,Tp,gam,tail)
 % By pab 20.12.2000
 
 
-error(nargchk(2,6,nargin))  
-
+%error(nargchk(2,6,nargin))  
+narginchk(2,6)
 if (nargin < 6||isempty(tail)),tail = 0; end
 if (nargin < 4||isempty(Tp)),Tp = 8; end
 if (nargin < 3||isempty(Hm0)), Hm0 = 6; end

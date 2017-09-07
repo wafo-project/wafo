@@ -44,7 +44,9 @@ function bvn = cdfnorm2d( b1, b2, r )
 %     washington state university
 %     pullman, wa 99164-3113
 %     email : alangenz@wsu.edu
-error(nargchk(3,3,nargin))
+
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 [csize,h,k,r] = comnsize(-b1,-b2,r);
 if any(isnan(csize))
   error ('b1, b2 and r must be of common size or scalar');

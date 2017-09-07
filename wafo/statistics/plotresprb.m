@@ -44,14 +44,14 @@ function h = plotresprb(x,dist,varargin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-% Tested on: Matlab 5.3
+% Tested on: Matlab 5.3, 7, 8, 9
 % History:
 % pab 2007
 % renamed from distplot to resqplot
 % by  Per A. Brodtkorb 12.11.2000
 
-error(nargchk(1,inf,nargin))
-
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 
 cphat = [];
 if isa(x,'struct') || isa(x,'fdata')
@@ -77,7 +77,8 @@ if isa(x,'struct') || isa(x,'fdata')
   dist  = x.distribution;
   x = x.data(:);
 else
-  error(nargchk(2,inf,nargin))
+%  error(nargchk(2,inf,nargin))
+  narginchk(2,inf)
   x=x(:); 
   if nargin>2
     cphat = varargin;

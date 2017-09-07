@@ -179,8 +179,8 @@ function [D,options] = mkspreading(type,varargin)
 % By es, jr 1999.11.25
 
 
-error(nargchk(0,inf,nargin));
-
+%error(nargchk(0,inf,nargin));
+narginchk(0,inf)
 options = struct('theta0',0,'method','mitsuyasu',...
   'sp',[15 15],'m',[5 -2.5],'wnlimits',[0 1 inf]);
 

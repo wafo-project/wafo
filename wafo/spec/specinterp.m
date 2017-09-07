@@ -150,5 +150,3 @@ end
     Sout = interp1(w, S1(thi,:), win, 'pchip');
   end %
 end % function specinterp
-
-

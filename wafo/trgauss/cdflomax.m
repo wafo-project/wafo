@@ -38,7 +38,8 @@ function F = cdflomax(x,alpha,m0)
 % -extended example  
 % By jr 31.03.2001
   
-  error(nargchk(3,3,nargin))
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 c1 = 1/(sqrt(1-alpha^2))*x./sqrt(m0);
 c2 = alpha*c1;
 

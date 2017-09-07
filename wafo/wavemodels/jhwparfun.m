@@ -52,7 +52,8 @@ function [A0,B0,C0]= jhwparfun(Hm0,Tp,gam,dim)
 % revised pab 10 jan 2004  
 % by pab 29.11.2002
 
-error(nargchk(2,4,nargin))
+%error(nargchk(2,4,nargin))
+narginchk(2,4)
 if nargin<3||isempty(gam),
   gam = getjonswappeakedness(Hm0,Tp);
 end

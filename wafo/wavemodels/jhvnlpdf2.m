@@ -46,8 +46,8 @@ function [f,Hrms,Vrms] = jhvnlpdf2(Hd,Vcf,Hm0,Tp,gam,normalizedInput)
   
 % History
 % By pab 10.01.2004
-error(nargchk(3,6,nargin))
-
+%error(nargchk(3,6,nargin))
+narginchk(3,6)
 if (nargin < 6||isempty(normalizedInput)),  normalizedInput  = 0;end
 if (nargin < 4||isempty(Tp)),  Tp  = 8;end
 if (nargin < 3||isempty(Hm0)), Hm0 = 6;end

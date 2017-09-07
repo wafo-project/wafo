@@ -46,7 +46,8 @@ function [m,v,sk,ku]= momf(varargin)
 % History: 
 % by pab 23.10.2000
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 Np = 2;
 options = [];
 params = parsestatsinput(Np,options,varargin{:});

@@ -45,8 +45,8 @@ function f = thpdf(h,Hm0,Tp,dim)
 
 
 
-error(nargchk(3,4,nargin))
-
+%error(nargchk(3,4,nargin))
+narginchk(3,4)
 if nargin<4||isempty(dim),
   dim = 'time';% dim='time'->wtweibpdf, dim='space'->wggampdf
 end

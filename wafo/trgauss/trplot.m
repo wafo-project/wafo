@@ -28,7 +28,8 @@ function h=trplot(g,g2,ma,sa)
 % by pab 11.11.98
 %
 
-error(nargchk(1,4,nargin))
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 switch class(g)
 case 'double',
  if nargin<3||isempty(ma),  ma=mean(g(:,1)); end

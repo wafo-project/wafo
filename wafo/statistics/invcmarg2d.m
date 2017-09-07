@@ -47,7 +47,8 @@ function [x, ind]= invcmarg2d(x1,p,phat)
 %  - changed phat from vectro to structure
 % By Per A. Brodtkorb 01.02.99
 
-error(nargchk(3,3,nargin))
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 [icode  x1 p ] = iscomnsize(x1,p);
 
 if ~icode 

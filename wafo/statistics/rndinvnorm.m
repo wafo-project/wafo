@@ -45,7 +45,8 @@ function R = rndinvnorm(varargin)
 %  - added comnsize, nargchk
 % added ms 14.08.2000
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 2;
 options = struct;
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

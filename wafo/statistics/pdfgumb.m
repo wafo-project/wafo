@@ -54,7 +54,8 @@ function f = pdfgumb(x,varargin)
 % updated header info
 %   Per A. Brodtkorb 17.10.98
 
-error(nargchk(2,7,nargin))
+%error(nargchk(2,7,nargin))
+narginchk(2,7)
 Np = 2;
 options = struct('logp',false,'trunc',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

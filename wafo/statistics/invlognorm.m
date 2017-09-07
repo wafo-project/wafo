@@ -50,7 +50,8 @@ function [x,xlo,xup] = invlognorm(F,varargin)
 %  - fixed a bug: the inversion was not correct 
 % added ms 10.08.2000
 
-error(nargchk(1,9,nargin))
+%error(nargchk(1,9,nargin))
+narginchk(1,9)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 2;

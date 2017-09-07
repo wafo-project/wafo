@@ -46,7 +46,8 @@ function f = pdffrech(x,varargin)
 % Added PJ 10-May-2001
 
 
-error(nargchk(3,5,nargin))
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 Np = 2;
 options = struct('logp',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

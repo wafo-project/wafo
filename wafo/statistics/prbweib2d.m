@@ -51,7 +51,8 @@ function  [P ,err] = prbweib2d(x1lo,x1up,x2lo,x2up,varargin)
 %  - added example text
 %  Per A. Brodtkorb 28.10.98
 
-error(nargchk(5,15,nargin))
+%error(nargchk(5,15,nargin))
+narginchk(5,15)
 Np = 5;
 options = struct('covariance',[],'alpha',0.05,...
   'logp',false,'releps',1e-3); % default options

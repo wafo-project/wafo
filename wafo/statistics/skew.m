@@ -38,7 +38,8 @@ function s = skew(X,dim)
 % - added dim, nargchk
 % added ms 16.06.2000
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 sz = size(X);
 if nargin<2||isempty(dim),
   % Use 1'st non-singleton dimension or dimension 1

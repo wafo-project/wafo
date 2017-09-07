@@ -47,7 +47,8 @@ function [m,v,sk,ku]= momchi2(varargin)
 % added ms 26.06.2000
 
 Np = 1;
-error(nargchk(1,Np,nargin))
+%error(nargchk(1,Np,nargin))
+narginchk(1,Np)
 options = []; %struct; % default options
 params = parsestatsinput(Np,options,varargin{:});
 p = params{1};

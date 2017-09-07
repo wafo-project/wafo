@@ -42,8 +42,8 @@ function J = plotscatr(X,varargin)
 
 
 
-error(nargchk(1,3,nargin))
-
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 plotsymbol = '.'; % default
 labl =[];
 [n,p] = size(X);

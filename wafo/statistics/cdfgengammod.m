@@ -49,7 +49,8 @@ function [F,Flo,Fup] = cdfgengammod(x,varargin)
 % History: 
 % by pab sept 2007
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 if nargin==1 && ischar(x) && strcmpi(x,'defaults')

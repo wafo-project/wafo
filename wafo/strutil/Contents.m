@@ -47,4 +47,4 @@
 % int2str        - Convert integer to string (Fast version).
 % num2str2       - Convert number to string. (Fast version)
 % parsemfilestr  - Returns function names used in m-file string.
-% strpat         - [sout] = strpat(str,pat)
+% strpat         - EXACT pattern search and replacement

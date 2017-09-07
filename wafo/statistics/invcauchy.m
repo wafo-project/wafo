@@ -55,8 +55,8 @@
 
 
 function [x,xlo,xup] = invcauchy(F, varargin)
-error(nargchk(1,inf,nargin))
-
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 2;

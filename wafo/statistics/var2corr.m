@@ -28,8 +28,8 @@ function R = var2corr(S)
 %   E-mail:      pjacklam@online.no
 %   URL:         http://home.online.no/~pjacklam
 
-   error(nargchk(1, 1, nargin));        % check number of input args
-
+   %error(nargchk(1, 1, nargin));        % check number of input args
+   narginchk(1,1)
    [m, n] = size(S);
    if m ~= n
       error('Input matrix must be square.');

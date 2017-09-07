@@ -57,7 +57,7 @@ function [F,Flo,Fup] = cdfgev(x,varargin)
 %  Johnson  N.L., Kotz S. and Balakrishnan, N. (1994)
 %  Continuous Univariate Distributions, Volume 1. Wiley. 
 
-% Tested on; Matlab 5.3
+% Tested on; Matlab 5.3, 7, 8, 9
 % History: 
 % Revised by jr 22.12.1999
 % revised ms 14.06.2000
@@ -71,7 +71,8 @@ function [F,Flo,Fup] = cdfgev(x,varargin)
 % revised pab may 2007
 % -
 
-error(nargchk(2,10,nargin))
+%error(nargchk(2,10,nargin))
+narginchk(2,10)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 3;

@@ -56,7 +56,8 @@
 % Description: Quantile function of the Poisson distribution
 function x = invpois (F, varargin)
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false,'maxiter',10000); % default options
 

@@ -55,7 +55,8 @@ function [x, ind]= invcweib2d(x1,p,varargin)
 % revised pab 13.11.2000, minor fixes
 % By Per A. Brodtkorb 19.11.98
 
-error(nargchk(3,15,nargin))
+%error(nargchk(3,15,nargin))
+narginchk(3,15)
 Np = 5;
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false,'abseps',1e-90,'releps',1e-5,'max_iter',500); % default options

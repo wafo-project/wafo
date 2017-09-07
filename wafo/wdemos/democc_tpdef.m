@@ -25,4 +25,5 @@ for k = 2:length(L)-1
    end
    drawnow
 end;
+
 hold off

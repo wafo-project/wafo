@@ -60,7 +60,8 @@ function [F,Flo,Fup] = cdfgumb(x,varargin)
 %  Continuous Univariate Distributions, Volume 2. Wiley. 
 
 
-error(nargchk(2,7,nargin))
+%error(nargchk(2,7,nargin))
+narginchk(2,7)
 Np = 2;
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false,'trunc',false); % default options

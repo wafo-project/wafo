@@ -47,7 +47,8 @@ function f = pdfbray(x,varargin)
 % updated help header
 % by  Per A. Brodtkorb 21.02.99
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 Np = 3;
 options = struct('logp',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

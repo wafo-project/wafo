@@ -44,7 +44,8 @@ function  [y ,eps1] = prbmargcnd2d(phat,x1lo,x1up,x2lo,x2up)
 %  - added example text
 %  Per A. Brodtkorb 28.10.98
 
-error(nargchk(5,5,nargin))
+%error(nargchk(5,5,nargin))
+narginchk(5,5)
 %defining global variables
 global PHAT CONDON
 condon=CONDON; % save old value

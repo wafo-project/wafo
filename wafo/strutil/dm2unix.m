@@ -30,7 +30,8 @@ function str = dm2unix(str,RC)
 % revised pab 18.07.2002
 % by pab 01.05.2001
 
-error(nargchk(1,2,nargin));
+%error(nargchk(1,2,nargin));
+narginchk(1,2)
 if nargin<2,
   RC = ''; 
 end % replacement character

@@ -46,8 +46,8 @@ function [m,v,sk,ku]= momray(b)
 
 
 
-error(nargchk(1,1,nargin))
-
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
 b(b<=0) = nan;
 
 m  = b * sqrt(pi/2);

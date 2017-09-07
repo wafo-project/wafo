@@ -53,8 +53,8 @@ warning off
 
 ni = nargin;
 no = nargout;
-error(nargchk(0,6,ni));
-
+%error(nargchk(0,6,ni));
+narginchk(0,6)
 
 fprintf(1,'Welcome to demo 2 for "Rainflow Cycles for Switching Processes"!\n');
 fprintf(1,'It demonstrates calculation of the rainflow matrix\n');

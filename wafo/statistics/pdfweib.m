@@ -56,8 +56,8 @@ function [f,options] = pdfweib(x,varargin)
 % rewritten ms 15.06.2000
 
 
-error(nargchk(2,6,nargin))
-
+%error(nargchk(2,6,nargin))
+narginchk(2,6)
 Np = 3;
 options = struct('logp',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

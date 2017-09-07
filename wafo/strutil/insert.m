@@ -51,7 +51,8 @@ function  vout = insert(vin,list,no,nc,nfill)
 nfilldflt = [0 32]; % Defaults for filling (0 for numbers
                     % or blank for strings
 % Handle input .......................................
-error(nargchk(2,5,nargin))
+%error(nargchk(2,5,nargin))
+narginchk(2,5)
 if nargin<3||isempty(no),
   vout = vin;
   return

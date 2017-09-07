@@ -134,7 +134,8 @@ if nargin==1 && strcmpi(Y,'defaults')
   methods_ = options;
   return
 end
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 options = parseoptions(options,varargin{:});
 members = mkmemberstruct();
 members.options = options;
@@ -489,7 +490,8 @@ methods_.compare = @compare;
 %	  model, and the residuals from the larger model.
 %
 %	  See also fitls  
-    error(nargchk(1,1,nargin))
+    %error(nargchk(1,1,nargin))
+    narginchk(1,1)
     try
     fn = object2.fieldnames();
     if any(~ismember({'options','dispersnfit','deviance','X','df','numvar'},fn));
@@ -644,8 +646,8 @@ if nargin==2 && strcmpi(Xnew,'defaults')
   y = opts;
   return
 end
-error(nargchk(0,inf,nargin))
-
+%error(nargchk(0,inf,nargin))
+narginchk(0,inf)
 opts = parseoptions(opts,varargin{:});
 
 if strcmpi(options.family,'binomial')

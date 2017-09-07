@@ -17,7 +17,8 @@ function [tr,ma,sa, form,not,dat] = trunmak(tro)
 
 % TODO % This is not complete.
 
-error(nargchk(1,1,nargin))
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
 switch class(tro),
  case 'struct',
   %OK

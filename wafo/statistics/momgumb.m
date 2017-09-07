@@ -55,7 +55,8 @@ function [m,v,sk,ku]= momgumb(varargin)
 % - noted that calculations are wrong for trunc=1 (not corrected)
 
 % TODO % calculation wrong for trunc=1
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 2;
 options = struct('trunc',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

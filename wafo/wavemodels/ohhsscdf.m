@@ -46,7 +46,8 @@ function f = ohhsscdf(Hd,Scf,Hm0,def,tail)
 % revised pab 09.09.2003
 % By pab 06.02.2001
 
-error(nargchk(3,5,nargin))
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 if (nargin < 5||isempty(tail)),  tail  = 0;end
 if (nargin < 4||isempty(def)), def=1;end 
 

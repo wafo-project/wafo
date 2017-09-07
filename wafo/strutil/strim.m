@@ -27,8 +27,8 @@ function s1 = strim(s,c)
 % Written by Stefan Baunack. Please send any bug
 % reports or other comments to: s.baunack@ifw-dresden.de.
 
-error(nargchk(1,2,nargin));
-
+%error(nargchk(1,2,nargin));
+narginchk(1,2)
 if isempty(s), s1=s; return; end
 if ~(ischar(s)||iscell(s))
   error('Input must be a string or cellarray of strings.')

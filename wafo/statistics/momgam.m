@@ -48,7 +48,8 @@ function [m,v,sk,ku]= momgam(varargin)
 % added ms 26.06.2000
 % added b parameter ms 23.08.2000
 Np = 2;
-error(nargchk(1,Np,nargin))
+%error(nargchk(1,Np,nargin))
+narginchk(1,Np)
 options = [];
 params = parsestatsinput(Np,options,varargin{:});
 

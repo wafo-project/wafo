@@ -40,8 +40,8 @@ flag  = 'word';  % Default for "names" vs. any string
 flag2 = 'exact'; % Default exact letter match 
 
  % Handle input ...............................
-error(nargchk(3,5,nargin));
-
+%error(nargchk(3,5,nargin));
+narginchk(3,5)
 Np = length(varargin);
 for ix=1:Np
   switch lower(varargin{ix}(1))

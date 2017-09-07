@@ -63,8 +63,8 @@ function [p, eps2] = mk87cdf(Hd,Scf,Hs,Tz,tail)
 % by  Per A. brodtkorb 1998
 
   
-error(nargchk(3,5,nargin))  
-
+%error(nargchk(3,5,nargin))  
+narginchk(3,5)
 if (nargin < 5||isempty(tail)),tail = 0; end
 if (nargin < 4||isempty(Tz)),Tz = 8; end
 if (nargin < 3||isempty(Hs)), Hs = 6; end

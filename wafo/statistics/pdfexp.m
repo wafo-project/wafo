@@ -50,7 +50,8 @@ function f = pdfexp(x,varargin)
 %  - added comnsize, nargchk
 % added ms 15.06.2000
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 Np = 1;
 options = struct('logp',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

@@ -7,7 +7,8 @@ function data = get(Hs,property)
 % vectorized code to speed up things  
   
 
-error(nargchk(2,2,nargin))
+%error(nargchk(2,2,nargin))
+narginchk(2,2)
 index.type = '.';
 index.subs = property;
 data = subsref(Hs,index);

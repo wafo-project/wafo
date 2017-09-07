@@ -39,8 +39,8 @@ function f = b04jpdf(Hd,Scf,Hm0,Tm02, condon,normalizedInput)
 
  
  
-error(nargchk(3,6,nargin))
-  
+%error(nargchk(3,6,nargin))
+narginchk(3,6)  
 if nargin < 6||isempty(normalizedInput),  normalizedInput=0; end
 if nargin < 5||isempty(condon),  condon=0; end % regular pdf is returned
 if nargin < 4||isempty(Tm02),  Tm02=8;end

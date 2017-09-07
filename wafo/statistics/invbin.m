@@ -51,7 +51,8 @@ function  x = invbin(F,varargin)
 % are exactely the same then matlab's routine SORT sorts them
 % into the order they had. Do not change this, Mathworks!
 
-error(nargchk(2,9,nargin))
+%error(nargchk(2,9,nargin))
+narginchk(2,9)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 2;

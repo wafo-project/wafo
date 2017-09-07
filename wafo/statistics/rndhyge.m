@@ -32,7 +32,8 @@ function  X = rndhyge(varargin)
 
 
 
-error(nargchk(3,inf,nargin))
+%error(nargchk(3,inf,nargin))
+narginchk(3,inf)
 Np = 3;
 %options = struct; % default options
 options = [];

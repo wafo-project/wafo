@@ -67,7 +67,8 @@ function [F,G] = plotedfcnd(z,varargin)
 % to accept both pdf and cdf's. Also enabled new plotting features,
 % plotting of  probability of exceedances on a semilogy paper .... 
 
-error(nargchk(1,6,nargin))
+%error(nargchk(1,6,nargin))
+narginchk(1,6)
 ih = ishold;
 
 % default values

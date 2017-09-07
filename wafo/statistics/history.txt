@@ -483,6 +483,7 @@
 
 % tested on matlab 5.3 
 %History: 
+% Updated to Matlab ver 9.1 May  2017
 %revised pab 29.10.2000 
 % adapted from stixbox 
 % -added nargchk, comnsize 

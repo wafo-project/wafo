@@ -47,6 +47,7 @@ function [I,R] = sudg(n,p,varargin)
 % By Per A. Brodtkorb 16.03.2001
 
 %error(nargchk(2,3,nargin))
+narginchk(2,3)
 nmp = n-p;
 if isempty(p)||p<=0, I = zeros(0,1); R = nmp+1; return;end
 

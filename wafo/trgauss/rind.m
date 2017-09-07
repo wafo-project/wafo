@@ -149,7 +149,8 @@ if ((nargin==1) && (nargout <= 1) &&  isequal(BIG,'defaults')),
   fxind = options;
   return
 end
-error(nargchk(4,inf,nargin));
+%error(nargchk(4,inf,nargin));
+narginchk(4,inf)
 Ntdc = size(BIG,1);
 
 if nargin<6 || isempty(xc),

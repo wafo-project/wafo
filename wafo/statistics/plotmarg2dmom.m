@@ -51,8 +51,8 @@ function [ax11, h11, h22  ]=plotmarg2dmom(V,H,phat,condon ,res)
 % by Per A. Brodtkorb 31.01.99
 
 
-error(nargchk(3,5,nargin))
-
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 if nargin <4 ||isempty(condon), condon =2; end
 
 if nargin<5||isempty(res), 

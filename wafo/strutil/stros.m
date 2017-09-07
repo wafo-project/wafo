@@ -28,8 +28,8 @@ function os = stros(str)
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
    % Check number of input arguments.
-   error(nargchk(1, 1, nargin));
-
+   %error(nargchk(1, 1, nargin));
+   narginchk(1,1)
    % Find DOS line endings (CR+LF)
    k = find(str(1:end-1) == 13);        % find CRs
    if ~isempty(k)

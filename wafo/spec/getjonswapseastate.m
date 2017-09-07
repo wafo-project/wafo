@@ -50,7 +50,8 @@ function seastate = getjonswapseastate(u10,fetch,method)
 % by pab 6 jan2006
 %
 
-error(nargchk(1,3,nargin));
+%error(nargchk(1,3,nargin));
+narginchk(1,3)
 if nargin < 2 || isempty(fetch)
   fetch = 150000;
 end

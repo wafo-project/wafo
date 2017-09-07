@@ -52,8 +52,8 @@ function R = rndraymod(varargin)
 % - 'reshape' introduced to obtain wanted dimension of output 
 % added ms 15.06.2000
 
-error(nargchk(1,inf,nargin))
-
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 2;
 options = struct; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

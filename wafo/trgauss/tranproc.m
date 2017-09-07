@@ -41,8 +41,8 @@ function y = tranproc(x,ff)
 % -updated help header
 % by ???
 
-error(nargchk(2,2,nargin))
-
+%error(nargchk(2,2,nargin))
+narginchk(2,2)
 N    = size(x,2)-1; % N = number of derivatives
 nmax = ceil((max(ff(:,1))-min(ff(:,1)))*10^(7/max(N,1)));
 f    = trangood(ff,size(ff,1),min(x(:,1)),max(x(:,1)),nmax);

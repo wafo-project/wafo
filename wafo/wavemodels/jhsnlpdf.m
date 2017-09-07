@@ -42,8 +42,8 @@ function [f,Hrms,Vrms] = jhsnlpdf(Hd,Scf,Hm0,Tp,gam,normalizedInput,condon)
 % Validated pab 7 april 2004
 % By pab 17.01.2003
 
-error(nargchk(3,7,nargin))
-
+%error(nargchk(3,7,nargin))
+narginchk(3,7)
 
 if (nargin < 7||isempty(condon)),  condon  = 0; end
 if (nargin < 6||isempty(normalizedInput)),  normalizedInput  = 0;end

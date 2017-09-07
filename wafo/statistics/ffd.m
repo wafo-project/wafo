@@ -45,7 +45,8 @@ function [D,I] = ffd(n,I)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 if nargin<2||isempty(I); I = zeros(0,1); end
 if length(I) ==1, I = sudg(n,I); end
 if ischar(I),  I = cl2cnr(I); end

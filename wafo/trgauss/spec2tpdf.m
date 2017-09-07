@@ -42,7 +42,8 @@ function [f] = spec2tpdf(spec,utc,def,paramt,h,nit,speed,plotflag)
 %
 % See also  spec2cov, specnorm, datastructures, wavedef, wafomenu
 
-% Tested on : matlab 5.3
+% Tested on : matlab 5.3, ..., 9.1
+%
 % History: by I. Rychlik 01.10.1998 with name wave_th1.m
 % revised by Per A. Brodtkorb 19.09.1999
 % revised by I.R. 30.09.1999, bugs removing.
@@ -58,7 +59,11 @@ function [f] = spec2tpdf(spec,utc,def,paramt,h,nit,speed,plotflag)
 % revised pab May 2007
 % Revised pab Aug2007
 % -replaced some code with call to writecov
+% Revised by GL May 2017
+%   added call to new random number generator
 
+rng default
+rng('shuffle')
 startTime = clock;
 if nargin<3||isempty(def)
   def='tc';
@@ -238,7 +243,7 @@ if plotflag
   pdfplot(f)
 end
 
-cleanup(filenames0{:},filenames{:})
+cleanup(filenames0{:},filenames{:},'COV.out')
 
 
 

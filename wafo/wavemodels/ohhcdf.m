@@ -47,8 +47,8 @@ function f = ohhcdf(h,Hm0,def,dim)
 % By pab 20.01.2001
 
 
-error(nargchk(2,4,nargin))
-
+%error(nargchk(2,4,nargin))
+narginchk(2,4)
 if nargin<4||isempty(dim), dim  = 'time';end 
 if nargin<3||isempty(def), def  = 1;end 
 

@@ -44,7 +44,8 @@ function [fx] = plotkde(data,g,plotflag,h)
 %  because gauss kernel is the only supported one.  
 % added ms 2000.08.22
 
-error(nargchk(1,4,nargin))
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 data=data(:);
 
 if nargin<3||isempty(plotflag),

@@ -42,8 +42,8 @@ function [f,Hrms,Vrms] = thspdf(Hd,Scf,Hm0,Tp,normalizedInput,condon)
 % validated 20.11.2002
 % By pab 20.12.2000
 
-error(nargchk(3,6,nargin))
-
+%error(nargchk(3,6,nargin))
+narginchk(3,6)
 
 if (nargin < 6||isempty(condon)),  condon  = 0; end
 if (nargin < 5||isempty(normalizedInput)),  normalizedInput  = 0;end

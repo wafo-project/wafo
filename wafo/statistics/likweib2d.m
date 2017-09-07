@@ -48,8 +48,8 @@ function [LL, C] = likweib2d(param1,data1,data2,given,gparam)
 %   gparam      = values of the given parameters which we consider fixed
 
 
-error(nargchk(3,5,nargin))
-
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 data1 = data1(:);
 data2 = data2(:);
 n  = length(data1);

@@ -45,7 +45,8 @@ function [y, id]=ryates(ef)
 % History:
 % By Per A. Brodtkorb 16.03.2001
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 sz = size(ef);
 n  = length(ef); 
 if prod(sz) == n, 

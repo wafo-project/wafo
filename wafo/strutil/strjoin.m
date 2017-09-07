@@ -31,8 +31,8 @@ function str = strjoin(cstr, sep)
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
    % Check number of input arguments.
-   error(nargchk(1, 2, nargin));
-
+   %error(nargchk(1, 2, nargin));
+   narginchk(1,2)
    if nargin == 1 
       sep = ' ';
    end
@@ -50,7 +50,9 @@ function str = strjoin(cstr, sep)
         sep = repmat(sep, 1, num-1);
       end 
       sep{end+1} = '';
-      str = [ [cstr(:).'; sep(:).']{:} ];
+%      str = [ [cstr(:).'; sep(:).']{:} ];
+      str = [ [cstr(:).'; sep(:).'] ];
+
    end
 
 %!assert(strjoin({'hello'}, '-'), 'hello')

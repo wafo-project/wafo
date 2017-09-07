@@ -50,7 +50,8 @@ function [phat]=fitchi2(data,varargin)
 % -fixed a bug: disable was not passed correctly to pdfchi2
 
 global WAFO_WSTATS_DEFAULT_PLOTFLAG
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = struct('method','ML','alpha',0.05,...
   'plotflag', WAFO_WSTATS_DEFAULT_PLOTFLAG,...
   'optimset',optimset('disp','off')); % default options

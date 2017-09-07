@@ -47,7 +47,8 @@ function [A0,B0,C0]= thwparfun(Hm0,Tp,dim)
 % revised pab 7-Jan-2004  
 % by pab 29.11.2002
 
-error(nargchk(2,3,nargin))
+%error(nargchk(2,3,nargin))
+narginchk(2,3)
 if nargin<3||isempty(dim), dim = 'time';end
 
 displayWarning = 0;

@@ -90,7 +90,8 @@ if nargin==1 && strcmpi(y,'defaults')
   methods_ = options;
   return
 end
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = parseoptions(options,varargin{:});
 
 if nargin<2 ||isempty(X)
@@ -346,7 +347,8 @@ end
 %  b2.compare(b)
 %
 %	See also reglm
-    error(nargchk(1,1,nargin))
+    %error(nargchk(1,1,nargin))
+    narginchk(1,1)
     try
     fn = object2.fieldnames();
     if any(~ismember({'family','link','options','dispersnfit','deviance','X','df','numvar'},fn));
@@ -478,8 +480,8 @@ if nargin==2 && strcmpi(Xnew,'defaults')
   y = opts;
   return
 end
-error(nargchk(0,inf,nargin))
-
+%error(nargchk(0,inf,nargin))
+narginchk(0,inf)
 opts = parseoptions(opts,varargin{:});
 
 if nargin<2 || isempty(Xnew)

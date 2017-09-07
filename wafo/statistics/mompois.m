@@ -43,8 +43,8 @@ function [m,v,sk,ku] = mompois(L)
 % History: 
 % by pab Nov2007
 
-error(nargchk(1,1,nargin))
-
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
 L(L<=0) = nan;
 
 

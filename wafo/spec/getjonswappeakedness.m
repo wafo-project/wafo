@@ -44,7 +44,8 @@ function gam = getjonswappeakedness(Hm0,Tp)
 % -made sure gamma is 1 if Tp/sqrt(Hm0) > 5.1429
 % by pab 11Jan2004  
   
-  error(nargchk(2,2,nargin))
+%  error(nargchk(2,2,nargin))
+  narginchk(2,2)
   [csize,Hm0,Tp] = comnsize(Hm0,Tp);
   if any(isnan(csize))
     error('Requires non-scalar arguments to match in size.');

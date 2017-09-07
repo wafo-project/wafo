@@ -58,8 +58,8 @@ function f = thsnlcdf(Hd,Scf,Hm0,Tp,tail)
 % By pab 20.12.2000
 
 
-error(nargchk(3,5,nargin))  
-
+%error(nargchk(3,5,nargin))  
+narginchk(3,5)
 if (nargin < 5||isempty(tail)),tail = 0; end
 if (nargin < 4||isempty(Tp)),Tp = 8; end
 if (nargin < 3||isempty(Hm0)), Hm0 = 6; end

@@ -18,7 +18,8 @@ function s = vectoriz(s)
 %History
 % by pab 25.01.2001
 
-error(nargchk(1,1,nargin));
+%error(nargchk(1,1,nargin));
+narginchk(1,1)
 switch class(s)
   case 'inline',  v = s.expr; %formula(s); 
     islin=1;

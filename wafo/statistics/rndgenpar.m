@@ -58,7 +58,8 @@ function R = rndgenpar(varargin)
 % -revised pab sept 2007
 % - more accurate simulation of upper tail.
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 3;
 options = struct('lowertail',false); 
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

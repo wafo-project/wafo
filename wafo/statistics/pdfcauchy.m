@@ -47,7 +47,8 @@
 % by pab 2007
 
 function f = pdfcauchy(x,varargin)
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 2;
 options = struct('logp',false,'disable',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

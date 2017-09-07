@@ -70,14 +70,14 @@ function [H, Hw, Hs]=mktorsethaugen(varargin)
 %  In proceedings OMAE, Glasgow
 
 
-% Tested on Matlab 5.3 
+% Tested on Matlab 5.3, 7. 8. 9
 % History: 
 % By pab Jan 2007
 % New enhanced implementation based on old torsethaugen function from 1999.
 
 
-error(nargchk(0,inf,nargin));
-
+%error(nargchk(0,inf,nargin));
+narginchk(0,inf)
 options = struct('Hm0',7,'Tp',11,'method','integration','wnc',6,'chkseastate','on');
 
 if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')

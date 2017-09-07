@@ -67,7 +67,8 @@ if ischar(x) && strcmpi(x,'defaults')
   F = options;
   return
 end
-error(nargchk(2,9,nargin))
+%error(nargchk(2,9,nargin))
+narginchk(2,9)
 Np = 2;
 [params,options,tmp,phat] = parsestatsinput(Np,options,varargin{:});
 if numel(options)>1

@@ -20,8 +20,8 @@ function s1 = dewhite(s)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-error(nargchk(1, 1, nargin));
-
+%error(nargchk(1, 1, nargin));
+narginchk(1,1)
 if isempty(s), s1=s; return; end
 if ~(ischar(s)||iscell(s))
   error('Input must be a string or cellarray of strings.');

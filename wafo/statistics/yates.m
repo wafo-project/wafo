@@ -59,7 +59,8 @@ function [ef, id]=yates(y,varargin)
 % History:
 % By Per A. Brodtkorb 16.03.2001
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 sz = size(y);
 n  = length(y); 
 if prod(sz) == n, 

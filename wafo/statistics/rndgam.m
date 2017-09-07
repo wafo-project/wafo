@@ -54,7 +54,8 @@ function R = rndgam(varargin)
 %     You should have received a copy of the GNU Lesser General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 2;
 options = struct; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

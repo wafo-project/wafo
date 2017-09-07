@@ -59,7 +59,8 @@ function [value,err,inform,exTime] = prbnormnd(correl,A,B,abseps,releps,maxpts,m
 % Lewandowski who made us aware of this.
 % By pab 2002
 
-error(nargchk(3,7,nargin))
+%error(nargchk(3,7,nargin))
+narginchk(3,7)
 [m,n] = size(correl);
 Na = length(A);
 Nb = length(B);

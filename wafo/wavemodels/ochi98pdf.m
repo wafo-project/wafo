@@ -37,8 +37,8 @@ function y = ochi98pdf(x,a,b)
 % changed name from ochipdf to ochi98pdf
 % by  Per A. Brodtkorb 17.02.99
 
-error(nargchk(3,3,nargin))
-
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 
 [icode x a b] = iscomnsize(x,a,b);
 

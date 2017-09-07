@@ -48,7 +48,8 @@ sym = {'bo','rx','b-','r--'}; % default plot symbols for the empirical
                               % mean and std, and theoretical mean and
                               % std,respectivel
 			      
-error(nargchk(2,15,nargin))
+%error(nargchk(2,15,nargin))
+narginchk(2,15)
 Np = 5;
 options = struct('condon',2,'resolution',[]); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

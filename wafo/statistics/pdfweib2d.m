@@ -74,7 +74,8 @@ if nargin==1 && strncmpi(x1,'defaults',6)
   f = options;
   return
 end
-error(nargchk(3,15,nargin))
+%error(nargchk(3,15,nargin))
+narginchk(3,15)
 [params,options] = parsestatsinput(Np,options,varargin{:});
 if numel(options)>1
   error('Multidimensional struct of distribution parameter not allowed!')

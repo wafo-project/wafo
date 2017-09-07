@@ -30,12 +30,13 @@ function  [names,synopsis,subroutines,helpHeader,...
 %
 % Example: % Return functions (including all "math" functions) used in
 %          % the dewhite function
-% str =  freadtxt('dewhite.m'); 
-% [names,synopsis,subroutines,HH,h1] = parsemfilestr(str,'math','trivia');
-% assert(names(:,1:7), strvcat('cell', 'error','find','iscell','ischar','isempty',...
+% str =  freadtxt('dewhite'); 
+% [names,synopsis,subroutines,HH,h1] = parsemfilestr(str,'math','trivia')
+% assert(names, strvcat('cell', ¨'error','find','iscell','ischar','isempty',...
 %       'isspace','max','nargchk','nargin','numel','size'))
 %	 
 % See also: fnames
+
 
 % History:
 % revised pab July 2006
@@ -56,8 +57,8 @@ function  [names,synopsis,subroutines,helpHeader,...
 % BUGS % functions called must be in path to be detected
 
 % Handle input ..................................
-error(nargchk(1,6,nargin))
-
+%error(nargchk(1,6,nargin))
+narginchk(1,6)
 % initialise output
 synopsis    = cell(1,0);
 subroutines = cell(1,0);
@@ -367,7 +368,7 @@ if any(i_functionWords)
   
 end
 
-[names, matlabKeywords] = _space_padd(names, matlabKeywords);
+[names, matlabKeywords] = space___padd(names, matlabKeywords);
 
 
 i_keyWords = find(ismember(lower(names),matlabKeywords,'rows'));
@@ -401,18 +402,18 @@ end
 % Choose only those on the right-hand side
 % which definitely is not a variable name
 nn    = find(~leftSide);
-[names, variablenames] = _space_padd(names, variablenames);
+[names, variablenames] = space___padd(names, variablenames);
 names = setdiff(names(nn,:),variablenames,'rows');
 if isempty(names),
   return;
 end
-[names, globalVariableNames] = _space_padd(names, globalVariableNames);
+[names, globalVariableNames] = space___padd(names, globalVariableNames);
 % or a global variable
 names = setdiff(names,char(globalVariableNames),'rows');
 if isempty(names),
   return;
 end
-[names, subroutines] = _space_padd(names, char(subroutines));
+[names, subroutines] = space___padd(names, char(subroutines));
 % or subfunction name
 names = setdiff(names,subroutines,'rows');
 
@@ -434,13 +435,13 @@ if any(i0) && ~isempty(names),
   names2remove = strvcat(trivialFunctionNames{find(i0)});
   % Remove standards: "trivia" such as "zeros", "ones"
   % and "controls" such as "for", "if", "end"
-  [names, names2remove] = _space_padd(names, names2remove);
+  [names, names2remove] = space___padd(names, names2remove);
   names = setdiff(names,names2remove,'rows');
 end
 return
 end
 
-function [a,b] = _space_padd(a, b)
+function [a,b] = space___padd(a, b)
   n = size(a, 2)-size(b, 2);
   if n>0 
      b = cat(2, b, repmat(' ', size(b, 1), n));

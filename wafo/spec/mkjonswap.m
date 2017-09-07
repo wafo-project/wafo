@@ -83,7 +83,7 @@ function H = mkjonswap(varargin)
 % Ergansungsheft, Reihe A(8), Nr. 12, Deutschen Hydrografischen Zeitschrift.
 
 
-% Tested on: matlab 7
+% Tested on: matlab 7, 8, 9
 % History:
 % By pab Jan 2007
 % New enhanced implementation based on old jonswap and torsethaugen functions.
@@ -103,8 +103,8 @@ function H = mkjonswap(varargin)
 %      especially important when studying velocities a
 
 
-error(nargchk(0,inf,nargin))
-
+%error(nargchk(0,inf,nargin))
+narginchk(0,inf)
 
 options = struct('Hm0',7,'Tp',11,'gamma',[],...
   'sigmaA',0.07,'sigmaB',0.09,'Ag',[],'N',5,'M',4,...

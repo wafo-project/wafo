@@ -1,7 +1,7 @@
-function [f] = spec2acdf(spec,utc,def,paramt,h,nit,speed)
+function [f] = spec2Acdf(spec,utc,def,paramt,h,nit,speed,plotflag)
 %SPEC2ACDF  CDF for crests P(Ac<=h) or troughs P(At<=h).
 %         
-%  CALL:  F   = spec2acdf(S,u,def,param,h,nit,speed);
+%  CALL:  F   = spec2Acdf(S,u,def,param,h,nit,speed,plotflag);
 %
 %        F    = cumulative distribution function of crests or trough heights
 %        S    = spectral density structure
@@ -20,6 +20,8 @@ function [f] = spec2acdf(spec,utc,def,paramt,h,nit,speed)
 %               -1,-2,-3,... different important sampling type integrations.
 %       speed = defines accuraccy of calculations, by choosing different 
 %               parameters, possible values: 1,2...,9 (9 fastest, default 4).
+%    plotflag = 1, plots cdf  F  and Rayleigh appximation (default)
+%               0, no plot 
 %       []    = default values are used.
 %
 % SPEC2ACDF calculates P(Ac<=h) or P(At<=h) in a stationary Gaussian
@@ -49,7 +51,8 @@ function [f] = spec2acdf(spec,utc,def,paramt,h,nit,speed)
 %  replaced code with call to spec2cov2
 %  removed tic and toc  
 % Revised pab aug2007
-% -replade code with a call to writecov
+% -replaced code with a call to writecov
+% GL added plotflag 2017
   
 % TODO % Needs further testing  
   
@@ -91,8 +94,6 @@ if isempty(g)
   g=[sqrt(L0)*(-5:0.02:5)', (-5:0.02:5)'];
 end
 
-
-
 if nargin<2||isempty(utc)
   utc_d = gaus2dat([0, 0],g); % most frequent crossed level 
   utc   = utc_d(1,2);
@@ -103,12 +104,13 @@ uu = dat2gaus([0., utc],g);
 u  = uu(2);
 disp(['The level u for Gaussian process = ', num2str(u)])
 
-
-
 if nargin<7||isempty(speed)
   speed=4;
 end			    
-  
+
+if nargin<8, 
+   plotflag = 1,
+end 
   
 ttn    = 1.2*ceil(2*pi*sqrt(L0/L2)*exp(u^2/2)*(0.5+erf(-sign(defnr)*u/sqrt(2))/2));
 if nargin<4||isempty(paramt)
@@ -303,10 +305,12 @@ f.elapsedTime = etime(clock,startTime);
 
 cleanup(filenames{:},filenames2{:}) 
 
-pdfplot(f)
-hold on
-if abs(u)<0.1
- xu=tranproc(u+f.x{1},g); 
- plot(f.x{1},1-exp(-xu.*xu/2),'k.')
- plot(f.x{1},1-exp(-xu.*xu/2),'k')
-end 
+if plotflag==1
+   pdfplot(f)
+   hold on
+   if abs(u)<0.1
+    xu=tranproc(u+f.x{1},g); 
+    plot(f.x{1},1-exp(-xu.*xu/2),'k.')
+    plot(f.x{1},1-exp(-xu.*xu/2),'k')
+   end 
+end

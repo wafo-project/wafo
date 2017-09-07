@@ -52,7 +52,8 @@ function Snew=rotspec(S,phi,rotateGrid,method)
   
 % TODO % Make physical grid rotation of cartesian coordinates more robust.
 
-error(nargchk(1,4,nargin))
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 if (nargin<2 || isempty(phi))
   phi =0;
 end

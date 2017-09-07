@@ -66,7 +66,8 @@ function [x,xlo,xup] = invgumb(F,varargin)
 % revised pab 25.10.2000
 % - added nargchk+comnsize
 
-error(nargchk(3,7,nargin))
+%error(nargchk(3,7,nargin))
+narginchk(3,7)
 Np = 2;
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false,'trunc',false); % default options

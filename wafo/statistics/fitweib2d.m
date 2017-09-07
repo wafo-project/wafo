@@ -56,7 +56,8 @@ function phat=fitweib2d(data1,data2,varargin)
 %  phat = fitweib2d(R(:,1),R(:,2),'smle',given,phat0); % estimate A1 and A2
 
 global WAFO_WSTATS_DEFAULT_PLOTFLAG
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 % Add these options?: 'shape',nan,'scale',nan,'location',0, 
 options = struct('method','SML','fixpar',[],'ksign',0,...
   'alpha',0.05,'plotflag', WAFO_WSTATS_DEFAULT_PLOTFLAG,...

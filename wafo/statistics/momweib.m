@@ -46,7 +46,8 @@ function [m,v,sk,ku]= momweib(a,b, c)
 %   - added comnsize
 % added ms 15.06.2000
 
-error(nargchk(2,3,nargin));
+%error(nargchk(2,3,nargin));
+narginchk(2,3)
 if nargin<3 || isempty(c),
   c=0;
 end

@@ -49,7 +49,8 @@ function [H,Hw,Hs] = mkochihubble(varargin)
 % based on old ohspec2 function
 
 
-error(nargchk(0,inf,nargin));
+%error(nargchk(0,inf,nargin));
+narginchk(0,inf)
 options = struct('Hm0',7,'def',1,'chkseastate','on');
 if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
   H = options;

@@ -52,7 +52,8 @@ function [x,xlo,xup] = invchi2(F,varargin)
 % revised pab 25.10.2000
 %  - added comnsize, nargchk
 % added ms 26.06.2000
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false,'abseps',1e-90,'releps',sqrt(eps),'max_iter',500); % default options
 

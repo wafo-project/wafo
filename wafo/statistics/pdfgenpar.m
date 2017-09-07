@@ -58,7 +58,8 @@ function f = pdfgenpar(x,varargin)
 %  - added m + default values on m and s
 % added ms 14.06.2000
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 Np = 3;
 options = struct('logp',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

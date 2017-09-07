@@ -82,7 +82,8 @@ function  [phat] =fitmargcnd2d(V,H,dist,res,method,monitor,chat0)
 %     to edf instead
 % Per A. Brodtkorb 20.10.1998
 
-error(nargchk(3,7,nargin))
+%error(nargchk(3,7,nargin))
+narginchk(3,7)
 ptime     = 1; %pause length if monitor=1
 printflag = 0;%print if monitor=1
 

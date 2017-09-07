@@ -44,7 +44,8 @@ function f = pdfnorm(x,varargin)
 %  - added default values
 % added ms 15.06.2000
 
-error(nargchk(1,5,nargin))
+%error(nargchk(1,5,nargin))
+narginchk(1,5)
 options = struct('logp',false); % default options
 Np = 2;
 [params,options] = parsestatsinput(Np,options,varargin{:});

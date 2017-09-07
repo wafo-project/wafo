@@ -1,5 +1,6 @@
 %README New features, bug fixes, and changes in STATISTICS. 
 %
+% Version 2.5.2   25-May-2017 update for Matlab 9.1 and older
 % Version 2.5.1   16-Jul-2009
 %
 %  BUG FIX

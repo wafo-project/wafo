@@ -70,7 +70,8 @@ if nargin==1 && nargout <= 1 && isequal(V,'defaults')
   phato = options;
   return
 end
-error(nargchk(3,inf,nargin))
+%error(nargchk(3,inf,nargin))
+narginchk(3,inf)
 options = parseoptions(options,varargin{:});
  
 V = V(:);

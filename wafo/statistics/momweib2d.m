@@ -66,7 +66,8 @@ function [M ,V ,Tm ,cvar, tolm, tolv] = momweib2d(varargin)
 %  by Per A. Brodtkorb 13.11.98
 
 
-error(nargchk(3,15,nargin))
+%error(nargchk(3,15,nargin))
+narginchk(3,15)
 Np = 5;
 options = struct('condon',0,'cvar',[],'releps',1e-4); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

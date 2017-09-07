@@ -64,7 +64,8 @@ function [phat]=fitweib(data,varargin)
 % rewritten ms 20.06.2000
 
 global WAFO_WSTATS_DEFAULT_PLOTFLAG
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 % Add these options?: 'shape',nan,'scale',nan,'location',0, 
 options = struct('method','ML','fixpar',[nan, nan, 0],'alpha',0.05,...
   'plotflag', WAFO_WSTATS_DEFAULT_PLOTFLAG,...

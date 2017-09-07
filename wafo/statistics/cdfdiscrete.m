@@ -54,7 +54,8 @@
 
 function cdf = cdfdiscrete(x, v, p)
 
-error(nargchk(3,3,nargin))
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 %   if (nargin ~= 3)
 %     print_usage ();
 %   end %if

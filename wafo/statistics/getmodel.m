@@ -39,8 +39,8 @@ function [model, ind] =  getmodel(ef,id,treshLow,treshUp)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(3,4,nargin))
-
+%error(nargchk(3,4,nargin))
+narginchk(3,4)
 treshLow = -abs(treshLow);
 if nargin<4||isempty(treshUp), treshUp = -treshLow; end
 

@@ -35,8 +35,8 @@ function [varargout] = plotresq(self)
 % renamed from distplot to resqplot
 % by  Per A. Brodtkorb 12.11.2000
 
-error(nargchk(1,1,nargin))
-
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
 [varargout{1:nargout}]=plotresq(struct(self));
 return
 

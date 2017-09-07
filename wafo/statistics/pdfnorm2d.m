@@ -31,8 +31,8 @@ function pdf = pdfnorm2d(X,m,S)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(1,3,nargin))
-
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 
 [n,d]=size(X);
 

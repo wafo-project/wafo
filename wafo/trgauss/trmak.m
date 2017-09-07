@@ -35,7 +35,8 @@ nam1 = { 'form','tr','mean','std','note','date'};
 if nargin==0,  % make an empty object
   tr =[];ma =[]; sa =[];note =[];
 else
-  error(nargchk(3,4,nargin))
+  %error(nargchk(3,4,nargin))
+  narginchk(3,4)
   if nargin<4, note = []; end
   switch class(tr),
    case 'struct',

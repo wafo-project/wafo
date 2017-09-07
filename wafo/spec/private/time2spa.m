@@ -25,7 +25,8 @@ function Sk=time2spa(S,k,k2,g,rate)
 %   revised by es 29.11.1999: norm. in both x and y (length(g) 1 OR 2)
 %   by es 99.08.17
 
-error(nargchk(1,5,nargin))
+%error(nargchk(1,5,nargin))
+narginchk(1,5)
 if nargin<5 || isempty(rate),
   rate = 2;
 end

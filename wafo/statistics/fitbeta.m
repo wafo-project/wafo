@@ -52,7 +52,8 @@ function [phat]=fitbeta(data, varargin)
 
 global WAFO_WSTATS_DEFAULT_PLOTFLAG
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 % Add these options?: 'shape',nan,'scale',nan,'location',0, 
 options = struct('method','ML','alpha',0.05,...
   'plotflag', WAFO_WSTATS_DEFAULT_PLOTFLAG,...

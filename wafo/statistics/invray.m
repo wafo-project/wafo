@@ -56,7 +56,8 @@ function [x,xlo,xup] = invray(F,varargin)
 
 
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 options = struct('proflog',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 1;

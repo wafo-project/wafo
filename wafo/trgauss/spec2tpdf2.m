@@ -60,7 +60,8 @@ if ((nargin==1) && (nargout <= 1) &&  isequal(spec,'defaults')),
   f = defaultoptions;
   return
 end 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 startTime = clock;
 if nargin<3||isempty(def)
   def='tc';

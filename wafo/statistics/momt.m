@@ -44,8 +44,8 @@ function [m,v,sk,ku]= momt(df)
 % History: 
 % by pab 23.10.2000
 
-error(nargchk(1,1,nargin))
-
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
 
 m = zeros(size(df));
 m(df<=1) = nan;

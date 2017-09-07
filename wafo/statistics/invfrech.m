@@ -39,8 +39,8 @@ function [x,xlo,xup] = invfrech(F,varargin)
 % History: 
 % Added PJ 10-May-2001
 
-error(nargchk(3,11,nargin))
-
+%error(nargchk(3,11,nargin))
+narginchk(3,11)
 options = struct('alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 2;

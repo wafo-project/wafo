@@ -45,7 +45,8 @@ function [r1, r2, ind]= rndweib2d(varargin)
 %history:
 % by Per A. Brodtkorb 19.11.98
 
-error(nargchk(3,15,nargin))
+%error(nargchk(3,15,nargin))
+narginchk(3,15)
 Np = 5;
 options = struct('lowertail',true,'logp',false,'releps',1e-3,'iter_max',500); % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

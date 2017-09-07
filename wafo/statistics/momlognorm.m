@@ -47,7 +47,8 @@ function [m,v,sk,ku]= momlognorm(m0,v0)
 %  - added default values
 % added ms 10.08.2000
 
-error(nargchk(0,2,nargin))
+%error(nargchk(0,2,nargin))
+narginchk(0,2)
 if nargin<1||isempty(m0),  m0=0;  end
 if nargin<2||isempty(v0),  v0=1;  end
 

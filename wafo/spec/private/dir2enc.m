@@ -31,7 +31,8 @@ function Snew=dir2enc(S,d,v)
 % TODO % The numerical accuracy of the method is pure. 
 % TODO % Should remove singularity by e.g. splitting the integral.
 
-error(nargchk(1,3,nargin));
+%error(nargchk(1,3,nargin));
+narginchk(1,3)
 if nargin<0 || isempty(S)
   error('Needs an input spectrum');
 end

@@ -49,8 +49,8 @@ function [f,varargout] = thspdf2(Hd,Scf,Hm0,Tp,normalizedInput)
 % validated 20.11.2002
 % By pab 20.12.2000
 
-error(nargchk(4,5,nargin))
-
+%error(nargchk(4,5,nargin))
+narginchk(4,5)
 if (nargin < 5||isempty(normalizedInput)),  normalizedInput  = 0;end
 if (nargin < 4||isempty(Tp)),  Tp  = 8;end
 if (nargin < 3||isempty(Hm0)), Hm0 = 6;end

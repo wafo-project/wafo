@@ -33,7 +33,8 @@ function h = plotresponse(y,D)
 % revised pab 2007
 % renamed from cplot to plotresponse
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 sz = size(y);
 
 n = length(y);
@@ -124,7 +125,8 @@ if nargout>1,
 end
 
 function h = circle2d(x,y,r,varargin)
-  error(nargchk(2,inf,nargin))
+  %error(nargchk(2,inf,nargin))
+  narginchk(2,inf)
   if nargin<3,r=1;end
   [csize, x,y,r]=comnsize(x,y,r);
   
@@ -140,7 +142,8 @@ return
 
 
 function h = circle3d(x,y,z,r,varargin)
-  error(nargchk(3,inf,nargin))
+  %error(nargchk(3,inf,nargin))
+  narginchk(3,inf)
   if nargin<4,r=1;end
   [csize, x,y,z,r]=comnsize(x,y,z,r);
   

@@ -46,7 +46,8 @@ function [f,fA,fB] = ohhvpdf(v,h,Hm0,def,norm)
 % History
 % By pab 20.12.2000
 
-error(nargchk(3,5,nargin))
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 if nargin<5||isempty(norm), norm=0;end 
 if nargin<4||isempty(def), def=1;end 
 

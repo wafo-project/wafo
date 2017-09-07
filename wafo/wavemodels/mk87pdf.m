@@ -51,8 +51,8 @@ function p = mk87pdf(Hd,Scf,Hs,Tz, condon,normalizedInput)
 % by  Per A. Brodtkorb 1998
 
 
-error(nargchk(3,6,nargin))
-  
+%error(nargchk(3,6,nargin))
+narginchk(3,6)  
 if nargin < 6||isempty(normalizedInput),  normalizedInput=0; end
 if nargin < 5||isempty(condon),  condon=0; end % regular pdf is returned
 if nargin < 4||isempty(Tz),  Tz=8;end

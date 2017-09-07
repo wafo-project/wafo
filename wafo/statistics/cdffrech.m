@@ -48,7 +48,8 @@ function [F,Flo,Fup] = cdffrech(x,varargin)
 % Added PJ 10-May-2001
 
 
-error(nargchk(2,9,nargin))
+%error(nargchk(2,9,nargin))
+narginchk(2,9)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 2;
@@ -59,7 +60,8 @@ end
 
 [a,c] = deal(params{:});
 if isempty(c),
-  error(nargchk(3,9,nargin))
+  %error(nargchk(3,9,nargin))
+  narginchk(3,9)
 end
 
 c(c<=0) = nan;

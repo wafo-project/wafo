@@ -73,8 +73,9 @@ if isa(x,'struct') || isa(x,'fdata')
   dist  = x.distribution;
   x = x.data(:);
 else
- error(nargchk(2,inf,nargin))
-  x=x(:); 
+ %error(nargchk(2,inf,nargin))
+ narginchk(2,inf)
+ x=x(:); 
   if nargin>2
     cphat = varargin;
   end

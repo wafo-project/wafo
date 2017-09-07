@@ -50,7 +50,8 @@ function f = pdflognorm(x,varargin)
 %  - fixed a bug in the parameterization
 % added ms 10.08.2000
 
-error(nargchk(1,6,nargin))
+%error(nargchk(1,6,nargin))
+narginchk(1,6)
 options = struct('logp',false); % default options
 Np = 2;
 [params,options] = parsestatsinput(Np,options,varargin{:});

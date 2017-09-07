@@ -48,7 +48,8 @@ function h= nplot(ef,id,offset)
 % Daniel, C. (1976)
 % Applications of statistics to Industrial Experimentation.
 
-error(nargchk(1,3,nargin))
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 sz = size(ef);
 n  = length(ef);
 if prod(sz)==n,

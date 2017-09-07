@@ -24,7 +24,8 @@ function res = strlexcmp(a, b)
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
    % Check arguments.
-   error(nargchk(2, 2, nargin));
+   %error(nargchk(2, 2, nargin));
+   narginchk(2,2)
    if ~ischar(a) || ~ischar(b)
       error('Both arguments must be strings.');
    end

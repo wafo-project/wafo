@@ -24,8 +24,8 @@ function [T,R] = strltok(S,D)
 % 
 %   See also: strtok, isspace.
 
-error(nargchk(1,2,nargin))
-
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 T = []; 
 R = [];
 

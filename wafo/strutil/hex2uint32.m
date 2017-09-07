@@ -9,8 +9,8 @@ function n = hex2uint32( h )
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
    % Check number of input arguments.
-   error( nargchk( 1, 1, nargin ) );
-
+   %error( nargchk( 1, 1, nargin ) );
+   narginchk(1,1)
    % Check type and size of input argument.
    if ~ischar( h ) || isempty( h )
       error( 'Argument must be a non-empty string.' );

@@ -153,7 +153,8 @@ if nargin==1 && nargout <= 1 && isequal(x,'defaults')
   g = opt; 
   return
 end
-error(nargchk(1,inf,nargin)) 
+%error(nargchk(1,inf,nargin)) 
+narginchk(1,inf)
 if nargin<2||isempty(def),     def    = 'nonlinear'; end
 if nargin>=3,  opt   = troptset(opt,varargin{:});   end
 multip = opt.multip;

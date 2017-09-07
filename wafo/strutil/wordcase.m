@@ -14,7 +14,8 @@ function text=wordcase(text)
 %File:<d:/home/matlab/wordcase.m>
 
 cll=0;
-error(nargchk(1,1,nargin)); % INPUT-TEST
+%error(nargchk(1,1,nargin)); % INPUT-TEST
+narginchk(1,1)
 if isnumeric(text), error('String input only'); end
 
 text = deblank(text);

@@ -26,8 +26,8 @@ function c = str2cell( varargin )
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-error( nargchk( 1, 3, nargin ) );
-
+%error( nargchk( 1, 3, nargin ) );
+narginchk(1,3)
 %
 % Assign default values to parameters that can be changed by command
 % line options.

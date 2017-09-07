@@ -95,7 +95,8 @@ function [CI,Lp,nphat] = ciproflog(phat1,varargin)
 % History:
 % by pab Sep 2007
 
-  error(nargchk(1,inf,nargin));
+%  error(nargchk(1,inf,nargin));
+  narginchk(1,inf)
   options = struct('i',1,'pmin',[],'pmax',[],'N',100,'x',[],'logR',[],...
                    'link',[],'lowertail',false,'alpha',0.05,...
                    'plotflag',0,'check',true,'warning',true, ...

@@ -38,7 +38,8 @@ function [fit,res,sd,dof] = fitmodel(y,model)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(2,2,nargin))
+%error(nargchk(2,2,nargin))
+narginchk(2,2)
 sz = size(y);
 n  = length(y); 
 if prod(sz) == n, 

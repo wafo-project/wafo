@@ -22,7 +22,8 @@ function  Hs = specdata(data,varargin)
 %
 % See also wdata covdata
 
-error(nargchk(0,inf,nargin));
+%error(nargchk(0,inf,nargin));
+narginchk(0,inf)
 switch nargin
  case 0
    Hs = specdatastruct;

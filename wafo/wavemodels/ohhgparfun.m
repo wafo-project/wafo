@@ -35,8 +35,8 @@ function [A0,B0,C0]= ohhgparfun(Hm0,def,dim)
 % History:
 % by pab 29.01.2001
 
-error(nargchk(2,3,nargin))
-
+%error(nargchk(2,3,nargin))
+narginchk(2,3)
 persistent OHHGPAR OHHSGPAR
 if nargin<3||isempty(dim), dim = 'time';end
 if nargin<2||isempty(def), def = 1;end 

@@ -46,7 +46,8 @@ function pdf = pdfnormnd(X,varargin)
 %  den = (2*pi)^(d/2)*det(S)^(1/2);
 % Revised pab 11nov2003  
 % By pab 2002  
-error(nargchk(1,3,nargin))
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 options = struct('logp',false); % default options
 Np = 2;
 [params,options] = parsestatsinput(Np,options,varargin{:});

@@ -50,7 +50,8 @@ function [F, Flo,Fup] = cdfraymod(x,varargin)
 % by pab 03.12.2000
 % based on pdfray
 
-error(nargchk(2,9,nargin))
+%error(nargchk(2,9,nargin))
+narginchk(2,9)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 

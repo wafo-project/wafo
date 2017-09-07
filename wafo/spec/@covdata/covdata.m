@@ -5,7 +5,8 @@ function  Hs = covdata(data,varargin)
 %
 %
 
-error(nargchk(0,inf,nargin));
+%error(nargchk(0,inf,nargin));
+narginchk(0,inf)
 switch nargin
  case 0
    wd      = wdata;

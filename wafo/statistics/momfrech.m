@@ -43,7 +43,8 @@ function [m,v,sk,ku]= momfrech(varargin)
 % - rmoved dependence on comnsize
 % Added PJ 10-May-2001
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 Np = 2;
 options = [];
 params = parsestatsinput(Np,options,varargin{:});

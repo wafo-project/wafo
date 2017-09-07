@@ -39,7 +39,8 @@ function [I00,I11] = alias(I0,order)
 
 %Known Bugs:   1) Number of variables must be less than 51
 %              2) n<inf produse
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 if nargin<2||isempty(order),order = inf; else order = abs(order);end
 if isempty(I0),
   str = 'No alias structure';

@@ -48,8 +48,8 @@ function [f,varargout] = thvpdf2(Hd,Vcf,Hm0,Tp,normalizedInput)
 %   extended the example
 % By pab 20.12.2000
 
-error(nargchk(3,5,nargin))
-
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 if (nargin < 5||isempty(normalizedInput)),  normalizedInput  = 0;end
 if (nargin < 4||isempty(Tp)),  Tp  = 8;end
 if (nargin < 3||isempty(Hm0)), Hm0 = 6;end

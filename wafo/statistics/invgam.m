@@ -76,7 +76,8 @@ function [x,xlo,xup] = invgam(F,varargin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false,'abseps',1e-90,'releps',sqrt(eps),'max_iter',500); % default options
 

@@ -49,7 +49,8 @@ function R = rndweib(varargin)
 %  - added greater flexibility on the sizing of R
 % rewritten ms 15.06.2000
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 3;
 %options = struct; % default options
 options = [];

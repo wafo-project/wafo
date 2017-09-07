@@ -43,7 +43,8 @@ function [phat, cov, pci]=fitweib3(data1, plotflag)
 % History:
 % by pab januar 2006  
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 if nargin<2||isempty(plotflag),  plotflag=1; end
 
 data  = data1(:);                            % make sure it is a vector

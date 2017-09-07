@@ -1,4 +1,9 @@
-%README New features, bug fixes, and changes in SPEC. 
+%README Readme file for module SPEC in WAFO Toolbox 
+% Version 2.5.3   24-May-2017
+%
+% Several updates since 2004
+%   to make routines work with Matlab 9.1 and older
+%
 % Version 2.1.1   14-nov-2004
 %
 %  FIXES

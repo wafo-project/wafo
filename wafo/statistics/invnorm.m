@@ -61,7 +61,8 @@ function [x,xlo,xup] = invnorm(F,varargin)
 %  - added default values
 % added ms 17.06.2000
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 

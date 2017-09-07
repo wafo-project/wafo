@@ -45,7 +45,8 @@ function f = thsscdf(Hd,Scf,Hm0,Tp,tail)
 % By pab 20.12.2000
 
 
-error(nargchk(3,5,nargin))  
+%error(nargchk(3,5,nargin))  
+narginchk(3,5)
 global THSSPARW
 global THSSPARG
 if (nargin < 5||isempty(tail)),tail = 0; end

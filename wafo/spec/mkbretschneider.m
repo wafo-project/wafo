@@ -60,7 +60,8 @@ function H=mkbretschneider(varargin)
 % his spectrum in 1959, ITTC, ISSC and Pierson-Moskovitz spectra came first
 % in 1964.
 
-error(nargchk(0,inf,nargin));
+%error(nargchk(0,inf,nargin));
+narginchk(0,inf)
 options = struct('Hm0',7,'Tp',11,'N',5,'M',4,'chkseastate','on');
 if (nargin==1) && ischar(varargin{1}) && strcmpi(varargin{1},'defaults')
   H = options;

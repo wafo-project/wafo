@@ -58,7 +58,8 @@ function [x,xlo,xup] = invweib(F,varargin)
 % - added comnsize, nargchk
 % rewritten ms 15.06.2000
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 3;

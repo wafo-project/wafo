@@ -88,8 +88,8 @@ function [T, pvalue, Tn,H]=logps(phat,data,varargin)
 % by pab 31.10.2000
 
 
-error(nargchk(3,inf,nargin))
-
+%error(nargchk(3,inf,nargin))
+narginchk(3,inf)
 params = num2cell(phat(:).',1);
 
 

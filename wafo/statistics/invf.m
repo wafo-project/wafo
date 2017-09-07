@@ -53,8 +53,8 @@ function [x, xlo,xup] = invf(F,varargin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(3,14,nargin))
-
+%error(nargchk(3,14,nargin))
+narginchk(3,14)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false,'abseps',1e-90,'releps',sqrt(eps),'max_iter',100); % default options
 

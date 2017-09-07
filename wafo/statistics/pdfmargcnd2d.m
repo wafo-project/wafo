@@ -55,8 +55,8 @@ function y = pdfmargcnd2d(v1,h1,phat)
 %   fixed a bug CV -> Cv
 %  Per A. Brodtkorb 28.10.98
 
-error(nargchk(3,3,nargin))
-
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 dist=phat.dist;
 
 V=v1; 

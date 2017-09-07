@@ -53,8 +53,8 @@ if (nargin==1 && nargout <= 1 && isequal(x,'defaults'))
   return
 end
 
-error(nargchk(2,inf,nargin))
-
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 
 Np = 1;
 [params,options] = parsestatsinput(Np,options,varargin{:});

@@ -34,7 +34,8 @@ function f = trangood(ff,nmin,mini,maxi,nmax)
 %  added nargchk and isempty(maxi),....isempty(nmin)
 % by ???
 
-error(nargchk(1,5,nargin))
+%error(nargchk(1,5,nargin))
+narginchk(1,5)
 if (size(ff,2)~=2)
   error('ff  must be a two column matrix.')
 end

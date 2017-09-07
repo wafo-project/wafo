@@ -39,7 +39,8 @@ function [f,Hrms,Vrms,fA,fB] = jhvnlpdf(Hd,Vcf,Hm0,Tp,gam,normalizedInput,condon
 % History
 % By pab 20.12.2000
 
-error(nargchk(4,7,nargin))
+%error(nargchk(4,7,nargin))
+narginchk(4,7)
 if (nargin < 7||isempty(condon)),  condon  = 0; end
 if (nargin < 6||isempty(normalizedInput)),  normalizedInput  = 0;end
 if (nargin < 5||isempty(gam))

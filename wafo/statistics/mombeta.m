@@ -47,7 +47,8 @@ function [m,v,sk,ku]= mombeta(varargin)
 % by pab 23.10.2000
 
 Np = 2;
-error(nargchk(1,Np,nargin))
+%error(nargchk(1,Np,nargin))
+narginchk(1,Np)
 options = [];
 params = parsestatsinput(Np,options,varargin{:});
 

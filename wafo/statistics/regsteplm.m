@@ -81,7 +81,8 @@ if nargin==1 && strcmpi(y,'defaults')
   Q = options;
   return
 end
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = parseoptions(options,varargin{:});
 
 validHow = {'all','forward','backward'};

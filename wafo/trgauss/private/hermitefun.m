@@ -35,7 +35,8 @@ function [g, t0] = hermitefun(coef,x,ma,sa,gdef)
 %  represented with exact numbers, especially when calculating
 %  derivatives of the transformation numerically.
 
-error(nargchk(1,5,nargin))
+%error(nargchk(1,5,nargin))
+narginchk(1,5)
 if nargin<5||isempty(gdef), gdef =1 ; end
 if nargin<4||isempty(sa), sa = 1;end
 if nargin<3||isempty(ma), ma = 0; end

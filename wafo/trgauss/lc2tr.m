@@ -114,7 +114,8 @@ if nargin==1 && nargout <= 1 && isequal(cross,'defaults')
   g = opt; 
   return
 end
-error(nargchk(3,inf,nargin)) 
+%error(nargchk(3,inf,nargin)) 
+narginchk(3,inf)
 if nargin>=4,  opt  = troptset(opt,varargin{:}); end
 
 csm1 = opt.csm;

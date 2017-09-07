@@ -37,7 +37,8 @@ function [m,v,sk,ku]= mombin(varargin)
 
 
 Np = 2;
-error(nargchk(1,Np,nargin))
+%error(nargchk(1,Np,nargin))
+narginchk(1,Np)
 options = []; %struct; % default options
 params = parsestatsinput(Np,options,varargin{:});
 

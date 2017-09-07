@@ -63,7 +63,8 @@ function R  = rndgumb(varargin)
 %  - added comnsize, nargchk
 %  - added greater flexibility on the sizing of R
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 2;
 options = struct('lowertail',true,'trunc',false); % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

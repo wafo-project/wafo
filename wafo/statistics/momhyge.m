@@ -37,8 +37,8 @@ function [m,v,sk,ku]= momhyge(n,K,N)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(3,3,nargin))
-
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 try
 
   pk = K/N;

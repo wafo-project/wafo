@@ -48,7 +48,8 @@ function R = rndexp(varargin)
 %  - made sizing of R more flexible
 % added ms 10.08.2000
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 1;
 options = []; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

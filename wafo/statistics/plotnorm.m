@@ -42,7 +42,8 @@ function plotnorm(x,nr1,nr2,df)
 %  - added example
 % Revised by jr 22.12.1999
 
-error(nargchk(1,4,nargin))
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 if nargin<4||isempty(df),  df=inf;end
 if (df<=0 || (df~=round(df) && df<inf))
   error('df must be postive integer')

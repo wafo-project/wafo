@@ -50,7 +50,8 @@ function f = pdfray(x,varargin)
 % added ms 15.06.2000
 
 
-error(nargchk(2,4,nargin))
+%error(nargchk(2,4,nargin))
+narginchk(2,4)
 Np = 1;
 options = struct('logp',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

@@ -76,8 +76,8 @@ function [skew, kurt, ma, sa, Hs ,Hd]=spec2skew(S,h,method)
 % by pab 01.03.2000
 
 
-error(nargchk(1,3,nargin))
-
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 % default options
 opts.disp = 0;
 

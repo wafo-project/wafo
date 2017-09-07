@@ -57,7 +57,8 @@ function [x,xlo,xup] = invweibmod(F,varargin)
 % - added comnsize, nargchk
 % rewritten ms 15.06.2000
 
-error(nargchk(3,5,nargin))
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 3;

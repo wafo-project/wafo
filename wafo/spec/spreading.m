@@ -164,7 +164,8 @@ function D = spreading(th,type,th0,data,w,def)
 % - updated information
 % By es, jr 1999.11.25
 
-error(nargchk(0,6,nargin))
+%error(nargchk(0,6,nargin))
+narginchk(0,6)
 % Default values
 %~~~~~~~~~~~~~~~
 Nt=101;Nw = 257;

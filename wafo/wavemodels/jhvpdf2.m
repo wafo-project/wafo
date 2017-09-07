@@ -42,8 +42,8 @@ function [f,Hrms,Vrms] = jhvpdf2(Hd,Vcf,Hm0,Tp,gam,normalizedInput)
 % Dr.Ing thesis, Norwegian University of Science and Technolgy, NTNU,
 % Trondheim, Norway.   
   
-error(nargchk(3,6,nargin))
-
+%error(nargchk(3,6,nargin))
+narginchk(3,6)
 if (nargin < 6||isempty(normalizedInput)),  normalizedInput  = 0;end
 if (nargin < 4||isempty(Tp)),  Tp  = 8;end
 if (nargin < 3||isempty(Hm0)), Hm0 = 6;end

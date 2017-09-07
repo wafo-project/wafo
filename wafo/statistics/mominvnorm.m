@@ -44,7 +44,8 @@ function [m,v,sk,ku]= mominvnorm(m0,l0)
 %  - added comnsize, nargchk
 % added ms 14.08.2000
 
-error(nargchk(2,2,nargin))
+%error(nargchk(2,2,nargin))
+narginchk(2,2)
 m0(m0<=0) = nan;
 l0(l0<=0) = nan;
 try

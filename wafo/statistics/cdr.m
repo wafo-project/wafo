@@ -42,8 +42,8 @@ function [I0,R] = cdr(I,varargin)
 
 
 
-error(nargchk(1,2,nargin))
-
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 if ischar(I),
  I = cl2cnr(I); % Transform from a column label into column nr.
 end

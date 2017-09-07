@@ -43,7 +43,8 @@ function S = ggamspec(wn,N,M)
 % -updated help header
 % By pab jan 2007
 
-error(nargchk(1,3,nargin))
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 if nargin<2 || isempty(N)
   N = 5; % High frequency exponent
 end

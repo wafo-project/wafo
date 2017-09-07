@@ -49,7 +49,8 @@ function R = rndchi2(varargin)
 % - replaced code with a call to rndgam
 % added ms 26.06.2000
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 1;
 options = []; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

@@ -46,7 +46,8 @@ function [F,Flo,Fhi] = cdfbray(x,varargin)
 % revised pab 14.10.1999
 % updated help header
 %  Per A. Brodtkorb 21.02.99
-error(nargchk(4,12,nargin))
+%error(nargchk(4,12,nargin))
+narginchk(4,12)
 options = struct('alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 3;

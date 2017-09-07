@@ -36,7 +36,8 @@ function r = iqrange(X,dim)
 % History:
 % revised pab 24.10.2000
 
-error(nargchk(1,2,nargin))
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 sz = size(X);
 if nargin<2||isempty(dim),
   % Use 1'st non-singleton dimension or dimension 1

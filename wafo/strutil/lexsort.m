@@ -9,7 +9,7 @@ function [A,indx] = lexsort(Z)
 %
 % Example
 %  words = strvcat('octave', 'matlab', 'scilab', 'abc', 'Octave', 'Matlab');
-%  assert(lexsort(words), strvcat('abc','Matlab','matlab','Octave','octave','scilab'))
+%  assert(lexsort(words), strvcat('abc','Matlab','matlab','Octave','octave','scilab')
 %
 % See also sort, sortrows
 

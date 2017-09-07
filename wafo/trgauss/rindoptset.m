@@ -165,7 +165,8 @@ function options = initoptions(speed,options)
 %    
 % See also  rindoptset, rind
   
-  error(nargchk(1,2,nargin))
+%  error(nargchk(1,2,nargin))
+  narginchk(1,2)
   if nargin<2||isempty(options)
     options = rindoptset;
   end

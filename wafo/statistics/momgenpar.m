@@ -58,7 +58,8 @@ function [m,v,sk,ku]= momgenpar(varargin)
 
 
 Np = 3;
-error(nargchk(1,Np,nargin))
+%error(nargchk(1,Np,nargin))
+narginchk(1,Np)
 options = [];
 params = parsestatsinput(Np,options,varargin{:});
 

@@ -72,7 +72,8 @@ function [value,bound,inform] = prbnormtndpc(RHO,A,B,D,NDF,abseps,IERC,HNC)
 % revised pab April 2008
 % -renamed from mvnortpcprb to prbnormtndpc
 
-  error(nargchk(3,8,nargin))
+  %error(nargchk(3,8,nargin))
+  narginchk(3,8)
   if nargin<4||isempty(D),
     D = zeros(size(RHO));
   end

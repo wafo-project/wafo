@@ -61,7 +61,7 @@ function [x,xlo,xup] = invgev(F,varargin)
 %  Johnson  N.L., Kotz S. and Balakrishnan, N. (1994)
 %  Continuous Univariate Distributions, Volume 1. Wiley. 
 
-% Tested on: Matlab 5.3
+% Tested on: Matlab 5.3, 7, 8, 9
 % History: 
 % Revised by jr 22.12.1999
 % revised ms 14.06.2000
@@ -70,7 +70,8 @@ function [x,xlo,xup] = invgev(F,varargin)
 % revised pab 24.10.2000
 % - added  nargchk, comnsize and default values for m, s
 
-error(nargchk(2,9,nargin))
+%error(nargchk(2,9,nargin))
+narginchk(2,9)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 

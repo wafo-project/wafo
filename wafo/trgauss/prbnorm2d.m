@@ -23,7 +23,8 @@ function value = prbnorm2d(lower,upper,correl)
 
 % revised pab April 2008
 % -renamed from binormprb to prbnorm2d
-error(nargchk(3,3,nargin))
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 value = 1;
 infinity = 37;
 if all(lower <= -infinity & upper>= infinity),

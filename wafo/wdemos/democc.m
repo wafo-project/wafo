@@ -1,5 +1,4 @@
-%DEMOCC A program for visualization of cycle counts in random
-%   loads. 
+%DEMOCC A program for visualization of cycle counts in random loads
 %
 %   In Demonstration Window 1, the realisation is shown.
 %   It is possible to mark the turning points (TP) and, for local maxima
@@ -27,6 +26,8 @@
 %   Change figure positions
 % Updated by PJ 07-Jul-2005
 %   Added example
+
+disp('Not updated to new Matlab standard')
 
 democc_demow2=figure('Name','The rainflow & peak-trough cycle count','NumberTitle','off','Position',[0 300 500 350]);
 democc_demow1=figure('Name','Demonstration Window 1','NumberTitle','off','Position',[0 0 1000 300]);

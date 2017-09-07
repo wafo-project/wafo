@@ -44,8 +44,8 @@ function [V,H] = rndmargcnd2d(N,phat,csm,lin)
 % history:
 % by Per A. Brodtkorb 28.10.98
 
-error(nargchk(2,4,nargin))
-
+%error(nargchk(2,4,nargin))
+narginchk(2,4)
 if (nargin< 3)||isempty(csm), 
   csm=[];
 end

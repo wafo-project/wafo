@@ -57,7 +57,8 @@ function [F,Flo,Fup] = cdfexp(x,varargin)
 %  - added comnsize, nargchk
 % added ms 15.06.2000
 
-error(nargchk(1,10,nargin))
+%error(nargchk(1,10,nargin))
+narginchk(1,10)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 1;

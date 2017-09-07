@@ -38,8 +38,8 @@ function H = plotfitsumry(phat,plotflag)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(1,2,nargin))
-
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 if nargin<2 || isempty(plotflag)
   plotflag = 1011;
 end

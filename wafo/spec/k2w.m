@@ -1,5 +1,5 @@
 function [w,th]=k2w(k,k2,h,g,u,u2)
-% K2W Translates from wave number to frequency using the dispersion relation
+%K2W Translates from wave number to frequency
 %
 % CALL:  [w,theta]=k2w(k,k2,h,g)
 %

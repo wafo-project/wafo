@@ -6,7 +6,8 @@ function Hs1 = set(Hs,varargin)
 %  par1,par2..= strings identifying the property to alter
 %  val1,val2..= corresponding values the parameters are altered to.
 
-error(nargchk(3,inf,nargin));
+%error(nargchk(3,inf,nargin));
+narginchk(3,inf)
 Hs = parseoptions(Hs,varargin{:});
 if ~isa(Hs.wdata,'wdata')
    error('Not allowed to assign a non-WAFO data object to wdata.')

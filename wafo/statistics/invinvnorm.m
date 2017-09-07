@@ -58,7 +58,8 @@ function [x,xlo,xup] = invinvnorm(F,varargin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(3,9,nargin))
+%error(nargchk(3,9,nargin))
+narginchk(3,9)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false,'abseps',1e-90,'releps',sqrt(eps),'max_iter',500); % default options
 Np = 2;

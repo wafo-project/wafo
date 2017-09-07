@@ -32,10 +32,8 @@ function varargout=plotqq(x,y,ps,method)
 %     You should have received a copy of the GNU Lesser General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 % Adapted to  cssmooth  by GL Feb 2011
-% tested on: matlab 5.3
+% tested on: matlab 5.3, 7, 8, 9
 % History:
 % revised pab March 2007
 % - added LS-line to qqplot using smooth
@@ -43,7 +41,9 @@ function varargout=plotqq(x,y,ps,method)
 % revised pab 24.10.2000
 % added nargchk
 % updated header to comform to wafo style
-error(nargchk(2,4,nargin))
+
+%error(nargchk(2,4,nargin))
+narginchk(2,4)
 
 if nargin<3 || isempty(ps), 
   ps = '.'; 

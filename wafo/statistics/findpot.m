@@ -48,7 +48,8 @@ function [Ie, executionTime] = findpot(Data,Ymin,Tmin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(2,3,nargin))
+%error(nargchk(2,3,nargin))
+narginchk(2,3)
 if (nargin<3 || isempty(Tmin))
   Tmin = 1;
 end

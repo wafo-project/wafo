@@ -44,8 +44,8 @@ function [A0,B0,C0]= thgparfun(Hm0,Tp,dim)
 % History:
 % by pab 29.11.2002
 
-error(nargchk(2,3,nargin))
-
+%error(nargchk(2,3,nargin))
+narginchk(2,3)
 persistent THGPAR  THSSPAR
 
 if nargin<3||isempty(dim), dim = 'time';end

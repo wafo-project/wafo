@@ -35,8 +35,8 @@
 
 function pdf = pdfdiscrete(x, v, p)
 
-error(nargchk(3,3,nargi))
-
+%error(nargchk(3,3,nargi))
+narginchk(3,3)
   sz = size (x);
 tag1 = 'WAFO:PDFDISCRETE';
   if (~isvector (v))

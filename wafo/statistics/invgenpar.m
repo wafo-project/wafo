@@ -66,7 +66,9 @@ function [x,xlo,xup] = invgenpar(F,varargin)
 % revised pab aug 2007
 % - added pcov, alpha, uppertail to input
 % -removed threshold defining k to zero
-error(nargchk(2,inf,nargin))
+
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 

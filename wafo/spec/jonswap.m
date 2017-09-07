@@ -178,8 +178,8 @@ elseif A==0
   options.method = 'parametric';
 end
 jspec = mkjonswap(options);
-% options = jspec('options');
-gam = options.gamma;
+ optionsJ = jspec('options');
+gam = optionsJ.gamma;
 
 S1   = createspec;
 S1.S = jspec(w(:));

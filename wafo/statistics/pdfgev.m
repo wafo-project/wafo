@@ -62,7 +62,8 @@ function f = pdfgev(x,varargin)
 % - added  nargchk, comnsize and default values for m, s
 % added ms 14.06.2000
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 Np = 3;
 options = struct('logp',false,'disable',false); % default options
 [params,options] = parsestatsinput(Np,options,varargin{:});

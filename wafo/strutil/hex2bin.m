@@ -14,8 +14,8 @@ function str = hex2bin(h, n)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error(nargchk(1, 2, nargin));
-
+%   error(nargchk(1, 2, nargin));
+narginchk(1,2)
    if nargin < 2
       n = 1;            % Need at least one digit even for 0.
    else

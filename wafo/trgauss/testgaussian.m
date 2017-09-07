@@ -54,7 +54,8 @@ function test2 = testgaussian(S,Np,test0,def,opt)
 maxsize = 200000; % must divide the computations due to limited memory
 
 
-error(nargchk(2,5,nargin))
+%error(nargchk(2,5,nargin))
+narginchk(2,5)
 if nargin<4||isempty(def),
   def = 'nonlinear';
 end

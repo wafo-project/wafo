@@ -47,7 +47,8 @@ function [Snew]=spec2spec(S,newtype,phi,v)
 % revised by es 28.01.2000: correction and improvement of change to 'k1d'  
 % by es 13.08.99
 
-error(nargchk(1,4,nargin));
+%error(nargchk(1,4,nargin));
+narginchk(1,4)
 if nargin<0||isempty(S)
   error('Needs an input spectrum');
 end

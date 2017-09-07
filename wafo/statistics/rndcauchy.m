@@ -45,7 +45,8 @@
 
 function R = rndcauchy(varargin)
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 2;
 options = struct; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

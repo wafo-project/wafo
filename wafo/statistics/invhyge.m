@@ -35,7 +35,8 @@ function  k = invhyge(F,varargin)
 % relies on the fact that if two elements in a vector
 % are exactely the same then matlab's routine SORT sorts them
 % into the order they had. Do not change this, Mathworks!
-error(nargchk(4,9,nargin))
+%error(nargchk(4,9,nargin))
+narginchk(4,9)
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 Np = 3;

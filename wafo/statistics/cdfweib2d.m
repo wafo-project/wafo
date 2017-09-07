@@ -67,7 +67,8 @@ function [F ,err] = cdfweib2d(x1,x2,varargin)
 % NB! weibpdf must be modified to correspond to
 % pdf=x^(b-1)/a^b*exp(-(x/a)^b) 
 
-error(nargchk(3,15,nargin))
+%error(nargchk(3,15,nargin))
+narginchk(3,15)
 Np = 5;
 options = struct('covariance',[],'alpha',0.05,...
   'lowertail',true,'logp',false,'condon',0,'releps',1e-3,...

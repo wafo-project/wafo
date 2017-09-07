@@ -59,7 +59,8 @@ function [y, tol1] = tay90pdf(x,a,b,tol)
 %  Per A. Brodtkorb 21.02.99
 
 
-error(nargchk(3,4,nargin))
+%error(nargchk(3,4,nargin))
+narginchk(3,4)
 if (nargin <4)|| isempty(tol), 
   tol=1e-3; %relative accuracy of the estimates % sqrt(eps);%
 end

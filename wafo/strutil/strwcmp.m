@@ -35,7 +35,8 @@ function status = strwcmp(string1, string2, casesense)
 %  1998-04-01.
 %----------------------------------------------------------------------O
 
-error(nargchk(2,3,nargin));
+%error(nargchk(2,3,nargin));
+narginchk(2,3)
 if ~(ischar(string1)||iscell(string1)||ischar(string2)||iscell(string2))
   error('Input must be a string or cellarray of strings.');
 end

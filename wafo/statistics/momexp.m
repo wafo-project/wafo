@@ -47,7 +47,8 @@ function [m,v,sk,ku]= momexp(varargin)
 %  - added  nargchk
 % added ms 15.06.2000
 
-error(nargchk(1,1,nargin))
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
 Np = 1;
 options = [];
 params = parsestatsinput(Np,options,varargin{:});

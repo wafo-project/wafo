@@ -32,8 +32,8 @@ function lines = str2lines(str)
 % -replaced code with a call to dm2unix
 
    % Check number of input arguments.
-   error(nargchk(1, 1, nargin));
-
+   %error(nargchk(1, 1, nargin));
+   narginchk(1,1)
    str = dm2unix(str,'');
    
    LF = char(10); % LineFeed character

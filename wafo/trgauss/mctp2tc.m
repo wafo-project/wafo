@@ -33,7 +33,8 @@ function F=mctp2tc(f_mM,utc,param,f_Mm)
 %           0.0   0.0   0.0   0.0   0.0], 1e-6);
 %
 
-error(nargchk(3,4,nargin))
+%error(nargchk(3,4,nargin))
+narginchk(3,4)
 if nargin<4
   f_Mm=f_mM;
 end

@@ -55,7 +55,8 @@ function [phat2] = fitinvnorm(data,varargin)
 
 
 global WAFO_WSTATS_DEFAULT_PLOTFLAG
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 options = struct('method','ML','alpha',0.05,...
  'plotflag', WAFO_WSTATS_DEFAULT_PLOTFLAG,'optimset',optimset); % default options
 if (nargin==1 && nargout <= 1 && isequal(data,'defaults'))

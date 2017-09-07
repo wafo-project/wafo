@@ -15,7 +15,8 @@ function lines = strcenter(lines, offset)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error(nargchk(1, 2, nargin));
+   %error(nargchk(1, 2, nargin));
+   narginchk(1,2)
    if nargin < 2
       offset = 72;
    end

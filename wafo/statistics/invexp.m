@@ -60,7 +60,8 @@ function [x,xlo,xup] = invexp(F,varargin)
 
 
 
-error(nargchk(1,9,nargin))
+%error(nargchk(1,9,nargin))
+narginchk(1,9)
 options = struct('proflog',false,'alpha',0.05,...
   'lowertail',true,'logp',false); % default options
 

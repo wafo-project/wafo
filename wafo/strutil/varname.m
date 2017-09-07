@@ -8,7 +8,8 @@ function str = varname(varargin)
 % assert(varname(x2), {'x2'})
 % assert(varname(1), {''})
   
-  error(nargchk(1,inf,nargin));
+  %error(nargchk(1,inf,nargin));
+  narginchk(1,inf)
   str = cell(1,nargin);
   for ix=1:nargin,
     str{ix} = inputname(ix);

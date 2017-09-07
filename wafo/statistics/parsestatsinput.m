@@ -40,7 +40,8 @@ function [param,options,rndsize,phat] = parsestatsinput(Np,options,varargin)
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 ni = nargin-2;
 if isnan(Np), Np = 30;end
 param   = cell(1,Np);

@@ -64,7 +64,8 @@ function R = rndgev(varargin)
 %  - added comnsize, nargchk
 %  - added greater flexibility on the sizing of R
 
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 Np = 3;
 options = struct; % default options
 [params,options,rndsize] = parsestatsinput(Np,options,varargin{:});

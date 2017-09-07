@@ -59,7 +59,8 @@ if (nargin==1 && nargout <= 1 && isequal(dist,'defaults'))
   phat = options; 
   return
 end
-error(nargchk(3,inf,nargin))
+%error(nargchk(3,inf,nargin))
+narginchk(3,inf)
 if nargin>3 && ~isempty(options1)
   if iscell(options1)
     options        = parseoptions(options,options1{:});

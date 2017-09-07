@@ -57,7 +57,8 @@ function [varargout] = edf(z,varargin)
 % - moved the conditional version to edfcnd
 
 
-error(nargchk(1,5,nargin))
+%error(nargchk(1,5,nargin))
+narginchk(1,5)
 [varargout{1:nargout}] = edfcnd(z,-inf,[],varargin{:});
 
 

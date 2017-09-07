@@ -15,8 +15,8 @@ function s = rstrrep(s1, s2, s3)
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
    % check number of input arguments
-   error(nargchk(3, 3, nargin));
-
+   %error(nargchk(3, 3, nargin));
+   narginchk(3,3)
    % quick exit if no change will be made
    if ( length(s2) > length(s1) ) || isempty(s2) || isempty(s1)
       s = s1;

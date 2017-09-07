@@ -45,7 +45,8 @@ function [f,Hrms,Vrms,fA,fB] = ohhspdf(Hd,Scf,Hm0,def,normalizedInput, ...
 % revised pab 09.09.2003
 % By pab 06.02.2001
 
-error(nargchk(3,6,nargin))
+%error(nargchk(3,6,nargin))
+narginchk(3,6)
 if (nargin < 6||isempty(condon)),  condon  = 0;end
 if (nargin < 5||isempty(normalizedInput)),  normalizedInput  = 0;end
 if (nargin < 4||isempty(def)), def=1;end 

@@ -1,5 +1,5 @@
 % Fatigue in WAFO (Wave Analysis for Fatigue and Oceanography).
-% Version 2.5.2   07-Feb-2011 
+% Version 2.5.3   14-Aug-2017 
 %
 % Routines for Markov models, cycle counting, damage, and fatigue.
 %
@@ -103,7 +103,7 @@
 %   down2cc     - Calculates the most damaging cycle count given crossings.
 %   roadspec    - Road spectrum.
 %
-% Simulation of random loads [WAFO/wsim]
+% Simulation of random loads [WAFO/simtools]
 %   lc2sdat     - Simulates a process with given irregularity factor and crossing spectrum.
 %   rfm2dtp     - Reconstructs a sequence of turning points from a rainflow matrix. 
 %   mcsim       - Simulates a discrete Markov chain

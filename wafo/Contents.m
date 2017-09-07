@@ -1,5 +1,5 @@
 % WAFO Toolbox
-% Version 2.6.2   05-Jan-2016 
+% Version 2.6.3   25-May-2017 
 % 
 %   Wave Analysis for Fatigue and Oceanography (WAFO) Toolbox
 % 
@@ -68,6 +68,7 @@
 
 % '$revision$'
 
+% By GL 24 May 2017 updated to Matlab 9.1
 % By GL 13 Feb 2011
 % By jr 00.05.26
 % Revised 00.07.10

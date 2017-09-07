@@ -1,4 +1,7 @@
 %README New features, bug fixes, and changes in WAFO Toolbox - Wave Analysis for Fatigue and Oceanography 
+% Version 2.6.3  24-May-2017 
+%   updateed to work with Matlab 9.1 and older
+%
 % Version 2.5  08-Jan-2009
 %
 % NEW DIRECTORIES

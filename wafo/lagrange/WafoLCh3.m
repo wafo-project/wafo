@@ -169,7 +169,7 @@ disp(' Section 3.4')
     L=ldat2lwav3D(Wtot2,Xtot2d,Ytot2d,opt3D)
     drawnow
     figure(2), clf
-    Mv=seamovieL(L,1)
+    Mv=seamovie(L,1)
     pause
 
     % Front-back asymmetry
@@ -182,7 +182,7 @@ disp(' Section 3.4')
     L2=ldat2lwav3D(Wtot2,Xtot2d,Ytot2d,opt3D)
     drawnow
     figure(4), clf
-    Mv2=seamovieL(L2,1)
+    Mv2=seamovie(L2,1)
 
     disp('End of Chapter 3')
        

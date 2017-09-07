@@ -1,4 +1,4 @@
-function Mv=seamovieL_(Y,s,Wavename)
+function Mv=seamovieL(Y,s,Wavename)
 %SEAMOVIEL Makes a movie of a 2D or 3D simulated sea structure 
 %          and optionally saves it as an avi-file
 %  

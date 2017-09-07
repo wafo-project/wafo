@@ -46,7 +46,8 @@ function p = wafopath(part,add,first)
 % Check input and output
 ni = nargin;
 no = nargout;
-error(nargchk(0,3,ni));
+%error(nargchk(0,3,ni));
+narginchk(0,3)
 
 % Set default values
 if ni<1||isempty(part),  part  = 'tools'; end

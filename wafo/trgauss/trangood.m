@@ -32,7 +32,7 @@ function f = trangood(ff,nmin,mini,maxi,nmax)
 %  - updated header info: A more detailed description of what TRANGOOD does.
 %  - changed interpolation with a call to interp1q which is much faster
 %  added nargchk and isempty(maxi),....isempty(nmin)
-% by ???
+% by Finn Lindgren
 
 %error(nargchk(1,5,nargin))
 narginchk(1,5)

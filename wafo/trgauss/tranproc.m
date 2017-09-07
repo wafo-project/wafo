@@ -39,7 +39,7 @@ function y = tranproc(x,ff)
 % -added check on hn to make sure the spacing is not too dense
 % -added nmax
 % -updated help header
-% by ???
+% by Finn Lindgren
 
 %error(nargchk(2,2,nargin))
 narginchk(2,2)

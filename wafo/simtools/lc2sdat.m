@@ -40,8 +40,8 @@ function process=lc2sdat(lc,N,alpha)
 
 % TODO % add a good example
   
-error(nargchk(1,3,nargin))
-
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 f = linspace(0,0.49999,1000);
 rho_st = 2*sin(f*pi).^2-1;
 tmp    = alpha*asin(sqrt((1+rho_st)/2));

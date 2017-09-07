@@ -26,8 +26,8 @@ function [Qr,QQ,FF,FFr] = mctp2reverse(F)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,1,ni));
-
+%error(nargchk(1,1,ni));
+narginchk(1,1)
 % Define 
 
 n = length(F{1,1});  % Number of levels

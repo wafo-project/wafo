@@ -50,7 +50,9 @@ function [z,c]=mkernel2(X,kstr)
 %
 % collected all knorm,kepan ... into this file 
 % adapted from kdetools CB 
-error(nargchk(2,2,nargin))
+
+%error(nargchk(2,2,nargin))
+narginchk(2,2)
 [n,d]=size(X);
                % n=number of evaluation points,
                % d=dimension of the data.  

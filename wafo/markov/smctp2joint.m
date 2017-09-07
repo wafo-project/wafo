@@ -29,8 +29,8 @@ function [Q,QQ] = smctp2joint(P,F)
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,2,ni));
-
+%error(nargchk(2,2,ni));
+narginchk(2,2)
 % Define 
 
 r = length(P);   % Number of regime states

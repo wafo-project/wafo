@@ -39,13 +39,14 @@ function [Y,Mv]=seasim(spec,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag,use_waitbar)
 %  S = demospec('dir');
 %  plotflag = 1;
 %  use_waitbar = 0;
-%  Y=seasim(S,Nx,Ny,Nt,dx,dy,dt,2,plotflag, use_waitbar);  
+%  Y=seasim(S,Nx,Ny,Nt,dx,dy,dt,2,plotflag,use_waitbar);  
 %
 %  close all;
 %
-% See also  seamovie, spec2sdat
+% See also  spec2wave, spec2field, seamovie, spec2sdat
   
-% Tested on Matlab 5.3 
+% Tested on Matlab 5.3, ..., 9.2 
+% revised pab 2017, added  use_waitbar
 % revised pab jan 2007
 % -Now correctly takes S.phi into account in the simulations when fftdim==1.
 % revised pab April 2006
@@ -127,16 +128,16 @@ if fftdim~=2
   [k1,k2] = w2k(spec.w,spec.theta+spec.phi,spec.h,spec.g);
   Sxy = zeros(nf,Nxy);
   if use_waitbar
-	h = fwaitbar(0,[],' Integration ... ');
+    h = fwaitbar(0,[],' Integration ... ');
   end
   for ix=1:Nxy,
     Sxy(:,ix) = simpson(0:np-1,Sdiscr.*exp(i*(Xi(ix)*k1+Yi(ix)*k2))).';
-	if use_waitbar
-		fwaitbar(ix/Nxy,h)
-	end
-  end 
+    if use_waitbar
+        fwaitbar(ix/Nxy,h)
+    end
+  end
   if use_waitbar
-	close(h)
+      close(h)
   end
   clear Sdiscr k1 k2
   nfft=2^nextpow2(2*nf-2);

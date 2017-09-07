@@ -19,8 +19,8 @@ function r = polyreloc( p, x, y )
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error( nargchk( 2, 3, nargin ) );
-
+   %error( nargchk( 2, 3, nargin ) );
+   narginchk(2,3)
    n = length( p );
    %
    % Move polynomial X units to the right by a polynomial version of

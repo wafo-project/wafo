@@ -53,8 +53,8 @@ function P = mat2tmat(F,def,K)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,3,ni));
-
+%error(nargchk(1,3,ni));
+narginchk(1,3)
 if ni == 1
   def = 0;
 end

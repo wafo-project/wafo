@@ -33,8 +33,8 @@ function [X,res,comb,f]=rfc2load_fat(f,res,num_cc)
 
 ni = nargin;
 %no = nargout;
-error(nargchk(1,3,ni));
-
+%error(nargchk(1,3,ni));
+narginchk(1,3)
 if ni<2, res=[]; end
 if ni<3, num_cc=[]; end
 

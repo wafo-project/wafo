@@ -41,8 +41,8 @@ function [ind , Nc]= dat2crossind(x,v,wdef,nowarning)
 % - Added example, updated help 
 % By Per A. Brodtkorb 07.07.1998,  27.07.1998.  
 
-error(nargchk(1,4,nargin))
-
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 xn=x;
 if nargin<4,
     nowarning=false;

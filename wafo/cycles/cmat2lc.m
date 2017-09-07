@@ -33,6 +33,6 @@ function lc = cmat2lc(param,F)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(2,2,ni));
-
+%error(nargchk(2,2,ni));
+narginchk(2,2)
 lc = [levels(param)' diag(cmat2nt(F))];

@@ -1,4 +1,5 @@
-%README New features, bug fixes, and changes in KDETOOLS.
+%README Readme file for module KDETOOLS in WAFO Toolbox.
+% Version 2.5.2   25-May-2017 updated to Matlab 9.1
 % Version 2.5.1   31-Dec-2010
 %  See wafo code
 %

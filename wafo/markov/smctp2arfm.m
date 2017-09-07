@@ -72,8 +72,8 @@ T(1,:)=clock;
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,4,ni));
-
+%error(nargchk(2,4,ni));
+narginchk(2,4)
 if ni < 3
   c_m=[];
 end

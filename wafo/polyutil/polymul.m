@@ -28,8 +28,8 @@ function r = polymul(p, q)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error(nargchk(2, 2, nargin));
-
+   %error(nargchk(2, 2, nargin));
+   narginchk(2,2)
    r = conv(p, q);
 
 %!test
@@ -79,7 +79,7 @@ function r = polymul(p, q)
 %!assert (polymul (b,a,"valid"), zeros (1,0))
 
 
-## Test input validation
+%% Test input validation
 %!error polymul (1)
 %!error polymul (1,2,3,4)
 %!error <A and B must be vectors> polymul ([1, 2; 3, 4], 3)

@@ -15,19 +15,20 @@
 % 
 
 %
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8.1, 9.1
 % History
-% Revised by Georg Lindgren march 2011 for use with Tutorial 2.5 
+% Revised by Georg Lindgren September 2017 for use with Tutorial 2017
+% Revised by Georg Lindgren March 2011 for use with Tutorial 2.5 
 % and sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
 % Added sections -> easier to evaluate using cellmode evaluation.
 % Revised pab Dec2004
 % Created by GL July 13, 2000
 % from commands used in Chapter 2
-%
 
 start=clock;
-pstate =  'off';
+%pstate = 'on';
+pstate = 'off';
 pause(pstate)
 
 %% Section 2.1 Introduction and preliminary analysis
@@ -107,9 +108,9 @@ disp('Block = 7'),pause
 
 % Example 1, contd.
 clf
-Lmax0 = 200; Lmax1 = 50;
-S1 = dat2spec(xx,Lmax0);
-S2 = dat2spec(xx,Lmax1);
+Lmax1 = 200; Lmax2 = 50;
+S1 = dat2spec(xx,Lmax1);
+S2 = dat2spec(xx,Lmax2);
 plotspec(S1,[],'-.')
 hold on
 plotspec(S2)
@@ -324,14 +325,44 @@ disp('Block = 29'),pause
 %% Compare
 % In order to compare the Gaussian and non-Gaussian models we need to scale  
 % \verb+xsim_t+ %{\tt xsim$_t$} 
-% to have the same first spectral moment as 
+% to have the same second spectral moment as 
 % \verb+ysim_t+,  %{\tt ysim$_t$},  Since the process xsim_t has variance one
 % which will be done by the following commands. 
 clf
 xsim_t(:,2) = sa*xsim_t(:,2);
 waveplot(xsim_t,ysim_t,5,1,sa,4.5,'r.','b')
 %wafostamp('','(CR)')
-disp('Block = 30, Last block'),pause
+disp('Block = 30'),pause
+
+%% Section 2.4 More on simulation with WAFO
+%Subsection 2.4.1 Markov models
+%Simulation of switching ARMA-model
+%
+
+    p1 = 0.005; p2=0.003;  % Switching probabilities
+    P = [1-p1 p1; p2 1-p2];  % Markov transition matrix
+    C = [1.00 1.63 0.65; 1.00 0.05 -0.88];  % MA-parameters 
+    A = [1.00 -0.55 0.07 -0.26 -0.02; ... 
+    		   1.00 -2.06 1.64 -0.98 0.41];  % AR-parameters
+    m = [46.6; 7.4]*1e-3;  % Mean values for sub-processes
+    s2 = [0.5; 2.2]*1e-3;  % Innovation variances
+    [x,z] = sarmasim(C,A,m,s2,P,2000);  % Simulate 2000 steps
+    plothmm(x,z)  % Ploting
+    		   %  x = Switching ARMA, z = Markov regime process
+               
+disp('Block = 31'), pause
+
+%Subsection 2.4.2 Non-linear waves
+
+    SD = demospec('dir')
+    opt = simoptset('Nt',600,'dt',0.2,'Nu',501','du',1,'Nv',251,'dv',1)
+    rng('default')
+    W = spec2field(SD,opt);  % structure with fields .Z, .x, .y, .t
+    figure(2); Mv2 = seamovie(W,2); pause
+    figure(3); Mv3 = seamovie(W,3); pause
+    figure(1); Mv1 = seamovie(W,1,'sea.avi')   
+
+disp('Block 32, last block')
 
 disp('Elapsed time')
 etime(clock,start)

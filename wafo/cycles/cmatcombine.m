@@ -45,8 +45,8 @@ function [F,Lim,FF1,FF2] = cmatcombine(F1,F2,in3)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(3,3,ni));
-
+%error(nargchk(3,3,ni));
+narginchk(3,3)
 % Third argument - Limitation
 if isnumeric(in3)
   Lim.range = in3;

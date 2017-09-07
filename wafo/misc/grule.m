@@ -54,7 +54,8 @@ function [bp,wf]=grule(n,a,b,method)
 %  - added alternative and slightly faster version for large n
 %  - added integration limits to input
 
-error(nargchk(1,4,nargin))
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 if nargin<2 || isempty(a)
   a = -1;
 end

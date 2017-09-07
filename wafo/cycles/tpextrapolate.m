@@ -69,8 +69,8 @@ function [tpe,Pout,I,tpe0] = tpextrapolate(tp,N,Pin,plotflag)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(2,4,ni));
-
+%error(nargchk(2,4,ni));
+narginchk(2,4)
 if ni<3, Pin=[]; end
 if ni<4, plotflag=[]; end
 

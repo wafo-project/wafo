@@ -6,8 +6,9 @@
 % Each set of commands is followed by a 'pause' command.
 % 
 
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8.1, 9.1
 % History
+% Revised by Georg Lindgren September 2017 for use with Tutorial 2017
 % Revised by Georg Lindgren march 2011 for use with Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Added Return values by GL August 2008
@@ -15,7 +16,7 @@
 % Added sections -> easier to evaluate using cellmode evaluation.
 % Created by GL July 13, 2000
 % from commands used in Chapter 5
-%
+% 
 
 %% Chapter 6 Extreme value analysis
 start=clock;
@@ -139,7 +140,7 @@ disp('Block = 8'),pause
 %%
 % Return values for the GEV distribution
 T = logspace(1,5,10);
-[sT, sTlo, sTup] = invgev(1./T,Y5gev,'lowertail',false,'proflog',true);
+[sT, sTlo, sTup] = invgev(1./T,Y5gev,'lowertail',false,'proflog',false);
 
 %T = 2:100000;
 %k=Y5gev.params(1); mu=Y5gev.params(3); sigma=Y5gev.params(2);

@@ -70,8 +70,8 @@ function [ARFC,ARFC1,res,def] = tp2arfc(x,def,ARFC0,res0)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(1,4,ni));
- 
+%error(nargchk(1,4,ni));
+narginchk(1,4) 
 [T,nn] = size(x);
 
 if ni<2, def = [];   end

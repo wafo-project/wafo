@@ -1,4 +1,4 @@
-function Mv=seamovieL(Y,s,Wavename)
+function Mv=seamovieL_(Y,s,Wavename)
 %SEAMOVIEL Makes a movie of a 2D or 3D simulated sea structure 
 %          and optionally saves it as an avi-file
 %  
@@ -12,13 +12,16 @@ function Mv=seamovieL(Y,s,Wavename)
 %             (default 1)
 %      Wavename = optional namestring for avi-file (e.g. 'MyWave.avi') 
 %              If absent, no avi-file is produced
+%              If MyWave.avi already exists a new random name is given
 %              The avi-option works for Matlab ver 8.5 but not for ver 8.1
 %  
 % See also  seasim, movie, getframe
 
 % Tested on Matlab 8.6, 8.5 for avi-option  
 % Tested on Matlab 8.1, 5.3 - avi-option does not work correctly 
+%
 % History
+% revised by GL June 2017 to save wave movie using VideoWriter
 % revised by GL March 2015 to use WafoL axis convention and plotting
 % revised pab June 2005
 % -fixed a bug: in matlab7: "Mv =[]; Mv(j) = getframe;" does not work, now
@@ -57,26 +60,23 @@ Mv=[];
 if ~ismatrix(Y.Z),
   [~,~,Nt]=size(Y.Z);
   if s==1
+      colormap('winter');
+      ax = [Y.y(1) Y.y(end) Y.x(1) Y.x(end) 3*min(Y.Z(:)) 3*max(Y.Z(:))];  
     for j=1:Nt
       set(gca,'nextplot','replacechildren');
-      colormap('winter');
-      surfl(Y.y,Y.x,Y.Z(:,:,j),[-30, 45]);
+      axis(ax)
+      surfl(Y.y,Y.x,3*Y.Z(:,:,j),[-30, 45]);
       shading interp
       view(-37.5,20)
-      axis([Y.y(1) Y.y(end) Y.x(1) Y.x(end) 2*min(Y.Z(:)) 2*max(Y.Z(:))])
-      set(gca,'xtick',[])   
-      set(gca,'ytick',[])
-      axis equal
-      axis('off')
       if isempty(Mv)
-        Mv = getframe;
+        Mv = getframe(figNo);
       else
-        Mv(j)=getframe;
+        Mv(j)=getframe(figNo);
       end
     end  
     if saveavi,
         disp(['Saving ' Wavename]);
-        movie2avi(Mv,Wavename,'compression','none','fps',4*round(1/(Y.t(2)-Y.t(1))));
+        savemovie(Mv,Wavename); %,'compression','none','fps',4*round(1/(Y.t(2)-Y.t(1))));
     end
         
   elseif s==2
@@ -94,7 +94,7 @@ if ~ismatrix(Y.Z),
     end
     if saveavi,
         disp(['Saving ' Wavename]);
-        movie2avi(Mv,Wavename,'compression','none','fps',4*round(1/(Y.t(2)-Y.t(1))));
+        H = savemovie(Mv,Wavename); %,'compression','none','fps',4*round(1/(Y.t(2)-Y.t(1))));
     end
     
   else % s=3
@@ -121,7 +121,7 @@ if ~ismatrix(Y.Z),
     hold off
     Mv(Nt+1:Nt+10)=getframe(figNo);
     if saveavi,
-        movie2avi(Mv,Wavename,'compression','none')
+        H = savemovie(Mv,Wavename); %,'compression','none')
     end
   end    
 elseif ndims(Y.Z)>1 && isfield(Y,'t')
@@ -141,7 +141,7 @@ elseif ndims(Y.Z)>1 && isfield(Y,'t')
     end
   end
     if saveavi,
-        movie2avi(Mv,Wavename,'compression','none')
+        H = savemovie(Mv,Wavename);% ,'compression','none')
     end
 else
   if ~isfield(Y,'t')
@@ -153,5 +153,14 @@ else
     return
   end
 end
+end
 
-return
+function HH = savemovie(ThisMovie,MovieName)
+%Movie.cdata
+v = VideoWriter(MovieName);
+open(v);
+writeVideo(v,ThisMovie);
+close(v)
+HH = ['Movie' MovieName 'saved'];
+end
+

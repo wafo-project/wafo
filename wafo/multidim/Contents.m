@@ -1,6 +1,7 @@
 % Module MULTIDIM in WAFO Toolbox. 
-% Version 2.5.2   07-Feb-2011 
+% Version 2.5.3   30-05-2017 
 % 
+%
 %   dat2dspec        - Estimates the directional wave spectrum from timeseries 
 %   dspec2spreading  - Returns the directional spreading function D of S
 %   fourier          - Returns Fourier coefficients.

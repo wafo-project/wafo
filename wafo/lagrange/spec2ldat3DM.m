@@ -177,8 +177,9 @@ end
 df = x_f(1) ;
 x_e = sqrt(sp * (df/4)); %(sp*df)/2 pour passage du one-sided au spectre
                          % et puis /2 pour la variance des composantes
-
+              
 x_e = x_e(ones(1,ndir),:) ;
+
 cx_theta=x_theta; 
 
 if size(cx_theta,2)==nfreq,

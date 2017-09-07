@@ -68,8 +68,8 @@ function [Fest,Pout,Fextreme,Fsmooth,Fest0] = rfmextrapolate(F,Pin,plotflag)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(1,3,ni));
-
+%error(nargchk(1,3,ni));
+narginchk(1,3)
 if ni<2, Pin=[]; end
 if ni<3, plotflag=[]; end
 

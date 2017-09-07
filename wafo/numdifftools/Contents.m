@@ -1,7 +1,8 @@
 % Module NUMDIFFTOOLS in WAFO Toolbox. 
-%  Version 2.5.2   07-Feb-2011 
+%  Version 2.5.3   30-05-2017 
+%
 %  
-%  Readme           - Readme file for module NUMDIFFTOOLS in WAFO Toolbox.
+%  Readme           - Features of NUMDIFFTOOLS.
 % 
 % Numerical differentiation 
 %   derivest        - Estimate the n'th derivative of fun at x0, with error estimate

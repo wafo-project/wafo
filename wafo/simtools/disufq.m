@@ -64,6 +64,7 @@ function [svec, dvec] = disufq(A,w,kw,h,g,nmin,nmax)
 % by Per Andreas Brodtkorb 15.08.2001
 % revised pab 14.03.2002, 01.05.2002 22.07.2002
 
-error(nargchk(7,7,nargin))
+%error(nargchk(7,7,nargin))
+narginchk(7,7)
 disp('This function is only available as a mex-compiled function.')
 error('Compile disufq.c by using mex -O disufq.c and try again.')

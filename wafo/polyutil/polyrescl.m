@@ -19,8 +19,8 @@ function q = polyrescl( p, x, y )
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
    % Check number of input arguments.
-   error( nargchk( 1, 3, nargin ) );
-
+   %error( nargchk( 1, 3, nargin ) );
+   narginchk(1,3)
    % Now do the job.
    if nargin > 1
       n = length( p );

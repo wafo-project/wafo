@@ -104,7 +104,8 @@ function [x2,x,svec,dvec,A]=spec2nlsdat(S,np,dt,iseed,method,truncationLimit)
 reltol2ndorder     = 1e-3; %
 %truncationLimit = 1.5;
 
-error(nargchk(1,6,nargin))
+%error(nargchk(1,6,nargin))
+narginchk(1,6)
 
 ftype = freqtype(S); %options are 'f' and 'w' and 'k'
 n     = length(S.(ftype));

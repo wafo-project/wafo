@@ -40,8 +40,8 @@ function h=hldpi(A,kernel,L,inc)
 % 'Kernel smoothing'
 %  Chapman and Hall, pp 67--74
 
-
-%tested on: matlab 5.2
+% changed nargchk to narginchk GL 2017
+% tested on: matlab 5.2
 % revised pab Agu 2005
 % -fixed a bug for kernels other than Gaussian
 % -made it more general: L>3 is now possible
@@ -55,7 +55,8 @@ function h=hldpi(A,kernel,L,inc)
 % taken from kdetools             Christian C. Beardah 1994
 
 
-error(nargchk(1,4,nargin))
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 if nargin<2||isempty(kernel)
   kernel='gauss';
 end

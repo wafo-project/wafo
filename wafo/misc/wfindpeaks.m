@@ -26,7 +26,7 @@ function [indx, indy] = wfindpeaks(S,Np,min_h,min_p)
 % See also  dat2tp
 
 % GL, Feb 2011, Changed name to  wfindpeaks  to avoid name collision 
- % Tested on: matlab 5.3
+ % Tested on: matlab 5.3, 8, 9
 % History:
 % revised pab Feb2004
 % -changed default value for min_h
@@ -35,7 +35,8 @@ function [indx, indy] = wfindpeaks(S,Np,min_h,min_p)
 %   fixed a bug  
 % by Per A. Brodtkorb  25.09.1999
   
-error(nargchk(1,4,nargin));
+%error(nargchk(1,4,nargin));
+narginchk(1,4)
 if (nargin <4) || isempty(min_p)
   min_p=0;
 end

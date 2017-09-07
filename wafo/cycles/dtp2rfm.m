@@ -61,8 +61,8 @@ function [RFM,RFM1,res] = dtp2rfm(x,varargin)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(2,4,ni));
-
+%error(nargchk(2,4,ni));
+narginchk(2,4)
 % Calculate asymetric RFM
 if no < 2
   RFM = dtp2arfm(x,varargin{:});

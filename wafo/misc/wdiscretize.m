@@ -33,7 +33,7 @@ function [x,y] = wdiscretize(fun, a, b, varargin)
 %  plot(x, y, xa, ya, 'r.');
 % 
 %  close('all');
-    options = struct('tol', 0.005, 'n', 5, 'method', 'linear', 'nmax', 2**15+1, 'maxtries', 5);
+    options = struct('tol', 0.005, 'n', 5, 'method', 'linear', 'nmax', 2^15+1, 'maxtries', 5);
  
     opt = parseoptions(options, varargin{:});
   
@@ -73,12 +73,13 @@ end
 function [x,fx] = discretize_adaptive(fun, a, b, tol, n, nmax, maxtries),
     % Automatic discretization of function, adaptive gridding.
     
-    n = n + (mod(n, 2) == 0);  # make sure n is odd
+    n = n + (mod(n, 2) == 0);  % make sure n is odd
     x = linspace(a, b, n);
     fx = fun(x);
 
     n2 = (n - 1) / 2;
-    erri = [zeros(1, n2); ones(1,n2)](:).';
+    erri_ = [zeros(1, n2); ones(1,n2)];
+    erri = erri_(:).';
     err = max(erri);
     err0 = inf;
     TINY = realmin;
@@ -91,7 +92,8 @@ function [x,fx] = discretize_adaptive(fun, a, b, tol, n, nmax, maxtries),
 
             I = find(erri > tol);
             % double the sample rate in intervals with the most error
-            y = [(x(I) + x(I - 1)) / 2; (x(I + 1) + x(I)) / 2](:).';
+            y_ = [(x(I) + x(I - 1)) / 2; (x(I + 1) + x(I)) / 2];
+            y = y_(:).';
             fy = fun(y);
             fy0 = interp1(x, fx, y, 'linear');
             erri = 0.5 * (abs(fy0 - fy) ./ (abs(fy0) + abs(fy) + TINY + tol));
@@ -99,8 +101,10 @@ function [x,fx] = discretize_adaptive(fun, a, b, tol, n, nmax, maxtries),
 
             x = [x, y];
             [x,I] = sort(x);
-            erri = [zeros(1,length(fx)), erri](I);
-            fx = [fx, fy](I);
+            erri_ = [zeros(1,length(fx)), erri];
+            erri = erri_(I);
+            fx_ = [fx, fy];
+            fx = fx_(I);
 
             num_tries = num_tries + (abs(err - err0) <= tol/2);
         else,

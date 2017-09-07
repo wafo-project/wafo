@@ -83,8 +83,8 @@ function [Fest,Est,OPTIONS] = estsmctp(Fobs,whatEst,method,known,whatKnown,init,
 
 ni = nargin;
 no = nargout;
-error(nargchk(6,7,ni));
-
+%error(nargchk(6,7,ni));
+narginchk(6,7)
 if ni < 7
   OPTIONS = struct();
 end

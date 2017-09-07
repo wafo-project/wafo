@@ -1,6 +1,6 @@
 function [W,X,Y]=spec2ldat3D(Spec,options,varargin)
 %SPEC2LDAT3D Spectral simulation of components in 3D Lagrangian sea 
-%
+% 
 %CALL: [W,X,Y]=spec2ldat3D(Spec,options)
 %
 %   W     = Gaussian vertical process structure W.Z,W.u,W.v,W.t
@@ -124,6 +124,8 @@ if isempty(opt.lalpha)
 else
     alpha=opt.lalpha;
 end
+
+
 % End initialization
 
 t=(0:Nt-1)'*dt;
@@ -194,8 +196,16 @@ Theta=atan2(K2,K);
 Omega = k2w((-nfftu/2:nfftu/2-1)*dk1,(-nfftv/2:nfftv/2-1)*dk2,S.h,S.g);
 H1=1i*(tanh(depth*Kabs)).^(-1);
 H1(Kabs==0)=0;
-H2=alpha*Omega.^(-2);
-H2(Omega==0)=0;
+
+% Direction dependent slopes
+if length(alpha)==1,
+    H2=alpha*Omega.^(-2);
+    H2(Omega==0)=0;
+else
+    
+end
+% End Dir dep slopes
+
 H1u=H1.*cos(Theta);
 H1v=H1.*sin(Theta);
 

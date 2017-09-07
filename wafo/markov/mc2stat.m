@@ -28,8 +28,8 @@ function [ro,PP]=mc2stat(P)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,1,ni));
-
+%error(nargchk(1,1,ni));
+narginchk(1,1)
 n=length(P); % number of states
 
 PP=P;

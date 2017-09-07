@@ -53,7 +53,8 @@ function h=hldpi2(A,kernel,L)
 % from kdetools              Christian C. Beardah 1996
 
 
-error(nargchk(1,3,nargin))  
+%error(nargchk(1,3,nargin))  
+narginchk(1,3)
 [n, d]=size(A);
 if d~=2,
   error('Wrong size of data')

@@ -47,8 +47,8 @@ function h=lsplot(LS,cum,norm,beta,plottype)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(1,5,ni));
-
+%error(nargchk(1,5,ni));
+narginchk(1,5)
 if ni < 2
     cum=[];
 end

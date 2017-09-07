@@ -57,8 +57,8 @@ function [F_rfc,mu_rfc] = smc2rfm(P,Qc,def)
 
 ni = nargin;
 %no = nargout;
-error(nargchk(2,3,ni));
-
+%error(nargchk(2,3,ni));
+narginchk(2,3)
 if ni<3, def = []; end
 if isempty(def), def = 1; end
 

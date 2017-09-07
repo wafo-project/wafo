@@ -13,8 +13,8 @@ function locations = where(varargin)
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
    % Check number of input arguments.
-   error(nargchk(1, Inf, nargin));
-
+   %error(nargchk(1, Inf, nargin));
+   narginchk(1,inf)
    % Are there any output arguments?
    display = 1;
    if nargout                   % If there are output arguments...

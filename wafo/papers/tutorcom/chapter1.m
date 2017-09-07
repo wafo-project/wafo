@@ -8,7 +8,7 @@
 % Each set of commands is followed by a 'pause' command.
 % Type 'pause off' to disable them.
 
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8, 9.1
 % History
 % Revised by Georg Lindgren March 2011 for use with Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1
@@ -20,6 +20,7 @@
 % from commands used in Chapter 1 of the tutorial
 
 start=clock;
+%pstate = 'on'
 pstate = 'off'
 pause(pstate)
 
@@ -29,16 +30,17 @@ pause(pstate)
 %% Simulation of the sea surface from spectrum
 % The following code generates 200 seconds of data sampled with 10Hz from
 % the Torsethaugen spectrum
+clf
 Hm0 = 6;
 Tp  = 8;
 plotflag = 1;
-S1=torsethaugen([],[Hm0 Tp],plotflag);
+ST=torsethaugen([],[Hm0 Tp],plotflag);
 disp('Block = 1'),pause
 
 %%
 dt = 0.1;
 N = 2000;
-xs=spec2sdat(S1,N,dt);
+xs=spec2sdat(ST,N,dt);
 
 clf
 waveplot(xs,'-')
@@ -54,10 +56,10 @@ plotflag = 1;
 Fs = 4; 
 dt = 1/Fs;
 N  = fix(20*60*Fs);
-xs   = spec2sdat(S1,N,dt);
-Sest = dat2spec(xs,400)
-plotspec(S1,plotflag), hold on
-plotspec(Sest,plotflag,'--'), hold off
+xs   = spec2sdat(ST,N,dt);
+STest = dat2spec(xs,400)
+plotspec(ST,plotflag), hold on
+plotspec(STest,plotflag,'--'), hold off
 axis([0 3 0 5]) % This may depend on the simulation
 %wafostamp('','(ER)')
 disp('Block = 3'),pause
@@ -73,8 +75,8 @@ disp('Block = 3'),pause
 clf
 NIT = 3
 paramt = [0 10 51];
-dtyex = spec2tpdf(S1,[],'Tt',paramt,0,NIT);
-dtyest = spec2tpdf(Sest,[],'Tt',paramt,0,NIT);
+dtyex = spec2tpdf(ST,[],'Tt',paramt,0,NIT);
+dtyest = spec2tpdf(STest,[],'Tt',paramt,0,NIT);
 [T, index] = dat2wa(xs,0,'d2u');
 histgrm(T,25,1,1), hold on
 pdfplot(dtyex)
@@ -86,16 +88,16 @@ disp('Block = 4'),pause
 %% Section 1.4.3 Directional spectra
 % Here are a few lines of code, which produce directional spectra 
 % with frequency independent and frequency dependent spreading.
-clf
-plotflag = 1
+
+plotflag = 1; clf
 Nt = 101;   % number of angles
 th0 = pi/2; % primary direction of waves
 Sp  = 15;   % spreading parameter
 D1 = spreading(Nt,'cos',th0,Sp,[],0); % frequency independent
-D12 = spreading(Nt,'cos',0,Sp,S1.w,1); % frequency dependent
-SD1 = mkdspec(S1,D1);
-SD12 = mkdspec(S1,D12);
-plotspec(SD1,plotflag), hold on, plotspec(SD12,plotflag,'-.'); hold off
+D12 = spreading(Nt,'cos',0,Sp,ST.w,1); % frequency dependent
+STD1 = mkdspec(ST,D1);
+STD12 = mkdspec(ST,D12);
+plotspec(STD1,plotflag), hold on, plotspec(STD12,plotflag,'-.'); hold off
 wafostamp('','(ER)')
 disp('Block = 5'),pause
 
@@ -105,27 +107,36 @@ disp('Block = 5'),pause
 % transparent compared to the frequency independent case.
 %
 % Frequency independent spreading
-plotflag = 1; iseed = 1;
-Nx = 2^8;Ny = Nx;Nt = 1;dx = 0.5; dy = dx; dt = 0.25; fftdim = 2;
-randn('state',iseed)
-Y1 = seasim(SD1,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag);
+
+rng('default'); 
+opt = simoptset('Nt',20,'dt',1,'Nu',1024','du',1,'Nv',512,'dv',1)
+W1 = spec2field(STD1,opt)
+figure(1)
+clf
+Movie1 = seamovie(W1,1)
 wafostamp('','(ER)')
 axis('fill')
 disp('Block = 6'),pause
 
 %%
 % Frequency dependent spreading
-randn('state',iseed)
-Y12 = seasim(SD12,Nx,Ny,Nt,dx,dy,dt,fftdim,plotflag);
+figure(2)
+clf
+W12 = spec2field(STD12,opt)
+Movie12 = seamovie(W12,1)
 wafostamp('','(ER)')
 axis('fill')
 disp('Block = 7'),pause
 
 %% Estimation of directional spectrum
 %  The figure is not shown in the Tutorial
-
+%  Note: The routine  seasim  
+%  Note: Wave direction in seasim  is 
+%   opposite to WAFO standard
+figure(1)
+clf
  Nx = 3; Ny = 2; Nt = 2^12; dx = 10; dy = 10;dt = 0.5;
- F  = seasim(SD12,Nx,Ny,Nt,dx,dy,dt,1,0);  
+ F  = seasim(STD12,Nx,Ny,Nt,dx,dy,dt,1,0);  
  Z  = permute(F.Z,[3 1 2]);
  [X,Y] = meshgrid(F.x,F.y);
  N = Nx*Ny;
@@ -137,7 +148,7 @@ disp('Block = 7'),pause
  nt = 101;
  SDe = dat2dspec([F.t Z(:,:)],[pos types,bfs],h,nfft,nt);
 plotspec(SDe), hold on
-plotspec(SD12,'--'), hold off
+plotspec(STD12,'--'), hold off
 disp('Block = 8'),pause
 
 %% Section 1.4.4 Fatigue, Load cycles and Markov models.
@@ -152,9 +163,10 @@ disp('Block = 8'),pause
 % the Gaussian model with spectrum S1 using the Markow approximation. 
 % The rainflow cycles found in the simulated load signal are shown in the 
 % figure.
+figure(1)
 clf
 paramu = [-6 6 61];
-frfc=spec2cmat(S1,[],'rfc',[],paramu);
+frfc=spec2cmat(ST,[],'rfc',[],paramu);
 pdfplot(frfc);
 hold on
 tp = dat2tp(xs);

@@ -28,7 +28,8 @@ function r= polyshft(p,a,b)
 % History
 % by pab 2000
 
-error(nargchk(3,3,nargin));
+%error(nargchk(3,3,nargin));
+narginchk(3,3)
 if (a==-1) && (b ==1),
   r = p;
   return

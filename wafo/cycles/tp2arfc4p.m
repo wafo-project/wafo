@@ -42,8 +42,8 @@ function [ARFC,res] = tp2arfc4p(x,res0,def_time)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(1,3,ni));
- 
+%error(nargchk(1,3,ni));
+narginchk(1,3) 
 if ni<2, res0 = []; end
 if ni<3, def_time = []; end
 

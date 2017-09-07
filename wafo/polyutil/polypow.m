@@ -19,8 +19,8 @@ function r = polypow(p, n)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error(nargchk(2, 2, nargin));
-
+   %error(nargchk(2, 2, nargin));
+   narginchk(2,2)
    if any(size(n) ~= 1) || ~isreal(n) || (n < 0)
       error('N must be a non-negative integer.');
    end

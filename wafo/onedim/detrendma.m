@@ -32,7 +32,8 @@ function [y, trend] = detrendma(x,L)
 %  - made trend the same size as y
 % By Per A. Brodtkorb  21.04.1999
 
-error(nargchk(2,2,nargin));
+%error(nargchk(2,2,nargin));
+narginchk(2,2)
 if L<=0,error('L must be positive');end
 if L~=round(L), error('L must be an integer');end
 

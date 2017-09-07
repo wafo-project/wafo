@@ -46,8 +46,8 @@ function [Frfc,u,Nrfc,Nrfc0]=lc2rfmextreme(lc,vect)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni<2, vect = []; end
 
 % Default values, vectorized calculations

@@ -1,4 +1,4 @@
-% LIMITATIONS (+)  WAFO known limitations
+%LIMITATIONS WAFO known limitations 
 %
 %  (1) Time: Some of the routines may take a while to execute 
 %      depending on the dimension of the problem and parameter values given.

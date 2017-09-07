@@ -24,8 +24,8 @@ function FF = cmatresamp(F,Method)
 % Check input arguments
 ni = nargin;
 %no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni<2, Method=[]; end
 
 % Default values, vectorized calculations

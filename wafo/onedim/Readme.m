@@ -1,4 +1,4 @@
-%README New features, bug fixes, and changes in ONEDIM.
+%README Readme file for module ONEDIM in WAFO Toolbox.
 % 
 % Version 2.5.2 01_Feb-2011
 %

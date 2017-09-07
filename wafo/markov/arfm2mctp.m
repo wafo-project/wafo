@@ -56,8 +56,8 @@ function [F,T] = arfm2mctp(Frfc)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,1,ni));
-
+%error(nargchk(1,1,ni));
+narginchk(1,1)
 T(1,:)=clock;
 
 N = sum(sum(Frfc));

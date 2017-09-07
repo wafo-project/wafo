@@ -2,34 +2,23 @@
 %        
 % Wave Analysis for Fatigue and Oceanography Toolbox
 % --------------------------------------------------
-%
-% Unix Instructions:  
-% ~~~~~~~~~~~~~~~~~~ 
-% 1. Binary download the archive wafo.tar.gz 
-% 
-% 2. Uncompress the archive by 'gunzip wafo.tar.gz'
-% 
-% 3. Change directory to the place you want the WAFO directory to reside
-%   
-% 4. 'tar xf wafo.tar'
-% 
-% 5. Edit the file startup.m and give a path to the WAFO toolbox. 
-%
-% 
 % PC Instructions:
 % ~~~~~~~~~~~~~~~~
-% 1. Binary download the file wafo1.zip to your PC. You will be asked for the
-%    destination/directory of the compressed file. 
+% 1. Download the zipped wafo master-file from the wafo project on github 
+%       or any of the wafo zipped files from the wafo home page
+%       http://www.maths.lth.se/matstat/wafo/download/
 % 
-% 2. Uncompress the zip-file by means of any software EnZIP or WinZip.
+% 2. Uncompress the zip-file by means of your zip software and save wafo 
+%       in your designated WAFO directory. 
 %
-% 3. Edit the file startup.m and give a path to the WAFO toolbox. 
+% 3. Edit the file startup.m from wafo.docs folder 
+%       to define the path to the WAFO toolbox. 
 % 
 %
 % Trouble-Shooting
 % ~~~~~~~~~~~~~~~~			
 % If you encounter any problems, please contact us via e-mail:
-% igor@maths.lth.se, jesper@maths.lth.se, pab@marin.ntnu.no 
+% wafo@maths.lth.se 
 
 more on
 help install

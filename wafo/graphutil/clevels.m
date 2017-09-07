@@ -47,7 +47,8 @@ function [CL,c]=clevels(c)
     
 
 
-error(nargchk(1,1,nargin));
+%error(nargchk(1,1,nargin));
+narginchk(1,1)
 limit = size(c,2);
 if limit>0
   i=1;

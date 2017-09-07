@@ -38,7 +38,8 @@ function h = lcplot(lc,plotflag,ma,sa)
 % - added the option of overplotting of the theoretical one 
 %    for a Gaussian process
 
-error(nargchk(1,4,nargin));
+%error(nargchk(1,4,nargin));
+narginchk(1,4)
 if nargin<2||isempty(plotflag)
  plotflag=2;
 end

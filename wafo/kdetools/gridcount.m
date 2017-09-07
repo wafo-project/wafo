@@ -49,8 +49,8 @@ function c = gridcount(data,X)
 % -fixed a bug for d>2;  
 % by pab Dec2003  
   
-error(nargchk(2,2,nargin))
-
+%error(nargchk(2,2,nargin))
+narginchk(2,2)
 [n,d]    = size(data);  
 [inc,d1] = size(X);
 

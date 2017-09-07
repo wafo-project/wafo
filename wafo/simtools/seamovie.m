@@ -1,97 +1,143 @@
-function Mv=seamovie(Y,s)
-% SEAMOVIE Makes a movie of a 2D (x,t) or 3D (x,y,t) simulated sea 
+function Mv=seamovie(Y,s,Wavename)
+%SEAMOVIE Makes a movie of simulated sea and optionally saves it
 %  
-% CALL:   Mv = seamovie(Y,s)
+%CALL: Mv = seamovie(Y,s,Wavename)
 %  
-%         Mv = movie
-%         Y = struct with 2d or 3d simulation (from seasim)
-%         s = type of plot if 3d: if s=1 then surf-plot, if s=2 contour,
-%             else gray-scale overview with troughs dark and crests light
-%             (default 1)
-% 
-% The recording is not very fast, each frame must be plotted and then saved
-% using getframe. This may take a couple of seconds per frame.
-% After the recording the movie is run, the number of frames per second is
-% intended to be the true number as given by the time scale in input, but
-% the resulting rate may vary depending on computer and network.
+%      Mv = movie
+%
+%      Y = struct with 2d or 3d simulation (from spec2wave or spec2field)
+%      s = type of plot if 3d: 
+%               if s=1 then surf-plot, (defaoult)
+%               if s=2 contour,
+%               else gray-scale view 
+%
+%      Wavename = optional namestring for avi-file ('MyWave.avi') 
+%              If absent, no avi-file is produced
+%              If MyWave.avi exists in working folder 
+%                   a new random name is given
+%              The avi-option uses VideoWriter. 
+%                   movie2avi works for Matlab ver 8.5 
+%                   but not for ver 8.1
 %  
-% NB! Users with older Matlab than 5.3 may need to do some changes to the
-% routine, see >> help getframe.  
-%  
-% Example: 
-%   Y=seasim(demospec('dir'),2^8,1,20,10,[],.5,2);
-%   Mv=seamovie(Y);
-%  
-% See also  seasim, movie, getframe
-  
-% Tested on Matlab 5.3 
+% See also  spec2field, spec2wave, movie, getframe
+
+% Tested on Matlab 8.6, 8.5, 9.1 for avi-option  
+% Tested on Matlab 8.1, 5.3 - avi-option does not work correctly 
+%
+% History
+% revised by GL 18-June-2017 to save wave movie using VideoWriter
+% revised by GL March 2015 to use WafoL axis convention and plotting
 % revised pab June 2005
-% -fixed a bug: in matlab7: "Mv =[]; Mv(j) = getframe;" does not work, now
-% fixed.
-% revised es 20.06.00 if wrong dimension then message and return, not error
+% -fixed a bug: in matlab7: "Mv =[]; Mv(j) = getframe;" 
+%       does not work, now fixed.
+% revised es 20.06.00 if wrong dimension then message and return, 
+%       not error
 % Revised by es 13.06.00 more dimension checks  
 % By es 23.05.00
 
+if nargin>2,
+    if verLessThan('matlab','8.5'),
+        saveavi=0;
+        disp('Too old Matlab version, no avi-movie will be saved')
+    else
+        saveavi=1;
+        inmap = ls;
+        xxx = strmatch(Wavename,inmap);
+        if ~isempty(xxx)
+            chosefrom='a':'z' ;
+            Wavename = [chosefrom(randi(26,8,1)) '.avi'];
+            disp(['Video exists, new name ' Wavename])
+        end
+    end
+else
+    saveavi=0;
+end
+saveavi=logical(saveavi);
+
 figNo = gcf;
 figure(figNo)  
-if nargin<2||isempty(s)
+clf
+set(gca,'FontSize',14)
+if nargin<2 || isempty(s)
   s=1;
 end
 Mv=[];
-disp('  Plotting frame by frame to record the movie...')
-if ndims(Y.Z)>2
-  [Ny,Nx,Nt]=size(Y.Z);
+%disp('  Plotting frame by frame to record the movie...')
+if ~ismatrix(Y.Z),
+  [~,~,Nt]=size(Y.Z);
   if s==1
+      axis equal
+      colormap('winter');
+      ax = [Y.y(1) Y.y(end) Y.x(1) Y.x(end) 3*min(Y.Z(:)) 3*max(Y.Z(:))];  
     for j=1:Nt
-      colormap('winter')
-      surfl(Y.x,Y.y,Y.Z(:,:,j),[-30, 45]);
+      set(gca,'nextplot','replacechildren');
+      axis(ax)
+      %axis('equal')
+      surfl(Y.y,Y.x,2*Y.Z(:,:,j),[-30, 45]);
       shading interp
+      xlabel('[m]')
+      ylabel('[m]')
       view(-37.5,20)
-      axis([Y.x(1) Y.x(end) Y.y(1) Y.y(end) 7*min(Y.Z(:)) 7*max(Y.Z(:))])
-      set(gca,'xtick',[])   
-      set(gca,'ytick',[])
-      axis('square')
-      axis('off')
       if isempty(Mv)
-        Mv = getframe;
+        Mv = getframe(figNo);
       else
-        Mv(j)=getframe;
+        Mv(j)=getframe(figNo);
       end
+    end  
+    if saveavi,
+        disp(['Saving ' Wavename]);
+        savemovie(Mv,Wavename); %,'compression','none','fps',4*round(1/(Y.t(2)-Y.t(1))));
     end
+        
   elseif s==2
+    set(gca,'nextplot','replacechildren');
+    box on
     for j=1:Nt
-      contour(Y.x,Y.y,Y.Z(:,:,j),[0 0],'b')
-      axis square
+      contour(Y.y,Y.x,Y.Z(:,:,j),[0 0],'b')
+      axis equal 
       xlabel('[m]')
       ylabel('[m]')
       if isempty(Mv)
         Mv = getframe(figNo);
       else
         Mv(j)=getframe(figNo);
-      end
-      
+      end  
     end
-  else
+    if saveavi,
+        disp(['Saving ' Wavename]);
+        H = savemovie(Mv,Wavename); %,'compression','none','fps',4*round(1/(Y.t(2)-Y.t(1))));
+    end
+    
+  else % s=3
+    set(gca,'nextplot','replacechildren');
+    box on
     colormap('gray')
     miz=min(Y.Z(:));
     maz=max(Y.Z(:));
     for j=1:Nt
-      pcolor(Y.Z(:,:,j))
+      pcolor(Y.y,Y.x,Y.Z(:,:,j))
       caxis([miz maz])
       xlabel('[m]')
       ylabel('[m]')
       shading interp
-      axis square %equal
+      axis equal 
+      axis([Y.y(1) Y.y(end) Y.x(1) Y.x(end)])% miz maz])
       if isempty(Mv)
         Mv = getframe(figNo);
       else
         Mv(j)=getframe(figNo);
-      end
-      
+      end  
+    end
+    hold on
+    contour(Y.y,Y.x,Y.Z(:,:,end)+100,[100 100])
+    hold off
+    Mv(Nt+1:Nt+10)=getframe(figNo);
+    if saveavi,
+        H = savemovie(Mv,Wavename); %,'compression','none')
     end
   end    
 elseif ndims(Y.Z)>1 && isfield(Y,'t')
-  [Nx,Nt]=size(Y.Z);
+  [~,Nt]=size(Y.Z);
   for j=1:Nt
     plot(Y.x,Y.Z(:,j))
     hold on
@@ -106,31 +152,26 @@ elseif ndims(Y.Z)>1 && isfield(Y,'t')
         Mv(j)=getframe(figNo);
     end
   end
+    if saveavi,
+        H = savemovie(Mv,Wavename);% ,'compression','none')
+    end
 else
   if ~isfield(Y,'t')
     disp(...
-'Can not make a movie without time variable, field .t must exist in input')
+'Can not make a movie without time variable, field .t must exist')
     return
   else
     disp('Wrong dimension of input. Can not make a movie')  
     return
   end
 end
-try
-  disp('  Running the movie')
-  clf
-   movie(Mv,1,Y.t(2)-Y.t(1))
- catch
-  for ix=1:length(Mv),
-    t0 = clock;
-    colormap(Mv(ix).colormap);
-    image(Mv(ix).cdata),
-    drawnow,shg,
-    t1 = etime(clock,t0);
-    ptime = Y.t(2)-Y.t(1) - t1;
-    if ptime>0
-      pause(ptime)
-    end
-  end
 end
-  
+
+function HH = savemovie(ThisMovie,MovieName)
+v = VideoWriter(MovieName);
+open(v);
+writeVideo(v,ThisMovie);
+close(v)
+HH = ['Movie' MovieName 'saved'];
+end
+

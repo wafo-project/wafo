@@ -1,13 +1,16 @@
 % Module PAPERS in WAFO Toolbox. 
-% Version 2.5.2   07-Feb-2011 
+% Version 2017 (2.5.2)   xx-Sept-2017 
 % 
 % papermenu - displays a user interface to the paper scripts of WAFO
 %
 % List of articles in the subdirectory papers in WAFO. The scripts are found
 % in the directories: (e.g try 'help wafodemo') 
 % 
-% tutorcom
-%      The WAFO Group (2011): WAFO - Tutorial for WAFO Version 2.5
+% wafomanual2017 
+%      The WAFO Group (2017): WAFO - Tutorial for WAFO 2017
+%
+% wafotutor25_rev1
+%      The WAFO group (2011): WAFO - Tutorial for WAFO 2.6
 %
 % wafodemo
 %      Brodtkorb, P.A., Johannesson, P., Lindgren, G., Rychlik, I., Rydén, J.,

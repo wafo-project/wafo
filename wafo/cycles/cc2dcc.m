@@ -32,15 +32,15 @@ function dcc = cc2dcc(param,cc,ddef)
 % History:
 % Updated by PJ 28-Jul-2000
 %   Now correct upper and lower limits of discretization.
-% Created by PJ (P�r Johannesson) 01-Nov-1999
+% Created by PJ (Par Johannesson) 01-Nov-1999
 %   This is a new version of 'mkdisc' in WAT
 
 % Check input arguments
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,3,ni));
-
+%error(nargchk(2,3,ni));
+narginchk(2,3)
 if ni<3 
   ddef=[];
 end 

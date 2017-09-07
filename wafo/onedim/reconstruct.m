@@ -75,7 +75,8 @@ if nargin==1 && nargout <= 1 && isequal(x,'defaults')
   y = opt; 
   return
 end
-error(nargchk(1,inf,nargin))
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 tic
 xn=x;% remember the old file
 [n m]= size(xn);

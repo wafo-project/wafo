@@ -31,8 +31,8 @@ function lc=tp2lc(tp,def,plotflag,sa)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,4,ni));
-
+%error(nargchk(1,4,ni));
+narginchk(1,4)
 if ni<2, def=[]; end
 if ni<3, plotflag=[]; end
 if ni<4, sa=[]; end

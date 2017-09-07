@@ -19,7 +19,7 @@ function options3D  = genoptset(varargin)
 %
 % See also troptset and simoptset
 
-% Tested on Matlab 8.1, 8.6
+% Tested on Matlab 8.1, 8.6, 9.1
 % History
 % Created by GL March 29 2015 for generation of 3D Lagrange fields
 % Expansion of simoptset

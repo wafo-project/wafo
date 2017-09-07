@@ -34,7 +34,7 @@ function [tp, ind] = dat2tp(x,h,wdef)
 % 
 %  See also  findcross, findrfc, tp2rfc, dat2tc
 
-% Tested on: matlab 6.0, 5.3, 5.2, 5.1
+% Tested on: matlab 9.1, 8, 7, 6.0, 5.3, 5.2, 5.1
 
 % History:
 % revised pab 2008
@@ -54,8 +54,8 @@ function [tp, ind] = dat2tp(x,h,wdef)
 % indices to the turningpoints 
 % (This is useful when determining the wave steepness etc...). 
 
-error(nargchk(1,3,nargin))
-
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 xn = x;
 [n m]= size(xn);
 if n<m

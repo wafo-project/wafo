@@ -20,8 +20,8 @@ function [q, r] = polydiv(a, b)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error(nargchk(2, 2, nargin));
-
+   %error(nargchk(2, 2, nargin));
+   narginchk(2,2)
    [q, r] = deconv(a, b);
 
    

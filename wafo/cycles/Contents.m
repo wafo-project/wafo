@@ -1,5 +1,5 @@
 % Module CYCLES in WAFO Toolbox. 
-% Version 2.5.2   07-Feb-2011 
+% Version 2.5.3   30-05-2017 
 %
 %
 % This module contains routines for cycle counting, discretization, 
@@ -19,7 +19,7 @@
 %   cmat2extralc     - Extrapolate level crossing spectrum
 %   cmat2lc          - Calculates the level crossings from a cycle matrix.
 %   cmat2nt          - Calculates a counting distribution from a cycle matrix.
-%   cmat2rmcmat      - Converts a cycle matrix from Range-Mean format to min-max format.
+%   cmat2rmcmat      - Converts a cycle matrix from Range-Mean to min-max format.
 %   cmatcombine      - Combines two cycle matrices.
 %   cmatplot         - Plots a cycle matrix, e.g. a rainflow matrix.
 %   cmatresamp       - Resamples a cycle matrix.
@@ -33,20 +33,21 @@
 %   dtp2rfm          - Calculates rainflow matrix from discrete turning points.
 %   dtp2rfm_sid      - Rainflow matrix from discrete turning points with side information.
 %   extralc          - Extrapolate level crossing spectrum
+%   fitgenpar_mld    - Parameter estimates for GPD data
 %   lc2rfmextreme    - Compute extreme RFM from level crossings.
 %   lsplot           - Plot load spectra.
 %   nt2cmat          - Calculates a cycle matrix from a counting distribution.
 %   nt2lc            - Calculates the level crossings from a cycle matrix.
+%   plotcc           - Plots a cycle count as a point process in the plane.
 %   res2arfc         - Calculates asymmetric rainflow cycles for a residual.
 %   rfcfilter        - Rainflow filter a signal.
 %   rfmextrapolate   - Extrapolates a rainflow matrix.
-%   rmcmat2cmat      - Converts a cycle matrix from Range-Mean format to min-max format.
+%   rmcmat2cmat      - Converts cycle matrix from Range-Mean to min-max format.
 %   smoothcmat       - Smooth a cycle matrix using (adaptive) kernel smoothing
 %   smoothcmat_hnorm - Bandwidth selection for kernel smoothing of a cycle matrix. 
 %   tp2arfc          - Calculates asymmetric rainflow cycles from turning points.
 %   tp2arfc4p        - Calculates asymmetric rainflow cycles from turning points (4-point).
 %   tp2lc            - Calculates the number of upcrossings from the turning points.
-%   tp2mm            - Calculates min2Max and Max2min cycles from a sequence of turning points
+%   tp2mm            - Calculates min2Max and Max2min cycles from turning points
 %   tp2rfc           - Finds the rainflow cycles from the sequence of turning points.
 %   tpextrapolate    - Extrapolates a sequence of turning points.
-%   fitgenpar_mld.m  - Parameter estimates for GPD data

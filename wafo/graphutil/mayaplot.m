@@ -42,7 +42,8 @@ function mayaplot(varargin)
 % visualize your data.
   
   
-error(nargchk(1,5,nargin))
+%error(nargchk(1,5,nargin))
+narginchk(1,5)
 np = nargin;
 if ischar(varargin{np})
   filename = strtok(varargin{np},'.'); % remove extension if any

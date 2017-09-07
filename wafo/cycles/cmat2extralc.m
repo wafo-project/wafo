@@ -104,8 +104,8 @@ function [lcEst,Est,R,MSE] = cmat2extralc(param,F,u,method,plotflag)
 % Check input
 ni = nargin;
 no = nargout;
-error(nargchk(3,5,ni));
-
+%error(nargchk(3,5,ni));
+narginchk(3,5)
 if ni < 4, method = []; end
 if ni < 5, plotflag = []; end
 

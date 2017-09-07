@@ -37,8 +37,8 @@ function [Fsmooth,h] = smoothcmat(F,method,h,NOsubzero,alpha)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,5,ni));
-
+%error(nargchk(1,5,ni));
+narginchk(1,5)
 if ni<2, method=1; end
 if ni<3, h=[]; end
 if ni<4, NOsubzero=[]; end

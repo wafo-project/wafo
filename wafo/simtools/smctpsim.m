@@ -1,5 +1,4 @@
 function [x,z,TT] = smctpsim(P,F,T,init,whatOut)
-
 %SMCTPSIM  Simulates a switching Markov chain of turning points,
 %   i.e. a switching process with a Markov chain of turning points
 %   within each regime.
@@ -67,8 +66,8 @@ TT(1,:) = clock;
 
 ni = nargin;
 %no = nargout;
-error(nargchk(3,5,ni));
-
+%error(nargchk(3,5,ni));
+narginchk(3,5)
 Zstr = '123456789';
 
 if ni < 4,  init = []; end

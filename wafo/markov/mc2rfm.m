@@ -51,8 +51,8 @@ function [F_rfc,mu_rfc] = mc2rfm(Q,def)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni<2, def = []; end
 if isempty(def), def = 1; end
 

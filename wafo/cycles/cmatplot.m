@@ -42,8 +42,8 @@ function cmatplot(in1,in2,in3,in4,in5)
 
   ni = nargin;
   no = nargout;
-  error(nargchk(1,5,ni));
-
+%  error(nargchk(1,5,ni));
+  narginchk(1,5)
   if ni == 1     % cmatplot(F)
     F=in1;
     method=[];
@@ -91,16 +91,16 @@ function cmatplot(in1,in2,in3,in4,in5)
     for i=1:N
       for j=1:M
         subplot(N,M,(i-1)*M+j);
-        _cmatplot(ux,uy,F{i,j},method,clevels);
+        cmatplot_(ux,uy,F{i,j},method,clevels);
       end
     end
     
   else
-    _cmatplot(ux,uy,F,method,clevels);
+    cmatplot_(ux,uy,F,method,clevels);
   end
 end
 
-function _cmatplot(ux,uy,F,method,clevels)
+function cmatplot_(ux,uy,F,method,clevels)
   if isempty(ux)
     ux =(1:size(F,2));  % Antalet kolumner
   end

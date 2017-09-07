@@ -62,7 +62,8 @@ end
 return
 
 function  [fsum, err]=gethgf(a,b,c,x,absEps,relEps,Kmax)
-  error(nargchk(4,7,nargin))
+%  error(nargchk(4,7,nargin))
+narginchk(4,7)
   if (nargin<7||isempty(Kmax))
     Kmax  = 10000;  
   end
@@ -193,7 +194,8 @@ function [result,abserr]  =dea3(E0,E1,E2)
 %                 Springer-Verlag, New York, 1977.
   
   
-error(nargchk(3,3,nargin))
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 ten = 10.0d0;
 one = 1.0d0;
 small  = eps; %spacing(one)

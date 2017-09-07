@@ -21,8 +21,8 @@ function r = polynint( p, n )
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-error( nargchk( 2, 2, nargin ) );
-
+%error( nargchk( 2, 2, nargin ) );
+narginchk(2,2)
 if ~all( size(n) == 1 ) || ~isreal(n) || n ~= round(n)
    error( 'N must be real scalar.' );
 end

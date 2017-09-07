@@ -1,8 +1,21 @@
-%README New features, bug fixes, and changes in WSIM.
+%README Readme file for module SIMTOOLS in WAFO Toolbox 
+%
+% 
+% Version 2.5.1   18-Jun-2017
 %
 % This file describes new features, bug fixes, and changes in this version 
 % of the WAFO Toolbox.
 %
+% FIXES
+% ~~~~~
+%  seamovie     - new dimension standards, option to save movie as avi
+%
+% NEW FUNCTIONS
+% ~~~~~~~~~~~~~
+%  spec2field   - spectral simulation of 3D Gaussian space-time field
+%  spec2waves   - spectral simulation of 2D Gaussian space-time wave
+%
+%-----------------------------------------------------------------
 % Version 2.1.1   07-Sep-2005
 %
 %  FIXES

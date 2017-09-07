@@ -48,7 +48,8 @@ if ((nargin==1) && (nargout <= 1) &&  isequal(A,'defaults')),
   return
 end   
 
-error(nargchk(2,inf, nargin))
+%error(nargchk(2,inf, nargin))
+narginchk(2,inf)
 [n d]=size(A);
 
 if (nargin<3)

@@ -38,7 +38,8 @@ function [len,bin,val] = bincount(x,f)
 % by pab 14.08.2001
 
 % check number of input arguments
-error(nargchk(1, 2, nargin));
+%error(nargchk(1, 2, nargin));
+narginchk(1,2)
 if isempty(x)
   len = 0;
   bin = [];

@@ -9,7 +9,8 @@ function h = plotfill(x,y,color,varargin)
 %  close all;
 % 
 % See also fill
-error(nargchk(2,inf,nargin))
+%error(nargchk(2,inf,nargin))
+narginchk(2,inf)
 [n,m] = size(y);
 if (n==2 || m==2) && (n>=2 && m>=2)
   if n==2 && m>2;

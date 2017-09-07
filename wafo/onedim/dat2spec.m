@@ -73,8 +73,8 @@ function [S,fcut] = dat2spec(xn,varargin)
 
 
 % References:
-% Georg Lindgren and Holger Rootzen (1986)
-% "Station�ra stokastiska processer",  pp 173--176.
+% Georg Lindgren, Holger Rootzen, Maria Sandsten (2013), Chapman & Hall.
+% "Stationary stochastic processes for scientists and engineers",  Ch 9.
 % 
 % Gareth Janacek and Louise Swift (1993)
 % "TIME SERIES forecasting, simulation, applications",

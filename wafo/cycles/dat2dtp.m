@@ -58,8 +58,8 @@ function [dtp,u,tp] = dat2dtp(param,x,h,ddef)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(2,4,ni));
-
+%error(nargchk(2,4,ni));
+narginchk(2,4)
 if ni < 3
   h=[];
 end

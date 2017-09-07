@@ -1,5 +1,6 @@
 % Module KDETOOLS in WAFO Toolbox. 
-% Version 2.5.2   07-Feb-2011 
+% Version 2.5.3   30-05-2017 
+%
 % 
 %   Readme      - Readme file for module KDETOOLS in WAFO Toolbox.
 % 

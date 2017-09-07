@@ -39,8 +39,8 @@ function D = testmeasurements(pos,type,thet0,f0,N,dt,amp,d,g,thetx,thety)
 % by pab 14.10.2002
 
 
-error(nargchk(2,11,nargin))
-
+%error(nargchk(2,11,nargin))
+narginchk(2,11)
 [M ] = size(pos,1);
 if M~=length(type)
     error('size(pos,1) must be equal to length(type)')

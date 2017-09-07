@@ -19,8 +19,8 @@ function D = dspec2spreading(S)
 % Tested on: Matlab 6
 % History
 % by pab 13.10.2002
-error(nargchk(1,1,nargin))
-
+%error(nargchk(1,1,nargin))
+narginchk(1,1)
 if (~isfield(S,'S'))
   error('S is missing from the spectrum structure!')
 end

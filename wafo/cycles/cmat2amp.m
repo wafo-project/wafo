@@ -28,8 +28,8 @@ function amp_hist = cmat2amp(param,F)
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,2,ni));
-
+%error(nargchk(2,2,ni));
+narginchk(2,2)
 n=param(3); % Number of discrete levels
 
 amp_hist=zeros(n,2);

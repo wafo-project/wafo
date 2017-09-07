@@ -40,7 +40,8 @@ function y = convlv(x,h,dim,flag)
 % - fixed a bug when nr=nl=0 and when nh~=1  
 % By Per A. Brodtkorb 2001
   
-error(nargchk(2,4,nargin))
+%error(nargchk(2,4,nargin))
+narginchk(2,4)
 if nargin<3,dim =[];end
 if nargin<4||isempty(flag),flag ='nonperiodic';end
 

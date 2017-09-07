@@ -37,8 +37,8 @@ function NT = cmat2nt(F,def)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni<2
   def = 1;
 end

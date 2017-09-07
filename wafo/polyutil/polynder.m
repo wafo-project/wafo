@@ -22,8 +22,8 @@ function r = polynder( p, n )
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
 % Check number of input arguments.
-error( nargchk( 2, 2, nargin ) );
-
+%error( nargchk( 2, 2, nargin ) );
+narginchk(2,2)
 % Make sure N is real and scalar.
 if any( size(n) ~= 1 ) || ~isreal(n) || n ~= round(n)
    error( 'N must be real and scalar.' );

@@ -46,8 +46,8 @@ function [lc,alpha] = mm2lc(mm,def,plotflag,sa)
 
 
 
-error(nargchk(1,4,nargin))
-
+%error(nargchk(1,4,nargin))
+narginchk(1,4)
 % Default values
 if nargin<4,                    sa=[]; end      % unknown stdev is default
 if nargin<3||isempty(plotflag),  plotflag=1; end % default plot final result

@@ -37,7 +37,8 @@ function lc = dat2lc(x,h,def)
 % by  Per A. Brodtkorb 11.08.99
 %
 
-error(nargchk(1,3,nargin))
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 plotflag=0;
 if nargin<2||isempty(h),  h=0; end
 if nargin<3||isempty(def),  def=2; end

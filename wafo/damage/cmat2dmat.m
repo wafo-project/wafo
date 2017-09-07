@@ -34,8 +34,8 @@ function Dmat = cmat2dmat(param,F,beta,K)
 
 ni = nargin;
 no = nargout;
-error(nargchk(3,4,ni));
-
+%error(nargchk(3,4,ni));
+narginchk(3,4)
 if ni < 4
   K=[];
 end

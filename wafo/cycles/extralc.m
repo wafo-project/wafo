@@ -67,8 +67,8 @@ function [lcEst,Est] = extralc(lc,u,method,plotflag)
 
 ni = nargin;
 %no = nargout;
-error(nargchk(1,4,ni));
-
+%error(nargchk(1,4,ni));
+narginchk(1,4)
 if ni < 3, method = []; end
 if ni < 4, plotflag = []; end
 

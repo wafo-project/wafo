@@ -48,7 +48,8 @@ function rho = wdensity(S,T,P)
 %     You should have received a copy of the GNU Lesser General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-error(nargchk(0,3,nargin))
+%error(nargchk(0,3,nargin))
+narginchk(0,3)
 if nargin<1||isempty(S), 
   S = 35; 
 end
@@ -122,8 +123,8 @@ function K = seck(S,T,P)
 %  Algorithms for computation of fundamental properties of 
 %  seawater, Unesco Tech. Pap. in Mar. Sci., No. 44, 53, pp 17-18
 
-error(nargchk(3,3,nargin))
-
+%error(nargchk(3,3,nargin))
+narginchk(3,3)
 
 % Fresh water terms of K at atmosphere pressure.
 %------------------------------------------------

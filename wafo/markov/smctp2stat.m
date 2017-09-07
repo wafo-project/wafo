@@ -28,8 +28,8 @@ function [ro,ro_min,ro_max,Ro_min,Ro_max,QQ] = mctp2stat(P,F)
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,2,ni));
-
+%error(nargchk(2,2,ni));
+narginchk(2,2)
 % Define 
 
 r = length(P);   % Number of regime states

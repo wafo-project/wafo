@@ -86,7 +86,8 @@ function [T, index, ind] = dat2wa(xn,h,pdef,wdef,rate),
 %  - added interpolation before extracting the parameters
 % last modified by Per A. Brodtkorb 07.08.98
 
-error(nargchk(1,5,nargin));
+%error(nargchk(1,5,nargin));
+narginchk(1,5)
 x=xn;
 
 [n m]= size(x);

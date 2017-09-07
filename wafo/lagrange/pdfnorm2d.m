@@ -19,6 +19,7 @@ function pdf = pdfnorm2d(X,m,S)
 % See also: pdfnorm, pdfnormnd
 
 % History:
+% Updated to Matlab 9.1 May 2017 by GL
 % Modified Wafo routine pdfnorm2 by GL to accept array input  m
 
 %
@@ -35,8 +36,8 @@ function pdf = pdfnorm2d(X,m,S)
 %     You should have received a copy of the GNU Lesser General Public License
 %     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-error(nargchk(1,3,nargin))
-
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 [n,d]=size(X);
 if d~=2
     error('Input X must be n x 2')

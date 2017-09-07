@@ -80,7 +80,8 @@ if ((nargin==1) && (nargout <= 1) &&  isequal(A,'defaults')),
   f = defaultoptions;
   return
 end   
-error(nargchk(1,inf, nargin))
+%error(nargchk(1,inf, nargin))
+narginchk(1,inf)
 [n d]=size(A); % Find dimensions of A, 
                % n=number of data points,
                % d=dimension of the data.  

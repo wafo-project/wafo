@@ -53,8 +53,8 @@ function [F_rfc,mu_rfc] = mctp2rfm(F,c_m)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni < 2
   c_m=[];
 end

@@ -147,8 +147,8 @@ function s1 = ddeblank(s)
 % Written by Stefan Baunack. Please send any bug
 % reports or other comments to: s.baunack@ifw-dresden.de.
 
-error(nargchk(1,1,nargin));
-
+%error(nargchk(1,1,nargin));
+narginchk(1,1)
 if isempty(s), 
   s1=s; 
   return; 

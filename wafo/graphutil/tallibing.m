@@ -28,7 +28,8 @@ function h1=tallibing(x,y,n,size,color)
 %Time-stamp:<Last updated on 01/01/07 at 12:27:30 by even@gfi.uib.no>
 %File:<d:/home/matlab/tallibing.m>
 
-error(nargchk(3,5,nargin));
+%error(nargchk(3,5,nargin));
+narginchk(3,5)
 if nargin < 5 || isempty(color), color='w'; end
 if nargin < 4 || isempty(size),  size=8;    end
 

@@ -1,24 +1,24 @@
-function [w,x]=spec2ldat(spec,options,varargin)
-%SPEC2LDAT Simulates w and x components of 2D Lagrange wave
+function W = spec2wave(Spec,options,varargin)
+%SPEC2LDAT Spectral simulation of space-time Gaussian wave
 %           
-%CALL: [w,x] = spec2ldat(spec,options);
+%CALL: W = spec2wave(spec,options);
 % 
-%   w     = Gaussian vertical process structure w.Z,w.u,w.t
-%   x     = Gaussian horizontal process structure x.Z,x.u,x.t
+%   W    = Gaussian wave structure W with fields 
+%     .Z = matrix of size [Nx Nt] 
+%     .x = space coordinates, length Nxalong x-axis 
+%     .t = time coordinates, length Nt
 %
-%   spec  =S    a frequency spectral density structure in 
-%               angular frequency ('w') or frequency ('f') form 
+%   Spec = S, spectral density structure in 
+%             angular frequency ('w') or frequency ('f') form 
 %   options = struct with fields 
-%       .Nt    = giving  Nt  time points.  (default length(S)-1=n-1).
+%       .Nt  = giving  Nt  time points.  (default length(S)-1=n-1).
 %                If Nt>n-1 it is assummed that  S.S(k)=0  for  k>n-1
-%       .Nu    = giving  Nu  space points (defult = Nt)
-%       .dt    = step in grid (default dt is defined by the Nyquist freq) 
-%       .du    = step in grid (default du is defined by the Nyquist freq)
+%       .Nx  = giving  Nx  space points (defult = Nt)
+%       .dt  = step in grid (default dt is defined by the Nyquist freq) 
+%       .dx  = step in grid (default dx is defined by the Nyquist freq)
 %      (.u     = if non-empty and = [u1 u2 Nu] the u-vector will be set to 
 %                u = linspace(u1,u2,Nu), ONLY TESTED for ffttype='ffttime'
 %                if empty, then u = linspace(0,(Nu-1)*du,Nu))
-%       .lalpha = alpha value for modified Lagrange (default = 0)
-%       .lbeta  = beta value for modified Lagrange (default =0)
 %       .iseed  - method or starting seed for the random number generator 
 %                (default = 'shuffle')
 %       .ffttype - 'fftspace', fft over space, loop over time
@@ -29,27 +29,14 @@ function [w,x]=spec2ldat(spec,options,varargin)
 %                   over space (useful if Nt > Nu),  
 %                - 'ffttwodim', 2D-fft over time and space.  
 %
-% Example of spec2ldat and ldat2lwav
+% Example of spec2wave 
 %
 %    S=jonswap; opt=simoptset; 
-%    opt=simoptset(opt,'dt',0.25,'du',0.25);
-%    type='time';
-%    [w,x]=spec2ldat(S,opt)
-%    [L,Lsmooth]=ldat2lwav(w,x,type,[],10);
+%    opt=simoptset(opt,'dt',0.25,'dx',0.25);
+%    w = spec2wave(S,opt)
 %    subplot(211)
-%    plot(Lsmooth.t,Lsmooth.Z);      axis([0 50 -6 6])
-%    [w,x]=spec2ldat(S,opt,'lalpha',1)
-%    [L1,Lsmooth1]=ldat2lwav(w,x,type,[],10);
-%    subplot(223)
-%    plot(Lsmooth1.t,Lsmooth1.Z);    axis([0 50 -6 6])
-%    [w,x]=spec2ldat(S,opt,'lalpha',2)
-%    [L2,Lsmooth2]=ldat2lwav(w,x,type,[],10);
-%    subplot(224)
-%    plot(Lsmooth2.t,Lsmooth2.Z);    axis([0 50 -6 6])
-%
-% Version corresponding to Applied Ocean Research 2009 with respect 
-% to .lalpha and .lbeta 
-% See also: spec2sdat,cov2sdat, gaus2dat
+
+% See also: spec2sdat, spec2field, cov2sdat, gaus2dat
 
 % Modified 2015-05-22 by GL to allow more flexible u-vector
 % Modified 2015-02-02 by GL
@@ -88,14 +75,6 @@ Nt=opt.Nt;
 du=opt.du;
 dt=opt.dt;
 
-lalpha=opt.lalpha;
-lbeta=opt.lbeta;
-if ~isempty(lalpha) || ~isempty(lbeta)
-    linked=1;
-else
-    linked=0;
-end
-
 if strcmpi(opt.ffttype,'ffttime') || isempty(opt.ffttype')
     fftt=1;
 elseif strcmpi(opt.ffttype,'fftspace')
@@ -103,7 +82,7 @@ elseif strcmpi(opt.ffttype,'fftspace')
 else fftt=3;
 end
 
-S=spec;
+S=Spec;
 if ~isfield(S,'g')
     S.g=gravity;
 end
@@ -119,15 +98,15 @@ if isfield(S,'f') % Make sure spectrum is in angular frequency
     S=rmfield(S,'f');
 end
 
-U=opt.u;
-if ~isempty(U),
-    Nu=U(3);
-    u1=U(1);
-    u2=U(2);
-    u=linspace(u1,u2,Nu);
-    u=u';
-    du=(u2-u1)/Nu;
-end
+%U=opt.u;
+%if ~isempty(U),
+%    Nu=U(3);
+%    u1=U(1);
+%    u2=U(2);
+%    u=linspace(u1,u2,Nu);
+%    u=u';
+%    du=(u2-u1)/Nu;
+%end
 
 if isempty(dt),
     dt=pi/S.w(end);  % Default set  dt  by the Nyqvist frequency
@@ -140,10 +119,6 @@ if isempty(du)
 end 
 if isempty(Nu)
     Nu=2^nextpow2(length(S.w));
-end
-
-if isempty(U),
-    u=(0:Nu-1)'*du;
 end
 
 %***********************
@@ -223,26 +198,19 @@ end
 
 % Prepare output variables
 % ------------------------
-t=(0:Nt-1)*dt;
+t=(0:Nt-1)*dt; u=(0:Nu-1)*du;
 w.Z=zeros(Nu,Nt);
-%u=(0:Nu-1)'*du;
-w.u=u;
+w.x=u;
 w.t=t;
-x.Z=zeros(Nu,Nt);
-x.u=u;
-x.t=t;
-w.note=spec.note;
+w.note=Spec.note;
 x.note1='Horizontal Lagrange component';
-if linked,
-    x.note2=['alpha=' num2str(lalpha) ', beta =' num2str(lbeta)];
-end
 
 if fftt==1, %timefft
     % Interpolate spectrum to get it at correct frequencies
     % -----------------------------------------------------------
     Sinterp = interp1(S.w,S.S,omega,'pchip');
     Si=[0;Sinterp(2:end)]*domega;
-    S0=spec2mom(spec);
+    S0=spec2mom(Spec);
     testsum=sum(Si);
     if testsum<0.99*S0,
       disp('WARNING: too small dt or Nt. Spectrum information lost')
@@ -257,26 +225,21 @@ if fftt==1, %timefft
 
     % and propagate in space, wave moving to the right (increasing u)
     % ----------------------
-    Ku=u*kappa';
+
+    Ku=u'*kappa';
     Zut = exp(1i*Ku).*repmat(Zt,Nu,1);
-    icoth = 1i*(tanh(kappa*S.h)).^(-1);
-    icoth = icoth';
-    H = icoth + (lalpha*ones(size(kappa')) + 1i*lbeta*kappa')./(omega').^2;
-    Xut = Zut.*repmat(H,Nu,1);
 
     % Generate w and x time series
     % ----------------------------
     w.Z=real(fft(Zut')');
-    x.Z=real(fft(Xut')');
     w.Z=flipud(w.Z);
-    x.Z=flipud(x.Z);
    
 elseif fftt==2, % spacefft
     % Interpolate spectrum to get it at correct wavenumbers
     % -----------------------------------------------------------
     Sinterp = interp1(S.k,S.S,kappa,'pchip');
     Si=[0;Sinterp(2:end)]*dkappa;
-    S0=spec2mom(spec);
+    S0=spec2mom(Spec);
     testsum=sum(Si);
     if testsum<0.99*S0,
       disp('WARNING: too small du or Nu. Spectrum information lost')
@@ -293,24 +256,18 @@ elseif fftt==2, % spacefft
     % ----------------------
     Wt=omega*t;
     Zut = exp(-1i*Wt).*repmat(Zu,1,Nt);
-    icoth = 1i*(tanh(kappa*S.h)).^(-1);
-    icoth = icoth';
-    H = icoth + (lalpha*ones(size(kappa')) + 1i*lbeta*kappa')./(omega').^2;
-    Xut = Zut.*repmat(H',1,Nt);
-
+    
     % Generate w and x time/space series
     % ----------------------------
     w.Z=real(fft(Zut));
-    x.Z=real(fft(Xut));
     w.Z=flipud(w.Z);
-    x.Z=flipud(x.Z);
     
 elseif fftt==3,
     % Interpolate spectrum to get it at correct frequencies
     % -----------------------------------------------------------
     Sinterp = interp1(S.w,S.S,omega,'pchip');
     Si=[0 Sinterp(2:end)]*domega;
-    S0=spec2mom(spec);
+    S0=spec2mom(Spec);
     testsum=sum(Si);
     if testsum<0.99*S0,
       disp('WARNING: too small dt or Nt. Spectrum information lost')
@@ -330,29 +287,17 @@ elseif fftt==3,
         end
     end
 
-    icoth = 1i*(tanh(kappa*S.h)).^(-1);
-    H = repmat(icoth,1,Nt) + (lalpha*ones(Nu,Nt) + 1i*lbeta*repmat(kappa,1,Nt))./(repmat(omega,Nu,1)).^2;
-    Xut = Zut.*H;
-
     w.Z=real(fft2(Zut));
-    x.Z=real(fft2(Xut));
     w.Z=flipud(w.Z);
-    x.Z=flipud(x.Z);
 
 end 
 
-if any(any(diff(x.Z)<-(x.u(2)-x.u(1)))),
-    x.folded=true;
-else
-    x.folded=false;
-end
-
-mom=spec2mom(spec);
-x.std=std(x.Z(:));
+mom=spec2mom(Spec);
 w.std=std(w.Z(:));
 meanper=2*pi*sqrt(mom(1)/mom(2));
 w.meanperiod=meanper;
 w.meanwavelength=gravity/(2*pi)*meanper^2;
+W = w;
 
 
 

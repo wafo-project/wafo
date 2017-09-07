@@ -130,8 +130,8 @@ if nargin==1 && nargout <= 1 && isequal(xn,'defaults')
   Sd = opt; 
   return
 end
-error(nargchk(2,inf,nargin)) 
-
+%error(nargchk(2,inf,nargin)) 
+narginchk(2,inf)
 
 if nargin>6,
   opt  = specoptset(opt,varargin{:}); 

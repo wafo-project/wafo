@@ -54,8 +54,8 @@ function [F_rfc,mu_rfc,T] = smctp2rfm(P,F,c_m)
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,3,ni));
-
+%error(nargchk(2,3,ni));
+narginchk(2,3)
 if ni < 3
   c_m=[];
 end

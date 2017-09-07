@@ -14,8 +14,8 @@ function r = polyadd(p, q)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://www.math.uio.no/~jacklam
 
-   error(nargchk(2, 2, nargin));
-
+   %error(nargchk(2, 2, nargin));
+   narginchk(2,2)
    m = length(p);
    n = length(q);
    l = max(m, n);

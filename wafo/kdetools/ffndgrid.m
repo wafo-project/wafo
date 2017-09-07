@@ -94,8 +94,8 @@ if (nargin==1) && strncmpi(x,'defaults',7)
   zzgrid = defaultoptions;
   return
 end
-error(nargchk(2,8,nargin))		
-
+%error(nargchk(2,8,nargin))		
+narginchk(2,8)
 r = size(x,1);
 if r==1,% Make sure x is a column vector.
   x = x(:);
@@ -368,7 +368,8 @@ function  list = extract(v,no,nc,nfill,align)
 %  Kirill K. Pankratov,  kirill@plume.mit.edu
 %  8-22-94
 
-error(nargchk(3,5,nargin))
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 nfilldflt = [0 32]; % Defaults for filling (0 for numbers
                     % or blank for strings)
 		    

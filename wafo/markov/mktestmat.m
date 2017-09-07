@@ -49,8 +49,8 @@ function [F,Fh] = mktestmat(param,x0,s,lam,NOsubzero)
 
 ni = nargin;
 no = nargout;
-error(nargchk(0,5,ni));
-
+%error(nargchk(0,5,ni));
+narginchk(0,5)
 if ni<1, param = []; end
 if ni<2, x0 = []; end
 if ni<3, s = []; end

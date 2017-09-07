@@ -24,8 +24,8 @@ function plotcc(cc,ps)
 
 ni = nargin;
 %no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni<2
   ps=12;
 end

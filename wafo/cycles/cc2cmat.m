@@ -44,8 +44,8 @@ function [F,h] = cc2cmat(param,cc,ddef,method,h,NOsubzero,alpha)
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,7,ni));
-
+%error(nargchk(2,7,ni));
+narginchk(2,7)
 if ni<3, ddef=[]; end
 if ni<4, method=0; end
 if ni<5, h=[]; end

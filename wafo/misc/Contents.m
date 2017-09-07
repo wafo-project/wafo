@@ -1,19 +1,17 @@
 % Module MISC in WAFO Toolbox. 
-% Version 2.5.2   07-Feb-2011 
-% 
+% Version 2.5.3   30-05-2017 
+%
 %   readme       - Readme file for module MISC in WAFO Toolbox 
 % 
 % Functions
 %   betaloge     - Natural Logarithm of beta function.
 %   binom        - Calculates the binomial coefficient n!/((n-k)!*k!)
-%   findpeaks    - find peaks of vector or matrix possibly rainflow filtered
+%   convlv       - Convolves real data set with a response function. 
 %   genchol      - Generalized Cholesky factorization
 %   hypgf        - Hypergeometric function F(a,b,c,x) 
-%   sinc         - Sin(pi*x)/(pi*x) function.
-%   smooth       - Calculates a smoothing spline.
 %   savgol       - Savitzky-Golay filter coefficients.
+%   sinc         - Sin(pi*x)/(pi*x) function.
 %   stirlerr     - Computes  log(n!) - log( sqrt(2*pi*n)*(n/exp(1))^n )
-%   convlv       - Convolves real data set with a response function. 
 %
 % Oceanographic constants
 %   getshipchar  - Estimate ship characteristics from value of one ship-property
@@ -24,14 +22,13 @@
 %   ccquad       - Numerical integration using a Clenshaw-Curtis quadrature.
 %   gaussq       - Numerically evaluate integral, Gauss quadrature.
 %   gaussq2d     - Numerically evaluate2D integral, Gauss quadrature.
-%   simpson      - Numerical integration with the Simpson method
-%
 %   grule        - Computes nodes and weights for Gauss-Legendre quadrature.
-%   qrule        - Computes nodes and weights for Gaussian quadratures.   
-%   qrule2d      - Computes nodes and weights for Gaussian quadratures 
 %   hrule        - Computes nodes and weights for generalized Hermite quadrature.
 %   jrule        - Computes nodes and weights for Gauss-Jacobi quadrature.
-%   lrule        - Computes nodes and weights for generalized Laguerre  quadrature. 
+%   lrule        - Computes nodes and weights for generalized Laguerre  quadrature.
+%   qrule        - Computes nodes and weights for Gaussian quadratures.   
+%   qrule2d      - Computes nodes and weights for Gaussian quadratures .
+%   simpson      - Numerical integration with the Simpson method
 %
 % Documentation utilities
 %   geth1line    - Extracts the first comment line (the H1 line) of a m-file
@@ -49,4 +46,8 @@
 %   parent       - Lists parents of a Custom object class
 %   parseoptions - Create or alter a OPTIONS structure.
 %   where        - List all locations of one or more Matlab functions.
-
+%
+%   cssmooth     - SMOOTH Calculates a smoothing spline.
+%   discretize   - Automatic discretization of function
+%   psi2         - DIGAMMA   Digamma function.
+%   wfindpeaks   - WFINDPEAKS find peaks of vector or matrix possibly rainflow filtered

@@ -83,7 +83,7 @@ if ischar(name)
   
   xpatch = [0 x x 0];
   ypatch = [0 0 1 1];
-  p = patch(xpatch,ypatch,'r','Edgecolor','r','EraseMode','none');
+  p = patch(xpatch,ypatch,'r','Edgecolor','r');%,'EraseMode','none');
   titleHandle = get(ax,'Title');
   ud = {p, titleHandle};
   set(f,'UserData',ud,...   

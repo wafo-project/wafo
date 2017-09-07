@@ -169,7 +169,8 @@ if strcmpi(opt3D.type(1:5),'field') || strcmpi(opt3D.type(1:5),'movie'),
         slutindex=[find(W.u>=opt3D.end(1),1) find(W.v>=opt3D.end(2),1)];
     end
  % End Define time and area
-   
+   startindex
+   slutindex
     L.x=W.v(startindex(2):slutindex(2)); %W.v;
     L.y=W.u(startindex(1):slutindex(1)); %W.u;
     L.t=t0;
@@ -187,8 +188,8 @@ if strcmpi(opt3D.type(1:5),'field') || strcmpi(opt3D.type(1:5),'movie'),
         Vq=griddata(xx,yy,ww,xI,yI);
         
         if sum(find(isnan(Vq)))>0,
-            [I1,I2] = ind2sub(size(Vq),find(isnan(Vq))) ; 
-            [J1,J2] = ind2sub(size(Vq),find(~isnan(Vq(:,1:2))));
+            [I1,I2] = ind2sub(size(Vq),find(isnan(Vq)))  
+            [J1,J2] = ind2sub(size(Vq),find(~isnan(Vq(:,1:2))))
             IDX = dsearchn([J1 J2], [I1 I2]); % Find nearest valid point
             for miss=1:length(I1), % Replace NaN's
                 Vq(I1(miss),I2(miss))=Vq(J1(IDX(miss)),J2(IDX(miss)));

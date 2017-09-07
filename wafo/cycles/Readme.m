@@ -1,4 +1,10 @@
-%README New features, bug fixes, and changes in CYCLES.
+%README Readme file for module CYCLES in WAFO Toolbox.
+%
+% Version 2.1.2 07-Sep-2017
+%
+% Update to Matlab 2017
+%
+%--------------------------------------------------------------------
 %
 % Version 2.1.1 06-Sep-2005
 %

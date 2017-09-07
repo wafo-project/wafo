@@ -31,7 +31,8 @@ function figcycle(varargin)
 %   E-mail:      jacklam@math.uio.no
 %   WWW URL:     http://home.online.no/~pjacklam
 
-error(nargchk(0,inf,nargin))
+%error(nargchk(0,inf,nargin))
+narginchk(0,inf)
 maximize = false;
 figs = [];
 nfigspercycle=1;

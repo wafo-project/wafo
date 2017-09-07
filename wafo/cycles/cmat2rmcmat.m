@@ -29,8 +29,8 @@ function [Frm,paramM,paramR,paramA] = cmat2rmcmat(F,param)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 % Initiate matrices
 n = length(F);
 Frm = zeros(n,n);

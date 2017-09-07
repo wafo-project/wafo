@@ -29,8 +29,8 @@ function h_norm = smoothcmat_hnorm(F,NOsubzero)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni<2, NOsubzero=[]; end
 
 if isempty(NOsubzero), NOsubzero=0; end

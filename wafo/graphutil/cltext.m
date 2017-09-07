@@ -27,19 +27,16 @@ function [H] = cltext(clevels,PL,N)
 % Examples:
 %  z  = peaks;
 %  cl = max(z(:))-range(z(:))*(.1:.1:.9);
-%  contour(z,cl); cltext(cl);
+%  contour(z,cl), cltext(cl)
 %
-%  data = rndray(1,2000,2); 
-%  f = kdebin(data,{'kernel','epan','L2',.5,'inc',128});
-%  contour(f.x{:},f.f,f.cl); cltext(f.pl,1);
-%
-%  close all;
+%  data = rndray(1,2000,2); f = kdebin(data,{'kernel','epan','L2',.5,'inc',128});
+%  contour(f.x{:},f.f,f.cl),cltext(f.pl,1)
 %
 % See also  pdfplot
 
-
-
 % History
+% Revised GL December 2015 - removed call to mkdeleteproxy; caused warnings i 
+% Matlab version from 2014b - uncomment if you encounter problems
 % Revised pab March 2007
 % - The printed text is now truly independent of the scaling to the rest of
 %   the figure.
@@ -168,7 +165,7 @@ ha(2) = text(position{:},cltxt,txtProp{:});
 % create DeleteProxy object, an invisible text object in
 % the current axes, so that the other text objects will be deleted
 % properly.
-mkdeleteproxy(cax,ha,'CLTEXTDeleteProxy')
+%mkdeleteproxy(cax,ha,'CLTEXTDeleteProxy')
 
 %set(ha,'unit','data')
 

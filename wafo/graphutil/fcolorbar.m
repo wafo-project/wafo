@@ -77,8 +77,8 @@ function [h00,h1]=fcolorbar(D,L,label,W,hand)
 %File:<d:/home/matlab/ecolorbar.m>
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-error(nargchk(1,5,nargin));
-
+%error(nargchk(1,5,nargin));
+narginchk(1,5)
 % Catch fcolorbar('delete') special case -- must be called by the deleteFcn.
 if nargin==1 && strcmp(D,'delete'),
   ax = gcbo;

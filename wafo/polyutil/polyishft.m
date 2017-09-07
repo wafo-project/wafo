@@ -29,7 +29,8 @@ function r= polyishft(p,a,b)
 % History
 % by pab 2000
 
-error(nargchk(3,3,nargin));
+%error(nargchk(3,3,nargin));
+narginchk(3,3)
 r = polyshft(p,-(2+b+a)/(b-a),(2-b-a)/(b-a));
 
 

@@ -85,8 +85,8 @@ function [SL,SN]=spec2linspec(S,np,dt,iseed,fnLimit)
 
 % TODO % Replace inputs with options structure
 % TODO % Can be improved further.
-error(nargchk(1,5,nargin))
-
+%error(nargchk(1,5,nargin))
+narginchk(1,5)
 % Define some constants
 %fnLimit = sqrt(inf)
 method = 'apstochastic';

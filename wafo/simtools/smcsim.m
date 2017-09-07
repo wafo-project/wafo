@@ -49,8 +49,8 @@ function [x,z] = smcsim(P,Qc,T,init)
 
 ni = nargin;
 %no = nargout;
-error(nargchk(3,4,ni));
-
+%error(nargchk(3,4,ni));
+narginchk(3,4)
 if ni < 4,  init = []; end
 
 if isempty(init)

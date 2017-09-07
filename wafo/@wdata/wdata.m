@@ -30,12 +30,13 @@ function  Hs = wdata(data,args)
 % See also wdata/plot, specdata, covdata
 
 
-% Tested on: matlab 7
+% Tested on: matlab 7, 8, 9
 % History:
 % revised pab updated help header
 % By pab Jan 2007
 
-error(nargchk(0,2,nargin));
+%error(nargchk(0,2,nargin));
+narginchk(0,2)
 
 thisClass = mfilename;
 switch nargin

@@ -1,4 +1,4 @@
-%README New features, bug fixes, and changes in MARKOV.
+%README Readme file for module MARKOV in WAFO Toolbox.
 %
 % Version 2.1.1 07-Sep-2005
 %

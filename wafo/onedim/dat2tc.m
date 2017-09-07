@@ -51,8 +51,8 @@ function [tc, ind, l_ind]=dat2tc(x,v,wdef)
 % (This is useful in a zero down cross analysis). 
 
 
-error(nargchk(1,3,nargin))
-
+%error(nargchk(1,3,nargin))
+narginchk(1,3)
 xn = x;
 [n m]= size(xn);
 if n<m

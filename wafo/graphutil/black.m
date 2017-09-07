@@ -31,7 +31,8 @@ function black(lty)
 %Time-stamp:<Last updated on 00/07/12 at 09:31:30 by even@gfi.uib.no>
 %File:<d:/home/matlab/black.m>
 
-error(nargchk(0,1,nargin));
+%error(nargchk(0,1,nargin));
+narginchk(0,1)
 if nargin < 1 || isempty(lty) || ~ischar(lty)
   lty='-|--|-.|:|:.|:o|:x|:+|:*|:s';   %default LineStyleOrder
 end 

@@ -1,5 +1,5 @@
 function P = tr_x2p(X,trans)
-% TR_X2P  Transform X-vector to transition matrix P.
+%TR_X2P Transforms a vector X to a transition matrix P.
 %
 % CALL: P = tr_x2p(X,trans)
 %

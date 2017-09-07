@@ -67,8 +67,8 @@ T(1,:)=clock;
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,2,ni));
-
+%error(nargchk(1,2,ni));
+narginchk(1,2)
 if ni < 2
   c_m=1;
 end

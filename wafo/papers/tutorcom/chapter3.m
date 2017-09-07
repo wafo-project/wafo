@@ -6,8 +6,9 @@
 % Each set of commands is followed by a 'pause' command.
 % 
 
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8.1, 9.1
 % History
+% Revised by GL September 2017 for use with Tutorial 2017
 % Revised by Georg Lindgren march 2011 for use with Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
@@ -19,6 +20,7 @@
 %
 
 start=clock;
+%pstate = 'on';
 pstate = 'off';
 speed = 'fast'
 %speed = 'slow'
@@ -150,13 +152,14 @@ disp('Block = 11'), pause
 %% Section 3.3.1 The average wave
 % Example 4: Simple wave characteristics obtained from Jonswap spectrum 
 clf
-S = jonswap([],[5 10]);
-[m,  mt]= spec2mom(S,4,[],0);
+SJ = jonswap([],[5 10]);
+[m,  mt]= spec2mom(SJ,4,[],0);
+
 disp('Block = 12'), pause
 
 clf
-spec2bw(S)
-[ch Sa2] = spec2char(S,[1  3])
+spec2bw(SJ)
+[ch Sa2] = spec2char(SJ,[1  3])
 disp('Block = 13'), pause
 
 %% Section 3.3.2 Explicit approximations of wave distributions 
@@ -169,7 +172,7 @@ disp('Block = 14'), pause
 
 %% Transformed Longuett-Higgins model for Tc and Ac
 clf
-[sk, ku ]=spec2skew(S);
+[sk, ku ]=spec2skew(SJ);
 sa = sqrt(m(1));
 gh = hermitetr([],[sa sk ku 0]);
 flhg = lh83pdf(t,h,[m(1),m(2),m(3)],gh);

@@ -29,14 +29,15 @@ function Nf1 = waveplot(x,varargin)
 % % blue circles.
 %   x = load('sea.dat');
 %   x1 = x(1:150,:);
-%   waveplot(x1,'r-','bo');
-%
-%   close all;
+%   waveplot(x1,'r-','bo')
 %
 % See also  dat2tc, plot
 
-%Tested on: Matlab 6.0, 5.3, 5.2, 5.1
+%Tested on: Matlab 9.1, 6.0, 5.3, 5.2, 5.1
 % History:
+% Revised December 18, 2015 by GL to accept also new Matlab 2014b standard
+%   for figure handle operations; tested on Matlab2015b, Matlab2013a 
+% Tested on: Matlab 6.0, 5.3, 5.2, 5.1
 % revised jr 02.04.2001
 %  - added example, updated info.
 % revised pab 11.10.2000
@@ -100,46 +101,56 @@ end
 
 indmiss=isnan(xn(:,2)); % indices to missing points
 if max(abs(xn(~indmiss,2)))>5*Sm0,
-    XlblTxt=strcat(XlblTxt ,'(Spurious data since max > 5 std.)');
+    XlblTxt=[ XlblTxt '(Spurious data since max > 5 std.)'];
 end
-start=gcf-1; %  start at current figure
+
+oldversion=verLessThan('matlab','8.4');
+if oldversion,
+    start = gcf - 1;
+else
+    start=get(gcf,'Number')-1; %  start at current figure
+end    
 hstate = ishold;
 
 for iz=1:Nf
   if Nf>1,figure(start+iz);end
   for ix=1:Nsub,
-    if Nsub>1,subplot(Nsub,1,ix); end
+    if Nsub>1,subplot(Nsub,1,ix),end
     if hstate, hold on; end
     h_scale=[xn(ind(1),1) xn(ind(Ns),1)]*dT;
-    plot(xn(ind,1)*dT,xn(ind,2:end),sym1); hold on;
-    plot(TP1(:,1)*dT,TP1(:,2:end),sym2);
-    plot(h_scale,[0 0], 'k');
-    axis([h_scale v_scale]);
+    plot(xn(ind,1)*dT,xn(ind,2:end),sym1) , hold on
+    plot(TP1(:,1)*dT,TP1(:,2:end),sym2) 
+    plot(h_scale,[0 0],'k')
+    axis([h_scale v_scale])
   
     for iy=[-2 2],
-      plot(h_scale,iy*Sm0*[1, 1],'--');
-      sign1 = ['-', ' ', '+'](2+sign(iy));
-      figtext(0.99, iy*Sm0, sprintf('- %s%d', sign1, abs(iy)),'normalized','data');
-    end 
-    hold off;
+      plot(h_scale,iy*Sm0*[1 1],'--')
+      switch sign(iy)
+        case -1, sign1='-';
+        case  0, sign1=' ';
+        case  1, sign1='+';
+      end
+      figtext(0.99,iy*Sm0,['- ' sign1 num2str(abs(iy)) ],'norm','data')
+    
+    end, hold off
   
     ind = ind + Ns; 
   end
 
-  xlabel(XlblTxt);
+  xlabel(XlblTxt)
 
-  if Nsub>1,subplot(Nsub,1,1);end
+  if Nsub>1,subplot(Nsub,1,1),end
 
-  title('Surface elevation from mean water level (MWL).');
+  title('Surface elevation from mean water level (MWL).')
 
-  if Nsub>1,subplot(Nsub,1,floor((Nsub+1)/2));end
+  if Nsub>1,subplot(Nsub,1,floor((Nsub+1)/2)),end
   if (Sm0 >1.1)||(Sm0<0.9), % surface elevation is probably not standardized 
-    ylabel('Distance from MWL.(m)');
+    ylabel('Distance from MWL.(m)')
   end
-  set(gca,'DefaultTextRotation',90);
-  figtext(1.05,0,'Standard Deviation','normalized','data','center');
-  set(gca,'DefaultTextRotation',0);
-  wafostamp;
+  set(gca,'DefaultTextRotation',90)
+  figtext(1.05,0,'Standard Deviation','norm','data','center')
+  set(gca,'DefaultTextRotation',0)
+ wafostamp 
 end
 
 if nargout>0,

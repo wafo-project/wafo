@@ -1,8 +1,11 @@
-% WAFOL = lagrange module for WAFO toolbox
-% Version 1.2.1 05-01-2016
+% Module LAGRANGE in WAFO toolbox
+% Version 1.2.2  30-05-2017
 %
-% WafoL contains routines for generation and analysis of random 
+%
+% LAGRANGE contains routines for generation and analysis of random 
 %   1st and 2nd order Lagrange waves
+%
+%   WafoL_Tutorial     - Tutorial in pdf-format for Lagrange module
 %
 %   dat2crossind       - Finds indices to level v down and/or upcrossings from data
 %   disper2            - Dispersion relation with possible mean flow

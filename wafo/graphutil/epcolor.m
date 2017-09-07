@@ -29,7 +29,8 @@ function h=epcolor(x,y,data)
 % Revised pab: M
   
   
-error(nargchk(1,3,nargin));
+%error(nargchk(1,3,nargin));
+narginchk(1,3)
 if nargin==1
   data=x;
   [M,N]=size(data);
@@ -97,7 +98,8 @@ function [X,XG]=buildgrid(X)
 %Time-stamp:<Last updated on 06/04/24 at 13:19:50 by even@nersc.no>
 %File:</home/even/matlab/evenmat/buildgrid.m>
 
-error(nargchk(1,2,nargin));		% INPUT-TESTS:
+%error(nargchk(1,2,nargin));		% INPUT-TESTS:
+narginchk(1,2)
 if isempty(X)
   X=20;
 end

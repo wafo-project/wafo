@@ -34,8 +34,8 @@ function [RFM,res] = dtp2arfm4p(x,n,res0)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(2,3,ni));
-
+%error(nargchk(2,3,ni));
+narginchk(2,3)
 if ni < 3
   res0 = [];
 end

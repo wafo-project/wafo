@@ -1,5 +1,5 @@
 % Module MARKOV in WAFO Toolbox. 
-% Version 2.5.2   07-Feb-2011 
+% Version 2.5.3   30-05-2017 
 % 
 %
 % This module contains routines for Markov loads, 
@@ -28,8 +28,9 @@
 %   mctp2rfm     - Calculates the rainflow matrix for a MCTP.
 %   mctp2stat    - Calculates the stationary distribution for a MCTP.
 %   mktestmat    - Makes test matrices for min-max (and max-min) matrices.
+%   plothmm      - plots a Hidden Markov Model.
 %   scalemat     - Scale and translate a cycle matrix.
-%   smc2rfm      - Calculates the rainflow matrix/intensity for a switching Markov chain.
+%   smc2rfm      - Calculates rainflow matrix/intensity for a switching Markov chain.
 %   smctp2arfm   - Calculates the asymmetric rainflow matrix for a SMCTP.
 %   smctp2joint  - Calculates the joint MCTP for a SMCTP.
 %   smctp2rfm    - Calculates the rainflow matrix for a SMCTP.

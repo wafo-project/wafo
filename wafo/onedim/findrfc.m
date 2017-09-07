@@ -49,8 +49,8 @@ function ind=findrfc(tp,h)
 %disp('                   compile the mexfile findrfc.c before you try again.')
 %error('findrfc error')
 
-error(nargchk(2,2,nargin))
-   
+%error(nargchk(2,2,nargin))
+narginchk(2,2)   
 ind = [];
 isFirstAmax = tp(1)>tp(2);
 Tstart=1;

@@ -1,5 +1,5 @@
 function  [RFC,RFC1,res,def] = tp2rfc(x,def,RFC0,res0)
-%TP2RFC Calculates rainflow cycles from the sequence of turning points.
+%TP2RFC Finds the rainflow cycles from the sequence of turning points.
 %
 % CALL:  [RFC,RFC1,res] = tp2rfc(tp,def,RFC0,res0);
 %                   RFC = tp2rfc(tp);
@@ -82,8 +82,8 @@ function  [RFC,RFC1,res,def] = tp2rfc(x,def,RFC0,res0)
 % Check input arguments
 ni = nargin;
 no = nargout;
-error(nargchk(1,4,ni));
-
+%error(nargchk(1,4,ni));
+narginchk(1,4)
 if ni < 2, def=[]; end
 if ni < 3, RFC0=[]; end
 if ni < 4, res0=[]; end

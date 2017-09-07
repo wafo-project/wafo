@@ -38,8 +38,8 @@ function [ro_min,ro_max,QQ]=mctp2stat(Q)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,1,ni));
-
+%error(nargchk(1,1,ni));
+narginchk(1,1)
 if isempty(Q{1,2})
   Q{1,2} = Q{1,1}';
 end

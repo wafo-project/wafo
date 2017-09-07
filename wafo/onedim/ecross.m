@@ -27,8 +27,8 @@ function t0 = ecross(t,f,ind,v)
 % revised pab Feb2004  
 % By pab 18.06.2001
   
-error(nargchk(4,4,nargin));
-
+%error(nargchk(4,4,nargin));
+narginchk(2,4)
 t0 = t(ind)+(v-f(ind)).*(t(ind+1)-t(ind))./(f(ind+1)-f(ind));
 return
 

@@ -29,14 +29,14 @@ function [amp] = cc2amp(cc)
 % - minor changes help text
 % Corrected by PJ 09-Dec-1999
 %   Now calculates amplitudes (before ranges)
-% Created by PJ (P�r Johannesson) 01-Nov-1999
+% Created by PJ (Par Johannesson) 01-Nov-1999
 
 % Check input arguments
 
 ni = nargin;
 
-error(nargchk(1,1,ni));
-
+%error(nargchk(1,1,ni));
+narginchk(1,1)
 % Calculate amplitudes
 
 amp = (cc(:,2)-cc(:,1))/2;

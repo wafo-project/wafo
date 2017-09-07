@@ -1,5 +1,5 @@
-function [W,X,Y]=spec2ldat3D(Spec,options,varargin)
-%SPEC2LDAT3D Spectral simulation of components in 3D Lagrangian sea 
+function [W,X,Y]=spec2ldat3Dd(Spec,options,varargin)
+%SPEC2LDAT3Dd Spectral simulation of components in 3D Lagrangian sea 
 %
 %CALL: [W,X,Y]=spec2ldat3D(Spec,options)
 %

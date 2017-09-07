@@ -33,6 +33,7 @@ function [W,X,Y,W2,X2,Y2] = spec2ldat3DP(Spec,order,options,varargin)
 %  author : Marc Prevosto - 25 August 1998
 %  Adapted to WAFO convention by Georg Lindgren 2015
 %  and expanded to full 3D fields 
+%  Updated 2017-09-06 by GL to give the Stokes drift correct sign
 
 tic
 if nargin<2,
@@ -281,8 +282,8 @@ parfor ku=1:Nu,
     WZ2(ku,:,:) = WZZ2;
     XZ2(ku,:,:) = XZZ2;
     YZ2(ku,:,:) = YZZ2;
-    X2drift(ku,:,:) = X2D;
-    Y2drift(ku,:,:) = Y2D;
+    X2drift(ku,:,:) = -X2D;
+    Y2drift(ku,:,:) = -Y2D;
 end
 
 t = (0:npts-1)/(npts*df) ;

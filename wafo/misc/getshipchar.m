@@ -57,8 +57,8 @@ function shipchar = getshipchar(value,property)
 
 
 
-error(nargchk(1,2,nargin))
-
+%error(nargchk(1,2,nargin))
+narginchk(1,2)
 if nargin<2 || isempty(property)
   property = 'max_deadweight';
 end

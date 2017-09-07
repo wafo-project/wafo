@@ -2,10 +2,9 @@
 %
 % You should install the WAFO toolbox according to the description given
 % in the install.m file. Then modify this file so that the root directory of
-% WAFO defined in this file comply with the installation on your machine. 
+% WAFO defined in this file complies with the installation on your machine. 
 %   
 % See also  install
-
 
 % add the WAFO root directory to the search path
 % modify the line below if this does not comply with 

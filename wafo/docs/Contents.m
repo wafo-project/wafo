@@ -1,23 +1,21 @@
-% DOCS MODULE in WAFO Toolbox 
-% Version 2.5.2   07-Feb-2011 
+% Module DOCS in WAFO Toolbox 
+% Version 2.5.3   30-05-2017 
 % 
 % 
-% ampdef        - Wave heights and amplitude definitions and nomenclature. 
-% crossdef      - Level v crossing definitions and nomenclature. 
-% perioddef     - Wave periods (lengths) definitions and nomenclature. 
-% tpdef         - Turning points definitions and numenclature. 
-% wavedef       - Wave definitions and nomenclature. 
-% startup       - Example startup file to put in your matlab path. 
-% addfeatr      - How To Add New Features to WAFO. 
-% bugreport     - Bug Report Form for WAFO. 
-% getstart      - Ideas for getting started with WAFO. 
-% install       - Installaion description of WAFO Toolbox 
-% limitations   - WAFO known limitations 
-% datastructures - Of spectrum, covariance function and density (pdf) in WAFO 
-% aboutwafo     - WAFO is a Matlab toolbox for analysis of random waves 
-% wafohelp      - Launch HTML help for the WAFO Toolbox.
-% wafoweb       - World Wide Web site of the WAFO Toolbox.
-% wafomenu      - Displays a user interface to the documentation files of WAFO 
-
-
-% TODO % Clean up the documentation
+%   aboutwafo      - WAFO is a Matlab toolbox for analysis of random waves
+%   ampdef         - wave heights and amplitude definitions and nomenclature
+%   addfeatr       - How To Add New Features to WAFO
+%   bugreport      - Bug Report Form for WAFO
+%   crossdef       - level v crossing definitions and nomenclature 
+%   datastructures - spectrum, covariance function and density (pdf) in WAFO
+%   getstart       - ideas for getting started with WAFO
+%   install        - Installation description of WAFO Toolbox
+%   limitations    - WAFO known limitations 
+%   papermenu      - displays a user interface to the paper scripts of WAFO
+%   perioddef      - Wave periods (lengths) definitions and nomenclature 
+%   startup        - example startup file to put in your matlab path
+%   tpdef          - turning points definitions and numenclature
+%   wavedef        - wave definitions and nomenclature 
+%   wafohelp       - Launch HTML help for the WAFO Toolbox.
+%   wafoweb        - World Wide Web site of the WAFO Toolbox.
+%   wafomenu       - displays a user interface to the documentation files of WAFO

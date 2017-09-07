@@ -57,7 +57,7 @@ function f = kdebin(A,options,xlo,xup)
 
 
 
-%Tested on: matlab 5.2, 5.3
+%Tested on: matlab 5.2, 5.3, 7, 8, 9
 % History:
 % revised pab Feb 2005
 %  -moved options into a options structure  
@@ -95,8 +95,8 @@ if ((nargin==1) && (nargout <= 1) &&  isequal(A,'defaults')),
   f = defaultoptions;
   return
 end  
-error(nargchk(1,4, nargin))
-
+%error(nargchk(1,4, nargin))
+narginchk(1,4)
 [n, d]=size(A); % Find dimensions of A, 
                % n=number of data points,
                % d=dimension of the data.  

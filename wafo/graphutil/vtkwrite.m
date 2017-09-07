@@ -17,8 +17,8 @@ function vtkwrite(varargin)
 %  vtkwrite(x,y,z,v, filename)
 %  
   
-error(nargchk(1,inf,nargin))
-
+%error(nargchk(1,inf,nargin))
+narginchk(1,inf)
 validFormats = {'STRUCTURED_POINTS','UNSTRUCTURED_GRID'};
 N = nargin;
 %Default 

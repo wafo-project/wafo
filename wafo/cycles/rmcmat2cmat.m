@@ -27,8 +27,8 @@ function [F,param] = rmcmat2cmat(Frm,paramM,paramR)
 
 ni = nargin;
 no = nargout;
-error(nargchk(1,4,ni));
-
+%error(nargchk(1,4,ni));
+narginchk(1,4)
 % Initiate matirces
 n = length(Frm);
 F = zeros(n,n);

@@ -56,8 +56,8 @@ function [RFM,RFM1,res] = dtp2arfm(x,in2,in3,res0)
 
 ni = nargin;
 no = nargout;
-error(nargchk(2,4,ni));
-
+%error(nargchk(2,4,ni));
+narginchk(2,4)
 if ni == 2
   n = in2; % Number of levels
   def = [];

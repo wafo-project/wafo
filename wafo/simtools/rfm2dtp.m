@@ -42,8 +42,8 @@ function [dtp,res]=rfm2dtp(F,res,N)
 
 ni = nargin;
 %no = nargout;
-error(nargchk(1,3,ni));
-
+%error(nargchk(1,3,ni));
+narginchk(1,3)
 if ni<2, res=[]; end
 if ni<3, N=[]; end
 

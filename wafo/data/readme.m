@@ -1,4 +1,4 @@
-%README  New features, bug fixes, and changes in DATA.
+%README Readme file for module DATA in  WAFO Toolbox.
 %
 % Version 2.1.1   07-Nov-2004
 %

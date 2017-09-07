@@ -80,7 +80,8 @@ function [S , H,AC1,AT1,TFRONT1,TREAR1,z_ind2,xn2]=dat2steep(xx,rate,method)
 
 %    
 
-error(nargchk(1,3,nargin));
+%error(nargchk(1,3,nargin));
+narginchk(1,3)
 if nargin<3||isempty(method),  
   method=1; % want crestfrontvelocity
 end

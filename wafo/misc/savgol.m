@@ -59,7 +59,8 @@ function c = savgol(nl,nr,m,ld,np)
 % by pab 2000
 
 
-error(nargchk(3,5,nargin))
+%error(nargchk(3,5,nargin))
+narginchk(3,5)
 if nargin<5||isempty(np),np=2*max(nl,nr)+1;end
 if nargin<4||isempty(ld),ld=0;end
 

@@ -1,4 +1,4 @@
-% PERIODDEF wave periods (lengths) definitions and nomenclature
+%PERIODDEF Wave periods (lengths) definitions and nomenclature. 
 %
 % Definition of wave periods (lengths):
 %---------------------------------------

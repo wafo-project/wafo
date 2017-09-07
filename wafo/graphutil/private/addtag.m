@@ -8,7 +8,8 @@ function addtag(tag,h);
 %
 % See also SET
 
-error(nargchk(1,2,nargin));
+%error(nargchk(1,2,nargin));
+narginchk(1,2)
 if nargin<1 || isempty(h),	h=gco; end
 
 otag=get(h,'tag');

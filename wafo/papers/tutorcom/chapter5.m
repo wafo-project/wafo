@@ -9,8 +9,9 @@
 % For printing the figures on directory ../bilder/ edit the file and put  
 %     printing=1;
 
-% Tested on Matlab 5.3, 7.10
+% Tested on Matlab 5.3, 7.10, 8.1, 9.1
 % History
+% Revised by Georg Lindgren September 2017 for Tutorial 2017 
 % Revised by Georg Lindgren march 2011 for Tutorial 2.5 and 
 % sept 2009 for WAFO ver 2.5 on Matlab 7.1
 % Revised pab sept2005
@@ -23,7 +24,8 @@
  
 %% Chapter 5 Fatigue load analysis and rain-flow cycles
 start=clock;
-pstate = 'off';
+%pstate = 'off';
+pstate = 'on';
 pause(pstate)
 printing=0;
 %set(0,'DefaultAxesFontSize',15')
@@ -73,7 +75,7 @@ disp('Block 4'),pause
 
 %% Section 5.3.3 Simulation of rainflow cycles
 %% Simulation of cycles in a Markov model
-n=41; param_m=[-1 1 n]; param_D=[1 n n];
+n=41; param_m=[-1 1 n]; 
 u_markov=levels(param_m);
 G_markov=mktestmat(param_m,[-0.2 0.2],0.15,1);
 T_markov=5000;
@@ -91,14 +93,14 @@ me = mean(xx_sea(:,2));
 sa = std(xx_sea(:,2));
 Hm0_sea = 4*sa;
 Tp_sea = 1/max(lc_sea(:,2));
-spec = jonswap([],[Hm0_sea Tp_sea]);
+SJ = jonswap([],[Hm0_sea Tp_sea]);
 
-[sk, ku] = spec2skew(spec);
-spec.tr = hermitetr([],[sa sk ku me]);
+[sk, ku] = spec2skew(SJ);
+SJ.tr = hermitetr([],[sa sk ku me]);
 param_h = [-1.5 2 51];
-spec_norm = spec;
-spec_norm.S = spec_norm.S/sa^2;
-xx_herm = spec2sdat(spec_norm,[2^15 1],0.1);
+SJ_norm = SJ;
+SJ_norm.S = SJ_norm.S/sa^2;
+xx_herm = spec2sdat(SJ_norm,[2^15 1],0.1);
 % ????? PJ, JR 11-Apr-2001
 % NOTE, in the simulation program spec2sdat
 % the spectrum must be normalized to variance 1 
@@ -182,8 +184,8 @@ disp('Block 12'),pause
 
 %% Rainflow matrix from spectrum
 clf
-%GmM3_herm=spec2mmtpdf(spec,[],'Mm',[],[],2);
-GmM3_herm=spec2cmat(spec,[],'Mm',[],param_h,2);
+%GmM3_herm=spec2mmtpdf(SJ,[],'Mm',[],[],2);
+GmM3_herm=spec2cmat(SJ,[],'Mm',[],param_h,2);
 pdfplot(GmM3_herm)
 wafostamp([],'(ER)')
 disp('Block 13'),pause
@@ -202,7 +204,7 @@ disp('Block 14'),pause
 
 %%
 clf
-Grfc_direct_herm=spec2cmat(spec,[],'rfc',[],[],2);
+Grfc_direct_herm=spec2cmat(SJ,[],'rfc',[],[],2);
 subplot(121), pdfplot(GmM3_herm), axis('square'), hold on
 subplot(122), pdfplot(Grfc_direct_herm), axis('square'), hold off
 if (printing==1), print -deps ../bilder/fig_mmrfcjfr.eps
@@ -254,7 +256,7 @@ title('Simulated load, \alpha = 0.25')
 if (printing==1), print -deps ../bilder/fatigue_14_25.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 16'),pause
+disp('Block 17'),pause
 
 %% Crossing spectrum (smooth curve) and obtained spectrum (wiggled curve)
 %% for simulated process with irregularity factor 0.75.
@@ -273,14 +275,14 @@ title('Simulated load, \alpha = 0.75')
 if (printing==1), print -deps ../bilder/fatigue_14_75.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 17'),pause
+disp('Block 18'),pause
 
 %% Section 5.4 Fatigue damage and fatigue life distribution
 %% Section 5.4.1 Introduction
 beta=3.2; gam=5.5E-10; T_sea=xx_sea(end,1)-xx_sea(1,1);
 d_beta=cc2dam(RFC_sea,beta)/T_sea;
 time_fail=1/gam/d_beta/3600      %in hours of the specific storm
-disp('Block 18'),pause
+disp('Block 19'),pause
 
 %% Section 5.4.2 Level crossings
 %% Crossing intensity as calculated from the Markov matrix (solid curve) and from the observed rainflow matrix (dashed curve).
@@ -293,7 +295,7 @@ title('Theoretical and observed crossing intensity ')
 if (printing==1), print -deps ../bilder/fatigue_15.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 19'),pause
+disp('Block 20'),pause
 
 %% Section 5.4.3 Damage
 %% Distribution of damage from different RFC cycles, from calculated theoretical and from observed rainflow matrix.
@@ -301,7 +303,7 @@ beta = 4;
 Dam_markov = cmat2dam(param_m,Grfc_markov,beta)
 DamObs1_markov = cc2dam(RFC_markov,beta)/(T_markov/2)
 DamObs2_markov = cmat2dam(param_m,Frfc_markov,beta)/(T_markov/2)
-disp('Block 20'),pause
+disp('Block 21'),pause
 
 Dmat_markov = cmat2dmat(param_m,Grfc_markov,beta);
 DmatObs_markov = cmat2dmat(param_m,Frfc_markov,beta)/(T_markov/2); 
@@ -313,7 +315,7 @@ title('Observed damage matrix')
 if (printing==1), print -deps ../bilder/fatigue_16.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 21'),pause
+disp('Block 22'),pause
 
 %%
 %Damplus_markov = lc2dplus(mu_markov,beta)
@@ -329,15 +331,15 @@ clf
 loglog(N,s,'o'), axis([0 14e5 10 30])
 %if (printing==1), print -deps ../bilder/fatigue_?.eps end
 wafostamp([],'(ER)')
-disp('Block 22'),pause
+disp('Block 23'),pause
 
 %% Check of S-N-model on normal probability paper.
 
-normplot(reshape(log(N),8,5))
+plotnorm(reshape(log(N),8,5))
 if (printing==1), print -deps ../bilder/fatigue_17.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 23'),pause
+disp('Block 24'),pause
 
 %% Estimation of S-N-model on linear  scale.
 clf
@@ -347,7 +349,7 @@ set(gca,'FontSize',20)
 if (printing==1), print -deps ../bilder/fatigue_18a.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 24'),pause
+disp('Block 25'),pause
 
 %% Estimation of S-N-model on log-log scale.
 clf
@@ -357,7 +359,7 @@ set(gca,'FontSize',20)
 if (printing==1), print -deps ../bilder/fatigue_18b.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 25'),pause
+disp('Block 26'),pause
 
 %% Section 5.4.5 From S-N curve to fatigue life distribution
 %% Damage intensity as function of $\beta$
@@ -369,7 +371,7 @@ title('Damage intensity as function of \beta')
 if (printing==1), print -deps ../bilder/fatigue_19.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 26'),pause
+disp('Block 27'),pause
 
 %% Fatigue life distribution with sea load.
 dam0 = cc2dam(RFC_sea,beta0)/T_sea;
@@ -381,7 +383,7 @@ title('Fatigue life distribution function')
 if (printing==1), print -deps ../bilder/fatigue_20.eps 
 end
 wafostamp([],'(ER)')
-disp('Block 27, last block')
+disp('Block 28, last block')
 
 disp('Elapsed time')
 etime(clock,start)

@@ -1,5 +1,5 @@
 function W = spec2wave(Spec,options,varargin)
-%SPEC2LDAT Spectral simulation of space-time Gaussian wave
+%SPEC2WAVE Spectral simulation of space-time Gaussian wave
 %           
 %CALL: W = spec2wave(spec,options);
 % 

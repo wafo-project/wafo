@@ -26,6 +26,7 @@ function Snew = specinterp(S,dt,Nmin,Nmax,method)
 
 % Tested on:
 % History:
+% revised GL sept 2017 - removed memory warning
 % revised pab jan 2007
 %  -added Nmin,Nmax, method, doInterpolate
 %  -extra check on spacing using fplot
@@ -130,9 +131,9 @@ if doInterpolate>0
   
   newNfft = 2^nextpow2(ceil(wnNew/dwMin))+1;
   if newNfft>nfft
-    if (nfft<=2^15+1) && (newNfft>2^15+1)
-      warning('WAFO:SPECINTERP','Spectrum matrix is very large (>33k). Memory problems may occur.')
-    end
+    %if (nfft<=2^15+1) && (newNfft>2^15+1)
+    %  warning('WAFO:SPECINTERP','Spectrum matrix is very large (>33k). Memory problems may occur.')
+    %end
     nfft = min(newNfft, max(Nmax, 2^15+1));
   end
   

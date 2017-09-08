@@ -20,6 +20,7 @@
 
 %% Chapter 6 Extreme value analysis
 start=clock;
+%pstate = 'on';
 pstate = 'off';
 pause(pstate)
 

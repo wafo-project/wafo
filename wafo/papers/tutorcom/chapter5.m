@@ -24,8 +24,8 @@
  
 %% Chapter 5 Fatigue load analysis and rain-flow cycles
 start=clock;
-%pstate = 'off';
-pstate = 'on';
+pstate = 'off';
+%pstate = 'on';
 pause(pstate)
 printing=0;
 %set(0,'DefaultAxesFontSize',15')

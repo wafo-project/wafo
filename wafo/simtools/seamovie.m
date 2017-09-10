@@ -7,7 +7,7 @@ function Mv=seamovie(Y,s,Wavename)
 %
 %      Y = struct with 2d or 3d simulation (from spec2wave or spec2field)
 %      s = type of plot if 3d: 
-%               if s=1 then surf-plot, (defaoult)
+%               if s=1 then surf-plot, (default)
 %               if s=2 contour,
 %               else gray-scale view 
 %

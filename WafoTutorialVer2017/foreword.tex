@@ -1,0 +1,182 @@
+%\svnInfo $Id: foreword.tex 66 2017-09-05 07:01:50Z Georg Lindgren $ 
+%$
+%
+\chapter{Foreword}
+\section*{Foreword to 2017 edition}
+\addcontentsline{toc}{section}{Foreword to 2017 edition}
+\vspace{-0mm}
+This \wf{} tutorial 2017 has been successfully tested with \ML{} 2017a on {\sc Windows} 10.
+
+The tutorial for \wf{} 2.5 appeared 2011, with routines tested on \ML{} 2010b. 
+Since then, many users have commented on the toolbox, suggesting clarifications 
+and corrections to the routines and to the tutorial text.  We are grateful for all suggestions, 
+which have helped to keep the \wf{} project alive. 
+
+Major updates and additions have also been made duringing the years, 
+many of them caused by new \ML{} versions. 
+The new graphics system introduced with  \ML{ 2014b} 
+motivated updates to all plotting routines. Syntax changes and warnings for deprecated functions 
+have required other updates. 
+%The present \wf{} package has been tested on \ML{} up to version 2017a. 
+
+Several additions have also been made. In 2016, a new module, handling non-linear 
+Lagrange waves, was introduced. 
+A special tutorial for the Lagrange routines is included in the module {\tt lagrange}; \cite{LindgrenPrevosto2017}.  
+Two sets of file- and string-utility routines were also added 2016. 
+
+During 2015 the \wf{-}project moved from 
+\verb+http://code.google.com/p/wafo/+ to
+to 
+\verb+https://github.com/wafo-project/+, where it can now be found under the generic 
+name \wf{} -- no version number needed. 
+
+In order to facilitate the use of  \wf{} outside the \ML{} environment, 
+most of the \wf{} routines have been checked for use with {\sc Octave}. 
+On {\tt github}  one can also find a start of a {\sc Python}-version, called {\sf pywafo}. 
+
+Recurring changes in the \ML{} language may continue to cause the command 
+window flood with 
+warnings for deprecated functions. The routines in this version of \wf{} have 
+been updated to work well with \ML{ 2017a}. We will continue to update the toolbox 
+in the future, keeping compatibility with older versions.
+
+\section*{Foreword to 2011 edition}
+\addcontentsline{toc}{section}{Foreword to 2011 edition}
+\vspace{-0mm}
+This is a tutorial for how to use the \ML{} toolbox
+\wf{} for analysis and simulation of random waves and random fatigue.
+The toolbox
+consists of a number of \ML{} m-files together with executable
+routines from {\sc Fortran} or C++ source, and it requires only a
+standard \ML{} setup, with no additional toolboxes.
+
+A main and unique feature of \wf{} is the module of routines
+for computation of the exact statistical distributions of
+wave and cycle characteristics in a Gaussian
+wave or load process. The routines are described in a series
+of examples on wave data from sea surface measurements
+and other load sequences. There are also sections for
+fatigue analysis and for general extreme value analysis.
+Although the main applications at hand are from marine and
+reliability engineering, the routines are useful
+for many other applications of Gaussian and related
+stochastic processes.
+
+The routines are based on algorithms for
+extreme value and crossing analysis, developed over many years by the
+authors as well as many results available in the literature. References are
+given to the source of the algorithms whenever it is possible.
+These references are given in the \ML{-code} for all the routines and they
+are also listed in the Bibliography section of this tutorial.
+If the references are not used explicitly in the tutorial;
+it means that it is referred to in one of the \ML{} m-files.
+
+Besides the dedicated wave and fatigue analysis routines the toolbox
+contains many statistical simulation and estimation
+routines for general use, and it can therefore be used as a
+toolbox for statistical work.
+These routines are listed, but not explicitly explained
+in this tutorial.
+
+The present toolbox
+represents a considerable development of two earlier toolboxes,
+the {\sc Fat} and {\sc Wat} toolboxes, for fatigue and wave analysis, respectively.
+These toolboxes were both Version 1; therefore  \wf{} has been
+named Version 2. The routines in the tutorial are tested
+on \wf-{version} 2.5, which was made available in
+beta-version in January 2009 and in a stable version
+in February 2011.
+
+The persons that take actively part in creating this tutorial are (in alphabetical order):
+{\sl Per Andreas Brodtkorb}\footnote{Norwegian Defense Research Establishment, Horten, Norway.},
+{\sl  P\"ar Johannesson}\footnotemark[2], %\addtocounter{footnote}{-1},
+{\sl  Georg Lindgren}\footnotemark[3] \addtocounter{footnote}{-2},
+{\sl  Igor Rychlik}\footnotemark[4]. \addtocounter{footnote}{1}
+\footnotetext[2]{SP Technical Research Institute, Bor{\aa}s, Sweden.}
+\footnotetext[3]{Centre for Mathematical Sciences, Lund University, Sweden.}
+\footnotetext[4]{Mathematical Sciences, Chalmers, G{\" o}teborg, Sweden.}
+Many other people have contributed to our understanding of the problems
+dealt with in this text, first of all Professor Ross Leadbetter at
+the University of North Carolina at Chapel Hill and
+Professor Krzysztof Podg\'orski, Mathematical Statistics, Lund University.
+We would also like to particularly thank
+Michel Olagnon and Marc Provosto,
+at Institut Fran\c{c}ais de Recherches pour l'Exploitation de la Mer (IFREMER),
+Brest, who have contributed with many enlightening and fruitful discussions.
+
+Other persons who have put a great deal of effort into \wf{} and
+its predecessors FAT and WAT are Mats Frendahl, Sylvie van Iseghem, Finn Lindgren,
+Ulla Machado, Jesper Ry\'en, Eva Sj{\" o}, Martin Sk{\" o}ld, Sofia {\AA}berg.
+
+This tutorial was first made available for the beta version of
+\wf{} Version 2.5 in November 2009. In the present version some misprints
+have been corrected and some more examples added.
+All examples in the tutorial have been run with success
+on MATLAB up to 2010b.
+
+\cleardoublepage
+\chapter*{Technical information}
+\addcontentsline{toc}{chapter}{Technical information}
+\vspace{-5mm}
+\begin{itemize}
+\setlength\itemsep{0mm}
+
+\item
+\wf{} was released in a stable version in February 2011. 
+The most recent stable updated and expanded version of \wf{} can be downloaded from
+
+\verb+https://github.com/wafo-project/+
+
+Older versions can also be downloaded from the \wf{} homepage \cite{WAFO-group2000Wafo}
+
+
+\noindent
+\verb+http://www.maths.lth.se/matstat/wafo/+
+
+\item To get access to the \wf{} toolbox, unzip the downloaded file, identify the {\sf wafo} package and save it in a
+folder of your choise. Take a look at the routines \verb+install.m+, \verb+startup.m+, 
+ \verb+initwafo.m+ in the \verb+WAFO+ and \verb+WAFO/docs+ folders to learn how \ML{} can find \wf{}. 
+
+\item To let \ML{} start \wf{} automatically, edit \verb+startup.m+ and save it 
+in the starting folder for \ML{}.   
+\item To start \wf{} manually in \ML{}, add the \verb+WAFO+ 
+folder manually to the \ML{-path}
+and run \verb+initwafo+. 
+\item In this tutorial, the word \verb+WAFO+, when used in path
+  specifications, means the full name of the
+  \wf{} main catalogue, for instance 
+  \verb+C:/wafo/+
+  
+\item The \ML{} code used for the examples in this tutorial can be found in the
+  \wf{} catalogue 
+\verb+WAFO/papers/tutorcom/+
+
+The total time to run the examples in fast mode is less than fifteen minutes on a PC from 2017, running 
+Windows 10 pro with Intel(R) Core(TM) i7-7700 CPU, 3.6~GHz, 32 GB RAM. All details on execution times 
+given in this tutorial relates to that configuration.
+
+\item
+\wf{} is built of modules of platform independent \ML{} m-files
+and a set of executable files from \verb!C++! and \verb+Fortran+
+source files. These executables are platform and \ML{-version} dependent,
+and they have been tested with recent \ML{} and {\sc Windows} installations.
+
+\item If you have many \ML{-toolboxes} installed, name-conflicts may occur. 
+Solution: arrange the \ML{-path} with \verb+WAFO+ first.
+
+\item
+For help on the toolbox, write \verb+help wafo+. 
+
+
+\item
+Comments and suggestions are solicited --- send to 
+%
+%\noindent
+\verb+ wafo@maths.lth.se+
+
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "wafomanual.tex"
+%%% End:

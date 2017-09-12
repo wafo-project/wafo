@@ -1,0 +1,212 @@
+%\documentclass[12pt,openright]{book}
+%\documentclass[12pt,openright,twoside,titlepage,pdf]{LUmanual}
+\documentclass[12pt,openright,twoside,titlepage,a4paper]{LUmanual}
+\usepackage{ifpdf} 
+
+%\newif\ifpdf
+%\ifx\pdfoutput\undefined
+%  \pdffalse
+%\else
+%  \pdftrue
+%\fi
+
+%\usepackage[ms]{mccover}
+\usepackage{graphicx}
+\usepackage{sidecap,caption}
+\usepackage{rotating}
+\usepackage{multicol,array}
+\usepackage[tight,TABTOPCAP]{subfigure}
+%\usepackage{times}
+%\usepackage{mcfonts}
+\usepackage[authoryear]{natbib}
+\newcommand\indexname{Indexx}
+\usepackage{index}
+\usepackage{comment}
+\usepackage{url}
+%\makeindex
+\newindex{xcmds}{cdx}{cnd}{Index of m-files in the tutorial}
+\newindex{xentr}{edx}{end}{Index}
+
+\usepackage{latexsym}
+\usepackage{supertabular}
+\usepackage{xspace}
+\usepackage{amsmath,amsfonts}
+%\usepackage{tocloft}
+%\usepackage[nofancy]{svninfo}
+%\usepackage{svninfo}
+%\usepackage{showkeys}
+
+\ifpdf
+  \pdfoutput=1  % we are running PDFLaTeX
+ % \definecolor{blue}{rgb}{0,0,1}
+  \usepackage[breaklinks=true,colorlinks,
+  citecolor=black,linkcolor=black,
+  filecolor=black, menucolor=black,
+  urlcolor=black,
+  pdftex, 
+  pagebackref, backref,
+  hyperindex, bookmarks,bookmarksopen]{hyperref}
+ \hypersetup{pagebackref,backref,
+    pdfauthor = {WAFO-group},
+  pdftitle  = {WAFO},
+  pdfkeywords={Gaussian processes, non-linear wave, estimation,
+    extremes, non-linear simulation, rainflow cycles, fatigue,
+    joint distribution, wave height, wave crest
+    front velocity, wave crest front steepness, linear and non-linear,
+    simulation, wave height,  wave crest velocity,
+    ringing, missing observations, outliers, reconstruction,
+    multivariate normal probabilities, singular distribution,  wave
+    crest amplitude, wave crest velocity,local maxima and minima,
+    numerical integration,
+    statistical computation, capsize of smaller vessel.}}
+  \pdfcompresslevel=9
+  \def\pdfBorderAttrs{/Border [0 0 0] }
+\else
+%  \usepackage{psfrag}
+  \usepackage[hyperindex]{hyperref} % must come last
+\fi
+
+\input watmac
+
+%\newcounter{version} \setcounter{version}{40}
+%\def\ver35{\ifnum\theversion=35}
+%\newcounter{relnr} \setcounter{relnr}{1}
+%\newcounter{vernr} \setcounter{vernr}{1}
+
+%\def\sindex#1{*#1\index{#1}*} %\def\sindex#1{\index{#1}} \makeindex
+\newcommand{\defheight}  {70mm}
+\newcommand{\defwidth}   {70mm}
+\newcommand{\depwidth}   {80mm}
+\newcommand{\onefigwidth}   {110mm}
+\newcommand{\narrowfigwidth}   {80mm}
+\newcommand\fo{1$^{st}$ }
+\newcommand\so{2$^{nd}$ }
+\renewcommand{\baselinestretch}{1.1}
+
+\ifpdf
+\graphicspath{%
+{./Nyabilder/},{./appendix/}}
+\else
+\graphicspath{%
+{./Nyabilder/},{./appendix/}}
+\fi
+
+
+\evensidemargin=-5mm
+\oddsidemargin=15mm
+\topmargin=-0.4in
+\textheight=9.6in
+\textwidth=150mm
+%\includeonly{foreword}%Ch4_2017}%,Ch2_2017}
+\makeindex
+
+\begin{document}
+\ifpdf
+\DeclareGraphicsExtensions{.jpg,.pdf,.mps,.png}
+\else
+\DeclareGraphicsExtensions{.eps,.ps}
+\fi
+
+\frontmatter
+
+%\title{\noindent WAFO \\ -- a Matlab Toolbox for Analysis\\
+\title{\noindent \hspace{9mm}-- a Matlab Toolbox for Analysis\\
+   ~ \hspace*{6mm} of Random Waves and Loads}
+\author{the WAFO group}
+\date{September 2017}
+\version{version 2017}
+\department{Mathematical Statistics}
+\faculty{Centre for Mathematical Sciences}
+\maketitle
+
+{\thispagestyle{empty}
+\begin{minipage}{\textwidth}
+\end{minipage}
+\vfill
+\begin{minipage}{\textwidth}
+%\vspace{13cm}
+Mathematical Statistics \\
+Lund University \\
+Box 118\\
+SE-221 00 Lund \\
+Sweden \\
+\url{http://www.maths.lth.se/} \\[3mm]
+
+%\noindent
+\noindent
+%ISBN 82-471-6496-5 (electronic) \\
+%ISBN 82-471-6497-3 (printed) \\
+%ISSN 0809-103X \\
+
+\noindent
+%\copyright WAFO, 2004\\ls
+%Printed in Sweden by LU-tryck
+\end{minipage}
+}
+\newpage{}
+
+\pagenumbering{roman}
+\begin{minipage}{\textwidth}
+\vspace{7cm}
+\begin{flushright}
+  {\sc  %To the Ocean and Mechanical Engineering Community\\
+  in the Hope that it is Useful}
+\end{flushright}
+\end{minipage}
+%\part{Front Matter}
+\include{foreword} %georg
+
+\tableofcontents
+\addcontentsline{toc}{chapter}{Contents}
+
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+
+\include{nomencl}
+
+%\part{WAFO tutorial}
+\mainmatter
+%\cleardoublepage
+\pagenumbering{arabic}
+\include{Ch1_2017}
+\include{Ch2_2017}
+\include{Ch3_2017}
+\include{Ch4_2017}
+\include{Ch5_2017}
+\include{Ch6_2017}
+
+\appendix
+\setcounter{secnumdepth}{3}
+%\part{Appendices}
+\include{kdeTools}
+\include{standardizedSpectra}
+\include{wavemodels}
+\include{backmatter}
+
+\bibliographystyle{abbrv}
+
+%\bibliographystyle{apalike}
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliography{wafoBibliography,LUPbib}
+\cleardoublepage
+
+%\include{wafobibliography}
+\addtocounter{page}{1}
+\addcontentsline{toc}{chapter}{Index of m-files in the tutorial}
+\addtocounter{page}{-1}
+\printindex[xcmds]
+
+\addtocounter{page}{1}
+\addcontentsline{toc}{chapter}{Index}
+\addtocounter{page}{-1}
+\printindex[xentr]
+%\backcover
+
+% Run the following commands manually to produce the index files
+% makeindex -o wafomanual2017.cnd -t wafomanual2017.clg wafomanual2017.cdx
+% makeindex -o wafomanual2017.end -t wafomanual2017.elg wafomanual2017.edx
+
+\end{document}

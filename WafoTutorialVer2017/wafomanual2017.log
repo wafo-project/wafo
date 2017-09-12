@@ -1,0 +1,1821 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.5.9)  12 SEP 2017 12:56
+entering extended mode
+**./wafomanual2017.tex
+(wafomanual2017.tex
+LaTeX2e <2017-04-15>
+Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
+(LUmanual.cls
+Document Class: LUmanual 2004/09/12 v1.0 Lund University manual document class
+(lu12.clo
+File: nth12.clo 1995/09/12 v1.0 NTH thesis LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2017/04/14 v1.1b Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count88
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\sidecap\sidecap.
+sty"
+Package: sidecap 2003/06/06 v1.6f SideCap Package (RN/HjG)
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\SC@BOXWD=\dimen105
+\SC@CAPWD=\dimen106
+\SC@tempdima=\dimen107
+\SC@tempdimb=\dimen108
+\c@SC@C=\count89
+\SC@BOX=\box26
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption.
+sty"
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption3
+.sty"
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen109
+\captionmargin@=\dimen110
+\captionwidth=\dimen111
+\caption@tempdima=\dimen112
+\caption@indent=\dimen113
+\caption@parindent=\dimen114
+\caption@hangindent=\dimen115
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2->\vskip \abovecaptionski
+p \sbox \@tempboxa {#1: {\it #2}}\ifdim \wd \@tempboxa >\hsize #1: {\it #2}\par
+ \else \global \@minipagefalse \hb@xt@ \hsize {\hfil \box \@tempboxa \hfil }\fi
+ \vskip \belowcaptionskip .
+\c@ContinuedFloat=\count90
+Package caption Info: sidecap package is loaded.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\rotating.sty"
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+\c@r@tfl@t=\count91
+\rotFPtop=\skip43
+\rotFPbot=\skip44
+\rot@float@box=\box27
+\rot@mess@toks=\toks15
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\multicol.sty"
+Package: multicol 2017/04/11 v1.8q multicolumn formatting (FMi)
+\c@tracingmulticols=\count92
+\mult@box=\box28
+\multicol@leftmargin=\dimen116
+\c@unbalance=\count93
+\c@collectmore=\count94
+\doublecol@number=\count95
+\multicoltolerance=\count96
+\multicolpretolerance=\count97
+\full@width=\dimen117
+\page@free=\dimen118
+\premulticols=\dimen119
+\postmulticols=\dimen120
+\multicolsep=\skip45
+\multicolbaselineskip=\skip46
+\partial@page=\box29
+\last@line=\box30
+\maxbalancingoverflow=\dimen121
+\mult@rightbox=\box31
+\mult@grightbox=\box32
+\mult@gfirstbox=\box33
+\mult@firstbox=\box34
+\@tempa=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\c@columnbadness=\count98
+\c@finalcolumnbadness=\count99
+\last@try=\dimen122
+\multicolovershoot=\dimen123
+\multicolundershoot=\dimen124
+\mult@nat@firstbox=\box52
+\colbreak@box=\box53
+\mc@col@check@num=\count100
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen125
+\extrarowheight=\dimen126
+\NC@list=\toks16
+\extratabsurround=\skip47
+\backup@length=\skip48
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\subfigure\subfig
+ure.sty"
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip49
+\subfigcapskip=\skip50
+\subfigcaptopadj=\dimen127
+\subfigbottomskip=\skip51
+\subfigcapmargin=\dimen128
+\subfiglabelskip=\skip52
+\c@subfigure=\count101
+\c@lofdepth=\count102
+\c@subtable=\count103
+\c@lotdepth=\count104
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\subfigure\subfig
+ure.cfg")
+\subfig@top=\skip53
+\subfig@bottom=\skip54
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\natbib\natbib.st
+y"
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip55
+\bibsep=\skip56
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count105
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\index\index.sty"
+Package: index 2004/01/20 v4.2beta Improved index support (dmj)
+\@indexbox=\insert199
+\indexproofstyle=\toks17
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\comment\comment.
+sty"
+\CommentStream=\write3
+ Excluding comment 'comment')
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\idxtitle@xcmds=\toks18
+\tf@xcmds=\write4
+\openout4 = `wafomanual2017.cdx'.
+
+Package index Info: Writing index file wafomanual2017.cdx on input line 27.
+\idxtitle@xentr=\toks19
+\tf@xentr=\write5
+\openout5 = `wafomanual2017.edx'.
+
+Package index Info: Writing index file wafomanual2017.edx on input line 28.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\supertabular\sup
+ertabular.sty"
+Package: supertabular 2004/02/20 v4.1e the supertabular environment
+\c@tracingst=\count106
+\ST@wd=\dimen129
+\ST@rightskip=\skip57
+\ST@leftskip=\skip58
+\ST@parfillskip=\skip59
+\ST@pageleft=\dimen130
+\ST@headht=\dimen131
+\ST@tailht=\dimen132
+\ST@pagesofar=\dimen133
+\ST@pboxht=\dimen134
+\ST@lineht=\dimen135
+\ST@stretchht=\dimen136
+\ST@prevht=\dimen137
+\ST@toadd=\dimen138
+\ST@dimen=\dimen139
+\ST@pbox=\box54
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\xspace.sty"
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2016/11/05 v2.16a AMS math features
+\@mathmargin=\skip60
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks20
+\ex@=\dimen140
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen141
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count107
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count108
+\leftroot@=\count109
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count110
+\DOTSCASE@=\count111
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box55
+\strutbox@=\box56
+\big@size=\dimen142
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count112
+\c@MaxMatrixCols=\count113
+\dotsspace@=\muskip11
+\c@parentequation=\count114
+\dspbrk@lvl=\count115
+\tag@help=\toks21
+\row@=\count116
+\column@=\count117
+\maxfields@=\count118
+\andhelp@=\toks22
+\eqnshift@=\dimen143
+\alignsep@=\dimen144
+\tagshift@=\dimen145
+\tagwidth@=\dimen146
+\totwidth@=\dimen147
+\lineht@=\dimen148
+\@envbody=\toks23
+\multlinegap=\skip61
+\multlinetaggap=\skip62
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2017/03/14 v6.85a Hypertext links for LaTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+)
+\@linkdim=\dimen149
+\Hy@linkcounter=\count119
+\Hy@pagecounter=\count120
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2017/03/14 v6.85a Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count121
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Option `breaklinks' set `true' on input line 4374.
+Package hyperref Info: Option `colorlinks' set `true' on input line 4374.
+Package hyperref Info: Option `hyperindex' set `true' on input line 4374.
+Package hyperref Info: Option `bookmarks' set `true' on input line 4374.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4374.
+Package hyperref Info: Hyper figures OFF on input line 4498.
+Package hyperref Info: Link nesting OFF on input line 4503.
+Package hyperref Info: Hyper index ON on input line 4506.
+Package hyperref Info: Plain pages OFF on input line 4513.
+Package hyperref Info: Backreferencing ON on input line 4516.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4751.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\backref.sty"
+Package: backref 2016/05/21 v1.39 Bibliographical back referencing
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+))
+\c@Hy@tempcnt=\count122
+LaTeX Info: Redefining \url on input line 5104.
+\XeTeXLinkMargin=\dimen150
+\Fld@menulength=\count123
+\Field@Width=\dimen151
+\Fld@charsize=\dimen152
+Package hyperref Info: Hyper figures OFF on input line 6358.
+Package hyperref Info: Link nesting OFF on input line 6363.
+Package hyperref Info: Hyper index ON on input line 6366.
+Package hyperref Info: backreferencing ON on input line 6371.
+Package hyperref Info: Link coloring ON on input line 6376.
+Package hyperref Info: Link coloring with OCG OFF on input line 6383.
+Package hyperref Info: PDF/A mode OFF on input line 6388.
+LaTeX Info: Redefining \ref on input line 6428.
+LaTeX Info: Redefining \pageref on input line 6432.
+\Hy@abspage=\count124
+\c@Item=\count125
+\c@Hfootnote=\count126
+)
+
+Package hyperref Message: Driver: hpdftex.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
+\Fld@listcount=\count127
+\c@bookmark@seq@number=\count128
+\Hy@SectionHShift=\skip63
+)
+
+Package hyperref Warning: Option `pagebackref' has already been used,
+(hyperref)                setting the option has no effect on input line 61.
+
+
+Package hyperref Warning: Option `backref' has already been used,
+(hyperref)                setting the option has no effect on input line 61.
+
+(watmac.tex
+\c@thtype=\count129
+\c@example=\count130
+\c@defi=\count131
+\c@theo=\count132
+\c@computation=\count133
+\c@rem=\count134
+\c@lci=\count135
+\c@lcii=\count136
+\c@lciii=\count137
+\c@lciv=\count138
+\c@lcv=\count139
+\tempboxnum=\box57
+\tempdim=\dimen153
+\bev=\write6
+\openout6 = `t_proofs.tex'.
+
+)
+\idxtitle@default=\toks25
+\tf@default=\write7
+\openout7 = `wafomanual2017.idx'.
+
+Package index Info: Writing index file wafomanual2017.idx on input line 101.
+ (wafomanual2017.aux (foreword.aux) (nomencl.aux) (Ch1_2017.aux)
+(Ch2_2017.aux) (Ch3_2017.aux) (Ch4_2017.aux) (Ch5_2017.aux) (Ch6_2017.aux)
+(kdeTools.aux) (standardizedSpectra.aux) (wavemodels.aux) (backmatter.aux))
+\openout1 = `wafomanual2017.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.
+mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count140
+\scratchdimen=\dimen154
+\scratchbox=\box58
+\nofMPsegments=\count141
+\nofMParguments=\count142
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count143
+\MPscratchDim=\dimen155
+\MPnumerator=\count144
+\makeMPintoPDFobject=\count145
+\everyMPtoPDFconversion=\toks27
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\ms\ragged2e.sty"
+Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
+("C:\Users\Georg Lindgren\AppData\Roaming\MiKTeX\2.9\tex\latex\ms\everysel.sty"
+Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
+ABD: EverySelectfont initializing macros
+LaTeX Info: Redefining \selectfont on input line 126.
+)
+\CenteringLeftskip=\skip64
+\RaggedLeftLeftskip=\skip65
+\RaggedRightLeftskip=\skip66
+\CenteringRightskip=\skip67
+\RaggedLeftRightskip=\skip68
+\RaggedRightRightskip=\skip69
+\CenteringParfillskip=\skip70
+\RaggedLeftParfillskip=\skip71
+\RaggedRightParfillskip=\skip72
+\JustifyingParfillskip=\skip73
+\CenteringParindent=\skip74
+\RaggedLeftParindent=\skip75
+\RaggedRightParindent=\skip76
+\JustifyingParindent=\skip77
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: rotating package is loaded.
+Package caption Info: subfigure package is loaded.
+Package caption Info: supertabular package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\AtBeginShipoutBox=\box59
+Package backref Info: ** backref set up for natbib ** on input line 103.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+)
+Package hyperref Info: Link coloring ON on input line 103.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count146
+)
+LaTeX Info: Redefining \ref on input line 103.
+LaTeX Info: Redefining \pageref on input line 103.
+LaTeX Info: Redefining \nameref on input line 103.
+
+(wafomanual2017.out) (wafomanual2017.out)
+\@outlinefile=\write8
+\openout8 = `wafomanual2017.out'.
+
+
+
+pdfTeX warning: pdflatex.exe (file ./Nyabilder/wafoLogoNewWithoutBorder.pdf): P
+DF inclusion: found PDF version <1.6>, but at most version <1.5> allowed
+<./Nyabilder/wafoLogoNewWithoutBorder.pdf, id=486, 392.78746pt x 122.85901pt>
+File: ./Nyabilder/wafoLogoNewWithoutBorder.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/wafoLogoNewWithoutBorder.pdf>
+Package pdftex.def Info: ./Nyabilder/wafoLogoNewWithoutBorder.pdf used on input
+ line 121.
+(pdftex.def)             Requested size: 363.8801pt x 113.81102pt.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 121.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 121.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 121.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+<./Nyabilder/LundUniversity_V_CMYK.pdf, id=487, 469.755pt x 306.14375pt>
+File: ./Nyabilder/LundUniversity_V_CMYK.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/LundUniversity_V_CMYK.pdf>
+Package pdftex.def Info: ./Nyabilder/LundUniversity_V_CMYK.pdf used on input li
+ne 121.
+(pdftex.def)             Requested size: 227.62204pt x 148.34406pt.
+ [1
+
+
+
+{C:/Users/Georg Lindgren/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./
+Nyabilder/wafoLogoNewWithoutBorder.pdf> <./Nyabilder/LundUniversity_V_CMYK.pdf>
+]
+Underfull \hbox (badness 10000) in paragraph at lines 128--134
+
+ []
+
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 126--146
+[]$[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 126--146
+
+ []
+
+[2]
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 149--157
+[]$[]$ 
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.i}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.157 \include{foreword}
+                         %georg [1]
+\openout2 = `foreword.aux'.
+
+ (foreword.texpdfTeX warning (ext4): destination with the same identifier (name
+{page.ii}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.4 \chapter
+            {Foreword} [2
+
+
+] [3] [4]) [5
+
+
+] [6
+
+
+] (wafomanual2017.toc [7] [8]
+[9])
+\tf@toc=\write9
+\openout9 = `wafomanual2017.toc'.
+
+ [10] (wafomanual2017.lof [11
+
+] [12]
+Overfull \hbox (4.2724pt too wide) in paragraph at lines 133--133
+ [][] [][][]\OT1/cmr/m/n/12 Target spec-trum, $\OML/cmm/m/it/12 S[]\OT1/cmr/m/n
+/12 (\OML/cmm/m/it/12 !\OT1/cmr/m/n/12 )$, (solid) and its lin-ear com-po-nent,
+ $\OML/cmm/m/it/12 S[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 !\OT1/cmr/m/n/12 )$ (da
+sh- 
+ []
+
+)
+\tf@lof=\write10
+\openout10 = `wafomanual2017.lof'.
+
+ [13] [14
+
+] (wafomanual2017.lot)
+\tf@lot=\write11
+\openout11 = `wafomanual2017.lot'.
+
+ [15]
+\openout2 = `nomencl.aux'.
+
+ (nomencl.tex [16
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 24--24
+[]|$\OML/cmm/m/it/12 D\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 !; \OT1/cmr/m/n/12 )\O
+ML/cmm/m/it/12 ;$
+ []
+
+
+Overfull \hbox (4.98373pt too wide) in paragraph at lines 25--26
+[]|$\OML/cmm/m/it/12 dd[] d[] z[]$| 
+ []
+
+
+Overfull \hbox (18.30943pt too wide) in paragraph at lines 15--56
+[] 
+ []
+
+
+Overfull \hbox (6.58221pt too wide) in paragraph at lines 75--76
+[]|$\OML/cmm/m/it/12 S[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 f\OT1/cmr/m/n/12 )\OM
+L/cmm/m/it/12 ; S[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 !\OT1/cmr/m/n/12 )$| 
+ []
+
+
+Overfull \hbox (35.93425pt too wide) in paragraph at lines 57--114
+[][] 
+ []
+
+
+Underfull \vbox (badness 1264) has occurred while \output is active []
+
+ [17]
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 151.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 151.
+
+Overfull \hbox (18.30943pt too wide) in paragraph at lines 118--155
+[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18]
+[19]
+Overfull \hbox (18.30943pt too wide) in paragraph at lines 160--186
+[] 
+ []
+
+) [20]
+\openout2 = `Ch1_2017.aux'.
+
+ (Ch1_2017.tex
+Chapter 1.
+[1
+
+
+
+
+] [2] [3] [4] [5] [6]
+<./Nyabilder/001f_sim.pdf, id=994, 556.0775pt x 427.5975pt>
+File: ./Nyabilder/001f_sim.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/001f_sim.pdf>
+Package pdftex.def Info: ./Nyabilder/001f_sim.pdf used on input line 428.
+(pdftex.def)             Requested size: 312.9803pt x 240.66653pt.
+ [7] [8 <./Nyabilder/001f_sim.pdf>]
+<./Nyabilder/002f_spc.pdf, id=1021, 512.91624pt x 431.6125pt>
+File: ./Nyabilder/002f_spc.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/002f_spc.pdf>
+Package pdftex.def Info: ./Nyabilder/002f_spc.pdf used on input line 496.
+(pdftex.def)             Requested size: 227.62204pt x 191.54337pt.
+ [9 <./Nyabilder/002f_spc.pdf>]
+<./Nyabilder/003f_pdf.pdf, id=1038, 493.845pt x 432.61626pt>
+File: ./Nyabilder/003f_pdf.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/003f_pdf.pdf>
+Package pdftex.def Info: ./Nyabilder/003f_pdf.pdf used on input line 555.
+(pdftex.def)             Requested size: 227.62204pt x 199.39536pt.
+ [10 <./Nyabilder/003f_pdf.pdf>]
+<./Nyabilder/004f_drs.pdf, id=1052, 357.335pt x 383.4325pt>
+File: ./Nyabilder/004f_drs.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/004f_drs.pdf>
+Package pdftex.def Info: ./Nyabilder/004f_drs.pdf used on input line 620.
+(pdftex.def)             Requested size: 227.62204pt x 244.24922pt.
+ [11 <./Nyabilder/004f_drs.pdf>]
+
+pdfTeX warning: pdflatex.exe (file ./Nyabilder/fig_hav1aaa.pdf): PDF inclusion:
+ found PDF version <1.6>, but at most version <1.5> allowed
+<./Nyabilder/fig_hav1aaa.pdf, id=1064, 404.50331pt x 152.15897pt>
+File: ./Nyabilder/fig_hav1aaa.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_hav1aaa.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_hav1aaa.pdf used on input line 676.
+(pdftex.def)             Requested size: 404.50232pt x 152.15858pt.
+
+
+pdfTeX warning: pdflatex.exe (file ./Nyabilder/fig_hav2aaa.pdf): PDF inclusion:
+ found PDF version <1.6>, but at most version <1.5> allowed
+<./Nyabilder/fig_hav2aaa.pdf, id=1065, 399.81622pt x 152.15897pt>
+File: ./Nyabilder/fig_hav2aaa.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_hav2aaa.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_hav2aaa.pdf used on input line 686.
+(pdftex.def)             Requested size: 399.81525pt x 152.15858pt.
+ [12 <./Nyabilder/fig_hav1aaa.pdf>]
+<./Nyabilder/006f_rfc.pdf, id=1087, 405.515pt x 424.58624pt>
+File: ./Nyabilder/006f_rfc.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/006f_rfc.pdf>
+Package pdftex.def Info: ./Nyabilder/006f_rfc.pdf used on input line 742.
+(pdftex.def)             Requested size: 227.62204pt x 238.3303pt.
+ [13 <./Nyabilder/fig_hav2aaa.pdf>]
+<./Nyabilder/007f_yura.pdf, id=1105, 503.8825pt x 418.56375pt>
+File: ./Nyabilder/007f_yura.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/007f_yura.pdf>
+Package pdftex.def Info: ./Nyabilder/007f_yura.pdf used on input line 791.
+(pdftex.def)             Requested size: 362.77524pt x 301.35289pt.
+
+<./Nyabilder/008f_yuragev.pdf, id=1106, 579.16376pt x 424.58624pt>
+File: ./Nyabilder/008f_yuragev.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/008f_yuragev.pdf>
+Package pdftex.def Info: ./Nyabilder/008f_yuragev.pdf used on input line 802.
+(pdftex.def)             Requested size: 362.77524pt x 265.94882pt.
+ [14 <./Nyabilder/006f_rfc.pdf>] [15 <./Nyabilder/007f_yura.pdf>] [16 <./Nyabil
+der/008f_yuragev.pdf>]
+Underfull \vbox (badness 3375) has occurred while \output is active []
+
+ [17
+
+])
+[18]
+\openout2 = `Ch2_2017.aux'.
+
+ (Ch2_2017.tex
+Chapter 2.
+[19
+
+
+
+] <./Nyabilder/fig1_cr.pdf, id=1182, 512.91624pt x 430.60875pt>
+File: ./Nyabilder/fig1_cr.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig1_cr.pdf>
+Package pdftex.def Info: ./Nyabilder/fig1_cr.pdf used on input line 129.
+(pdftex.def)             Requested size: 227.62204pt x 191.09792pt.
+ [20]
+<./Nyabilder/figure_Ch2_1.pdf, id=1197, 565.11125pt x 435.6275pt>
+File: ./Nyabilder/figure_Ch2_1.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figure_Ch2_1.pdf>
+Package pdftex.def Info: ./Nyabilder/figure_Ch2_1.pdf used on input line 172.
+(pdftex.def)             Requested size: 227.62204pt x 175.46432pt.
+ [21 <./Nyabilder/fig1_cr.pdf>]
+Underfull \vbox (badness 1024) has occurred while \output is active []
+
+ [22 <./Nyabilder/figure_Ch2_1.pdf>]
+<./Nyabilder/fig1_spc.pdf, id=1219, 511.9125pt x 430.60875pt>
+File: ./Nyabilder/fig1_spc.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig1_spc.pdf>
+Package pdftex.def Info: ./Nyabilder/fig1_spc.pdf used on input line 272.
+(pdftex.def)             Requested size: 227.62204pt x 191.46587pt.
+ [23 <./Nyabilder/fig1_spc.pdf>] [24]
+<./Nyabilder/fig2_spc.pdf, id=1237, 530.98375pt x 436.63126pt>
+File: ./Nyabilder/fig2_spc.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig2_spc.pdf>
+Package pdftex.def Info: ./Nyabilder/fig2_spc.pdf used on input line 439.
+(pdftex.def)             Requested size: 227.62204pt x 187.1748pt.
+ [25] [26 <./Nyabilder/fig2_spc.pdf>]
+<./Nyabilder/fig4_s2cb.pdf, id=1264, 573.14125pt x 435.6275pt>
+File: ./Nyabilder/fig4_s2cb.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig4_s2cb.pdf>
+Package pdftex.def Info: ./Nyabilder/fig4_s2cb.pdf used on input line 506.
+(pdftex.def)             Requested size: 199.16928pt x 151.38177pt.
+
+<./Nyabilder/fig4_s2ca.pdf, id=1265, 573.14125pt x 435.6275pt>
+File: ./Nyabilder/fig4_s2ca.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig4_s2ca.pdf>
+Package pdftex.def Info: ./Nyabilder/fig4_s2ca.pdf used on input line 512.
+(pdftex.def)             Requested size: 199.16928pt x 151.38177pt.
+ [27 <./Nyabilder/fig4_s2cb.pdf> <./Nyabilder/fig4_s2ca.pdf>] [28]
+<./Nyabilder/fig4_tr.pdf, id=1302, 502.87875pt x 430.60875pt>
+File: ./Nyabilder/fig4_tr.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig4_tr.pdf>
+Package pdftex.def Info: ./Nyabilder/fig4_tr.pdf used on input line 701.
+(pdftex.def)             Requested size: 227.62204pt x 194.90884pt.
+
+<./Nyabilder/figure_Ch2_8.pdf, id=1304, 509.905pt x 405.515pt>
+File: ./Nyabilder/figure_Ch2_8.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figure_Ch2_8.pdf>
+Package pdftex.def Info: ./Nyabilder/figure_Ch2_8.pdf used on input line 734.
+(pdftex.def)             Requested size: 227.62204pt x 181.02596pt.
+ [29] [30 <./Nyabilder/fig4_tr.pdf> <./Nyabilder/figure_Ch2_8.pdf>]
+<./Nyabilder/figure_Ch2_2.pdf, id=1325, 554.07pt x 435.6275pt>
+File: ./Nyabilder/figure_Ch2_2.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figure_Ch2_2.pdf>
+Package pdftex.def Info: ./Nyabilder/figure_Ch2_2.pdf used on input line 789.
+(pdftex.def)             Requested size: 227.62204pt x 178.96072pt.
+ [31 <./Nyabilder/figure_Ch2_2.pdf>]
+<./Nyabilder/figure_spec_enc.pdf, id=1336, 357.335pt x 386.44376pt>
+File: ./Nyabilder/figure_spec_enc.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figure_spec_enc.pdf>
+Package pdftex.def Info: ./Nyabilder/figure_spec_enc.pdf used on input line 855
+.
+(pdftex.def)             Requested size: 227.62204pt x 246.1674pt.
+ [32 <./Nyabilder/figure_spec_enc.pdf>]
+<./Nyabilder/fig4_Je.pdf, id=1350, 507.8975pt x 430.60875pt>
+File: ./Nyabilder/fig4_Je.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig4_Je.pdf>
+Package pdftex.def Info: ./Nyabilder/fig4_Je.pdf used on input line 940.
+(pdftex.def)             Requested size: 199.16928pt x 168.8566pt.
+
+<./Nyabilder/figure_spec_k1d.pdf, id=1351, 514.92375pt x 430.60875pt>
+File: ./Nyabilder/figure_spec_k1d.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figure_spec_k1d.pdf>
+Package pdftex.def Info: ./Nyabilder/figure_spec_k1d.pdf used on input line 945
+.
+(pdftex.def)             Requested size: 199.16928pt x 166.55692pt.
+ [33]
+<./Nyabilder/figure_spec.pdf, id=1360, 507.8975pt x 430.60875pt>
+File: ./Nyabilder/figure_spec.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figure_spec.pdf>
+Package pdftex.def Info: ./Nyabilder/figure_spec.pdf used on input line 974.
+(pdftex.def)             Requested size: 227.62204pt x 192.98367pt.
+ [34 <./Nyabilder/fig4_Je.pdf> <./Nyabilder/figure_spec_k1d.pdf> <./Nyabilder/f
+igure_spec.pdf>] [35]
+<./Nyabilder/fig4grec.pdf, id=1389, 502.87875pt x 430.60875pt>
+File: ./Nyabilder/fig4grec.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig4grec.pdf>
+Package pdftex.def Info: ./Nyabilder/fig4grec.pdf used on input line 1105.
+(pdftex.def)             Requested size: 227.62204pt x 194.90884pt.
+ [36 <./Nyabilder/fig4grec.pdf>]
+<./Nyabilder/fig_2minutes.pdf, id=1401, 555.07375pt x 433.62pt>
+File: ./Nyabilder/fig_2minutes.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_2minutes.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_2minutes.pdf used on input line 1161.
+(pdftex.def)             Requested size: 227.62204pt x 177.81844pt.
+
+<./Nyabilder/fig4spec.pdf, id=1406, 518.93875pt x 430.60875pt>
+File: ./Nyabilder/fig4spec.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig4spec.pdf>
+Package pdftex.def Info: ./Nyabilder/fig4spec.pdf used on input line 1205.
+(pdftex.def)             Requested size: 227.62204pt x 188.87708pt.
+ [37 <./Nyabilder/fig_2minutes.pdf>] [38 <./Nyabilder/fig4spec.pdf>]
+<./Nyabilder/figure_sim1.pdf, id=1424, 549.05125pt x 433.62pt>
+File: ./Nyabilder/figure_sim1.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figure_sim1.pdf>
+Package pdftex.def Info: ./Nyabilder/figure_sim1.pdf used on input line 1275.
+(pdftex.def)             Requested size: 227.62204pt x 179.76369pt.
+ [39 <./Nyabilder/figure_sim1.pdf>]
+<./Nyabilder/sarmasim.pdf, id=1443, 359.3425pt x 277.035pt>
+File: ./Nyabilder/sarmasim.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/sarmasim.pdf>
+Package pdftex.def Info: ./Nyabilder/sarmasim.pdf used on input line 1376.
+(pdftex.def)             Requested size: 227.62204pt x 175.48831pt.
+ [40] [41 <./Nyabilder/sarmasim.pdf>]
+<./Nyabilder/fig_demospec.pdf, id=1463, 256.96pt x 272.01625pt>
+File: ./Nyabilder/fig_demospec.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_demospec.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_demospec.pdf used on input line 1432.
+(pdftex.def)             Requested size: 213.39566pt x 225.90208pt.
+
+
+pdfTeX warning: pdflatex.exe (file ./Nyabilder/Mv1.pdf): PDF inclusion: found P
+DF version <1.6>, but at most version <1.5> allowed
+<./Nyabilder/Mv1.pdf, id=1464, 399.81622pt x 152.15897pt>
+File: ./Nyabilder/Mv1.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/Mv1.pdf>
+Package pdftex.def Info: ./Nyabilder/Mv1.pdf used on input line 1459.
+(pdftex.def)             Requested size: 369.88582pt x 140.76804pt.
+
+<./Nyabilder/Mv2.pdf, id=1465, 386.44376pt x 213.79875pt>
+File: ./Nyabilder/Mv2.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/Mv2.pdf>
+Package pdftex.def Info: ./Nyabilder/Mv2.pdf used on input line 1463.
+(pdftex.def)             Requested size: 369.88582pt x 204.63766pt.
+
+
+pdfTeX warning: pdflatex.exe (file ./Nyabilder/Mv3.pdf): PDF inclusion: found P
+DF version <1.6>, but at most version <1.5> allowed
+<./Nyabilder/Mv3.pdf, id=1466, 399.81671pt x 223.29051pt>
+File: ./Nyabilder/Mv3.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/Mv3.pdf>
+Package pdftex.def Info: ./Nyabilder/Mv3.pdf used on input line 1466.
+(pdftex.def)             Requested size: 369.88582pt x 206.57454pt.
+ [42 <./Nyabilder/fig_demospec.pdf>] [43 <./Nyabilder/Mv1.pdf> <./Nyabilder/Mv2
+.pdf> <./Nyabilder/Mv3.pdf>]) [44]
+\openout2 = `Ch3_2017.aux'.
+
+ (Ch3_2017.tex
+Chapter 3.
+[45
+
+
+
+] <./Nyabilder/waveparamNew.pdf, id=1544, 281.05pt x 205.76875pt>
+File: ./Nyabilder/waveparamNew.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/waveparamNew.pdf>
+Package pdftex.def Info: ./Nyabilder/waveparamNew.pdf used on input line 121.
+(pdftex.def)             Requested size: 298.75262pt x 218.74178pt.
+ [46] [47 <./Nyabilder/waveparamNew.pdf>]
+[48] <./Nyabilder/fig7_kde_tc.pdf, id=1607, 489.83pt x 435.6275pt>
+File: ./Nyabilder/fig7_kde_tc.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_kde_tc.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_kde_tc.pdf used on input line 272.
+(pdftex.def)             Requested size: 227.62204pt x 202.43175pt.
+ [49 <./Nyabilder/fig7_kde_tc.pdf>]
+<./Nyabilder/fig_c_wave.pdf, id=1624, 558.085pt x 410.53375pt>
+File: ./Nyabilder/fig_c_wave.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_c_wave.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_c_wave.pdf used on input line 377.
+(pdftex.def)             Requested size: 199.16928pt x 146.50786pt.
+
+<./Nyabilder/fig_r_wave.pdf, id=1625, 572.1375pt x 411.5375pt>
+File: ./Nyabilder/fig_r_wave.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_r_wave.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_r_wave.pdf used on input line 382.
+(pdftex.def)             Requested size: 199.16928pt x 143.26161pt.
+ [50] [51 <./Nyabilder/fig_c_wave.pdf> <./Nyabilder/fig_r_wave.pdf>] <./Nyabild
+er/fig_Ac1.pdf, id=1652, 562.1pt x 411.5375pt>
+File: ./Nyabilder/fig_Ac1.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_Ac1.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_Ac1.pdf used on input line 501.
+(pdftex.def)             Requested size: 199.16928pt x 145.8174pt.
+
+<./Nyabilder/fig_Ac2.pdf, id=1653, 580.1675pt x 411.5375pt>
+File: ./Nyabilder/fig_Ac2.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_Ac2.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_Ac2.pdf used on input line 506.
+(pdftex.def)             Requested size: 204.85983pt x 145.31503pt.
+ [52]
+<./Nyabilder/fig_TcAc.pdf, id=1659, 516.93124pt x 436.63126pt>
+File: ./Nyabilder/fig_TcAc.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_TcAc.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_TcAc.pdf used on input line 544.
+(pdftex.def)             Requested size: 227.62204pt x 192.26491pt.
+ [53 <./Nyabilder/fig_Ac1.pdf> <./Nyabilder/fig_Ac2.pdf>] [54 <./Nyabilder/fig_
+TcAc.pdf>]
+<./Nyabilder/lhdens.pdf, id=1693, 505.89pt x 436.63126pt>
+File: ./Nyabilder/lhdens.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/lhdens.pdf>
+Package pdftex.def Info: ./Nyabilder/lhdens.pdf used on input line 683.
+(pdftex.def)             Requested size: 199.16928pt x 171.90448pt.
+
+<./Nyabilder/lhdens1.pdf, id=1694, 505.89pt x 436.63126pt>
+File: ./Nyabilder/lhdens1.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/lhdens1.pdf>
+Package pdftex.def Info: ./Nyabilder/lhdens1.pdf used on input line 688.
+(pdftex.def)             Requested size: 199.16928pt x 171.90448pt.
+ [55]
+<./Nyabilder/cavdens.pdf, id=1706, 501.875pt x 436.63126pt>
+File: ./Nyabilder/cavdens.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/cavdens.pdf>
+Package pdftex.def Info: ./Nyabilder/cavdens.pdf used on input line 770.
+(pdftex.def)             Requested size: 189.68065pt x 165.02597pt.
+
+<./Nyabilder/figAcAt_h.pdf, id=1707, 569.12625pt x 417.56pt>
+File: ./Nyabilder/figAcAt_h.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figAcAt_h.pdf>
+Package pdftex.def Info: ./Nyabilder/figAcAt_h.pdf used on input line 777.
+(pdftex.def)             Requested size: 224.92833pt x 165.02597pt.
+ [56 <./Nyabilder/lhdens.pdf> <./Nyabilder/lhdens1.pdf>] [57 <./Nyabilder/cavde
+ns.pdf> <./Nyabilder/figAcAt_h.pdf>] [58]
+[59] [60] [61] [62] [63]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [64]
+[65]
+Overfull \hbox (10.53056pt too wide) in paragraph at lines 1230--1230
+[]|$\OML/cmm/m/it/12 T[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 T[]\OT1/cmr/m/n/12 )$
+| 
+ []
+
+) [66] [67]
+\openout2 = `Ch4_2017.aux'.
+
+ (Ch4_2017.tex [68
+
+
+
+]
+Chapter 4.
+
+Underfull \vbox (badness 1168) has occurred while \output is active []
+
+ [69]
+[70] <./Nyabilder/fig41a_2017.pdf, id=1821, 497.86pt x 436.63126pt>
+File: ./Nyabilder/fig41a_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig41a_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig41a_2017.pdf used on input line 149.
+(pdftex.def)             Requested size: 199.16928pt x 174.67606pt.
+
+<./Nyabilder/fig41b_2017.pdf, id=1822, 497.86pt x 436.63126pt>
+File: ./Nyabilder/fig41b_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig41b_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig41b_2017.pdf used on input line 155.
+(pdftex.def)             Requested size: 199.16928pt x 174.67606pt.
+ [71 <./Nyabilder/fig41a_2017.pdf> <./Nyabilder/fig41b_2017.pdf>] [72]
+<./Nyabilder/figAcCDF.pdf, id=1860, 597.23125pt x 424.05626pt>
+File: ./Nyabilder/figAcCDF.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/figAcCDF.pdf>
+Package pdftex.def Info: ./Nyabilder/figAcCDF.pdf used on input line 308.
+(pdftex.def)             Requested size: 312.9803pt x 222.22522pt.
+
+<./Nyabilder/fig42a_2017.pdf, id=1861, 497.86pt x 437.635pt>
+File: ./Nyabilder/fig42a_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig42a_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig42a_2017.pdf used on input line 326.
+(pdftex.def)             Requested size: 194.21019pt x 170.71652pt.
+
+<./Nyabilder/fig42_2017.pdf, id=1862, 494.84875pt x 436.63126pt>
+File: ./Nyabilder/fig42_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig42_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig42_2017.pdf used on input line 326.
+(pdftex.def)             Requested size: 193.47348pt x 170.71652pt.
+ [73] [74 <./Nyabilder/figAcCDF.pdf>] [75 <./Nyabilder/fig42a_2017.pdf> <./Nyab
+ilder/fig42_2017.pdf>]
+<./Nyabilder/fig43a_2017.pdf, id=1916, 492.84125pt x 438.63875pt>
+File: ./Nyabilder/fig43a_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig43a_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig43a_2017.pdf used on input line 489.
+(pdftex.def)             Requested size: 191.81625pt x 170.71652pt.
+
+<./Nyabilder/fig43b_2017.pdf, id=1917, 507.8975pt x 435.6275pt>
+File: ./Nyabilder/fig43b_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig43b_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig43b_2017.pdf used on input line 494.
+(pdftex.def)             Requested size: 199.03247pt x 170.71652pt.
+ [76] [77 <./Nyabilder/fig43a_2017.pdf> <./Nyabilder/fig43b_2017.pdf>]
+<./Nyabilder/seaspectrum.pdf, id=1949, 530.98375pt x 436.63126pt>
+File: ./Nyabilder/seaspectrum.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/seaspectrum.pdf>
+Package pdftex.def Info: ./Nyabilder/seaspectrum.pdf used on input line 597.
+(pdftex.def)             Requested size: 227.62204pt x 187.1748pt.
+ [78 <./Nyabilder/seaspectrum.pdf>]
+<./Nyabilder/fig7_tb_2017.pdf, id=1964, 497.86pt x 438.63875pt>
+File: ./Nyabilder/fig7_tb_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_tb_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_tb_2017.pdf used on input line 694.
+(pdftex.def)             Requested size: 193.76958pt x 170.71652pt.
+
+<./Nyabilder/fig7_t2b_2017.pdf, id=1965, 507.8975pt x 436.63126pt>
+File: ./Nyabilder/fig7_t2b_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_t2b_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_t2b_2017.pdf used on input line 700.
+(pdftex.def)             Requested size: 198.57523pt x 170.71652pt.
+ [79]
+<./Nyabilder/fig7_tcc2b_2017.pdf, id=1973, 507.8975pt x 436.63126pt>
+File: ./Nyabilder/fig7_tcc2b_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_tcc2b_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_tcc2b_2017.pdf used on input line 747
+.
+(pdftex.def)             Requested size: 198.57523pt x 170.71652pt.
+
+<./Nyabilder/fig7_tcc22_4b_2017.pdf, id=1974, 499.8675pt x 436.63126pt>
+File: ./Nyabilder/fig7_tcc22_4b_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_tcc22_4b_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_tcc22_4b_2017.pdf used on input line 
+752.
+(pdftex.def)             Requested size: 195.43568pt x 170.71652pt.
+ [80 <./Nyabilder/fig7_tb_2017.pdf> <./Nyabilder/fig7_t2b_2017.pdf>]
+Overfull \hbox (5.68762pt too wide) in paragraph at lines 821--826
+[]\OT1/cmr/m/n/10.95 The ex-e-cu-tion time is less than one minute, and the com
+-puted prob-a-bil-ity with [][]\OT1/cmtt/m/n/10.95 nit = -1
+ []
+
+[81 <./Nyabilder/fig7_tcc2b_2017.pdf> <./Nyabilder/fig7_tcc22_4b_2017.pdf>]
+<./Nyabilder/fig7northsea.pdf, id=2021, 377.41pt x 375.4025pt>
+File: ./Nyabilder/fig7northsea.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7northsea.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7northsea.pdf used on input line 864.
+(pdftex.def)             Requested size: 171.62967pt x 170.71652pt.
+
+<./Nyabilder/fig7northsea_s.pdf, id=2022, 514.92375pt x 436.63126pt>
+File: ./Nyabilder/fig7northsea_s.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7northsea_s.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7northsea_s.pdf used on input line 869.
+
+(pdftex.def)             Requested size: 201.3223pt x 170.71652pt.
+ [82 <./Nyabilder/fig7northsea.pdf> <./Nyabilder/fig7northsea_s.pdf>] [83]
+<./Nyabilder/fig7_6.pdf, id=2043, 402.50375pt x 430.60875pt>
+File: ./Nyabilder/fig7_6.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_6.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_6.pdf used on input line 1031.
+(pdftex.def)             Requested size: 199.16928pt x 213.07642pt.
+
+<./Nyabilder/fig7_7.pdf, id=2044, 403.5075pt x 430.60875pt>
+File: ./Nyabilder/fig7_7.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_7.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_7.pdf used on input line 1036.
+(pdftex.def)             Requested size: 199.16928pt x 212.5442pt.
+ [84] [85 <./Nyabilder/fig7_6.pdf> <./Nyabilder/fig7_7.pdf>] <./Nyabilder/fig7_
+8_2017.pdf, id=2069, 505.89pt x 435.6275pt>
+File: ./Nyabilder/fig7_8_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_8_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_8_2017.pdf used on input line 1108.
+(pdftex.def)             Requested size: 227.62204pt x 196.01062pt.
+
+Overfull \hbox (14.22638pt too wide) in paragraph at lines 1108--1108
+ [][] 
+ []
+
+<./Nyabilder/fig7_9_2017.pdf, id=2070, 497.86pt x 436.63126pt>
+File: ./Nyabilder/fig7_9_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_9_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_9_2017.pdf used on input line 1113.
+(pdftex.def)             Requested size: 227.62204pt x 199.63358pt.
+
+Overfull \hbox (14.22638pt too wide) in paragraph at lines 1113--1113
+ [][] 
+ []
+
+
+Overfull \hbox (2.61107pt too wide) in paragraph at lines 1108--1121
+[][]  [][]
+ []
+
+[86 <./Nyabilder/fig7_8_2017.pdf> <./Nyabilder/fig7_9_2017.pdf>]
+<./Nyabilder/fig7_10_2017.pdf, id=2102, 395.4775pt x 422.57875pt>
+File: ./Nyabilder/fig7_10_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_10_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_10_2017.pdf used on input line 1217.
+(pdftex.def)             Requested size: 213.02966pt x 227.62204pt.
+ [87]
+<./Nyabilder/fig7_11_2017.pdf, id=2111, 391.4625pt x 429.605pt>
+File: ./Nyabilder/fig7_11_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_11_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_11_2017.pdf used on input line 1282.
+(pdftex.def)             Requested size: 155.56079pt x 170.71652pt.
+
+<./Nyabilder/fig7_12_2017.pdf, id=2112, 394.47375pt x 425.59pt>
+File: ./Nyabilder/fig7_12_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7_12_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7_12_2017.pdf used on input line 1287.
+(pdftex.def)             Requested size: 158.23813pt x 170.71652pt.
+ [88 <./Nyabilder/fig7_10_2017.pdf>] [89 <./Nyabilder/fig7_11_2017.pdf> <./Nyab
+ilder/fig7_12_2017.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [90])
+[91]
+\openout2 = `Ch5_2017.aux'.
+
+ (Ch5_2017.tex [92
+
+
+
+]
+Chapter 5.
+[93] [94]
+<./Nyabilder/FigRFCdef_introNew.pdf, id=2180, 264.99pt x 133.49875pt>
+File: ./Nyabilder/FigRFCdef_introNew.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/FigRFCdef_introNew.pdf>
+Package pdftex.def Info: ./Nyabilder/FigRFCdef_introNew.pdf used on input line 
+189.
+(pdftex.def)             Requested size: 312.9803pt x 157.686pt.
+ [95] [96 <./Nyabilder/FigRFCdef_introNew.pdf>] [97]
+<./Nyabilder/FigTP_MatrixNew.pdf, id=2229, 338.26375pt x 227.85126pt>
+File: ./Nyabilder/FigTP_MatrixNew.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/FigTP_MatrixNew.pdf>
+Package pdftex.def Info: ./Nyabilder/FigTP_MatrixNew.pdf used on input line 401
+.
+(pdftex.def)             Requested size: 312.9803pt x 210.82516pt.
+ [98] [99 <./Nyabilder/FigTP_MatrixNew.pdf>] <./Nyabilder/fatigue_3.pdf, id=225
+5, 496.85625pt x 203.76125pt>
+File: ./Nyabilder/fatigue_3.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_3.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_3.pdf used on input line 488.
+(pdftex.def)             Requested size: 312.9803pt x 128.3547pt.
+ [100 <./Nyabilder/fatigue_3.pdf>]
+<./Nyabilder/fatigue_4_2017.pdf, id=2267, 490.83376pt x 264.99pt>
+File: ./Nyabilder/fatigue_4_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_4_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_4_2017.pdf used on input line 552.
+
+(pdftex.def)             Requested size: 312.9803pt x 168.97437pt.
+
+<./Nyabilder/fatigue_5.pdf, id=2269, 492.84125pt x 196.735pt>
+File: ./Nyabilder/fatigue_5.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_5.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_5.pdf used on input line 572.
+(pdftex.def)             Requested size: 312.9803pt x 124.94333pt.
+ [101 <./Nyabilder/fatigue_4_2017.pdf> <./Nyabilder/fatigue_5.pdf>]
+<./Nyabilder/fatigue_6.pdf, id=2288, 490.83376pt x 406.51875pt>
+File: ./Nyabilder/fatigue_6.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_6.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_6.pdf used on input line 622.
+(pdftex.def)             Requested size: 227.62204pt x 188.52061pt.
+ [102 <./Nyabilder/fatigue_6.pdf>]
+<./Nyabilder/fatigue_7.pdf, id=2300, 490.83376pt x 406.51875pt>
+File: ./Nyabilder/fatigue_7.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_7.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_7.pdf used on input line 689.
+(pdftex.def)             Requested size: 227.62204pt x 188.52061pt.
+ [103]
+<./Nyabilder/fatigue_8.pdf, id=2307, 495.8525pt x 263.98625pt>
+File: ./Nyabilder/fatigue_8.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_8.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_8.pdf used on input line 719.
+(pdftex.def)             Requested size: 312.9803pt x 166.6264pt.
+ [104 <./Nyabilder/fatigue_7.pdf> <./Nyabilder/fatigue_8.pdf>] <./Nyabilder/fat
+igue_9.pdf, id=2323, 508.90125pt x 258.9675pt>
+File: ./Nyabilder/fatigue_9.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_9.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_9.pdf used on input line 789.
+(pdftex.def)             Requested size: 312.9803pt x 159.27393pt.
+ [105 <./Nyabilder/fatigue_9.pdf>]
+<./Nyabilder/fatigue_10.pdf, id=2335, 506.89375pt x 314.17375pt>
+File: ./Nyabilder/fatigue_10.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_10.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_10.pdf used on input line 824.
+(pdftex.def)             Requested size: 312.9803pt x 193.98991pt.
+ [106 <./Nyabilder/fatigue_10.pdf>]
+<./Nyabilder/fatigue_11.pdf, id=2345, 508.90125pt x 260.975pt>
+File: ./Nyabilder/fatigue_11.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_11.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_11.pdf used on input line 857.
+(pdftex.def)             Requested size: 312.9803pt x 160.50862pt.
+ [107 <./Nyabilder/fatigue_11.pdf>]
+<./Nyabilder/fatigue_12.pdf, id=2360, 508.90125pt x 260.975pt>
+File: ./Nyabilder/fatigue_12.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_12.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_12.pdf used on input line 919.
+(pdftex.def)             Requested size: 312.9803pt x 160.50862pt.
+
+<./Nyabilder/fatigue_13.pdf, id=2361, 492.84125pt x 418.56375pt>
+File: ./Nyabilder/fatigue_13.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_13.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_13.pdf used on input line 954.
+(pdftex.def)             Requested size: 312.9803pt x 265.82333pt.
+ [108 <./Nyabilder/fatigue_12.pdf>] [109 <./Nyabilder/fatigue_13.pdf>]
+<./Nyabilder/fatigue_14_25.pdf, id=2379, 486.81876pt x 386.44376pt>
+File: ./Nyabilder/fatigue_14_25.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_14_25.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_14_25.pdf used on input line 1019.
+
+(pdftex.def)             Requested size: 199.16928pt x 158.10095pt.
+
+<./Nyabilder/fatigue_14_75.pdf, id=2380, 491.8375pt x 398.48875pt>
+File: ./Nyabilder/fatigue_14_75.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_14_75.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_14_75.pdf used on input line 1020.
+
+(pdftex.def)             Requested size: 199.16928pt x 161.36882pt.
+ [110 <./Nyabilder/fatigue_14_25.pdf> <./Nyabilder/fatigue_14_75.pdf>]
+<./Nyabilder/fatigue_15.pdf, id=2406, 478.78876pt x 406.51875pt>
+File: ./Nyabilder/fatigue_15.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_15.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_15.pdf used on input line 1152.
+(pdftex.def)             Requested size: 227.62204pt x 193.26588pt.
+ [111]
+<./Nyabilder/fatigue_16.pdf, id=2414, 511.9125pt x 263.98625pt>
+File: ./Nyabilder/fatigue_16.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_16.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_16.pdf used on input line 1221.
+(pdftex.def)             Requested size: 312.9803pt x 161.39792pt.
+ [112 <./Nyabilder/fatigue_15.pdf>]
+<./Nyabilder/fatigue_17_2017.pdf, id=2427, 527.9725pt x 403.5075pt>
+File: ./Nyabilder/fatigue_17_2017.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_17_2017.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_17_2017.pdf used on input line 129
+1.
+(pdftex.def)             Requested size: 227.62204pt x 173.96046pt.
+ [113 <./Nyabilder/fatigue_16.pdf>]
+<./Nyabilder/fatigue_18a.pdf, id=2437, 499.8675pt x 438.63875pt>
+File: ./Nyabilder/fatigue_18a.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_18a.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_18a.pdf used on input line 1313.
+(pdftex.def)             Requested size: 199.16928pt x 174.76968pt.
+
+<./Nyabilder/fatigue_18b.pdf, id=2438, 506.89375pt x 434.62375pt>
+File: ./Nyabilder/fatigue_18b.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_18b.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_18b.pdf used on input line 1315.
+(pdftex.def)             Requested size: 199.16928pt x 170.76926pt.
+ [114 <./Nyabilder/fatigue_17_2017.pdf> <./Nyabilder/fatigue_18a.pdf> <./Nyabil
+der/fatigue_18b.pdf>]
+<./Nyabilder/fatigue_19.pdf, id=2463, 486.81876pt x 406.51875pt>
+File: ./Nyabilder/fatigue_19.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_19.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_19.pdf used on input line 1382.
+(pdftex.def)             Requested size: 227.62204pt x 190.07756pt.
+ [115 <./Nyabilder/fatigue_19.pdf>]
+<./Nyabilder/fatigue_20.pdf, id=2475, 484.81125pt x 428.60126pt>
+File: ./Nyabilder/fatigue_20.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fatigue_20.pdf>
+Package pdftex.def Info: ./Nyabilder/fatigue_20.pdf used on input line 1407.
+(pdftex.def)             Requested size: 227.62204pt x 201.23334pt.
+
+<./Nyabilder/FigEx2SamplePath.pdf, id=2480, 507.8975pt x 408.52625pt>
+File: ./Nyabilder/FigEx2SamplePath.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/FigEx2SamplePath.pdf>
+Package pdftex.def Info: ./Nyabilder/FigEx2SamplePath.pdf used on input line 14
+54.
+(pdftex.def)             Requested size: 227.62204pt x 183.08708pt.
+ [116 <./Nyabilder/fatigue_20.pdf>]
+<./Nyabilder/FigEx2RFCint3D.pdf, id=2490, 511.9125pt x 429.605pt>
+File: ./Nyabilder/FigEx2RFCint3D.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/FigEx2RFCint3D.pdf>
+Package pdftex.def Info: ./Nyabilder/FigEx2RFCint3D.pdf used on input line 1480
+.
+(pdftex.def)             Requested size: 199.16928pt x 167.1454pt.
+
+<./Nyabilder/FigEx2RFCintCC.pdf, id=2491, 464.73625pt x 420.57124pt>
+File: ./Nyabilder/FigEx2RFCintCC.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/FigEx2RFCintCC.pdf>
+Package pdftex.def Info: ./Nyabilder/FigEx2RFCintCC.pdf used on input line 1485
+.
+(pdftex.def)             Requested size: 199.16928pt x 180.23888pt.
+) [117 <./Nyabilder/FigEx2SamplePath.pdf> <./Nyabilder/FigEx2RFCint3D.pdf> <./N
+yabilder/FigEx2RFCintCC.pdf>]
+\openout2 = `Ch6_2017.aux'.
+
+ (Ch6_2017.tex [118
+
+
+
+]
+Chapter 6.
+[119] <./Nyabilder/fig7-1a.pdf, id=2529, 502.87875pt x 430.60875pt>
+File: ./Nyabilder/fig7-1a.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-1a.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-1a.pdf used on input line 82.
+(pdftex.def)             Requested size: 182.75502pt x 156.49014pt.
+
+<./Nyabilder/fig7-1b.pdf, id=2530, 506.89375pt x 430.60875pt>
+File: ./Nyabilder/fig7-1b.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-1b.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-1b.pdf used on input line 87.
+(pdftex.def)             Requested size: 184.21416pt x 156.49014pt.
+
+<./Nyabilder/fig7-1c.pdf, id=2531, 498.86375pt x 406.51875pt>
+File: ./Nyabilder/fig7-1c.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-1c.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-1c.pdf used on input line 91.
+(pdftex.def)             Requested size: 192.03648pt x 156.49014pt.
+
+<./Nyabilder/fig7-1d.pdf, id=2532, 508.90125pt x 434.62375pt>
+File: ./Nyabilder/fig7-1d.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-1d.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-1d.pdf used on input line 95.
+(pdftex.def)             Requested size: 183.23537pt x 156.49014pt.
+ [120] [121 <./Nyabilder/fig7-1a.pdf> <./Nyabilder/fig7-1b.pdf> <./Nyabilder/fi
+g7-1c.pdf> <./Nyabilder/fig7-1d.pdf>] [122]
+<./Nyabilder/fig7-2ny.pdf, id=2583, 550.055pt x 425.59pt>
+File: ./Nyabilder/fig7-2ny.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-2ny.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-2ny.pdf used on input line 309.
+(pdftex.def)             Requested size: 312.9803pt x 242.1667pt.
+
+<./Nyabilder/gevyura87.pdf, id=2585, 550.055pt x 425.59pt>
+File: ./Nyabilder/gevyura87.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/gevyura87.pdf>
+Package pdftex.def Info: ./Nyabilder/gevyura87.pdf used on input line 346.
+(pdftex.def)             Requested size: 312.9803pt x 242.1667pt.
+ [123 <./Nyabilder/fig7-2ny.pdf>] [124 <./Nyabilder/gevyura87.pdf>] <./Nyabilde
+r/fig7-3a.pdf, id=2614, 550.055pt x 425.59pt>
+File: ./Nyabilder/fig7-3a.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-3a.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-3a.pdf used on input line 432.
+(pdftex.def)             Requested size: 213.39566pt x 165.10922pt.
+
+<./Nyabilder/fig7-3b.pdf, id=2615, 550.055pt x 425.59pt>
+File: ./Nyabilder/fig7-3b.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-3b.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-3b.pdf used on input line 437.
+(pdftex.def)             Requested size: 213.39566pt x 165.10922pt.
+ [125 <./Nyabilder/fig7-3a.pdf> <./Nyabilder/fig7-3b.pdf>] <./Nyabilder/fig7-4a
+.pdf, id=2634, 557.08125pt x 435.6275pt>
+File: ./Nyabilder/fig7-4a.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-4a.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-4a.pdf used on input line 501.
+(pdftex.def)             Requested size: 199.16928pt x 155.7423pt.
+
+<./Nyabilder/fig7-4b.pdf, id=2635, 557.08125pt x 435.6275pt>
+File: ./Nyabilder/fig7-4b.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-4b.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-4b.pdf used on input line 506.
+(pdftex.def)             Requested size: 199.16928pt x 155.7423pt.
+ [126]
+<./Nyabilder/fig5_6.pdf, id=2646, 508.90125pt x 434.62375pt>
+File: ./Nyabilder/fig5_6.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig5_6.pdf>
+Package pdftex.def Info: ./Nyabilder/fig5_6.pdf used on input line 562.
+(pdftex.def)             Requested size: 199.16928pt x 170.09944pt.
+ [127 <./Nyabilder/fig7-4a.pdf> <./Nyabilder/fig7-4b.pdf> <./Nyabilder/fig5_6.p
+df>]
+<./Nyabilder/fig7-5.pdf, id=2667, 557.08125pt x 429.605pt>
+File: ./Nyabilder/fig7-5.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-5.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-5.pdf used on input line 630.
+(pdftex.def)             Requested size: 199.16928pt x 153.58917pt.
+ [128] [129 <./Nyabilder/fig7-5.pdf>]
+<./Nyabilder/fig7-6.pdf, id=2684, 557.08125pt x 435.6275pt>
+File: ./Nyabilder/fig7-6.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig7-6.pdf>
+Package pdftex.def Info: ./Nyabilder/fig7-6.pdf used on input line 717.
+(pdftex.def)             Requested size: 199.16928pt x 155.7423pt.
+ [130 <./Nyabilder/fig7-6.pdf>]
+<./Nyabilder/fig_decluster1b.pdf, id=2694, 513.89592pt x 436.63126pt>
+File: ./Nyabilder/fig_decluster1b.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_decluster1b.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_decluster1b.pdf used on input line 780
+.
+(pdftex.def)             Requested size: 200.92044pt x 170.71652pt.
+
+
+pdfTeX warning: pdflatex.exe (file ./Nyabilder/fig_decluster2b.pdf): PDF inclus
+ion: found PDF version <1.6>, but at most version <1.5> allowed
+<./Nyabilder/fig_decluster2b.pdf, id=2695, 513.89592pt x 436.63126pt>
+File: ./Nyabilder/fig_decluster2b.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_decluster2b.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_decluster2b.pdf used on input line 785
+.
+(pdftex.def)             Requested size: 200.92044pt x 170.71652pt.
+ [131 <./Nyabilder/fig_decluster1b.pdf> <./Nyabilder/fig_decluster2b.pdf>]
+Overfull \hbox (4.84184pt too wide) in paragraph at lines 807--809
+[]\OT1/cmr/m/n/10.95 The plots from the fol-low-ing com-mands are shown in Fig-
+ure [][]6.9[][]. It seems as if \OT1/cmtt/m/n/10.95 threshold
+ []
+
+
+
+pdfTeX warning: pdflatex.exe (file ./Nyabilder/fig_decluster3b.pdf): PDF inclus
+ion: found PDF version <1.6>, but at most version <1.5> allowed
+<./Nyabilder/fig_decluster3b.pdf, id=2714, 504.86217pt x 425.59pt>
+File: ./Nyabilder/fig_decluster3b.pdf Graphic file (type pdf)
+
+<use ./Nyabilder/fig_decluster3b.pdf>
+Package pdftex.def Info: ./Nyabilder/fig_decluster3b.pdf used on input line 849
+.
+(pdftex.def)             Requested size: 312.9803pt x 263.84358pt.
+ [132] [133 <./Nyabilder/fig_decluster3b.pdf>] [134
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [135]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [136]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [137]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [138]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [139]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [140]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [141]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [142])
+[143]
+\openout2 = `kdeTools.aux'.
+
+ (kdeTools.tex [144
+
+
+
+]
+Appendix A.
+[145] <./appendix/kdedemo1f1.pdf, id=2785, 219.82124pt x 177.66376pt>
+File: ./appendix/kdedemo1f1.pdf Graphic file (type pdf)
+
+<use ./appendix/kdedemo1f1.pdf>
+Package pdftex.def Info: ./appendix/kdedemo1f1.pdf used on input line 69.
+(pdftex.def)             Requested size: 223.55391pt x 180.67499pt.
+
+<./appendix/kdedemo1f2.pdf, id=2786, 219.82124pt x 177.66376pt>
+File: ./appendix/kdedemo1f2.pdf Graphic file (type pdf)
+
+<use ./appendix/kdedemo1f2.pdf>
+Package pdftex.def Info: ./appendix/kdedemo1f2.pdf used on input line 74.
+(pdftex.def)             Requested size: 223.55391pt x 180.67499pt.
+
+<./appendix/kdedemo1f3.pdf, id=2787, 219.82124pt x 184.69pt>
+File: ./appendix/kdedemo1f3.pdf Graphic file (type pdf)
+
+<use ./appendix/kdedemo1f3.pdf>
+Package pdftex.def Info: ./appendix/kdedemo1f3.pdf used on input line 79.
+(pdftex.def)             Requested size: 215.04431pt x 180.67499pt.
+ [146] [147 <./appendix/kdedemo1f1.pdf> <./appendix/kdedemo1f2.pdf> <./appendix
+/kdedemo1f3.pdf>]
+<./appendix/rayleightransformedkde.pdf, id=2839, 258.9675pt x 213.79875pt>
+File: ./appendix/rayleightransformedkde.pdf Graphic file (type pdf)
+
+<use ./appendix/rayleightransformedkde.pdf>
+Package pdftex.def Info: ./appendix/rayleightransformedkde.pdf used on input li
+ne 187.
+(pdftex.def)             Requested size: 180.67499pt x 149.16875pt.
+
+<./appendix/rayleighkde.pdf, id=2840, 258.9675pt x 213.79875pt>
+File: ./appendix/rayleighkde.pdf Graphic file (type pdf)
+
+<use ./appendix/rayleighkde.pdf>
+Package pdftex.def Info: ./appendix/rayleighkde.pdf used on input line 191.
+(pdftex.def)             Requested size: 180.67499pt x 149.16875pt.
+
+Overfull \hbox (2.61107pt too wide) in paragraph at lines 185--195
+[][]  [] 
+ []
+
+[148 <./appendix/rayleightransformedkde.pdf> <./appendix/rayleighkde.pdf>])
+[149]
+\openout2 = `standardizedSpectra.aux'.
+
+ (standardizedSpectra.tex [150
+
+
+
+]
+Appendix B.
+<./appendix/qspecvar1.pdf, id=2878, 240.9pt x 196.735pt>
+File: ./appendix/qspecvar1.pdf Graphic file (type pdf)
+
+<use ./appendix/qspecvar1.pdf>
+Package pdftex.def Info: ./appendix/qspecvar1.pdf used on input line 24.
+(pdftex.def)             Requested size: 289.07999pt x 236.1048pt.
+ [151 <./appendix/qspecvar1.pdf>]
+Overfull \hbox (4.32977pt too wide) in paragraph at lines 82--91
+\OT1/cmr/m/n/10.95 The \OT1/cmr/m/sc/10.95 Jon-swap \OT1/cmr/m/n/10.95 spec-tru
+m is iden-ti-cal with the two-parameter Pierson-Moskowitz, Bretschnei-
+ []
+
+[152] [153] [154]) [155]
+\openout2 = `wavemodels.aux'.
+
+ (wavemodels.tex [156
+
+
+
+]
+Appendix C.
+[157] [158]
+<./appendix/spec6comparisonNew.pdf, id=2969, 223.83624pt x 177.66376pt>
+File: ./appendix/spec6comparisonNew.pdf Graphic file (type pdf)
+
+<use ./appendix/spec6comparisonNew.pdf>
+Package pdftex.def Info: ./appendix/spec6comparisonNew.pdf used on input line 1
+52.
+(pdftex.def)             Requested size: 216.81pt x 172.09235pt.
+ [159 <./appendix/spec6comparisonNew.pdf>]) [160]
+\openout2 = `backmatter.aux'.
+
+
+No file backmatter.tex.
+(wafomanual2017.bbl (wafomanual2017.brf)
+\tf@brf=\write12
+\openout12 = `wafomanual2017.brf'.
+
+ [161
+
+
+
+
+] [162] [163] [164] [165] [166])
+[167] [168
+
+] (wafomanual2017.cnd [169
+
+] [170]) (wafomanual2017.end [171
+
+
+]
+Overfull \hbox (1.20462pt too wide) in paragraph at lines 108--109
+[]\OT1/cmr/m/n/10.95 maximum prod-uct of spac-ings (MPS), [][]126[][] 
+ []
+
+
+Overfull \hbox (4.55165pt too wide) in paragraph at lines 130--131
+[]\OT1/cmr/m/n/10.95 Peaks Over Thresh-old anal-y-sis, POT, [][]128[][]--
+ []
+
+
+Overfull \hbox (5.44876pt too wide) in paragraph at lines 175--176
+[]| \OT1/cmr/m/n/10.95 com-pu-ta-tion from co-vari-ance func-tion,
+ []
+
+[172] [173])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 212.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 212.
+ (wafomanual2017.aux (foreword.aux) (nomencl.aux) (Ch1_2017.aux)
+(Ch2_2017.aux) (Ch3_2017.aux) (Ch4_2017.aux) (Ch5_2017.aux) (Ch6_2017.aux)
+(kdeTools.aux) (standardizedSpectra.aux) (wavemodels.aux) (backmatter.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 212.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 212.
+Package rerunfilecheck Info: File `wafomanual2017.out' has not changed.
+(rerunfilecheck)             Checksum: 2EAA569AFF213D439A46B04AE4FCC40C;9367.
+Package rerunfilecheck Info: File `wafomanual2017.brf' has not changed.
+(rerunfilecheck)             Checksum: 7F7167B8DB20EFA418DEA4C375A8EC14;10026.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 212.
+ )
+(\end occurred inside a group at level 2)
+
+### simple group (level 2) entered at line 1324 ({)
+### simple group (level 1) entered at line 657 ({)
+### bottom level 
+Here is how much of TeX's memory you used:
+ 10909 strings out of 493328
+ 175056 string characters out of 3139096
+ 273573 words of memory out of 3000000
+ 13307 multiletter control sequences out of 15000+200000
+ 29287 words of font info for 115 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 37i,18n,48p,676b,992s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmb
+x10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Progr
+am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.p
+fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program F
+iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmsl10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmsl12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.p
+fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/P
+rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Program F
+iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti1
+2.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/latxfont/lasy10.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on wafomanual2017.pdf (195 pages, 3615456 bytes).
+PDF statistics:
+ 3890 PDF objects out of 4296 (max. 8388607)
+ 651 named destinations out of 1000 (max. 500000)
+ 1534 words of extra memory for PDF output out of 10000 (max. 10000000)
+

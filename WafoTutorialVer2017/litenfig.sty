@@ -1,0 +1,14 @@
+\long\def\@makecaption#1#2{
+ \vskip 10pt 
+{\it
+ \setbox\@tempboxa\hbox{{\bf #1:} #2}
+ \ifdim \wd\@tempboxa >\hsize 
+\begin{description}
+\setlength{\leftmargin}{30mm}
+\item[#1:] #2
+\end{description}
+%\par 
+\else \hbox
+to\hsize{\hfil\box\@tempboxa\hfil} 
+ \fi}
+}

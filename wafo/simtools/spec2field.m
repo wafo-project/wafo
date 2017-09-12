@@ -41,6 +41,7 @@ if ~isfield(Spec,'g')
 end
 if ~isfield(Spec,'h')
     h=Inf;
+    
 else
     depth=Spec.h;
     Spec.h=Inf;

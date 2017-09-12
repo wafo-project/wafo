@@ -1,0 +1,582 @@
+\begin{thebibliography}{10}
+
+\bibitem{AbergLindgren2008}
+S.~\AA{}berg and G.~Lindgren.
+\newblock {Height distribution of stochastic Lagrange ocean waves}.
+\newblock {\em Probabilistic Engineering Mechanics}, 23(4):359--363, 2008.
+
+\bibitem{Aberg2007diss}
+S.~{\AA}berg.
+\newblock {\em Applications of {R}ice's formula in oceanographic and
+  environmental problems}.
+\newblock PhD thesis, {Math. Stat., Center for Math. Sci., Lund Univ., Sweden},
+  2007.
+
+\bibitem{AbergRychlikLeadbetter2008}
+S.~{\AA}berg, I.~Rychlik, and M.~R. Leadbetter.
+\newblock Palm distributions of wave characteristics in encountering seas.
+\newblock {\em Ann. Appl. Probab.}, 18:1059--1084, 2008.
+
+\bibitem{AilliotMonbet2012}
+P.~Ailliot and V.~Monbet.
+\newblock Markov-swithching autoregressive models for wind time series.
+\newblock {\em Eniviron. Modell. Sorftw.}, 30:92--101, 2012.
+
+\bibitem{AmbartzumianEtal1998Multinormal}
+A.~Ambartzumian, A.~Der~Kiureghian, V.~Ohanian, and H.~Sukiasian.
+\newblock Multinormal probability by sequential conditioned importance
+  sampling: Theory and application.
+\newblock {\em {Prob. Eng. Mech.}}, 13(4):299--308, 1998.
+
+\bibitem{AzaisWschebor2009}
+J.-M. Aza{\" i}s and M.~Wschebor.
+\newblock {\em Level sets and extrema of random processes and fields}.
+\newblock John Wiler and Sons, Hoboken, 2009.
+
+\bibitem{BaxevaniEtal2003Velocities}
+A.~Baxevani, K.~Podg{\'o}rski, and I.~Rychlik.
+\newblock Velocities for moving random surfaces.
+\newblock {\em {Prob. Eng. Mech.}}, 18(3):251--271, 2003.
+
+\bibitem{BaxevaniRychlik2006}
+A.~Baxevani and I.~Rychlik.
+\newblock Maxima for {G}aussian seas.
+\newblock {\em {Ocean Eng.}}, 33:895--911, 2006.
+
+\bibitem{BeardahBaxter1996}
+C.~Beardah and M.~Baxter.
+\newblock {MATLAB} routines for kernel density estimation and the graphical
+  representation of archaeological data.
+\newblock {\em Analecta Praehistorica Leidensia}, pages 179--184, 1996.
+
+\bibitem{Borg1992XS}
+S.~Borg.
+\newblock Xs - a statistical program package in splus for extreme-value
+  analysis.
+\newblock Dept. of Mathematical Statistics, Lund University, 1992.
+
+\bibitem{BrodtkorbEtal2000Wafo}
+P.~Brodtkorb, P.~Johannesson, G.~Lindgren, I.~Rychlik, J.~Ryd{\'e}n, and
+  E.~Sj{\"o}.
+\newblock {WAFO} - a {M}atlab toolbox for the analysis of random waves and
+  loads.
+\newblock In {\em Proc. 10'th Int. Offshore and Polar Eng. Conf., ISOPE,
+  Seattle, USA}, volume~3, pages 343--350, 2000.
+
+\bibitem{BrodtkorbEtal1999Joint}
+P.~Brodtkorb, D.~Myrhaug, and H.~Rue.
+\newblock Joint distribution of wave height and wave crest velocity from
+  reconstructed data.
+\newblock In {\em Proc. 9'th Int. Offshore and Polar Eng. Conf., ISOPE, Brest,
+  France}, volume III, pages 66--73, June 1999.
+
+\bibitem{BrodtkorbEtal2000JointICCE}
+P.~Brodtkorb, D.~Myrhaug, and H.~Rue.
+\newblock Joint distributions of wave height and wave steepness parameters.
+\newblock In {\em Proc. 27'th Int. Conf. on Coastal Eng., ICCE, Sydney,
+  Australia}, volume~1, pages 545--558, July 2000.
+\newblock Paper No. 162.
+
+\bibitem{BrodtkorbEtal2001Joint}
+P.~Brodtkorb, D.~Myrhaug, and H.~Rue.
+\newblock Joint distribution of wave height and wave crest velocity from
+  reconstructed data with application to ringing.
+\newblock {\em {Int. J. Offshore and Polar Eng.}}, 11(1):23--32, March 2001.
+
+\bibitem{Brodtkorb2004Probability}
+P.~A. Brodtkorb.
+\newblock {\em The Probability of Occurrence of Dangerous Wave Situations at
+  Sea.}
+\newblock PhD thesis, { {N}orwegian Univ. of Sci. and Technology, NTNU,
+  Trondheim, Norway}, 2004.
+\newblock Dr. Ing. thesis.
+
+\bibitem{Brodtkorb2006Evaluating}
+P.~A. Brodtkorb.
+\newblock Evaluating nearly singular multinormal expectations with application
+  to wave distributions.
+\newblock {\em Methodology and Computing in Applied Probability}, 8:65--91,
+  2006.
+
+\bibitem{BuowsEtal1985Similarity}
+E.~Buows, H.~Gunther, W.~Rosenthal, and C.~Vincent.
+\newblock Similarity of the wind wave spectrum in finite depth water: 1
+  spectral form.
+\newblock {\em {J. Geophys. Res.}}, 90(C1):975--986, 1985.
+
+\bibitem{CavanieEtal1976Statistical}
+A.~Cavani\'e, M.~Arhan, and R.~Ezraty.
+\newblock A statistical relationship between individual heights and periods of
+  storm waves.
+\newblock In {\em Proc. 1'st Int. Conf. on Behaviour of Offshore Structures,
+  BOSS, Trondheim, Norway}, pages 354--360, 1976.
+
+\bibitem{Coles2001}
+S.~Coles.
+\newblock {\em An Introduction to Statistical Modeling of Extreme Values}.
+\newblock Springer-Verlag, London, 2001.
+
+\bibitem{DietrichAndNewsam1997Fast}
+C.~R. Dietrich and G.~N. Newsam.
+\newblock Fast and exact simulation of stationary {G}aussian processes through
+  circulant embedding of the covariance matrix.
+\newblock {\em {{SIAM} J. Sci. Comp.}}, 18(4):1088--1107, July 1997.
+
+\bibitem{FrendahlEtal1993Fatigue}
+M.~Frendahl, G.~Lindgren, and I.~Rychlik.
+\newblock Fatigue analysis toolbox, 1993.
+\newblock {Dept. of Math. Stat., Lund Univ., Sweden}.
+
+\bibitem{FrendahlAndRychlik1993Rainflow}
+M.~Frendahl and I.~Rychlik.
+\newblock Rainflow analysis: Markov method.
+\newblock {\em {Int. J. Fatigue}}, 15:265--272, 1993.
+
+\bibitem{Genz1992Numerical}
+A.~Genz.
+\newblock Numerical computation of multivariate normal probabilities.
+\newblock {\em {J. Comp. Graph. Stat.}}, 1:141--149, 1992.
+
+\bibitem{GenzAndKwong2000Numerical}
+A.~Genz and K.-S. Kwong.
+\newblock Numerical evaluation of singular multivariate normal distributions.
+\newblock {\em {J. Stat. Comp. Simul.}}, 68:1--21, 2000.
+
+\bibitem{Hamilton1989}
+J.~Hamilton.
+\newblock A new approach to the economic analysis analysis of nonstationary
+  time series and the business cycle.
+\newblock {\em Econometrica}, 57:357--384, 1989.
+
+\bibitem{HasselmannEtal1973Measurements}
+K.~Hasselmann, T.~Barnett, E.~Buows, H.~Carlson, D.~Carthwright, K.~Enke,
+  J.~Ewing, H.~Gienapp, D.~Hasselmann, P.~Kruseman, A.~Meerburg, A.~M{\"u}ller,
+  D.~Olbers, K.~Richter, W.~Sell, and H.~Walden.
+\newblock Measurements of wind-wave growth and swell decay during the {J}oint
+  {N}orth {S}ea {W}ave {P}roject.
+\newblock {\em Deutschen Hydrografischen Zeitschrift}, 12:9--95, 1973.
+
+\bibitem{HaverAndNyhus1986Wave}
+S.~Haver and K.~A. Nyhus.
+\newblock A wave climate description for long term response calculations.
+\newblock In {\em Proc. 5'th Int. Symp. on Offshore Mech. and Arctic Eng.,
+  OMAE, Tokyo, Japan}, volume~4, pages 27--34, 1986.
+
+\bibitem{HoskingAndWallis1987Parameter}
+J.~Hosking and J.~Wallis.
+\newblock Parameter and quantile estimation for the generalized pareto
+  distribution.
+\newblock {\em Technometrics}, 1987.
+
+\bibitem{HoskingEtal1985Estimation}
+J.~Hosking, J.~Wallis, and E.~Wood.
+\newblock Estimation of the generalized extreme-value distribution by the
+  method of probability-weighted moments.
+\newblock {\em Technometrics}, 1985.
+
+\bibitem{LindgrenPrevosto2017}
+In Wafo module {\tt lagrange}.
+\newblock {\em Wafo Lagrange -- a Wafo module for analysis of random Lagrange
+  waves}, 2017.
+
+\bibitem{Johannesson1997Matlab}
+P.~Johannesson.
+\newblock {\em Matlab Toolbox: Rainflow Cycles for Switching Processes, V.\
+  1.0}.
+\newblock Department of Mathematical Statistics, Lund Institute of Technology,
+  1997.
+\newblock TFMS--7008.
+
+\bibitem{Johannesson1998Rainflow}
+P.~Johannesson.
+\newblock Rainflow cycles for switching processes with {M}arkov structure.
+\newblock {\em {Prob. Eng. Inform. Sci.}}, 12(2):143--175, 1998.
+
+\bibitem{Johannesson1999Rainflow}
+P.~Johannesson.
+\newblock {\em Rainflow Analysis of Switching {M}arkov Loads}.
+\newblock PhD thesis, {Math. Stat., Center for Math. Sci., Lund Univ., Sweden},
+  1999.
+
+\bibitem{KrogstadAndBarstow1999Directional}
+H.~Krogstad and S.~Barstow.
+\newblock Directional distributions in ocean wave spectra.
+\newblock In {\em Proc. 9'th Int. Offshore and Polar Eng. Conf., ISOPE, Brest,
+  France}, volume III, pages 76--89, June 1999.
+
+\bibitem{KrogstadEtal1999Methods}
+H.~Krogstad, J.~Wolf, S.~Thompson, and L.~Wyatt.
+\newblock Methods for intercomparison of wave measurements.
+\newblock {\em {Coastal Eng.}}, 37:235--257, 1999.
+
+\bibitem{Langley1987Statistical}
+R.~Langley.
+\newblock A statistical analysis of non-linear random waves.
+\newblock {\em {Ocean Eng.}}, 14(5):389--407, 1987.
+
+\bibitem{Lindgren2006}
+G.~Lindgren.
+\newblock {Slepian models for the stochastic shape of individual Lagrange sea
+  waves}.
+\newblock {\em Advances in Applied Probability}, 38(2):430--450, 2006.
+
+\bibitem{Lindgren2009}
+G.~Lindgren.
+\newblock {Exact asymmetric slope distributions in stochastic Gauss--{}Lagrange
+  ocean waves}.
+\newblock {\em Applied Ocean Research}, 31(1):65--73, 2009.
+
+\bibitem{Lindgren2010a}
+G.~Lindgren.
+\newblock {Slope distribution in front-back asymmetric stochastic Lagrange time
+  waves}.
+\newblock {\em Advances in Applied Probability}, 42(2):489--508, 2010.
+
+\bibitem{Lindgren2013}
+G.~Lindgren.
+\newblock {\em Stationary stochastic processes -- theory and applications}.
+\newblock CRC Press, Boca Raton, 2013.
+
+\bibitem{Lindgren2017}
+G.~Lindgren.
+\newblock Gaussian integrals and {R}ice series in crossing distributions -- how
+  to compute statistical distributions of excursions, extremes, oscillations
+  and other topographical features of {G}aussian processes, May 2017.
+\newblock submitted.
+
+\bibitem{LindgrenAberg2009}
+G.~Lindgren and S.~\AA{}berg.
+\newblock {First Order Stochastic Lagrange Model for Asymmetric Ocean Waves}.
+\newblock {\em Journal of Offshore Mechanics and Arctic Engineering},
+  131(3):031602--1--031602--8, 2009.
+
+\bibitem{Lindgrenetal2010}
+G.~Lindgren, D.~Bolin, and F.~Lindgren.
+\newblock {Non-traditional stochastic models for ocean waves}.
+\newblock {\em The European Physical Journal Special Topics}, 185:209--224,
+  2010.
+
+\bibitem{LindgrenAndBroberg2004Cycle}
+G.~Lindgren and K.~Broberg.
+\newblock Cycle range distributions for {G}aussian processes exact and
+  approximative results.
+\newblock {\em Extremes}, 7(1):69, 2004.
+
+\bibitem{LindgrenRootzenSandsten2014}
+G.~Lindgren, H.~Rootz{\' e}n, and M.~Sandsten.
+\newblock {\em Stationary stochastic processes for scientists and engineers}.
+\newblock CRC Press, Boca Raton, 2014.
+
+\bibitem{LindgrenAndRychlik1991Slepian}
+G.~Lindgren and I.~Rychlik.
+\newblock Slepian models and regression approximations in crossing and extreme
+  value theory.
+\newblock {\em {Int. Stat. Rev.}}, 59:195--225, 1991.
+
+\bibitem{LindgrenEtal1998Relation}
+G.~Lindgren, I.~Rychlik, and M.~Prevosto.
+\newblock The relation between wave length and wave period distributions in
+  random {G}aussian waves.
+\newblock {\em {Int. J. Offshore and Polar Eng.}}, 8(4):258--264, December
+  1998.
+
+\bibitem{Longuet-Higgins1975Joint}
+M.~Longuet-Higgins.
+\newblock On the joint distribution wave periods and amplitudes of sea waves.
+\newblock {\em {J. Geophys. Res.}}, 80:2688--2694, 1975.
+
+\bibitem{Longuet-Higgins1983Joint}
+M.~Longuet-Higgins.
+\newblock On the joint distribution wave periods and amplitudes in a random
+  wave field.
+\newblock In {\em Proc. R. Soc.}, volume A389, pages 24--258., 1983.
+
+\bibitem{Machado2003Probability}
+U.~Machado.
+\newblock Probability density functions for nonlinear random waves and
+  responses.
+\newblock {\em {Ocean Eng.}}, 3(8):1027--1050, 2003.
+
+\bibitem{MachadoAndRychlik2003Wave}
+U.~Machado and I.~Rychlik.
+\newblock Wave statistics in nonlinear random sea.
+\newblock {\em Extremes}, 6(6):125--146, 2003.
+
+\bibitem{MarthinsenAndWinterstein1992Skewness}
+T.~Marthinsen and S.~Winterstein.
+\newblock On the skewness of random surface waves.
+\newblock In {\em Proc. 2'nd Int. Offshore and Polar Eng. Conf., ISOPE, San
+  Francisco, USA}, volume III, pages 472--478, 1992.
+
+\bibitem{Massel1996Ocean}
+S.~R. Massel.
+\newblock {\em Ocean Surface Waves: Their Physics and Prediction}, volume~11 of
+  {\em Advances on ocean engineering}.
+\newblock World Scientific, 1996.
+
+\bibitem{MatsuishiAndEndo1968Fatigue}
+M.~Matsuishi and T.~Endo.
+\newblock Fatigue of metals subject to varying stress.
+\newblock Paper presented to Japan Soc. Mech. Engrs, Jukvoka, Japan, 1968.
+
+\bibitem{Mercardier2006}
+C.~Mercardier.
+\newblock Numerical bounds for the distribution of maxima of some one- and
+  two-parameter gaussian processes.
+\newblock {\em {Adv. Appl. Probab.}}, 38:149--170, 2006.
+
+\bibitem{NestegardAndStokka1995Third}
+A.~Nesteg\aa{}rd and T.~Stokka.
+\newblock A third-order random wave model.
+\newblock In {\em Proc. 5'th Int. Offshore and Polar Eng. Conf., ISOPE, The
+  Hague, The Netherlands}, volume III, pages 136--142, June 1995.
+
+\bibitem{OchiAndAhn1994NonGaussian}
+M.~Ochi and K.~Ahn.
+\newblock Non-{G}aussian probability distribution of coastal waves.
+\newblock In {\em Proc. 24'th Int. Conf. on Coastal Eng., ICCE, Kobe, Japan},
+  volume~1, pages 482--496, 1994.
+
+\bibitem{OchiAndAhn1994Probability}
+M.~Ochi and K.~Ahn.
+\newblock Probability distribution applicable to non-{G}aussian random
+  processes.
+\newblock {\em {Prob. Eng. Mech.}}, 9:255--264, 1994.
+
+\bibitem{OchiAndHubble1976Six}
+M.~Ochi and E.~Hubble.
+\newblock On six parameter wave spectra.
+\newblock In {\em Proc. 15'th Int. Conf. on Coastal Eng., ICCE}, volume~1,
+  pages 301--328, 1976.
+
+\bibitem{Ochi1998Ocean}
+M.~K. Ochi.
+\newblock {\em Ocean Waves, The Stochastic Approach}.
+\newblock Ocean Tech. Series 6. Campridge University Press, 1998.
+
+\bibitem{Pickands1975Statistical}
+J.~Pickands.
+\newblock Statistical inference using extreme order statistics.
+\newblock {\em Annals of Statistics}, 3:119--131, 1975.
+
+\bibitem{PodgorskiRychlik2016SizeOfWaves}
+K.~Podg{\'o}rski and I.~Rychlik.
+\newblock Spatial size of waves.
+\newblock {\em Marine Structures}, 50:55--71, 2016.
+
+\bibitem{PodgorskiEtal2000Exact}
+K.~Podg{\'o}rski, I.~Rychlik, and U.~Machado.
+\newblock Exact distributions for apparent waves in irregular seas.
+\newblock {\em {Ocean Eng.}}, 27(1):979--1016, 2000.
+
+\bibitem{PodgorskiEtal2000How}
+K.~Podg{\'o}rski, I.~Rychlik, J.~Ryd{\'e}n, and E.~Sj{\"o}.
+\newblock How big are the big waves?
+\newblock {\em {Int. J. Offshore and Polar Eng.}}, 10:161--169, 2000.
+
+\bibitem{PodgorskiEtal2000Statistics}
+K.~Podg{\'o}rski, I.~Rychlik, and E.~Sj{\"o}.
+\newblock Statistics for velocities of {G}aussian waves.
+\newblock {\em {Int. J. Offshore and Polar Eng.}}, 10(2):91--98, 2000.
+
+\bibitem{PrescottAndWalden1980Maximum}
+P.~Prescott and A.~Walden.
+\newblock Maximum likelihood estimation of the parameters of the generalized
+  extreme-value distribution.
+\newblock {\em Biometrika}, 67:723--724, 1980.
+
+\bibitem{RodriguezAndSoares2000Wave}
+G.~Rodriguez and C.~{Guedes Soares}.
+\newblock Wave period distribution in mixed sea states.
+\newblock In {\em Proc. ETCE/OMAE2000 Joint Conf. Energy for the New millenium,
+  New Orleans, LA}, 2000.
+
+\bibitem{Rychlik1987New}
+I.~Rychlik.
+\newblock A new definition of the rainflow cycle counting method.
+\newblock {\em {Int. J. Fatigue}}, 9:119--121, 1987.
+
+\bibitem{Rychlik1987Regression}
+I.~Rychlik.
+\newblock Regression approximations of wavelength and amplitude distributions.
+\newblock {\em {Adv. Appl. Prob.}}, 19:396--430, 1987.
+
+\bibitem{Rychlik1988Rainflow}
+I.~Rychlik.
+\newblock {R}ain-{F}low-{C}ycle distribution for ergodic load processes.
+\newblock {\em {{SIAM} J. Appl. Math.}}, 48:662--679, 1988.
+
+\bibitem{Rychlik1992Confidence}
+I.~Rychlik.
+\newblock Confidence bands for linear regressions.
+\newblock {\em {Comm. Stat. Simul.}}, 21(2):333--352, 1992.
+
+\bibitem{Rychlik1995Simulation}
+I.~Rychlik.
+\newblock Simulation of load sequences from rainflow matrices: Markov method.
+\newblock Stat. Research Report~29, Dept. of Mathematical Statistics, Lund,
+  Sweden, 1995.
+
+\bibitem{RychlikEtal1997Modelling}
+I.~Rychlik, P.~Johannesson, and M.~R. Leadbetter.
+\newblock Modelling and statistical analysis of ocean-wave data using
+  transformed {G}aussian process.
+\newblock {\em Marine Structures, Design, Construction and Safety}, 10:13--47,
+  1997.
+
+\bibitem{RyclikAndLeadbettter1997Analysis}
+I.~Rychlik and M.~R. Leadbetter.
+\newblock Analysis of ocean waves by crossing- and oscillation-intensities.
+\newblock In {\em Proc. 7'th Int. Offshore and Polar Eng. Conf., ISOPE,
+  Honolulu, USA}, 1997.
+
+\bibitem{RychlikAndLindgren1993Crossreg}
+I.~Rychlik and G.~Lindgren.
+\newblock {CROSSREG} -- a technique for first passage and wave density
+  analysis.
+\newblock {\em {Prob. Eng. Inform. Sci.}}, 7:125--148, 1993.
+
+\bibitem{RychlikAndLindgren1995Wave}
+I.~Rychlik and G.~Lindgren.
+\newblock Wave analysis toolbox - a tutorial.
+\newblock \url{http://www.maths.lth.se/matstat/staff/georg/wat/watinfo.html},
+  1995.
+\newblock {Dept. of Math. Stat., Lund Univ., Sweden}.
+
+\bibitem{RychlikLindgrenLin1995}
+I.~Rychlik, G.~Lindgren, and Y.~Lin.
+\newblock {Markov based correlations of damage cycles in {G}aussian and
+  non-{G}aussian loads}.
+\newblock {\em {Prob. Eng. Mech.}}, 10(2):103--115, 1995.
+
+\bibitem{Schuster}
+A.~Schuster.
+\newblock On the investigation of hidden periodicities with application to a
+  supposed 26 day period of meteorological phenomena.
+\newblock {\em Terrestrial Magnetism and Atmospheric Electricity}, 3:13--41,
+  1898.
+
+\bibitem{Schwab:2000:MSC:369545.369555}
+M.~Schwab, M.~Karrenbach, and J.~Claerbout.
+\newblock Making scientific computations reproducible.
+\newblock {\em Computing in Science and Engg.}, 2(6):61--67, Nov. 2000.
+
+\bibitem{Silverman1986Density}
+B.~W. Silverman.
+\newblock {\em Density Estimation for Statistics and Data Analysis}.
+\newblock Number~26 in {Monographs on Stat. and Appl. Prob.} Chapman and Hall,
+  1986.
+
+\bibitem{Sjo2000Crossing}
+E.~Sj{\"o}.
+\newblock {\em Crossings and Maxima in {G}aussian Fields and Seas.}
+\newblock PhD thesis, {Math. Stat., Center for Math. Sci., Lund Univ., Sweden},
+  2000.
+\newblock ISBN91-628-4299-4.
+
+\bibitem{Sjo2001Simultaneous}
+E.~Sj{\"o}.
+\newblock Simultaneous distributions of space-time wave characteristics in a
+  {G}aussian sea.
+\newblock {\em Extremes}, 3:263--288, 2001.
+
+\bibitem{Stansberg1994SecondOrder}
+C.~T. Stansberg.
+\newblock Second-order random wave kinematics. description and testing of a
+  numerical estimation method.
+\newblock Technical Report No. 513041.01.01, MARINTEK, SINTEF Group, Trondheim,
+  Norway, May 1994.
+
+\bibitem{Tayfun1981Breaking}
+M.~A. Tayfun.
+\newblock Breaking limited wave heights.
+\newblock {\em {J. Waterway, Port, Coastal and Ocean Div., {ASCE}}},
+  107(2):59--69, May 1981.
+
+\bibitem{Tayfun1990Distribution}
+M.~A. Tayfun.
+\newblock Distribution of large wave heights.
+\newblock {\em {J. Waterway, Port, Coastal and Ocean Eng., {ASCE}}},
+  116(6):686--707, November/December 1990.
+
+\bibitem{Torsethaugen1993Two}
+K.~Torsethaugen.
+\newblock A two peak wave spectral model.
+\newblock In {\em Proc. 12'th Int. Conf. on Offshore Mech. and Arctic Eng.,
+  OMAE, Glasgow, Scotland}, 1993.
+
+\bibitem{Torsethaugen1994Model}
+K.~Torsethaugen.
+\newblock Model for doubly peaked wave spectrum. {L}ifetime and fatigue
+  strength estimation implications.
+\newblock Int. Workshop on Floating structures in Coastal zone, Hiroshima,
+  November 1994.
+
+\bibitem{Torsethaugen1996Model}
+K.~Torsethaugen.
+\newblock Model for doubly peaked wave spectrum.
+\newblock Technical Report No. STF22 A96204, {{SINTEF} Civ. and Env. Eng.,
+  Trondheim, Norway}, 1996.
+
+\bibitem{TorsethaugenEtal1984Characteristica}
+K.~Torsethaugen et~al.
+\newblock Characteristica for extreme sea states on the {N}orwegian continental
+  shelf.
+\newblock Technical Report No. STF60 A84123, Norwegian Hydrodyn. Lab.,
+  Trondheim, 1984.
+
+\bibitem{Tucker1993recommended}
+M.~Tucker.
+\newblock Recommended standard for wave data sampling and near-real-time
+  processing.
+\newblock {\em {Ocean Eng.}}, 20(5):459--474, 1993.
+
+\bibitem{WAFO-group2000Wafo}
+WAFO-group.
+\newblock {WAFO} - a matlab toolbox for analysis of random waves and loads - a
+  tutorial.
+\newblock \url{http://www.maths.lth.se/matstat/wafo/}, 2000.
+\newblock {Math. Stat., Center for Math. Sci., Lund Univ., Sweden}.
+
+\bibitem{WandAndJones1995Kernel}
+M.~Wand and M.~Jones.
+\newblock {\em Kernel Smoothing}.
+\newblock Number~60 in {Monographs on Stat. and Appl. Prob.} Chapman and Hall,
+  1995.
+
+\bibitem{Winterstein1985Nonnormal}
+S.~Winterstein.
+\newblock Nonnormal responses and fatigue damage.
+\newblock {\em {J. Eng. Mech., {ASCE}}}, 111(10):1291--1295, 1985.
+
+\bibitem{Winterstein1988Nonlinear}
+S.~Winterstein.
+\newblock Nonlinear vibration models for extremes and fatigue.
+\newblock {\em {J. Eng. Mech., {ASCE}}}, 114(10):1772--1790, 1988.
+
+\bibitem{WintersteinAndJha1995Random}
+S.~Winterstein and A.~Jha.
+\newblock Random models of second order waves and local wave statistics.
+\newblock In {\em Proc. 10'th Int. Eng. Mech. Speciality Conf., ASCE}, pages
+  1171--1174, 1995.
+
+\bibitem{WintersteinEtal1994Springing}
+S.~Winterstein, T.~Ude, and G.~Kleiven.
+\newblock Springing and slow-drift responses: Predicted extremes and fatigue
+  vs. simulation.
+\newblock In {\em Proc. 7'th Int. Behaviour of Offshore Structures, BOSS},
+  volume~3, pages 1--15, 1994.
+
+\bibitem{Wist2003Statistical}
+H.~T. Wist.
+\newblock {\em Statistical Properties of Successive Ocean Wave Parameters}.
+\newblock PhD thesis, { {N}orwegian Univ. of Sci. and Technology, NTNU,
+  Trondheim, Norway}, 2003.
+\newblock Dr. Ing. thesis,.
+
+\bibitem{Young1999Wind}
+I.~Young.
+\newblock Wind generated ocean waves.
+\newblock {\em Elsevier Ocean Engineering Book Series}, 2:239, 1999.
+
+\end{thebibliography}

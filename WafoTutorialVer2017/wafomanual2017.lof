@@ -1,0 +1,133 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Example of simulated wave profile}}{8}{figure.caption.24}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Example of estimated spectrum}}{9}{figure.caption.25}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Wave period, $T_{t}$, distribution}}{10}{figure.caption.26}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Example of directional spectrum}}{11}{figure.caption.27}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Gaussian sea surface, frequency independent spreading}}{12}{figure.caption.28}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Gaussian sea surface, frequency dependent spreading}}{13}{figure.caption.29}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Intensity of rainflow cycles}}{14}{figure.caption.30}
+\contentsline {figure}{\numberline {1.8}{\ignorespaces Water level in the Japan Sea}}{15}{figure.caption.31}
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Extreme value analysis of {\tt yura87}}}{16}{figure.caption.32}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Example of crossing spectrum}}{21}{figure.caption.33}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Plotting sea data and local turning points}}{22}{figure.caption.34}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Non-smoothed spectrum of {\tt sea.dat}}}{23}{figure.caption.35}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Spectra of {\tt sea.dat} with varying degree of smoothing}}{26}{figure.caption.36}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces ACF computed from spectra of {\tt sea.dat} with smoothing}}{27}{figure.caption.37}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{27}{figure.caption.37}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{27}{figure.caption.37}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Comparison of data transformations}}{30}{figure.caption.38}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Simulation technique to test if a stochastic process is Gaussian}}{30}{figure.caption.39}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Normal probability plot}}{31}{figure.caption.40}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Example of directional spectra}}{32}{figure.caption.41}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Comparing different forms of spectra}}{34}{figure.caption.42}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{34}{figure.caption.42}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{34}{figure.caption.42}
+\contentsline {figure}{\numberline {2.11}{\ignorespaces {\sc Jonswap} spectrum compared with spectrum on finite depth}}{34}{figure.caption.43}
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Transformation computed from reconstructed signal}}{36}{figure.caption.44}
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Two minutes of simulated sea data}}{37}{figure.caption.45}
+\contentsline {figure}{\numberline {2.14}{\ignorespaces Comparison between spectra of {\tt sea.dat}}}{38}{figure.caption.46}
+\contentsline {figure}{\numberline {2.15}{\ignorespaces Gaussian simulated and transformed signals}}{39}{figure.caption.47}
+\contentsline {figure}{\numberline {2.16}{\ignorespaces Switching ARMA-process with Markov regime process.\relax }}{41}{figure.caption.48}
+\contentsline {figure}{\numberline {2.17}{\ignorespaces Directional spectrum {\tt demospec}}}{42}{figure.caption.49}
+\contentsline {figure}{\numberline {2.18}{\ignorespaces Three aspects of Gaussian wave field}}{43}{figure.caption.50}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Definition of wave parameters}}{47}{figure.caption.51}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Kernel estimate of the crest period density}}{49}{figure.caption.52}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Reconstructing the highest wave in {\tt sea.dat}}}{51}{figure.caption.53}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{51}{figure.caption.53}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{51}{figure.caption.53}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Comparing different crest height models}}{53}{figure.caption.54}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{53}{figure.caption.54}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{53}{figure.caption.54}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Kernel estimate of the joint density of crest period and crest height}}{54}{figure.caption.55}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Longuet-Higgins model for joint pdf of crest period and height}}{56}{figure.caption.57}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{56}{figure.caption.57}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{56}{figure.caption.57}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Joint density of crest period and crest height by Cavani\'e et al}}{57}{figure.caption.59}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{57}{figure.caption.59}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{57}{figure.caption.59}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Density of crest period {\tt Tc} and crest length {\tt Lc}}}{71}{figure.caption.62}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{71}{figure.caption.62}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{71}{figure.caption.62}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Cumulative distribution for crest height Ac}}{74}{figure.caption.66}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Density and cumulative distribution for {\tt Lc} with directional spreading}}{75}{figure.caption.67}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Comparison of crest length densities}}{77}{figure.caption.68}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{77}{figure.caption.68}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{77}{figure.caption.68}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Estimated sea spectrum}}{78}{figure.caption.69}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Estimated and theoretical density of crest periods in {\tt sea.dat}}}{80}{figure.caption.70}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{80}{figure.caption.70}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{80}{figure.caption.70}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Densities of period {\tt Tu}}}{81}{figure.caption.71}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{81}{figure.caption.71}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{81}{figure.caption.71}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Location of Gullfaks C platform and estimated spectrum}}{82}{figure.caption.72}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{82}{figure.caption.72}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{82}{figure.caption.72}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Estimated density of crest position and height compared with data}}{85}{figure.caption.73}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{85}{figure.caption.73}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{85}{figure.caption.73}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Joint density of {\tt Tc} and {\tt Ac} compared with Longuet-Higgins density}}{86}{figure.caption.74}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{86}{figure.caption.74}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{86}{figure.caption.74}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Joint density of maximum and minimum for Gullfaks\nobreakspace {}C data}}{88}{figure.caption.75}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Pdf of stillwater-separated min-to-max values for Gullfaks\nobreakspace {}C data}}{89}{figure.caption.76}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{89}{figure.caption.76}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{89}{figure.caption.76}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Definition of the rainflow cycle as given by Rychlik}}{96}{figure.caption.77}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces General principle of a Markov transition count}}{99}{figure.caption.78}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Level crossing intensity for {\tt sea.dat}\relax }}{100}{figure.caption.79}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Rainflow and min-max cycle plots for {\tt sea.dat}}}{101}{figure.caption.80}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces min-max and rainflow cycle distributions for {\tt sea.dat}.\relax }}{101}{figure.caption.81}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Simulated Markov sequence of turning points}}{102}{figure.caption.83}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Hermite transformed wave data and rainflow filtered turning points}}{104}{figure.caption.85}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Rainflow cycles and rainflow filtered rainflow cycles}}{104}{figure.caption.86}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Theoretical min-max and rainflow matrix for test Markov sequence}}{105}{figure.caption.88}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Observed and theoretical rainflow matrix for test Markov sequence}}{106}{figure.caption.89}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Smoothed observed and rainflow matrix for test Markov sequence}}{107}{figure.caption.90}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces min-max and theoretical rainflow matrix for Hermite waves}}{108}{figure.caption.92}
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Observed smoothed and theoretical min-max matrix}}{109}{figure.caption.93}
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Target and obtained crossing spectrum for simulated process}}{110}{figure.caption.94}
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Crossing intensity from Markov and observed rainflow matrix}}{112}{figure.caption.95}
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Distribution of damage from RFC cycles}}{113}{figure.caption.96}
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Check of S-N-model on normal probability paper}}{114}{figure.caption.97}
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Estimation of S-N-model on linear and log-log scale}}{114}{figure.caption.98}
+\contentsline {figure}{\numberline {5.19}{\ignorespaces Increasing damage intensity from sea-load with increasing $\beta $}}{115}{figure.caption.99}
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Fatigue life distribution with sea load}}{116}{figure.caption.100}
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Simulated switching load with two states}}{117}{figure.caption.101}
+\contentsline {figure}{\numberline {5.22}{\ignorespaces 3D-plot and isolines of calculated rainflow matrix}}{117}{figure.caption.102}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces { Rainflow matrix}}}{117}{figure.caption.102}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Rainflow matrix}}}{117}{figure.caption.102}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Significant wave-height data}}{121}{figure.caption.103}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{121}{figure.caption.103}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{121}{figure.caption.103}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{121}{figure.caption.103}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{121}{figure.caption.103}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Observed and estimated distribution of significant wave-height}}{123}{figure.caption.104}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces GEV analysis of sea level data}}{124}{figure.caption.105}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Exceedances of significant wave-height data over levels}}{125}{figure.caption.106}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{125}{figure.caption.106}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{125}{figure.caption.106}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Empirical and estimated distribution functions for GEV variables}}{127}{figure.caption.107}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{127}{figure.caption.107}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{127}{figure.caption.107}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Return level extrapolation}}{127}{figure.caption.108}
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Estimated expected exceedance over level $u$}}{129}{figure.caption.109}
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Distribution functions of monthly maxima}}{130}{figure.caption.110}
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Threshold selection in POT analysis}}{131}{figure.caption.111}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{131}{figure.caption.111}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{131}{figure.caption.111}
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Diagnostic POT plot for sea data}}{133}{figure.caption.112}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Smoothing parameter, $h_{s}$, impact on KDE}}{147}{figure.caption.113}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Transformation KDE compared to ordinary KDE}}{148}{figure.caption.114}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Qualitative indication of spectral variability}}{151}{figure.caption.115}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {C.1}{\ignorespaces Target spectrum, $S_{T}(\ensuremath {\omega })$, (solid) and its linear component, $S_{L}(\ensuremath {\omega })$ (dash-dot) compared with $S_{T}^{NLS}$ (dash) and $S_{L}^{NLS}$ (dot), i.e.,\xspace {} spectra of non-linearly simulated data using input spectrum $S_{T}(\ensuremath {\omega })$ (method 1) and $S_{L}(\ensuremath {\omega })$ (method 2), respectively.\relax }}{159}{figure.caption.118}

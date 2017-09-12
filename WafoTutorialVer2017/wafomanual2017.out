@@ -1,0 +1,121 @@
+\BOOKMARK [0][]{chapter*.1}{Foreword}{}% 1
+\BOOKMARK [1][]{section*.2}{Foreword to 2017 edition}{chapter*.1}% 2
+\BOOKMARK [1][]{section*.3}{Foreword to 2011 edition}{chapter*.1}% 3
+\BOOKMARK [0][]{chapter*.4}{Technical information}{}% 4
+\BOOKMARK [0][]{chapter*.5}{Contents}{}% 5
+\BOOKMARK [0][]{chapter*.6}{List of Figures}{}% 6
+\BOOKMARK [0][]{chapter*.7}{List of Tables}{}% 7
+\BOOKMARK [0][]{chapter*.8}{Nomenclature}{}% 8
+\BOOKMARK [0][]{chapter.1}{Introduction to Wafo}{}% 9
+\BOOKMARK [1][]{section.1.1}{What is WAFO?}{chapter.1}% 10
+\BOOKMARK [1][]{section.1.2}{Philosophy \205 some features of Wafo}{chapter.1}% 11
+\BOOKMARK [1][]{section.1.3}{Organization of Wafo}{chapter.1}% 12
+\BOOKMARK [1][]{section.1.4}{Some applications of Wafo}{chapter.1}% 13
+\BOOKMARK [2][]{subsection.1.4.1}{Simulation from spectrum, estimation of spectrum}{section.1.4}% 14
+\BOOKMARK [2][]{subsection.1.4.2}{Probability distributions of wave characteristics}{section.1.4}% 15
+\BOOKMARK [2][]{subsection.1.4.3}{Directional spectra}{section.1.4}% 16
+\BOOKMARK [2][]{subsection.1.4.4}{Fatigue, load cycles, and Markov models}{section.1.4}% 17
+\BOOKMARK [2][]{subsection.1.4.5}{Statistical extreme value analysis}{section.1.4}% 18
+\BOOKMARK [1][]{section.1.5}{Spectra used in the tutorial}{chapter.1}% 19
+\BOOKMARK [2][]{subsection.1.5.1}{SG, Empirical spectrum from waves in gfaksr89.dat}{section.1.5}% 20
+\BOOKMARK [2][]{subsection.1.5.2}{SJ, Theoretical Jonswap spectrum}{section.1.5}% 21
+\BOOKMARK [2][]{subsection.1.5.3}{SS, Empirical spectrum from waves in sea.dat}{section.1.5}% 22
+\BOOKMARK [2][]{subsection.1.5.4}{ST, Theoretical Torsethaugen spectrum}{section.1.5}% 23
+\BOOKMARK [1][]{section.1.6}{Datastructures}{chapter.1}% 24
+\BOOKMARK [0][]{chapter.2}{Random waves and loads}{}% 25
+\BOOKMARK [1][]{section.2.1}{Introduction and preliminary analysis}{chapter.2}% 26
+\BOOKMARK [1][]{section.2.2}{Frequency modelling of load histories}{chapter.2}% 27
+\BOOKMARK [2][]{subsection.2.2.1}{Power spectrum, periodogram}{section.2.2}% 28
+\BOOKMARK [2][]{subsection.2.2.2}{Gaussian processes in spectral domain}{section.2.2}% 29
+\BOOKMARK [2][]{subsection.2.2.3}{Crossing intensity \205 Rice's formula}{section.2.2}% 30
+\BOOKMARK [2][]{subsection.2.2.4}{Transformed Gaussian models}{section.2.2}% 31
+\BOOKMARK [2][]{subsection.2.2.5}{Spectral densities of sea data}{section.2.2}% 32
+\BOOKMARK [1][]{section.2.3}{Simulation of transformed Gaussian process}{chapter.2}% 33
+\BOOKMARK [1][]{section.2.4}{More on simulation with Wafo}{chapter.2}% 34
+\BOOKMARK [2][]{subsection.2.4.1}{Markov models}{section.2.4}% 35
+\BOOKMARK [2][]{subsection.2.4.2}{Space-time and non-linear waves and loads}{section.2.4}% 36
+\BOOKMARK [2][]{subsection.2.4.3}{Structure of spectral simulation}{section.2.4}% 37
+\BOOKMARK [0][]{chapter.3}{Empirical wave characteristics}{}% 38
+\BOOKMARK [1][]{section.3.1}{Introduction}{chapter.3}% 39
+\BOOKMARK [2][]{subsection.3.1.1}{The Gaussian paradigm - linear wave theory}{section.3.1}% 40
+\BOOKMARK [2][]{subsection.3.1.2}{Wave characteristics in time and space}{section.3.1}% 41
+\BOOKMARK [1][]{section.3.2}{Estimation of wave characteristics from data}{chapter.3}% 42
+\BOOKMARK [2][]{subsection.3.2.1}{Wave period}{section.3.2}% 43
+\BOOKMARK [2][]{subsection.3.2.2}{Extreme waves \205 model check}{section.3.2}% 44
+\BOOKMARK [2][]{subsection.3.2.3}{Crest height}{section.3.2}% 45
+\BOOKMARK [2][]{subsection.3.2.4}{Joint crest period and crest height distribution}{section.3.2}% 46
+\BOOKMARK [1][]{section.3.3}{Explicit results - parametric wave models}{chapter.3}% 47
+\BOOKMARK [2][]{subsection.3.3.1}{The average wave}{section.3.3}% 48
+\BOOKMARK [2][]{subsection.3.3.2}{Explicit approximations of wave distributions}{section.3.3}% 49
+\BOOKMARK [2][]{subsection.3.3.3}{Rayleigh approximation for wave crest height}{section.3.3}% 50
+\BOOKMARK [1][]{section.3.4}{Wafo wave characteristics}{chapter.3}% 51
+\BOOKMARK [2][]{subsection.3.4.1}{spec2char}{section.3.4}% 52
+\BOOKMARK [2][]{subsection.3.4.2}{spec2bw}{section.3.4}% 53
+\BOOKMARK [2][]{subsection.3.4.3}{wavedef}{section.3.4}% 54
+\BOOKMARK [2][]{subsection.3.4.4}{perioddef}{section.3.4}% 55
+\BOOKMARK [2][]{subsection.3.4.5}{ampdef}{section.3.4}% 56
+\BOOKMARK [2][]{subsection.3.4.6}{crossdef}{section.3.4}% 57
+\BOOKMARK [0][]{chapter.4}{Exact wave characteristics}{}% 58
+\BOOKMARK [1][]{section.4.1}{Exact wave distributions routines}{chapter.4}% 59
+\BOOKMARK [1][]{section.4.2}{Marginal distributions of wave characteristics}{chapter.4}% 60
+\BOOKMARK [2][]{subsection.4.2.1}{Crest period, crest length and crest height}{section.4.2}% 61
+\BOOKMARK [2][]{subsection.4.2.2}{Numerical accuracy and computational speed}{section.4.2}% 62
+\BOOKMARK [2][]{subsection.4.2.3}{Wave period and wave length}{section.4.2}% 63
+\BOOKMARK [1][]{section.4.3}{Joint density of crest period and crest height}{chapter.4}% 64
+\BOOKMARK [2][]{subsection.4.3.1}{Preliminary analysis of data}{section.4.3}% 65
+\BOOKMARK [2][]{subsection.4.3.2}{Joint distribution of crest period and height}{section.4.3}% 66
+\BOOKMARK [2][]{subsection.4.3.3}{Joint density of crest height and trough depth}{section.4.3}% 67
+\BOOKMARK [2][]{subsection.4.3.4}{Min-to-max distributions \205 Markov method}{section.4.3}% 68
+\BOOKMARK [1][]{section.4.4}{Wafo wave characteristics routines}{chapter.4}% 69
+\BOOKMARK [0][]{chapter.5}{Fatigue load analysis and rain-flow cycles}{}% 70
+\BOOKMARK [1][]{section.5.1}{Random fatigue}{chapter.5}% 71
+\BOOKMARK [2][]{subsection.5.1.1}{Random load models}{section.5.1}% 72
+\BOOKMARK [2][]{subsection.5.1.2}{Damage accumulation in irregular loads}{section.5.1}% 73
+\BOOKMARK [2][]{subsection.5.1.3}{Rainflow cycles and hysteresis loops}{section.5.1}% 74
+\BOOKMARK [1][]{section.5.2}{Load cycle characteristics}{chapter.5}% 75
+\BOOKMARK [2][]{subsection.5.2.1}{Rainflow filtered load data}{section.5.2}% 76
+\BOOKMARK [2][]{subsection.5.2.2}{Oscillation count and the rainflow matrix}{section.5.2}% 77
+\BOOKMARK [2][]{subsection.5.2.3}{Markov chain of turning points, Markov matrix}{section.5.2}% 78
+\BOOKMARK [1][]{section.5.3}{Cycle analysis with Wafo}{chapter.5}% 79
+\BOOKMARK [2][]{subsection.5.3.1}{Crossing intensity}{section.5.3}% 80
+\BOOKMARK [2][]{subsection.5.3.2}{Extraction of rainflow cycles}{section.5.3}% 81
+\BOOKMARK [2][]{subsection.5.3.3}{Simulation of rainflow cycles}{section.5.3}% 82
+\BOOKMARK [2][]{subsection.5.3.4}{Calculating the Rainflow Matrix}{section.5.3}% 83
+\BOOKMARK [2][]{subsection.5.3.5}{Simulation from crossings structure}{section.5.3}% 84
+\BOOKMARK [1][]{section.5.4}{Fatigue damage and fatigue life distribution}{chapter.5}% 85
+\BOOKMARK [2][]{subsection.5.4.1}{Introduction}{section.5.4}% 86
+\BOOKMARK [2][]{subsection.5.4.2}{Level Crossings}{section.5.4}% 87
+\BOOKMARK [2][]{subsection.5.4.3}{Damage}{section.5.4}% 88
+\BOOKMARK [2][]{subsection.5.4.4}{Estimation of S-N curve}{section.5.4}% 89
+\BOOKMARK [2][]{subsection.5.4.5}{From S-N-curve to fatigue life distribution}{section.5.4}% 90
+\BOOKMARK [2][]{subsection.5.4.6}{Fatigue analysis of complex loads}{section.5.4}% 91
+\BOOKMARK [0][]{chapter.6}{Extreme value analysis}{}% 92
+\BOOKMARK [1][]{section.6.1}{Weibull and Gumbel papers}{chapter.6}% 93
+\BOOKMARK [2][]{subsection.6.1.1}{Estimation and plotting}{section.6.1}% 94
+\BOOKMARK [2][]{subsection.6.1.2}{Return value and return period }{section.6.1}% 95
+\BOOKMARK [1][]{section.6.2}{The GPD and GEV families}{chapter.6}% 96
+\BOOKMARK [2][]{subsection.6.2.1}{Generalized Extreme Value distribution}{section.6.2}% 97
+\BOOKMARK [2][]{subsection.6.2.2}{Generalized Pareto distribution}{section.6.2}% 98
+\BOOKMARK [2][]{subsection.6.2.3}{Return value analysis}{section.6.2}% 99
+\BOOKMARK [1][]{section.6.3}{POT-analysis}{chapter.6}% 100
+\BOOKMARK [2][]{subsection.6.3.1}{Expected exceedance}{section.6.3}% 101
+\BOOKMARK [2][]{subsection.6.3.2}{Poisson + GPD = GEV}{section.6.3}% 102
+\BOOKMARK [2][]{subsection.6.3.3}{Declustering}{section.6.3}% 103
+\BOOKMARK [1][]{section.6.4}{Summary of statistical procedures in Wafo}{chapter.6}% 104
+\BOOKMARK [0][]{appendix.A}{Kernel density estimation}{}% 105
+\BOOKMARK [1][]{section.A.1}{The univariate kernel density estimator}{appendix.A}% 106
+\BOOKMARK [2][]{subsection.A.1.1}{Smoothing parameter selection}{section.A.1}% 107
+\BOOKMARK [2][]{subsection.A.1.2}{Transformation kernel denstity estimator}{section.A.1}% 108
+\BOOKMARK [1][]{section.A.2}{The multivariate kernel density estimator}{appendix.A}% 109
+\BOOKMARK [0][]{appendix.B}{Standardized wave spectra}{}% 110
+\BOOKMARK [1][]{section.B.1}{Jonswap spectrum}{appendix.B}% 111
+\BOOKMARK [1][]{section.B.2}{Torsethaugen spectrum}{appendix.B}% 112
+\BOOKMARK [1][]{section.B.3}{Ochi-Hubble spectrum}{appendix.B}% 113
+\BOOKMARK [0][]{appendix.C}{Wave models}{}% 114
+\BOOKMARK [1][]{section.C.1}{The linear Gaussian wave model}{appendix.C}% 115
+\BOOKMARK [1][]{section.C.2}{The Second order non-linear wave model}{appendix.C}% 116
+\BOOKMARK [1][]{section.C.3}{Transformed linear Gaussian model}{appendix.C}% 117
+\BOOKMARK [2][]{subsection.C.3.1}{Hermite model}{section.C.3}% 118
+\BOOKMARK [0][]{equation.C.3.15}{Bibliography}{}% 119
+\BOOKMARK [0][]{appendix*.119}{Index of m-files in the tutorial}{}% 120
+\BOOKMARK [0][]{appendix*.119}{Index}{}% 121

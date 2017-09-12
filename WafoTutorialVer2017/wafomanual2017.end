@@ -1,0 +1,262 @@
+\begin{theindex}
+
+  \item apparent
+    \subitem height, \hyperpage{46}
+    \subitem period, \hyperpage{46}
+    \subitem wave, \hyperpage{45}
+  \item apparent wave
+    \subitem extraction of, \hyperpage{48}
+
+  \indexspace
+
+  \item bandwidth matrix, \hyperpage{148}
+
+  \indexspace
+
+  \item covariance function, \hyperpage{25}
+    \subitem computation from spectrum, \hyperpage{25}
+  \item crest, \hyperpage{67}
+    \subitem amplitude, \hyperpage{67}
+    \subitem height, \hyperpage{67}
+    \subitem length, \hyperpage{70--76}
+    \subitem period, \hyperpage{67}, \hyperpage{70--76}
+  \item crest densities, \hyperindexformat{\see wave distributions}{55}
+  \item crossing intensity, \hyperpage{20}
+    \subitem calculation from rainflow matrix, \hyperpage{111}
+    \subitem estimation from data, \hyperpage{99}
+    \subitem Rice's formula, \hyperpage{57}
+  \item crossing spectrum, \hyperpage{20}, \hyperpage{94}, 
+		\hyperpage{109}
+  \item cycle analysis, \hyperpage{99}
+
+  \indexspace
+
+  \item damage, \hyperpage{95}, \hyperpage{110, 111}
+    \subitem intensity, \hyperpage{95}
+    \subitem rainflow, \hyperpage{95}
+  \item datastructures, \hyperpage{17}
+  \item Declustering, \hyperpage{130}
+  \item directional spectra, \hyperpage{10}
+  \item dispersion index, \hyperpage{130}
+  \item dispersion relation, \hyperpage{45}
+  \item downcrossing
+    \subitem amplitude, \hyperpage{67}
+    \subitem definition, \hyperpage{66}
+    \subitem period, \hyperpage{67}
+    \subitem wave, \hyperpage{67}
+
+  \indexspace
+
+  \item encountered directional spectrum, \hyperpage{33}
+  \item encountered sea, \hyperpage{46}
+  \item endurance limit, \hyperpage{94}
+  \item Epanechnikov kernel, \hyperpage{146}
+    \subitem multivariate, \hyperpage{149}
+  \item Expected exceedance, \hyperpage{128}
+
+  \indexspace
+
+  \item FAT, \hyperpage{2}
+  \item fatigue, \hyperpage{93--96}, \hyperpage{110--117}
+    \subitem damage, \hyperpage{110}
+    \subitem life, \hyperpage{110}
+      \subsubitem distribution, \hyperpage{114}
+    \subitem limit, \hyperpage{94}
+  \item Fourier inversion, \hyperpage{25}
+  \item frequency function, \hyperpage{25}
+
+  \indexspace
+
+  \item Generalized Extreme Value
+    \subitem characteristics, \hyperpage{122}
+    \subitem distribution, GEV, \hyperpage{13}, \hyperpage{123}
+    \subitem parameter estimation, \hyperpage{123}
+  \item Generalized Pareto
+    \subitem characteristics, \hyperpage{122}
+    \subitem distribution, GPD, \hyperpage{13}, \hyperpage{125}
+    \subitem parameter estimation, \hyperpage{125}
+  \item Gullfaks C platform, \hyperpage{82}
+  \item Gumbel distribution
+    \subitem characteristics, \hyperpage{119}
+    \subitem probability paper, \hyperpage{120}
+
+  \indexspace
+
+  \item irregularity factor, \hyperpage{20}, \hyperpage{94}, 
+		\hyperpage{109}
+  \item irreularity factor, \hyperpage{100}
+  \item ISSC, \hyperpage{152}
+
+  \indexspace
+
+  \item Jonswap spectrum, \hyperpage{31}, \hyperpage{71}, 
+		\hyperpage{103}
+
+  \indexspace
+
+  \item Lagrange waves, \hyperpage{46}
+  \item level crossing, \hyperpage{66}, \hyperpage{111}
+  \item linear filter, \hyperpage{25}
+  \item long-run distribution, \hyperpage{47}
+
+  \indexspace
+
+  \item Markov
+    \subitem chain, \hyperpage{40}, \hyperpage{98}
+    \subitem hidden model, \hyperpage{40}
+    \subitem matrix, \hyperpage{98}
+  \item maximum product of spacings (MPS), \hyperpage{126}
+  \item mean frequency, \hyperpage{20}, \hyperpage{28}, \hyperpage{94}, 
+		\hyperpage{100}
+  \item Mean residual life, \hyperpage{128}
+  \item min-to-max
+    \subitem amplitude, \hyperpage{67}, \hyperpage{87--89}
+    \subitem pdf, \hyperpage{13}
+    \subitem period, \hyperpage{67}, \hyperpage{87--89}
+
+  \indexspace
+
+  \item numerical accuracy, \hyperpage{74}
+
+  \indexspace
+
+  \item oscillation
+    \subitem count, \hyperpage{97}
+    \subitem intensity, \hyperpage{97}
+
+  \indexspace
+
+  \item Palmgren-Miner rule, \hyperpage{95}
+  \item Peaks Over Threshold analysis, POT, \hyperpage{128--132}
+  \item period
+    \subitem crest, \hyperpage{67}
+    \subitem downcrossing, \hyperpage{67}
+    \subitem max-to-min, \hyperpage{67}
+    \subitem min-to-max, \hyperpage{67}, \hyperpage{87}
+    \subitem trough, \hyperpage{67}
+    \subitem upcrossing, \hyperpage{67}
+  \item periodogram, \hyperpage{23}
+  \item Pierson-Moskowitz, \hyperpage{152}
+  \item power spectrum, \hyperpage{23}
+
+  \indexspace
+
+  \item rainflow
+    \subitem count, \hyperpage{97}
+  \item rainflow cycle
+    \subitem computation, \hyperpage{100}
+    \subitem definition, \hyperpage{95}
+    \subitem simulation, \hyperpage{102}
+  \item rainflow filter, \hyperpage{94}
+  \item rainflow matrix, \hyperpage{97}
+    \subitem computation, \hyperpage{104}, \hyperpage{107}
+  \item return
+    \subitem level, \hyperpage{121}, \hyperpage{126}
+    \subitem period, \hyperpage{121}, \hyperpage{126}
+  \item Rice's formula, \hyperpage{27}, \hyperpage{57}
+
+  \indexspace
+
+  \item S-N curve, \hyperpage{94}
+    \subitem estimation of, \hyperpage{113}
+  \item sequence of turning points, \hyperpage{21}
+  \item simulation
+    \subitem from crossings structure, \hyperpage{109}
+    \subitem from spectrum, \hyperpage{8}
+    \subitem of rainflow cycles, \hyperpage{102}
+    \subitem of random sea, \hyperpage{35}
+    \subitem of sea surface, \hyperpage{12}
+    \subitem of transformed Gaussian process, \hyperpage{34--39}
+  \item smoothing parameter, \hyperpage{145}
+  \item spectral density
+    \subitem estimation, \hyperpage{26}
+    \subitem function, \hyperpage{25}
+  \item spectrum
+    \subitem computation from covariance function, \hyperpage{25}
+    \subitem continuous, \hyperpage{25}
+    \subitem crossing, \hyperpage{20}
+    \subitem directional, \hyperpage{10}, \hyperpage{33}
+    \subitem discrete, \hyperpage{25}
+    \subitem encountered, \hyperpage{33}
+    \subitem estimation of, \hyperpage{26}
+    \subitem finite depth, \hyperpage{34}
+    \subitem Jonswap, \hyperpage{31}, \hyperpage{33}, \hyperpage{71}
+    \subitem list of spectra used, \hyperpage{8}
+    \subitem moments, \hyperpage{23}
+    \subitem of sea data, \hyperpage{31--34}
+    \subitem power, \hyperpage{23}
+    \subitem Torsethaugen, \hyperpage{10}
+    \subitem wavenumber, \hyperpage{33}
+  \item structured array, \hyperpage{17}
+  \item switching load, \hyperpage{116}
+
+  \indexspace
+
+  \item Torsethaugen
+    \subitem spectrum, \hyperpage{10}
+    \subitem waves, \hyperpage{70}
+  \item transfer function, \hyperpage{25}
+  \item transformed Gaussian models, \hyperpage{28--31}, 
+		\hyperpage{34--39}
+    \subitem nonparametric, \hyperpage{28}
+    \subitem Ochi et al., \hyperpage{28}
+    \subitem Rychlik, \hyperpage{28}
+    \subitem simulation of, \hyperpage{34--39}
+    \subitem Winterstein, \hyperpage{28}
+  \item trough, \hyperpage{67}
+    \subitem amplitude, \hyperpage{67}
+    \subitem height, \hyperpage{67}
+    \subitem period, \hyperpage{67}
+  \item turning points, \hyperpage{21}, \hyperpage{94}
+
+  \indexspace
+
+  \item upcrossing
+    \subitem amplitude, \hyperpage{67}
+    \subitem definition, \hyperpage{66}
+    \subitem period, \hyperpage{67}
+    \subitem wave, \hyperpage{67}
+
+  \indexspace
+
+  \item WAT, \hyperpage{2}
+  \item wave
+    \subitem crest, \hyperpage{67}
+    \subitem direction, \hyperpage{11}
+    \subitem length, \hyperpage{76--81}
+    \subitem period, \hyperpage{67}, \hyperpage{76--81}
+    \subitem trough, \hyperpage{67}
+  \item wave characteristics, \hyperpage{45--66}
+    \subitem computation from spectrum, \hyperpage{60}
+    \subitem definitions, \hyperpage{62}, \hyperpage{67}
+    \subitem estimation from data, \hyperpage{48--53}
+  \item wave distributions
+    \subitem approximative densities
+      \subsubitem  Cavani\'e et al., \hyperpage{56}
+      \subsubitem  Longuet-Higgins, \hyperpage{55}
+      \subsubitem  Rayleigh approximation, \hyperpage{57}
+    \subitem computation of densities
+      \subsubitem  crest length and period, \hyperpage{70--76}
+      \subsubitem  joint crest height/period, \hyperpage{82--86}
+      \subsubitem  joint crest/trough height, \hyperpage{86--87}
+      \subsubitem  min-to-max amp./period, \hyperpage{87--89}
+      \subsubitem  wave length and period, \hyperpage{76--81}
+    \subitem estimation of densities
+      \subsubitem  joint crest period and height, \hyperpage{53}
+      \subsubitem crest height, \hyperpage{51}
+      \subsubitem wave period, \hyperpage{48}
+    \subitem exact, \hyperpage{69}
+  \item wave models, \hyperpage{53--59}
+    \subitem Cavani\'e et al., \hyperpage{56}
+    \subitem Longuet-Higgins, \hyperpage{55}
+  \item wavenumber, \hyperpage{33}
+  \item weakest link, \hyperpage{119}
+  \item Weibull distribution
+    \subitem characteristics, \hyperpage{119}
+    \subitem probability paper, \hyperpage{120}
+  \item window
+    \subitem Parzen, \hyperpage{8}
+    \subitem width, \hyperpage{145}
+  \item W{\"o}hler curve, \hyperpage{94}, \hyperpage{110}
+
+\end{theindex}

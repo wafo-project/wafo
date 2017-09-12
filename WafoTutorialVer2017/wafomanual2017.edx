@@ -1,0 +1,229 @@
+\indexentry {FAT|hyperpage}{2}
+\indexentry {WAT|hyperpage}{2}
+\indexentry {spectrum!list of spectra used|hyperpage}{8}
+\indexentry {simulation!from spectrum|hyperpage}{8}
+\indexentry {window!Parzen|hyperpage}{8}
+\indexentry {directional spectra|hyperpage}{10}
+\indexentry {spectrum!directional|hyperpage}{10}
+\indexentry {Torsethaugen!spectrum|hyperpage}{10}
+\indexentry {spectrum!Torsethaugen|hyperpage}{10}
+\indexentry {wave!direction|hyperpage}{11}
+\indexentry {simulation!of sea surface|hyperpage}{12}
+\indexentry {min-to-max!pdf|hyperpage}{13}
+\indexentry {Generalized Extreme Value!distribution, GEV|hyperpage}{13}
+\indexentry {Generalized Pareto!distribution, GPD|hyperpage}{13}
+\indexentry {datastructures|hyperpage}{17}
+\indexentry {structured array|hyperpage}{17}
+\indexentry {crossing spectrum|hyperpage}{20}
+\indexentry {spectrum!crossing|hyperpage}{20}
+\indexentry {crossing intensity|hyperpage}{20}
+\indexentry {mean frequency|hyperpage}{20}
+\indexentry {irregularity factor|hyperpage}{20}
+\indexentry {turning points|hyperpage}{21}
+\indexentry {sequence of turning points|hyperpage}{21}
+\indexentry {power spectrum|hyperpage}{23}
+\indexentry {spectrum!power|hyperpage}{23}
+\indexentry {periodogram|hyperpage}{23}
+\indexentry {spectrum!moments|hyperpage}{23}
+\indexentry {spectrum!discrete|hyperpage}{25}
+\indexentry {covariance function|hyperpage}{25}
+\indexentry {spectral density!function|hyperpage}{25}
+\indexentry {spectrum!continuous|hyperpage}{25}
+\indexentry {covariance function!computation from spectrum|hyperpage}{25}
+\indexentry {spectrum!computation from covariance function|hyperpage}{25}
+\indexentry {Fourier inversion|hyperpage}{25}
+\indexentry {linear filter|hyperpage}{25}
+\indexentry {transfer function|hyperpage}{25}
+\indexentry {frequency function|hyperpage}{25}
+\indexentry {spectrum!estimation of|hyperpage}{26}
+\indexentry {spectral density!estimation|hyperpage}{26}
+\indexentry {Rice's formula|hyperpage}{27}
+\indexentry {Rice's formula|hyperpage}{27}
+\indexentry {mean frequency|hyperpage}{28}
+\indexentry {transformed Gaussian models|(hyperpage}{28}
+\indexentry {transformed Gaussian models!Winterstein|hyperpage}{28}
+\indexentry {transformed Gaussian models!Ochi et al.|hyperpage}{28}
+\indexentry {transformed Gaussian models!Rychlik|hyperpage}{28}
+\indexentry {transformed Gaussian models!nonparametric|hyperpage}{28}
+\indexentry {transformed Gaussian models|)}{31}
+\indexentry {spectrum!of sea data|(hyperpage}{31}
+\indexentry {Jonswap spectrum|hyperpage}{31}
+\indexentry {spectrum!Jonswap|hyperpage}{31}
+\indexentry {spectrum!Jonswap|hyperpage}{33}
+\indexentry {encountered directional spectrum|hyperpage}{33}
+\indexentry {spectrum!encountered|hyperpage}{33}
+\indexentry {spectrum!directional|hyperpage}{33}
+\indexentry {spectrum!wavenumber|hyperpage}{33}
+\indexentry {wavenumber|hyperpage}{33}
+\indexentry {spectrum!of sea data|)}{34}
+\indexentry {spectrum!finite depth|hyperpage}{34}
+\indexentry {transformed Gaussian models|(hyperpage}{34}
+\indexentry {transformed Gaussian models!simulation of|(hyperpage}{34}
+\indexentry {simulation!of transformed Gaussian process|(hyperpage}{34}
+\indexentry {simulation!of random sea|hyperpage}{35}
+\indexentry {transformed Gaussian models|)}{39}
+\indexentry {transformed Gaussian models!simulation of|)}{39}
+\indexentry {simulation!of transformed Gaussian process|)}{39}
+\indexentry {Markov!chain|hyperpage}{40}
+\indexentry {Markov!hidden model|hyperpage}{40}
+\indexentry {wave characteristics|(hyperpage}{45}
+\indexentry {dispersion relation|hyperpage}{45}
+\indexentry {apparent!wave|hyperpage}{45}
+\indexentry {Lagrange waves|hyperpage}{46}
+\indexentry {encountered sea|hyperpage}{46}
+\indexentry {apparent!period|hyperpage}{46}
+\indexentry {apparent!height|hyperpage}{46}
+\indexentry {long-run distribution|hyperpage}{47}
+\indexentry {wave characteristics!estimation from data|(hyperpage}{48}
+\indexentry {wave distributions!estimation of densities!wave period|hyperpage}{48}
+\indexentry {apparent wave!extraction of|hyperpage}{48}
+\indexentry {wave distributions!estimation of densities!crest height|hyperpage}{51}
+\indexentry {wave distributions!estimation of densities! joint crest period and height|hyperpage}{53}
+\indexentry {wave characteristics!estimation from data|)}{53}
+\indexentry {wave models|(hyperpage}{53}
+\indexentry {crest densities|hyperindexformat{\see wave distributions}}{55}
+\indexentry {wave models!Longuet-Higgins|hyperpage}{55}
+\indexentry {wave distributions!approximative densities! Longuet-Higgins|hyperpage}{55}
+\indexentry {wave models!Cavani\'e et al.|hyperpage}{56}
+\indexentry {wave distributions!approximative densities! Cavani\'e et al.|hyperpage}{56}
+\indexentry {wave distributions!approximative densities! Rayleigh approximation|hyperpage}{57}
+\indexentry {Rice's formula|hyperpage}{57}
+\indexentry {crossing intensity!Rice's formula|hyperpage}{57}
+\indexentry {wave models|)}{59}
+\indexentry {wave characteristics!computation from spectrum|hyperpage}{60}
+\indexentry {wave characteristics!definitions|hyperpage}{62}
+\indexentry {level crossing|hyperpage}{66}
+\indexentry {upcrossing!definition|hyperpage}{66}
+\indexentry {downcrossing!definition|hyperpage}{66}
+\indexentry {wave characteristics|)}{66}
+\indexentry {wave characteristics!definitions|hyperpage}{67}
+\indexentry {upcrossing!wave|hyperpage}{67}
+\indexentry {upcrossing!period|hyperpage}{67}
+\indexentry {upcrossing!amplitude|hyperpage}{67}
+\indexentry {downcrossing!wave|hyperpage}{67}
+\indexentry {downcrossing!period|hyperpage}{67}
+\indexentry {downcrossing!amplitude|hyperpage}{67}
+\indexentry {crest!period|hyperpage}{67}
+\indexentry {trough!period|hyperpage}{67}
+\indexentry {wave!period|hyperpage}{67}
+\indexentry {crest!height|hyperpage}{67}
+\indexentry {trough!height|hyperpage}{67}
+\indexentry {period!crest|hyperpage}{67}
+\indexentry {period!trough|hyperpage}{67}
+\indexentry {period!upcrossing|hyperpage}{67}
+\indexentry {period!downcrossing|hyperpage}{67}
+\indexentry {period!min-to-max|hyperpage}{67}
+\indexentry {period!max-to-min|hyperpage}{67}
+\indexentry {crest!amplitude|hyperpage}{67}
+\indexentry {trough!amplitude|hyperpage}{67}
+\indexentry {min-to-max!period|hyperpage}{67}
+\indexentry {min-to-max!amplitude|hyperpage}{67}
+\indexentry {crest|hyperpage}{67}
+\indexentry {wave!crest|hyperpage}{67}
+\indexentry {trough|hyperpage}{67}
+\indexentry {wave!trough|hyperpage}{67}
+\indexentry {wave distributions!exact|hyperpage}{69}
+\indexentry {wave distributions!computation of densities! crest length and period|(hyperpage}{70}
+\indexentry {crest!period|(hyperpage}{70}
+\indexentry {crest!length|(hyperpage}{70}
+\indexentry {Torsethaugen!waves|hyperpage}{70}
+\indexentry {Jonswap spectrum|hyperpage}{71}
+\indexentry {spectrum!Jonswap|hyperpage}{71}
+\indexentry {numerical accuracy|hyperpage}{74}
+\indexentry {wave distributions!computation of densities! crest length and period|)}{76}
+\indexentry {crest!period|)}{76}
+\indexentry {crest!length|)}{76}
+\indexentry {wave distributions!computation of densities! wave length and period|(hyperpage}{76}
+\indexentry {wave!period|(hyperpage}{76}
+\indexentry {wave!length|(hyperpage}{76}
+\indexentry {wave distributions!computation of densities! wave length and period|)}{81}
+\indexentry {wave!period|)}{81}
+\indexentry {wave!length|)}{81}
+\indexentry {wave distributions!computation of densities! joint crest height/period|(hyperpage}{82}
+\indexentry {Gullfaks C platform|hyperpage}{82}
+\indexentry {wave distributions!computation of densities! joint crest height/period|)}{86}
+\indexentry {wave distributions!computation of densities! joint crest/trough height|(hyperpage}{86}
+\indexentry {wave distributions!computation of densities! joint crest/trough height|)}{87}
+\indexentry {period!min-to-max|hyperpage}{87}
+\indexentry {wave distributions!computation of densities! min-to-max amp./period|(hyperpage}{87}
+\indexentry {min-to-max!period|(hyperpage}{87}
+\indexentry {min-to-max!amplitude|(hyperpage}{87}
+\indexentry {wave distributions!computation of densities! min-to-max amp./period|)}{89}
+\indexentry {min-to-max!period|)}{89}
+\indexentry {min-to-max!amplitude|)}{89}
+\indexentry {fatigue|(hyperpage}{93}
+\indexentry {crossing spectrum|hyperpage}{94}
+\indexentry {turning points|hyperpage}{94}
+\indexentry {irregularity factor|hyperpage}{94}
+\indexentry {mean frequency|hyperpage}{94}
+\indexentry {rainflow filter|hyperpage}{94}
+\indexentry {fatigue!limit|hyperpage}{94}
+\indexentry {endurance limit|hyperpage}{94}
+\indexentry {W{\"o}hler curve|hyperpage}{94}
+\indexentry {S-N curve|hyperpage}{94}
+\indexentry {Palmgren-Miner rule|hyperpage}{95}
+\indexentry {damage|hyperpage}{95}
+\indexentry {damage!intensity|hyperpage}{95}
+\indexentry {rainflow cycle!definition|hyperpage}{95}
+\indexentry {damage!rainflow|hyperpage}{95}
+\indexentry {fatigue|)}{96}
+\indexentry {rainflow!count|hyperpage}{97}
+\indexentry {oscillation!count|hyperpage}{97}
+\indexentry {rainflow matrix|hyperpage}{97}
+\indexentry {oscillation!intensity|hyperpage}{97}
+\indexentry {Markov!chain|hyperpage}{98}
+\indexentry {Markov!matrix|hyperpage}{98}
+\indexentry {cycle analysis|hyperpage}{99}
+\indexentry {crossing intensity!estimation from data|hyperpage}{99}
+\indexentry {mean frequency|hyperpage}{100}
+\indexentry {irreularity factor|hyperpage}{100}
+\indexentry {rainflow cycle!computation|hyperpage}{100}
+\indexentry {simulation!of rainflow cycles|hyperpage}{102}
+\indexentry {rainflow cycle!simulation|hyperpage}{102}
+\indexentry {Jonswap spectrum|hyperpage}{103}
+\indexentry {rainflow matrix!computation|hyperpage}{104}
+\indexentry {rainflow matrix!computation|hyperpage}{107}
+\indexentry {simulation!from crossings structure|hyperpage}{109}
+\indexentry {irregularity factor|hyperpage}{109}
+\indexentry {crossing spectrum|hyperpage}{109}
+\indexentry {fatigue|(hyperpage}{110}
+\indexentry {fatigue!life|hyperpage}{110}
+\indexentry {fatigue!damage|hyperpage}{110}
+\indexentry {damage|hyperpage}{110}
+\indexentry {W{\"o}hler curve|hyperpage}{110}
+\indexentry {level crossing|hyperpage}{111}
+\indexentry {crossing intensity!calculation from rainflow matrix|hyperpage}{111}
+\indexentry {damage|hyperpage}{111}
+\indexentry {S-N curve!estimation of|hyperpage}{113}
+\indexentry {fatigue!life!distribution|hyperpage}{114}
+\indexentry {switching load|hyperpage}{116}
+\indexentry {fatigue|)}{117}
+\indexentry {Weibull distribution!characteristics|hyperpage}{119}
+\indexentry {Gumbel distribution!characteristics|hyperpage}{119}
+\indexentry {weakest link|hyperpage}{119}
+\indexentry {Weibull distribution!probability paper|hyperpage}{120}
+\indexentry {Gumbel distribution!probability paper|hyperpage}{120}
+\indexentry {return!level|hyperpage}{121}
+\indexentry {return!period|hyperpage}{121}
+\indexentry {Generalized Pareto!characteristics|hyperpage}{122}
+\indexentry {Generalized Extreme Value!characteristics|hyperpage}{122}
+\indexentry {Generalized Extreme Value!distribution, GEV|hyperpage}{123}
+\indexentry {Generalized Extreme Value!parameter estimation|hyperpage}{123}
+\indexentry {Generalized Pareto!parameter estimation|hyperpage}{125}
+\indexentry {Generalized Pareto!distribution, GPD|hyperpage}{125}
+\indexentry {maximum product of spacings (MPS)|hyperpage}{126}
+\indexentry {return!level|hyperpage}{126}
+\indexentry {return!period|hyperpage}{126}
+\indexentry {Peaks Over Threshold analysis, POT|(hyperpage}{128}
+\indexentry {Expected exceedance|hyperpage}{128}
+\indexentry {Mean residual life|hyperpage}{128}
+\indexentry {Declustering|hyperpage}{130}
+\indexentry {dispersion index|hyperpage}{130}
+\indexentry {Peaks Over Threshold analysis, POT|)}{132}
+\indexentry {window!width|hyperpage}{145}
+\indexentry {smoothing parameter|hyperpage}{145}
+\indexentry {Epanechnikov kernel|hyperpage}{146}
+\indexentry {bandwidth matrix|hyperpage}{148}
+\indexentry {Epanechnikov kernel!multivariate|hyperpage}{149}
+\indexentry {ISSC|hyperpage}{152}
+\indexentry {Pierson-Moskowitz|hyperpage}{152}

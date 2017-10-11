@@ -9,7 +9,7 @@ OCTAVE?=octave
 TESTDIR=$(CURDIR)/tests
 ROOTDIR=$(CURDIR)/wafo
 
-ADDPATH=orig_dir=pwd();cd('$(ROOTDIR)');initwafo();cd(orig_dir)
+ADDPATH=orig_dir=pwd();cd('$(ROOTDIR)');initwafo('full',1,0);cd(orig_dir)
 RMPATH=rmpath('$(ROOTDIR)');
 SAVEPATH=savepath();exit(0)
 

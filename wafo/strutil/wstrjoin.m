@@ -1,7 +1,7 @@
-function str = strjoin(cstr, sep)
-%STRJOIN  Join strings in a cell array.
+function str = wstrjoin(cstr, sep)
+%WSTRJOIN  Join strings in a cell array.
 %
-% CALL:  str0 = strjoin(cstr, sep);
+% CALL:  str0 = wstrjoin(cstr, sep);
 %
 %   str0         = [str1,sep,str2,sep,....]
 %   cstr         = {str1,str2,...},  strings to join
@@ -13,13 +13,13 @@ function str = strjoin(cstr, sep)
 %
 % Examples:
 %
-%  assert(strjoin({'hello'}, '-'), 'hello');
-%  assert(strjoin({'hello', 'world'}), 'hello world');
-%  assert(strjoin({'2', '3', '4'}, '-by-'), '2-by-3-by-4');
-%  assert(strjoin({'1', '2', '3', '4', '5'}, {' ', ',', '-', ';'}), '1 2,3-4;5');
-%  assert(strjoin({'1', '2'}, '\n'), '1\n2');
-%  assert(strjoin({'1'; '2'}, {'\n'}), '1\n2');
-%  assert(strjoin({}, ','), '');
+%  assert(wstrjoin({'hello'}, '-'), 'hello');
+%  assert(wstrjoin({'hello', 'world'}), 'hello world');
+%  assert(wstrjoin({'2', '3', '4'}, '-by-'), '2-by-3-by-4');
+%  assert(wstrjoin({'1', '2', '3', '4', '5'}, {' ', ',', '-', ';'}), '1 2,3-4;5');
+%  assert(wstrjoin({'1', '2'}, '\n'), '1\n2');
+%  assert(wstrjoin({'1'; '2'}, {'\n'}), '1\n2');
+%  assert(wstrjoin({}, ','), '');
 %
 % See also: insert
 
@@ -55,10 +55,10 @@ function str = strjoin(cstr, sep)
 
    end
 
-%!assert(strjoin({'hello'}, '-'), 'hello')
-%!assert(strjoin({'hello', 'world'}), 'hello world')
-%!assert(strjoin({'2', '3', '4'}, '-by-'), '2-by-3-by-4')
-%!assert(strjoin({'1', '2', '3', '4', '5'}, {' ', ',', '-', ';'}), '1 2,3-4;5')
-%!assert(strjoin({'1', '2'}, '\n'), '1\n2')
-%!assert(strjoin({'1'; '2'}, {'\n'}), '1\n2')
-%!assert(strjoin({}, ','), '')
+%!assert(wstrjoin({'hello'}, '-'), 'hello')
+%!assert(wstrjoin({'hello', 'world'}), 'hello world')
+%!assert(wstrjoin({'2', '3', '4'}, '-by-'), '2-by-3-by-4')
+%!assert(wstrjoin({'1', '2', '3', '4', '5'}, {' ', ',', '-', ';'}), '1 2,3-4;5')
+%!assert(wstrjoin({'1', '2'}, '\n'), '1\n2')
+%!assert(wstrjoin({'1'; '2'}, {'\n'}), '1\n2')
+%!assert(wstrjoin({}, ','), '')

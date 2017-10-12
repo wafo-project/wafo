@@ -1,10 +1,10 @@
-function y = psi(x)
+function y = wpsi(x)
 %DIGAMMA   Digamma function.
 % DIGAMMA(X) returns digamma(x) = d log(gamma(x)) / dx
 % If X is a matrix, returns the digamma function evaluated at each element.
 %
 % Example
-%  assert(psi([1,2,4,8]), [-0.577215664901553, 0.422784335098447, ...
+%  assert(wpsi([1,2,4,8]), [-0.577215664901553, 0.422784335098447, ...
 %									1.256117668431780, 2.015641477955590], 1e-12)
 
 % Reference:

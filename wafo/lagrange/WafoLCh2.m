@@ -62,9 +62,9 @@ disp(' Section 2.2.2  Generating the Lagrange waves from the 3D fields')
    pause
    
    % Figure: Last frame of seamovie - two displays
-   Mv2 = seamovieL(Lmovie,2)
+   Mv2 = seamovie(Lmovie,2)
    pause
-   Mv3 = seamovieL(Lmovie,3)
+   Mv3 = seamovie(Lmovie,3)
    pause
 	
    % Generating time series

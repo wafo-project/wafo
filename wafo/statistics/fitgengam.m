@@ -152,10 +152,10 @@ else
   bhat = phat0(2);
   chat = phat0(3);
   
-  c1 = psi(0,ahat);
-  c2 = psi(0,ahat+1);
-  c3 = psi(1,ahat);
-  c4 = psi(1,ahat+1);
+  c1 = wpsi(0,ahat);
+  c2 = wpsi(0,ahat+1);
+  c3 = wpsi(1,ahat);
+  c4 = wpsi(1,ahat+1);
   pcov=[c3, -c1/chat, chat/bhat;
   -c1/chat, (1+ahat*c4+ahat*c2^2)/chat^2, -(1+ahat*c1)/bhat;
   chat/bhat, -(1+ahat*c1)/bhat, ahat*chat^2/bhat^2]/length(data);
@@ -216,9 +216,9 @@ function [L,a1,b] = fitgengamml(c,data,logdata,meanlogdata,options)
     if nargout>1
       a1 = a;
     end
-    a(a<=0) = nan; % Avoid error with psi/ gammaln for a<0 pab 27.01.2001
+    a(a<=0) = nan; % Avoid error with wpsi/ gammaln for a<0 pab 27.01.2001
     n = numel(data);
-    L = log(n*a) - psi(a) + c*meanlogdata -log(sdc);
+    L = log(n*a) - wpsi(a) + c*meanlogdata -log(sdc);
     if nargout>2
       b = (sdc./n./a).^(1./c);
     end
@@ -254,7 +254,7 @@ function [L,a1,b] = fitgengamml(c,data,logdata,meanlogdata,options)
 %     a   = -1./(b.*(mld-sdbld/sdb));
 %     a(a<=0) = nan; % Avoid error with gammaln for a<0 pab 27.01.2001
 %     n = numel(data);
-%     l = log(a) - psi(0,a) + b*mld -log(sdb/n);
+%     l = log(a) - wpsi(0,a) + b*mld -log(sdb/n);
 %    
 %   case 2, % LS-fit to empirical CDF
 %     %LS

@@ -1,0 +1,172 @@
+\documentclass[12pt,openright,twoside,titlepage,a4paper]{LULmanual}
+\usepackage{ifpdf}
+\usepackage{url}%,doi}
+\usepackage{epic,eepic}
+%\usepackage{arydshin}
+\usepackage{graphicx}
+\usepackage[tight,TABTOPCAP]{subfigure}
+\usepackage[ragged]{sidecap}
+%\usepackage[authoryear]{natbib}
+\usepackage{natbib}
+\newcommand\indexname{Indexx}
+\usepackage{index}
+\usepackage{rotating}
+\usepackage{rotfloat}
+%\usepackage{amssymb,amsmath}
+\usepackage{array,arydshln}
+
+\newindex{xcmds}{cdx}{cnd}{Index of m-files}
+\newindex{xentr}{edx}{end}{Index}
+\usepackage{litenfig}
+\usepackage{latexsym}
+\usepackage{supertabular}
+\usepackage{xspace}
+\usepackage{amsmath,amsfonts}
+\usepackage{datetime}
+
+\newcommand{\bH}{\mbox{\boldmath $H$}}
+\newcommand\sign{\operatorname{sign}}
+\newcommand\mR{\mathbb R}
+\newcommand\bkappa{\boldsymbol{\kappa}}
+\newcommand\fo{1$^{st}$}
+\newcommand\so{2$^{nd}$}
+%\newcommand\b2D{\textbf{2D}}
+%\newcommand\b3D{\textbf{3D}}
+\newcommand\bplus{$\bm{+}$}
+\newcommand\bminus{$\bm{-}$}
+\ifpdf
+ % \pdfoutput=1  % we are running PDFLaTeX
+ % \definecolor{blue}{rgb}{0,0,1}
+  \usepackage[breaklinks,colorlinks,
+  citecolor=black,linkcolor=black,
+  filecolor=black, menucolor=black,
+  urlcolor=black,
+  pdftex,
+  pagebackref, backref,
+  hyperindex, bookmarks,bookmarksopen]{hyperref}
+ \hypersetup{pagebackref,backref,
+ %   pdfauthor = {WAFO-group},
+   pdfauthor = {Georg Lindgren},
+  pdftitle  = {\sc Wafo}L,
+  pdfkeywords={Gaussian processes, Lagrange waves non-linear wave, 
+    extremes, non-linear simulation, 
+    joint distribution, wave height, wave crest
+    front velocity, wave crest front steepness, linear and non-linear,
+    simulation, wave height,  wave crest velocity,
+   wave  crest amplitude, wave crest velocity, local maxima and minima,
+.}}
+  \pdfcompresslevel=9
+  \def\pdfBorderAttrs{/Border [0 0 0] }
+\else
+  \usepackage[hyperindex]{hyperref} % must come last
+\fi
+
+\input watmac
+
+
+\newcommand{\defheight}  {70mm}
+\newcommand{\defwidth}   {70mm}
+\newcommand{\depwidth}   {80mm}
+\newcommand{\onefigwidth}   {110mm}
+\newcommand{\narrowfigwidth}   {80mm}
+\renewcommand{\baselinestretch}{1.1}
+
+\graphicspath{%
+./Figures/}
+
+\evensidemargin=-6mm
+\oddsidemargin=7.5mm
+\topmargin=-0.4in
+\textheight=9.6in
+\textwidth=157mm
+
+\makeindex
+
+\begin{document}
+
+
+\ifpdf
+\DeclareGraphicsExtensions{.jpg,.pdf,.mps,.png}
+\else
+\DeclareGraphicsExtensions{.eps,.ps}
+\fi
+
+\ifpdf
+\graphicspath{%
+{./figures/}}
+\else
+\graphicspath{%
+{./figures/}}
+\fi
+
+\frontmatter
+
+\title{\noindent \hspace{3mm} {\sc\sf Wafo Lagrange }-- a {\sc\sf Wafo} module for \\
+   ~ \hspace*{7mm}Analysis of Random Lagrange Waves}
+\author{Georg Lindgren and Marc Prevosto}
+\date{October 2017}
+\version{version 2017}
+\department{Mathematical Statistics}
+\faculty{Centre for Mathematical Sciences}
+\maketitle
+
+{\thispagestyle{empty}
+\begin{minipage}{\textwidth}
+\end{minipage}
+\vfill
+\begin{minipage}{\textwidth}
+
+Mathematical Statistics \\
+Lund University \\
+Box 118\\
+SE-221 00 Lund \\
+Sweden \\
+\url{http://www.maths.lth.se/} \\[3mm]
+
+\noindent
+\flushright\today \quad \currenttime
+
+\noindent
+
+\end{minipage}
+}
+\newpage{}
+
+\pagenumbering{roman}
+
+\input{foreword_v2017} %georg
+\clearpage
+\addcontentsline{toc}{chapter}{Contents}
+\tableofcontents
+
+\mainmatter
+
+\pagenumbering{arabic}
+\include{Ch123_2017}
+\include{A1_commands}
+\include{A2_helptext}
+
+\bibliographystyle{abbrv}
+\bibliography{wafoBibliography} 
+
+\addcontentsline{toc}{chapter}{\bibname}
+\end{document}
+
+%\cleardoublepage
+
+%\addtocounter{page}{1}
+%\addcontentsline{toc}{chapter}{Index of m-files}
+%\addtocounter{page}{-1}
+%\printindex[xcmds]
+%
+%\addtocounter{page}{1}
+%\addcontentsline{toc}{chapter}{Index}
+%\addtocounter{page}{-1}
+%\printindex[xentr]
+%\backcover
+
+% Run the following commands manually to produce the index files
+% makeindex -o wafomanual.cnd -t wafomanual.clg wafomanual.cdx
+% makeindex -o wafomanual.end -t wafomanual.elg wafomanual.edx
+%
+%\end{document}

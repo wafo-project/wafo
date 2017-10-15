@@ -1,0 +1,595 @@
+\appendix
+\chapter{Commands for the examples}
+The command files {\tt WafoLChx.m} contain the code for the examples in the tutorial. Some of the examples take some time and generate big data arrays. You may need to reduce the size of the problems, for example by using a smaller {\tt Nsim} or reduce the dimension.  
+Figure titles and other editing are often not included.
+
+The time to run {\tt WafoLCh1} in Windows 10 with Matlab 2017a on an Intel Core i7-7700, 3.60GHz, 32GB RAM, is about 20 minutes, the time for {\tt WafoLCh2} is less than 30 seconds, and that for 
+{\tt WafoLCh3} is about 13 minutes. 
+
+The ``pause-state'' is set to {\tt off} in the scripts. Set if to {\tt on} if you want to pause between tasks.
+ 
+\section{{\tt WafoLCh1}, Commands for Chapter 1}
+{\small\begin{verbatim}
+% Script with commands for WafoL tutorial, Chapter 1
+
+pstate = pause('off');
+TSTART = cputime;
+disp(' Chapter 1: 2D Lagrange waves')
+
+disp(' Section 1.1.2')
+% Figure: Lagrange time wave, example of asymmetry
+   S = jonswap; S.h = 20;
+   opt = simoptset('dt',1);
+   [w,x] = spec2ldat(S,opt,'lalpha',1);
+   [L,L0] = ldat2lwav(w,x,'time',[],10);
+   subplot(211)
+   plot(L.t,L.Z); hold on 
+   plot(L0.t,L0.Z,'r')
+   axis([0 40 -6 6]); hold off
+   pause
+   
+disp(' Section 1.2.2')
+   % Figure: Lagrange space wave, direct plot
+   S = jonswap(1.5); S.h = 8;
+   opt = simoptset('Nt',256,'dt',0.125,'Nu',...
+      256*8,'du',0.25,'iseed',123791);
+   [w,x] = spec2ldat(S,opt,'iseed','shuffle')
+   subplot(211)
+   plot(x.u+x.Z(:,128),w.Z(:,128))
+   axis([0 500 -10 10])
+   pause
+ 
+disp(' Section 1.2.3')
+   % Figure: Lagrange space wave from [L,L0]
+   [L,L0] = ldat2lwav(w,x,'space',16)
+   subplot(212)
+   plot(L.u,L.Z,L0.u,L0.Z,'r')
+   axis([0 500 -10 10])
+   pause
+   
+   MGauss = mean(w.Z(:))
+   MLagrange = mean(L0.Z)
+   SGauss = std(w.Z(:))
+   SLagrange = std(L0.Z)
+   pause
+   
+disp(' Section 1.2.4')
+   % Figure: Crest-trough asymmetry in space, depth dependence
+   opt = simoptset('Nt',128,'Nu',2048,'du',0.25);
+   S = jonswap(1.5);
+   S3 = S; S3.h = 3;
+   S8 = S; S8.h = 8;
+   S32 = S; S32.h = 32;
+   [w,x] = spec2ldat(S,opt);
+   [w3,x3] = spec2ldat(S3,opt);
+   [w8,x8] = spec2ldat(S8,opt);
+   [w32,x32] = spec2ldat(S32,opt);
+   [L,L0] = ldat2lwav(w,x,'space');
+   [L3,L03] = ldat2lwav(w3,x3,'space'); 
+   [L8,L08] = ldat2lwav(w8,x8,'space');
+   [L32,L032] = ldat2lwav(w32,x32,'space');
+   figure(1)
+   clf
+   subplot(411)
+   plot(L0.u,L0.Z); axis([0 500 -5 5]);
+   title('Depth = \infty')
+   subplot(412)
+   plot(L032.u,L032.Z); axis([0 500 -5 5]);
+   title('Depth = 32 m')
+   subplot(413)
+   plot(L08.u,L08.Z); axis([0 500 -5 5]); 
+   title('Depth = 8 m')
+   subplot(414) 
+   % 3m water depth may cause loops and ldat2lwav give empty L3,L03
+   % We plot space wave directly from w3,x3
+   plot(x3.u+x3.Z(:,64),w3.Z(:,64))
+   axis([0 500 -5 5])
+   title('Depth = 3 m')
+   clear w x w3 x3 w8 x8 w32 x32
+   pause
+   
+   % Figure: Truncation of time and space waves  
+   S = jonswap(1.5); S.h=20;
+   opt = simoptset('dt',0.125,'lalpha',2);
+   [w,x] = spec2ldat(S,opt);
+   [L,L0] = ldat2lwav(w,x,'time',[],10,1)
+   pause
+   S = jonswap(1.5); S.h=4;
+   opt = simoptset('dt',0.125,'lalpha',0,'ffttype','fftspace');
+   [w,x] = spec2ldat(S,opt);
+   [L,L0] = ldat2lwav(w,x,'space',[],10,1)
+   clear w x
+   pause
+   
+disp(' Section 1.2.5')
+   % Figure: Front-back asymmetric time waves, different alpha
+   opt = simoptset('Nt',2048,'dt',0.125,'Nu',512,'du',0.25);
+   S = jonswap(1.5); S.h=20;
+   [w0,x0] = spec2ldat(S,opt);
+   [w1,x1] = spec2ldat(S,opt,'lalpha',0.75);
+   [w2,x2] = spec2ldat(S,opt,'lalpha',1.5);
+   [L,L0] = ldat2lwav(w0,x0,'time');
+   [L1,L01] = ldat2lwav(w1,x1,'time');
+   [L2,L02] = ldat2lwav(w2,x2,'time');
+   figure(1)
+   clf
+   subplot(311)
+   plot(L0.t,L0.Z)
+   title('\alpha = 0')
+   axis([0 50 -10 10])
+   subplot(312)
+   plot(L01.t,L01.Z)
+   title('\alpha = 0.75')
+   axis([0 50 -10 10])
+   subplot(313)
+   if ~isempty(L02),
+       plot(L02.t,L02.Z)
+       title('\alpha = 1.5')
+       axis([0 50 -10 10])
+   end
+   pause
+   
+disp(' Section 1.3.1')
+   % Figure: Empirical time slope CDF at crosings - different alpha 
+   opt = simoptset('Nt',2048*16,'dt',0.125,'Nu',256,'du',0.25);
+   S = jonswap(1.5,[6 10]); S.h=20;
+   [w0,x0] = spec2ldat(S,opt);
+   [w1,x1] = spec2ldat(S,opt,'lalpha',0.5);
+   [w2,x2] = spec2ldat(S,opt,'lalpha',1);
+   [L0,L00] = ldat2lwav(w0,x0,'time'); clear w0 x0
+   [L1,L01] = ldat2lwav(w1,x1,'time'); clear w1 x1
+   [L2,L02] = ldat2lwav(w2,x2,'time'); clear w2 x2
+   mom = spec2mom(S);
+   levels=[0 1 2]*sqrt(mom(1)); % wav2slope requires absolute levels
+   Slope0 = wav2slope(L00,levels); clear L00
+   Slope1 = wav2slope(L01,levels); clear L01
+   Slope2 = wav2slope(L02,levels)
+   clear L02
+   pause
+   
+   % Plotting
+   
+   figure(10)
+   clf
+   plotedf(Slope0.up{1}); hold on
+   %get(H101,'Children')
+   plotedf(Slope1.up{1});
+   plotedf(Slope2.up{1}); 
+   plotedf(-Slope0.down{1},'r-.')
+   plotedf(-Slope1.down{1},'r-.');
+   plotedf(-Slope2.down{1},'r-.'); 
+   axis([0 8 0 1])
+   pause
+   
+   % Figure: Empirical space slope CDF at crossings - different alpha
+%   S=jonswap(1.5); S.h=20;
+   S=jonswap(1.5,[6 10]); S.h=20;
+   opt=simoptset('Nt',64,'dt',0.25,...
+        'Nu',2048*16,'du',0.25,'ffttype','fftspace');
+   Nsim=10;
+   Slopes = spec2slopedat(S,Nsim,'space',[],opt)
+   Slopes1 = spec2slopedat(S,Nsim,'space',[],opt,'lalpha',1)
+   figure(1);   clf
+   subplot(221); box;  hold on
+   for f=1:length(Slopes.levels),
+      if ~isempty(Slopes.up{f}) 
+         plotedf(Slopes.up{f}); grid on
+      end
+      if ~isempty(Slopes.down{f}) 
+         plotedf(-Slopes.down{f},'-.'); grid on
+      end
+   end
+   axis([0 0.8 0 1])
+   title('\alpha = 0')
+   subplot(222); box;  hold on
+   for f=1:length(Slopes1.levels),
+      if ~isempty(Slopes1.up{f}) 
+         plotedf(Slopes1.up{f}); grid on
+      end
+      if ~isempty(Slopes1.down{f}) 
+         plotedf(-Slopes1.down{f},'-.'); grid on
+      end
+   end
+   axis([0 0.8 0 1])
+   title('\alpha = 1')
+   subplot(223); box;  hold on
+   plot(Slopes.meanwavex,Slopes.meanwaveup)
+   ax=axis;
+   axis([Slopes.meanwavex(1) Slopes.meanwavex(end) ax(3) ax(4)]);
+   plot(Slopes.meanwavex,Slopes.meanwavedown,'-.'); grid on 
+   subplot(224); box;  hold on
+   plot(Slopes1.meanwavex,Slopes1.meanwaveup)
+   axis([Slopes.meanwavex(1) Slopes.meanwavex(end) ax(3) ax(4)]);
+   plot(Slopes1.meanwavex,Slopes1.meanwavedown,'-.'); grid on
+   pause
+   
+   % Figure: Same as previous, but for time waves
+   S=jonswap(1.5,[6 10]); S.h=20;
+   opt=simoptset('Nt',2048*8,'dt',0.125,...
+        'Nu',321,'du',0.125,'ffttype','ffttime');
+   Nsim=10;
+   Slopes=spec2slopedat(S,Nsim,'time',[],opt)
+   Slopes1=spec2slopedat(S,Nsim,'time',[],opt,'lalpha',1)
+   figure(1);   clf
+   subplot(221);  box; hold on
+   for f=1:length(Slopes.levels),
+      if ~isempty(Slopes.up{f}) 
+         plotedf(Slopes.up{f}); grid on
+      end
+      if ~isempty(Slopes.down{f}) 
+         plotedf(-Slopes.down{f},'-.'); grid on 
+      end
+   end
+   axis([0 10 0 1])
+   title('\alpha = 0')
+   subplot(222);  box; hold on
+   for f=1:length(Slopes1.levels),
+      if ~isempty(Slopes1.up{f}) 
+         plotedf(Slopes1.up{f}); grid on
+      end
+      if ~isempty(Slopes1.down{f}) 
+         plotedf(-Slopes1.down{f},'-.'); grid on 
+      end
+   end
+   axis([0 10 0 1])
+   title('\alpha = 1')
+   subplot(223);  box; hold on
+   plot(Slopes.meanwavex,Slopes.meanwaveup); 
+   ax=axis;
+   axis([Slopes.meanwavex(1) Slopes.meanwavex(end) ax(3) ax(4)]);
+   plot(Slopes.meanwavex,Slopes.meanwavedown,'-.'); grid
+   subplot(224);  box; hold on
+   plot(Slopes1.meanwavex,Slopes1.meanwaveup);
+   axis([Slopes.meanwavex(1) Slopes.meanwavex(end) ax(3) ax(4)]);
+   plot(Slopes1.meanwavex,Slopes1.meanwavedown,'-.'); grid on
+   pause
+   
+disp(' Section 1.3.2')
+   % Figure: Comparison between empirical and theoretical slope CDF
+   S = jonswap(1.5,[6 10]); S.h=20;
+   opt = simoptset('Nt',2048*8,'dt',0.125,...
+        'Nu',321,'du',0.125,'ffttype','ffttime');
+   Nsim = 10;
+   Slopes = spec2slopedat(S,Nsim,'time',[],opt);
+   Slopes1 = spec2slopedat(S,Nsim,'time',[],opt,'lalpha',1);
+   relativelevels = [-1:2];
+   y=0:0.01:10;
+   [Fu,Fd]  = spec2timeslopecdf(S,y,relativelevels,opt);
+   [Fu1,Fd1] = spec2timeslopecdf(S,y,relativelevels,opt,'lalpha',1);
+   pause
+   
+   % Plot the results
+   figure(1);   clf
+   plotedf(Slopes1.up{4}); % Some very large values set the axis
+   clf
+   axis([0 10 0 1])
+   hold on;    grid on
+   plot(Fu1.x,Fu1.f{4},'r')
+   plot(Fu1.x,Fu1.f{3},'r')
+   plot(Fu1.x,Fu1.f{2},'r')
+   plot(Fu1.x,Fu1.f{1},'r')
+   plotedf(Slopes1.up{4});
+   plotedf(Slopes1.up{3});
+   plotedf(Slopes1.up{2});
+   plotedf(Slopes1.up{1});  
+   plot(Fd1.x,Fd1.f{1},'r-.')
+   plot(Fd1.x,Fd1.f{2},'r-.')
+   plot(Fd1.x,Fd1.f{3},'r-.')
+   plot(Fd1.x,Fd1.f{4},'r-.')
+   plotedf(-Slopes1.down{1},'-.');
+   plotedf(-Slopes1.down{2},'-.');
+   plotedf(-Slopes1.down{3},'-.');
+   plotedf(-Slopes1.down{4},'-.');
+   pause
+   
+disp(' Section 1.3.3')
+   % Table: Asymmetry measures
+   S = jonswap(1.5,[6 10]); S.h=20;
+   opt = simoptset('Nt',2048*8,'dt',0.125,...
+        'Nu',321,'du',0.125,'ffttype','ffttime');
+   Nsim = 10;
+   [Slope0,Steep0,~] = spec2steepdat(S,Nsim,'time',[],opt);
+   [Slope05,Steep05,~] = spec2steepdat(S,Nsim,'time',[],opt,'lalpha',0.5);
+   [Slope10,Steep10,~] = spec2steepdat(S,Nsim,'time',[],opt,'lalpha',1);
+   [Slope15,Steep15,~] = spec2steepdat(S,Nsim,'time',[],opt,'lalpha',1.5);
+   [Slope20,Steep20,~] = spec2steepdat(S,Nsim,'time',[],opt,'lalpha',2.0);
+
+   disp('End of Chapter 1')
+   
+   TSTOP=cputime
+   disp(['Total time = ' num2str(TSTOP-TSTART) ' sec']);
+pause(pstate)
+\end{verbatim}
+}
+
+\newpage
+\section{{\tt WafoLCh2}, Commands for Chapter 2}
+{\small\begin{verbatim}
+% Script with commands for WafoL tutorial, Chapter 2
+
+rng('default') % Reset the random number generator
+pstate = pause('off');
+TSTART = cputime;
+disp(' Chapter 2: 3D Lagrange waves')
+
+disp(' Section 2.2.1  Spectrum and simulation options')
+   % Directional spectrum
+   % Figure: Directional spectra in polar and Cartesian form
+   S = jonswap
+   D = spreading(linspace(-pi,pi,51),'cos2s',0,15,S.w,0)
+   figure(1); clf 
+   Snew = mkdspec(S,D,1) 
+
+   Sk2d = spec2spec(Snew,'k2d')
+   figure(2); clf
+   plotspec(Sk2d); clear Sk2d
+   axis([-0.05 0.05 -0.05 0.05])
+   pause
+   
+   % Simulation options
+   optTime = simoptset('Nt',1001,'dt',0.2,...
+                 'Nu',128,'du',5,'Nv',64,'dv',5);
+   optSpace = simoptset('Nt',1,'dt',0.5,...
+                 'Nu',1024,'du',1,'Nv',512,'dv',1);
+
+   % Generation of the elementary processes
+   S = jonswap(1.5); S.h = 20;
+   D5 = spreading(101,'cos',0,5,S.w,0);
+   SD5 = mkdspec(S,D5);
+   D15 = spreading(101,'cos',0,15,S.w,0); 
+   SD15 = mkdspec(S,D15);
+
+%   [W,X,Y] = spec2ldat3D(SD5,optTime);
+   [W,X,Y] = spec2ldat3D(SD5,optSpace);
+   pause
+   
+disp(' Section 2.2.2  Generating the Lagrange waves from the 3D fields')
+
+   % Generating a single field
+   optSpace = simoptset('Nt',20,'dt',1,...
+                          'Nu',256,'du',1,'Nv',128,'dv',1);
+   opt3D = genoptset('type','field','t0',10)
+
+   % Figure: One front-back asymmetric field
+   [W,X,Y] = spec2ldat3D(SD15,optSpace,'lalpha',1)
+   Sx = mean(mean(std(X.Z))) % result = 4.6
+   Sy = mean(mean(std(Y.Z))) % result = 1.9
+   opt3D = genoptset(opt3D,'start',[20 10])
+   Lfield = ldat2lwav3D(W,X,Y,opt3D)
+   pause
+   
+   % Generating a movie
+   optTime = simoptset('Nt',101,'dt',0.2,...
+                          'Nu',128,'du',10,'Nv',64,'dv',10);
+   opt3D = genoptset('type','movie')
+
+   [W,X,Y] = spec2ldat3D(SD15,optTime,'lalpha',1.5)
+   opt3D = genoptset(opt3D,'start',[20 10])
+   Lmovie = ldat2lwav3D(W,X,Y,opt3D)
+   pause
+   
+   % Figure: Last frame of seamovie - two displays
+   Mv2 = seamovie(Lmovie,2)
+   pause
+   Mv3 = seamovie(Lmovie,3)
+   pause
+	
+   % Generating time series
+   opt3D=genoptset('type','timeseries','PP',[400 425 450; 300 300 300])
+
+   % Figure: Three point time series at distance
+   Lseries = ldat2lwav3D(W,X,Y,opt3D,'plotflag','off')
+   subplot(311)
+   plot(Lseries.t,Lseries.Z{1},'r')
+   grid on; hold on
+   plot(Lseries.t,Lseries.Z{2},'g')
+   plot(Lseries.t,Lseries.Z{3},'b')
+   pause
+   
+   % Figure: Cross-correlation function between time series
+   Rx = xcov(Lseries.Z{1},Lseries.Z{3},200,'biased');
+   subplot(211)
+   plot((-200:200)/5,Rx)
+   
+   disp('End of Chapter 2')
+
+   TSTOP=cputime
+   disp(['Total time = ' num2str(TSTOP-TSTART) ' sec']);
+pause(pstate)
+\end{verbatim}
+}
+
+\section{{\tt WafoLCh3}, Commands for Chapter 3}
+{\small\begin{verbatim}
+% Script with commands for WafoL tutorial, Chapter 3
+
+rng('default')
+pstate = pause('off');
+TSTART = cputime;
+disp(' Chapter 3: 2nd order non-linear Lagrange waves')
+
+disp(' Section 3.2.1')
+    % Figure: Directional spectrum
+    S = jonswap;
+    D = spreading(linspace(-pi,pi,91),'cos2s',0,10,S.w,0);
+    S.h = 40; 
+    S.D = D;
+    Sdir = mkdspec(S,D);
+    figure(1), clf
+    plotspec(Sdir)
+    option = simoptset('Nt',1001,'dt',0.2,'Nu',300,'du',1,'Nv',100,'dv',1);
+    pause
+    
+disp(' Section 3.2.2')
+    % Figure: qq-plot
+    [W1,X1,Y1] = spec2ldat3D(Sdir,option);
+    [W2,X2,Y2] = spec2ldat3DM(S,1,option);
+
+    % Run if PCT is available
+    % matlabpool local 4
+    % [W3,X3,Y3] = spec2ldat3DP(S,1,option);
+
+    figure(2), clf
+    subplot(221)
+    plotqq(W1.Z(:),W2.Z(:)); grid on
+    xlabel('W1.Z quantiles')
+    ylabel('W2.Z quantiles')
+    subplot(222)
+    plotnorm(W1.Z(:))
+    pause
+    clear W1 W2 X1 X2 Y1 Y2
+    
+disp(' Section 3.2.3')
+    % Check changes in region
+    S = jonswap;
+    opt = simoptset('Nt',501,'dt',0.5,'Nu',501,'du',1);
+    [W,X] = spec2ldat(S,opt);
+    [Wm,Xm] = spec2ldat3DM(S,1,opt);
+    pause
+
+disp(' Section 3.3.1')
+    % Figure: Linear and non-lines with spec2nlsdat
+    S = jonswap; S.h = 20;
+    np = 250; dt = 0.2;
+    [xs2, xs1] = spec2nlsdat(S,np,dt);
+    figure(1), clf
+    waveplot(xs1,'b',xs2,'r',1,1)
+    pause
+
+disp(' Section 3.3.2')
+    % Time waves
+    S = jonswap; S.h = 20;
+    opt = simoptset('Nt',250,'dt',0.2,'Nu',1001,'du',1,'Nv',1);
+    [W,X,~,W2,X2,~] = spec2ldat3DM(S,2,opt);
+    X2 % The 2nd order x-components has a field 'drift'
+    pause
+    
+    % Figure: Time waves with and without Stokes drift
+    Wtot2 = W; Wtot2.Z = W.Z + W2.Z;
+    Wtot2d = Wtot2;  % No Stokes drift in the vertical direction ! 
+    Xtot2 = X; Xtot2.Z = X.Z + X2.Z;
+    Xtot2d = X; Xtot2d.Z = X.Z + X2.Z + X2.drift;
+
+    [L,L0] = ldat2lwav(W,X,'time',250,1,0);
+    [L2,L20] = ldat2lwav(Wtot2,Xtot2,'time',250,1,0);
+    [L2d,L20d] = ldat2lwav(Wtot2d,Xtot2d,'time',250,1,0);
+
+    figure(1), clf
+    plot(L0.t,L0.Z,'b','LineWidth',2); hold on, grid on;
+    plot(L20.t,L20.Z,'r-.','LineWidth',2)
+    plot(L20d.t,L20d.Z,'r','LineWidth',2)
+    set(gca,'FontSize',14)
+    title('Surface elevation from mean water level (MWL)')
+    xlabel('Time (sec)'); hold off
+    pause
+
+    % Space waves
+    S = jonswap; S.h = 20;
+    opt = simoptset('Nt',1000,'dt',0.2,'Nu',1001,'du',1,'Nv',1);
+    [W,X,~,W2,X2,~] = spec2ldat3DM(S,2,opt);
+    
+    % Figure: Space wave with Stokes drift
+    Wtot2 = W; Wtot2.Z = W.Z + W2.Z;
+    Wtot2d = Wtot2;  % No Stokes drift in the vertical direction ! 
+    Xtot2 = X; Xtot2.Z = X.Z + X2.Z;
+    Xtot2d = X; Xtot2d.Z = X.Z + X2.Z + X2.drift;
+
+    [L50,L050] = ldat2lwav(W,X,'space',50,1,0);
+    %[L250,L2050] = ldat2lwav(Wtot2,Xtot2,'space',50,1,0);
+    [L2d50,L20d50] = ldat2lwav(Wtot2d,Xtot2d,'space',50,1,0);
+    [L100,L0100] = ldat2lwav(W,X,'space',100,1,0);
+    %[L2100,L20100] = ldat2lwav(Wtot2,Xtot2,'space',100,1,0);
+    [L2d100,L20d100] = ldat2lwav(Wtot2d,Xtot2d,'space',100,1,0);
+    [L150,L0150] = ldat2lwav(W,X,'space',150,1,0);
+    %[L2150,L20150] = ldat2lwav(Wtot2,Xtot2,'space',150,1,0);
+    [L2d150,L20d150] = ldat2lwav(Wtot2d,Xtot2d,'space',150,1,0);
+
+    figure(1), clf
+    subplot(311)
+    plot(L050.u,L050.Z,'b','LineWidth',2); hold on, grid on;
+    plot(L20d50.u,L20d50.Z,'r','LineWidth',2)
+    set(gca,'FontSize',12)
+    title('Surface elevation from mean water level (MWL)')
+    xlabel('Location (m) at time = 50 (sec)')
+    subplot(312)
+    plot(L0100.u,L0100.Z,'b','LineWidth',2); hold on, grid on;
+    plot(L20d100.u,L20d100.Z,'r','LineWidth',2)
+    set(gca,'FontSize',12)
+    xlabel('Location (m) at time = 100 (sec)')
+    subplot(313)
+    plot(L0150.u,L0150.Z,'b','LineWidth',2); hold on, grid on;
+    plot(L20d150.u,L20d150.Z,'r','LineWidth',2)
+    set(gca,'FontSize',12)
+    xlabel('Location (m) at time = 150 (sec)')
+    pause
+       
+disp(' Section 3.3.3, Front-back asymmetry')
+    % Figure: Front-back asymmetric 2nd order waves
+    S = jonswap; S.h = 20;   
+    [W,X,~,W2,X2,~] = spec2ldat3DM(S,2,opt,'Nt',250,'lalpha',1.5);
+    Wtot2 = W; Wtot2.Z = W.Z + W2.Z;
+    Wtot2d = Wtot2;  
+    Xtot2 = X; Xtot2.Z = X.Z + X2.Z;
+    Xtot2d = X; Xtot2d.Z = X.Z + X2.Z + X2.drift;
+
+    [L,L0] = ldat2lwav(W,X,'time',250,1,0);
+    [L2,L20] = ldat2lwav(Wtot2,Xtot2,'time',250,1,0);
+    [L2d,L20d] = ldat2lwav(Wtot2d,Xtot2d,'time',250,1,0);
+
+    figure(1), clf
+    subplot(311)
+    plot(L0.t,L0.Z,'b','LineWidth',2); hold on, grid on;
+    plot(L20.t,L20.Z,'r-.','LineWidth',2)
+    plot(L20d.t,L20d.Z,'r','LineWidth',2)
+    set(gca,'FontSize',14)
+    title('Surface elevation from mean water level (MWL)')
+    xlabel('Time (sec)')
+    pause
+
+disp(' Section 3.4')
+    S = jonswap; S.h=20;
+    D = spreading(linspace(-pi,pi,51),'cos2s',0,15,S.w,0);
+    S.D = D;
+    opt=simoptset('Nt',250,'dt',0.2,'Nu',250,'du',1,'Nv',50,'dv',1);
+    [W,X,Y,W2,X2,Y2] = spec2ldat3DM(S,2,opt);
+    
+    % Figure: Check the Stokes drift
+    figure(1), clf
+    surf(X2.u(1:2:end),X2.v(1:2:end),X2.drift(1:2:end,1:2:end,end)) 
+    
+    % Extend the reference region
+    opt=simoptset('Nt',250,'dt',0.2,'Nu',360,'du',1,'Nv',130,'dv',1);
+    [W,X,Y,W2,X2,Y2] = spec2ldat3DM(S,2,opt);
+    Wtot2 = W; Wtot2.Z = W.Z + W2.Z;
+    Xtot2d = X; Xtot2d.Z = X.Z + X2.Z + X2.drift;
+    Ytot2d = Y; Ytot2d.Z = Y.Z + Y2.Z + Y2.drift;
+    % and set the region of interest
+    opt3D = genoptset('start',[10 15],'end',[260 115]);
+    
+    % Figures: Fields and movies
+    figure(1), clf
+    L=ldat2lwav3D(Wtot2,Xtot2d,Ytot2d,opt3D)
+    drawnow
+    figure(2), clf
+    Mv=seamovie(L,1)
+    pause
+
+    % Front-back asymmetry
+    optasym = simoptset(opt,'lalpha',1.5);
+    [W,X,Y,W2,X2,Y2] = spec2ldat3DM(S,2,optasym);
+    Wtot2 = W; Wtot2.Z = W.Z + W2.Z;
+    Xtot2d = X; Xtot2d.Z = X.Z + X2.Z + X2.drift;
+    Ytot2d = Y; Ytot2d.Z = Y.Z + Y2.Z + Y2.drift;
+    figure(3), clf
+    L2=ldat2lwav3D(Wtot2,Xtot2d,Ytot2d,opt3D)
+    drawnow
+    figure(4), clf
+    Mv2=seamovie(L2,1)
+
+    disp('End of Chapter 3')
+       
+    TSTOP=cputime
+    disp(['Total time = ' num2str(TSTOP-TSTART) ' sec']);
+pause(pstate)   
+\end{verbatim}
+}

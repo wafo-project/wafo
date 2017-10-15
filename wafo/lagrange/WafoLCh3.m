@@ -152,7 +152,7 @@ disp(' Section 3.4')
     [W,X,Y,W2,X2,Y2] = spec2ldat3DM(S,2,opt);
     
     % Figure: Check the Stokes drift
-    figure(1), clf
+    figure(10), clf
     surf(X2.u(1:2:end),X2.v(1:2:end),X2.drift(1:2:end,1:2:end,end)) 
     
     % Extend the reference region

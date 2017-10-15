@@ -1,0 +1,429 @@
+\font\hb=cmssbx10 scaled \magstep5
+%\font\matrix=cmssbx10 scaled \magstep1
+\font\h=cmss10 scaled \magstep3
+%
+\setlength{\arraycolsep}{0.4mm}
+
+\font\opera=cmssbx10 scaled \magstep1
+\newcommand{\pr}{\mbox{\sf P}}
+\newcommand{\co}{\mbox{\sf C}}
+\newcommand{\va}{\mbox{\sf V}}
+\newcommand{\ex}{\mbox{\sf E}}
+\newcommand{\sd}{\mbox{\sf D}}
+%
+\newcommand{\mbf}[1]{\ensuremath{\mathbf{#1} }}
+\newcommand{\mbs}[1]{\ensuremath{\boldsymbol{#1} }}
+\newcommand{\w}{\ensuremath{\omega }}
+\newcommand{\W}{\ensuremath{\Omega }}
+\newcommand{\eg}{e.g.\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etc}{etc.\@\xspace}
+
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ts}{\textstyle}
+%\newcommand{\dfrac}[2]{\frac{\ds #1}{\ds #2}}
+%\newcommand{\tfrac}[2]{{\ts\frac{#1}{#2}}\ds}
+\newcommand{\puv}[2]{\frac{\partial^2f(#1,#2)}{\partial u\partial v}}
+\newcommand{\pvv}[2]{\frac{\partial^2f(#1,#2)}{\partial v^2}}
+\newcommand{\puu}[2]{\frac{\partial^2f(#1,#2)}{\partial u^2}}
+\newcommand{\pf}[3]{\frac{\partial^2f(#1,#2)}{\partial #3}}
+\setlength{\unitlength}{1mm}
+\newcommand{\matavst}{\setlength{\arraycolsep}{2mm}}
+%\newcommand{\var}[1]{\mbox{$\langle\mbox{\em #1\/}\rangle$}}
+\newcommand{\m}[1]{\mbox{\bf #1}}
+\newcommand{\sm}[1]{\mbox{\small\bf #1}}
+\newcommand{\fm}[1]{\mbox{\footnotesize\bf #1}}
+\newcommand{\ssm}[1]{\mbox{\scriptsize\bf #1}}
+\newcommand{\ma}[1]{\mbox{\matrix #1}}
+\newcommand{\smallm}[1]{\mbox{\small\bf #1}}
+\newcommand{\footm}[1]{\mbox{\footnotesize\bf #1}}
+\newcommand{\bmh}[1]{\mbox{\boldmath $\widehat #1$}}
+\newcommand{\bfm}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\bm}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\sbfm}[1]{\mbox{\small\boldmath $#1$}}
+\newcommand{\fbfm}[1]{\mbox{\footnotesize\boldmath $#1$}}
+\newcommand{\ssbfm}[1]{\mbox{\scriptsize\boldmath $#1$}}
+\newcommand{\vph}[1]{\vphantom{#1}}
+\newcommand{\hopp}{\hskip1cm}
+\newcommand{\reff}[1]{(\ref{#1})}
+\newcommand{\help}[1]{\stackrel{\rm #1}{=}}
+\newcommand{\deflik}{\stackrel{\rm def}{=}}
+\def\diag{\mathop{\rm diag}}
+\def\fliplr{\mathop{\ma F_{\!{\mbox{\tiny LR}}}}}
+\def\flipud{\mathop{\ma F_{\!{\mbox{\tiny UD}}}}}
+
+\newcommand{\rfc}{{\protect\mbox{\protect\footnotesize\protect\sc rfc}}}
+\newcommand{\osc}{{\protect\mbox{\protect\footnotesize\protect\sc osc}}}
+\newcommand{\tc}{{\protect\mbox{\protect\footnotesize\protect\sc tc}}}
+\newcommand{\pv}{{\protect\mbox{\protect\footnotesize\protect\sc pt}}}
+\newcommand{\ptr}{{\protect\mbox{\protect\footnotesize\protect\sc ptr}}}
+\newcommand{\ptl}{{\protect\mbox{\protect\footnotesize\protect\sc ptl}}}
+\newcommand{\markov}{{\protect\mbox{\protect\footnotesize Markov}}}
+\newcommand{\Markov}{{\protect\mbox{\protect\footnotesize Markov}}}
+\newcommand{\MFT}{{\sc Wave Analysis Toolbox}}
+%\newcommand{\progname}{{\sc Wave Analysis Toolbox}}
+\newcommand\progname{{\sc Wafo}}
+\newcommand\pn{{\sc Wafo}}
+\newcommand{\ML}{{\sc Matlab}}
+\newcommand{\FORTRAN}{{\sc Fortran}}
+\newcommand{\MEX}{{\sc Mex}}
+\newcommand{\INF}{{\protect\mbox{\protect\scriptsize INF}}}
+\newcommand{\NIT}{{\protect\mbox{\protect\scriptsize NIT}}}
+\newcommand{\IAC}{{\protect\mbox{\protect\scriptsize IAC}}}
+\newcommand{\ISQ}{{\protect\mbox{\protect\scriptsize ISQ}}}
+\newcommand{\IT}{{\protect\mbox{\protect\scriptsize IT}}}
+\newcommand{\si}[1]{{\protect\mbox{\protect\scriptsize #1}}}
+\newcommand{\fs}{\footnotesize}
+\newcommand{\comment}[1]{\marginpar{#1}}
+\def\mgd{\mathop{\leavevmode \raise.16ex\hbox{\mbox{$\in$}}}\nolimits}
+\def\imgd{\mathop{\leavevmode \raise.4mm\hbox{\mbox{\tiny$\in$}}}\nolimits}
+\def\delmgd{\mathop{\leavevmode \raise.16ex\hbox{\mbox{$\subset$}}}\nolimits}
+\def\truedelmgd{\mathop{\leavevmode
+\raise.16ex\hbox{\mbox{$\subseteq$}}}\nolimits}
+\headheight 22pt
+\pagestyle{headings}
+\textwidth 16.5cm   \topmargin -16.5mm \textheight 25cm
+%\textwidth 15.3cm   \topmargin -10.5mm \textheight 22.5cm \headsep 15mm
+%ett försök att likna Springer Lecture notes
+
+\addtolength{\oddsidemargin}{-5mm}
+\addtolength{\evensidemargin}{-28mm}
+%\oddsidemargin 2.5mm       \evensidemargin -8.5mm
+       %ersatt med smalare marginaler för att visa KEYs
+%\oddsidemargin 15mm       \evensidemargin 15mm
+%\textwidth=130mm
+%\oddsidemargin 14.5mm       \evensidemargin -8.5mm %skall vara 3
+\itemsep 0pt plus 1pt    \parskip 0pt plus 1pt
+\frenchspacing
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\def\leaderfill{\leaders\hbox to .5em{\hss.\hss}\hfill}
+\def\linje{{\hbox{} \leaders\hrule\hfill\hbox{}}\\ }
+
+\newcommand{\prog}[2]{%
+  \addcontentsline{toc}{section}{\protect\tt#1}
+  \index{#1@{\tt #1}!matlab function@{\rm reference}}
+  \newpage\par
+  \ifodd \thepage \noindent\underline{\makebox[\textwidth][r]{\Large\tt #1%
+                        \rule[-3mm]{0mm}{0mm}}}\bigskip\par\nobreak
+  \else \noindent\underline{\makebox[\textwidth][l]{\Large\tt #1%
+                        \rule[-3mm]{0mm}{0mm}}}\bigskip\par\nobreak
+  \fi
+  \addtocontents{tof}{\protect{\item[{\tt #1}]}%
+        {#2 (Page: \thepage.)}}}
+
+\newcommand{\tool}[2]{%
+  \addcontentsline{toc}{section}{\protect\tt#1}
+  \index{#1@{\tt #1}!matlab tool@{\rm reference}}
+  \newpage\par
+  \ifodd \thepage \noindent\underline{\makebox[\textwidth][r]{\Large\tt #1%
+                        \rule[-3mm]{0mm}{0mm}}}\bigskip\par\nobreak
+  \else \noindent\underline{\makebox[\textwidth][l]{\Large\tt #1%
+                        \rule[-3mm]{0mm}{0mm}}}\bigskip\par\nobreak
+  \fi
+  \addtocontents{tot}{\protect{\item[{\tt #1}]}%
+        {#2 (Page: \thepage.)}}}
+
+%
+% \penalty-3000\vspace{20mm plus5mm}\par
+% \noindent{\Large\tt #1\ }\linje\smallskip\par\nobreak}
+
+\newcommand{\datalistlabel}[1]{\mbox{\bf #1}\hfil}
+\newenvironment{data}{%
+ \begin{list}{}{\let\makelabel\datalistlabel
+ \settowidth{\labelwidth}{Description:xxx} \setlength{\labelsep}{3mm}
+ \setlength{\leftmargin}{\labelwidth} \addtolength{\leftmargin}{\labelsep}
+ \setlength{\itemsep}{5 pt} \setlength{\partopsep}{0pt}
+ \setlength{\topsep}{-12mm} }}{\end{list}}
+%
+\newcommand{\namelistlabel}[1]{\mbox{\rm #1}\hfil}
+\newenvironment{lista}[1]{%
+ \begin{list}{}{\let\makelabel\namelistlabel
+ \settowidth{\labelwidth}{\rm #1} \setlength{\leftmargin}{\labelwidth}
+ \setlength{\labelsep}{0 pt} \setlength{\listparindent}{\parindent}
+ \setlength{\itemsep}{0 pt} }}{\end{list}}
+
+\newcommand{\inarglistlabel}[1]{\mbox{\tt #1}\hfil}
+\newenvironment{inarg}[1]{%
+ \begin{list}{}{\let\makelabel\inarglistlabel
+ \settowidth{\labelwidth}{\tt #1xx} \setlength{\leftmargin}{\labelwidth}
+ \setlength{\labelsep}{0 pt} \setlength{\listparindent}{\parindent}
+ \setlength{\itemsep}{0 pt} }}{\end{list}}
+
+\newtheorem{thtype}{}[part]
+\newenvironment{type}{\begin{thtype}\hskip1cm\penalty10000}{\end{thtype}\penalty-3000}
+\renewcommand{\thethtype}{}
+
+\font\itbf=cmbxti10
+\newtheorem{example}{\bf Example}%[Chapter]
+
+\newcommand{\bverb}{\small\begin{verbatim}}
+\newcommand{\everb}{\end{verbatim}\normalsize}
+
+\newenvironment{rex}[1]{\begin{example}\hspace{-.45em}\bf.\rm\hskip1em
+  \rm\label{#1}\penalty10000}{\slut\end{example}\penalty-3000\normalsize}
+
+%\renewcommand{\theexample}{\thechapter.\arabic{example}}
+\renewcommand{\theexample}{\arabic{example}}
+
+\newcommand{\addcontsub}[1]{\addcontentsline{toc}{subsection}{\protect\it#1}}
+\newcommand{\addcontsubsub}[1]{\addcontentsline{toc}{subsubsection}{\protect\it#1}}
+\newcommand{\addcontpar}[1]{\addcontentsline{toc}{paragraph}{\protect\it#1}}
+
+\newenvironment{rtex}[2]{\begin{example}\hspace{-.45em}\bf. {\sl (#2)}\hskip1em
+  \rm\label{#1}\penalty10000}{\slut\end{example}\penalty-3000\normalsize}
+
+\newenvironment{vex}{\begin{example}\hspace{-.42em}\bf.\rm\hskip1em
+  \rm\penalty10000}{\slut\end{example}\penalty-3000\normalsize}
+
+\newenvironment{cex}[1]{\vskip1ex\noindent {\bf Example \ref{#1}.
+(contd.)}\hskip1em
+\rm\penalty10000}{\slut\penalty-3000\par\addvspace{%
+\medskipamount}\normalsize}
+
+\newtheorem{defi}{Definition}[part]
+\newenvironment{definition}[2]{%
+\begin{defi}\bf\hspace{-.4em}.\hskip.5em\sc(#2.)
+  \sl\label{#1}\penalty10000}{\end{defi}\penalty-3000\normalsize\rm}
+\renewcommand{\thedefi}{\thechapter.\arabic{defi}}
+
+\newtheorem{defii}[defi]{Definition}
+\newenvironment{definitioni}[1]{\begin{defii}\bf\hspace{-.4em}.\hskip.5em
+  \sl\label{#1}\penalty10000}{\end{defii}\penalty-3000\normalsize\rm}
+
+\newtheorem{theo}{Theorem}[part]
+\newenvironment{theorem}[2]{\begin{theo}%
+ \hspace{-.37em}{\bf .}\hskip1em {\sc (#2.)}
+\hskip.5em\label{#1}\penalty10000\sl}{\end{theo}\penalty-3000
+     \normalsize\rm}
+\renewcommand{\thetheo}{\thechapter.\arabic{theo}}
+
+\newtheorem{theoi}[theo]{Theorem}
+\newenvironment{theoremi}[1]{\begin{theoi} \hspace{-.37em}{\bf .}
+\hskip.5em\label{#1}\penalty10000\sl}{\end{theoi}\penalty-3000
+     \normalsize\rm}
+
+\newtheorem{cor}[theo]{Corollary}
+\newenvironment{corollary}[2]{\begin{cor}\bf\hspace{-.37em}.
+  {\sc (#2)}\hskip.5em\label{#1}\penalty10000\sl}{\end{cor}\penalty-3000
+     \normalsize\rm}
+\renewcommand{\thecor}{\thechapter.\arabic{cor}}
+
+\newenvironment{corollaryi}[1]{\begin{cor}\bf\hspace{-.37em}.
+  \label{#1}\penalty10000\sl}{\end{cor}\penalty-3000\normalsize\rm}
+
+\newtheorem{lem}[theo]{Lemma}
+\newenvironment{lemma}[1]{\begin{lem}\bf\hspace{-.37em}.
+  \hskip.5em\label{#1}\penalty10000\sl}{\end{lem}\penalty-3000
+     \normalsize\rm}
+\renewcommand{\thelem}{\thechapter.\arabic{lem}}
+
+\newtheorem{computation}{NCE}
+\newenvironment{comp}[1]{\begin{computation}\bf\hspace{-.37em}.
+  \hskip.5em\label{#1}\penalty10000\rm}{\slut\end{computation}
+  \penalty-3000\normalsize\rm}
+\renewcommand{\thecomputation}{\thechapter.\arabic{computation}}
+
+\newtheorem{rem}{Remark}
+\newenvironment{remark}{\begin{rem}\bf\hspace{-.37em}.\hskip.5em
+        \penalty10000\rm}{\slut\end{rem}%
+        \penalty-3000\normalsize\rm}
+\renewcommand{\therem}{\thechapter.\arabic{rem}}
+
+\newenvironment{refremark}[1]{\begin{rem}\hskip.5em\label{#1}\penalty10000\rm}{\end{rem}%
+        \penalty-3000\normalsize\rm}
+
+%\newenvironment{remark}{\noindent{\bf Remark.\hskip.5em}}{\slut\par
+%     \addvspace{\medskipamount}}
+
+\newenvironment{proof}{\noindent{\sc Proof.\hskip.5em}}{\slut\bigskip\par}
+%
+\newcommand{\slut}{\unskip\nobreak\hfill\penalty100\hskip1em
+\vadjust{}\nobreak\hfill\mbox{$\Box$}\parfillskip=0pt
+\finalhyphendemerits=0}
+
+\def\formpic#1#2#3{\setbox0\vbox{\hsize .6\textwidth #1}
+ \setbox1\vbox{\hsize .4\textwidth\noindent\input{#2}}
+ \noindent\hbox to \textwidth{\hbox to .4\textwidth{\vbox to
+ #3{\vss\box1\vss}}\hss
+ \hbox to .6\textwidth{$$\vbox to #3{\vss \box0\vss}$$}}}
+
+\newcommand{\onewidepic}[1]{\centerline{\hbox{\psfig{figure=../pic35/#1,%
+        height=7cm,width=10.5cm,silent=}}\hskip4.5mm\mbox{}}}
+\newcommand{\onetwopic}[1]{\centerline{\hbox{\psfig{figure=../pic35/#1,height=10cm,width=12.8cm,%
+         rheight=10cm,silent=}}\hskip4.5mm\mbox{}}}
+\newcommand{\twopic}[2]{\centerline{\hbox{\psfig{figure=../pic35/#1,height=5cm,%
+        width=6.415cm,silent=}}\hskip-4mm
+        \hbox{\psfig{figure=../pic35/#2,height=5cm,width=6.415cm,silent=}}\hskip4.5mm\mbox{}}}
+\newcommand{\newtwopic}[2]{\centerline{\hbox{\psfig{figure=../pic40/#1,height=6cm,%
+        silent=}}\hskip-4mm
+        \hbox{\psfig{figure=../pic40/#2,height=6cm,silent=}}\hskip4.5mm\mbox{}}}
+
+\newcommand{\threepic}[3]{\centerline{\hbox{\psfig{figure=../pic35/#1,height=5cm,%
+        width=6.415cm,silent=}}\hskip-8mm
+        \hbox{\psfig{figure=../pic35/#2,height=5cm,width=6.415cm,silent=}}\hskip-8mm
+        \hbox{\psfig{figure=../pic35/#3,height=5cm,width=6.415cm,silent=}}\hskip3mm\mbox{}}}
+
+\newcommand{\onebyonepic}[1]{\vskip3mm\centerline{\hbox{\psfig{figure=../pictures/#1,%
+        height=7cm,silent=}}\hskip4.5mm\mbox{}}\vskip3mm}
+\newcommand{\aonetwopic}[1]{\centerline{\hbox{\psfig{figure=#1,height=10cm,width=12.8cm,%
+         rheight=10cm,silent=}}\hskip4.5mm\mbox{}}}
+\newcommand{\onebytwopic}[2]{\vskip3mm\centerline{\hbox{\psfig{figure=../pictures/#1,%
+        height=6.5cm,silent=}}\hskip-2mm
+        \hbox{\psfig{figure=../pictures/#2,height=6.5cm,silent=}}\hskip2.5mm\mbox{}}\vskip3mm}
+\newcommand{\onebytwopicMLivi}[2]{\vskip3mm\centerline{\hbox{\psfig{figure=../pictures/#1,%
+        height=6.5cm,silent=}}\hskip5mm
+        \hbox{\psfig{figure=../pictures/#2,height=6.5cm,silent=}}\hskip2.5mm\mbox{}}\vskip3mm}
+\newcommand{\onebythreepic}[3]{\vskip3mm\centerline{%
+        \hbox{\psfig{figure=../pictures/#1,height=4.5cm,silent=}}\hskip-8mm
+        \hbox{\psfig{figure=../pictures/#2,height=4.5cm,silent=}}\hskip-8mm
+        \hbox{\psfig{figure=../pictures/#3,height=4.5cm,silent=}}\hskip3mm\mbox{}}\vskip3mm}
+
+% BELOW IS A COPY OF ABOVE TO SUITE MY MAG.PAPER
+\newcommand{\monebyonepic}[1]{\vskip3mm\centerline{\hbox{\psfig{figure=../pictures/#1,%
+        height=7cm,silent=}}\hskip4.5mm\mbox{}}\vskip3mm}
+\newcommand{\maonetwopic}[1]{\centerline{\hbox{\psfig{figure=#1,height=10cm,width=12.8cm,%
+         rheight=10cm,silent=}}\hskip4.5mm\mbox{}}}
+\newcommand{\monebytwopic}[2]{\vskip3mm\centerline{\hbox{\psfig{figure=../pictures/#1,%
+        height=6.5cm,silent=}}\hskip0mm
+        \hbox{\psfig{figure=../pictures/#2,height=6.5cm,silent=}}\hskip2.5mm\mbox{}}\vskip5mm}
+\newcommand{\monebytwopicMLivi}[2]{\vskip3mm\centerline{\hbox{\psfig{figure=../pictures/#1,%
+        height=5cm,silent=}}\hskip5mm
+        \hbox{\psfig{figure=../pictures/#2,height=5cm,silent=}}\hskip2.5mm\mbox{}}\vskip3mm}
+\newcommand{\monebythreepic}[3]{\vskip3mm\centerline{%
+        \hbox{\psfig{figure=../pictures/#1,height=4.5cm,silent=}}\hskip0mm
+        \hbox{\psfig{figure=../pictures/#2,height=4.5cm,silent=}}\hskip0mm
+        \hbox{\psfig{figure=../pictures/#3,height=4.5cm,silent=}}\hskip3mm\mbox{}}\vskip3mm}
+% END OF COPY
+\newcommand{\IF}{{\bf IF}\ }            \newcommand{\THEN}{{\bf THEN}\ }
+\newcommand{\ELSE}{{\bf ELSE}\ }        \newcommand{\END}{{\bf END}\ }
+\newcommand{\ENDIF}{{\bf END IF}\ }     \newcommand{\OR}{{\bf OR}\ }
+\newcommand{\GOTO}{{\bf GOTO}\ }
+
+\newcommand{\lab}[1]{\llap{\llap{\fbox{#1}}\hskip3mm}\hskip0mm}
+\newcommand{\bull}{\hskip-3mm\makebox[3mm]{$\bullet$}}
+
+\newcommand{\bl}{\begin{list}{\hfil$\bullet$\hfil}{\setlength{\labelsep}{4mm}%
+   \setlength{\labelwidth}{4mm}\setlength{\topsep}{-3mm}}}
+\newcommand{\dl}{\begin{list}{\hfil$\Diamond$\hfil}{\setlength{\labelsep}{4mm}%
+   \setlength{\labelwidth}{4mm}\setlength{\topsep}{-3mm}}}
+
+\newcommand{\labl}{\begin{list}%
+   {\hfil\fbox{\Roman{labelcounter}}\hfil}{\usecounter{labelcounter}%
+   \setlength{\labelsep}{2mm}\setlength{\topsep}{-3mm}}}
+\newcommand{\el}{\end{list}}
+
+\newcounter{lci}
+\newenvironment{cni}{%
+   \begin{list}{\arabic{lci}}
+   {\usecounter{lci} \settowidth{\labelwidth}{\rm xxx}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+
+\newcounter{lcii}
+\newenvironment{cnii}{%
+   \begin{list}{\arabic{lci}:\arabic{lcii}}
+   {\usecounter{lcii} \settowidth{\labelwidth}{\rm 0:00}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+\newenvironment{bnii}{%
+   \begin{list}{$\bullet$}
+   {\settowidth{\labelwidth}{xxx}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+
+\newcounter{lciii}
+\newenvironment{cniii}{%
+   \begin{list}{\arabic{lci}:\arabic{lcii}:\arabic{lciii}}
+   {\usecounter{lciii} \settowidth{\labelwidth}{\rm 0:00:00}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+\newenvironment{bniii}{%
+   \begin{list}{$\bullet$}
+   {\settowidth{\labelwidth}{xxx}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+
+\newcounter{lciv}
+\newenvironment{cniv}{%
+   \begin{list}{\arabic{lci}:\arabic{lcii}:\arabic{lciii}:\arabic{lciv}}
+   {\usecounter{lciv} \settowidth{\labelwidth}{\rm 0:00:00:00}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+\newenvironment{bniv}{%
+   \begin{list}{$\bullet$}
+   {\settowidth{\labelwidth}{xxx}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+
+\newcounter{lcv}
+\newenvironment{cnv}{%
+   \begin{list}{\arabic{lci}:\arabic{lcii}:\arabic{lciii}:\arabic{lciv}%
+                :\arabic{lcv}}
+   {\usecounter{lcv} \settowidth{\labelwidth}{\rm 0:00:00:00:00}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+\newenvironment{bnv}{%
+   \begin{list}{$\bullet$}
+   {\settowidth{\labelwidth}{xxx}
+   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+
+%\newcommand{\comnamelabel}[1]{\hfil\mbox{#1}\hfil}
+%\newenvironment{cn}[1]{%
+%   \begin{list}{\arabic{labelcounter}}
+%   {\let\makelabel\comnamelabel \settowidth{\labelwidth}{#1}
+%   \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+
+\newcommand{\funclistlabel}[1]{\mbox{#1}\hfil}
+\newenvironment{funclist}{\begin{list}{}{\let\makelabel\funclistlabel
+        \settowidth{\labelwidth}{xxxxxxxxx}
+        \setlength{\itemsep}{1mm plus 1mm minus .5mm}
+        \setlength{\leftmargin}{1.1\labelwidth}}}{\end{list}}
+\makeatletter
+\def\listfunc{%\chapter{List of Functions}
+\begin{center}{\Large\bf List of Functions}\end{center}
+\begingroup\makeatletter
+\begin{funclist} \@input{\jobname.tof} \end{funclist}
+\if@filesw \expandafter\newwrite\csname tf@tof\endcsname\expandafter
+\openout\csname tf@tof\endcsname \jobname.tof\relax \fi\endgroup}
+
+\def\listtools{%\chapter{List of Tools}
+\begin{center}{\Large\bf List of Tools}\end{center}
+\begingroup\makeatletter
+\begin{funclist} \@input{\jobname.tot} \end{funclist}
+\if@filesw \expandafter\newwrite\csname tf@tot\endcsname\expandafter
+\openout\csname tf@tot\endcsname \jobname.tot\relax \fi\endgroup}
+\makeatother
+
+\newcommand{\mfunc}[1]{\setcounter{example}{0}\input{../xpl4.0/#1}}
+\newcommand{\mfunctf}[1]{\setcounter{example}{0}\input{../xpl3.5/#1}}
+
+
+\newbox\tempboxnum\newdimen\tempdim
+\long\def\figbox#1{%
+\setbox\tempboxnum=\vbox{\hsize 11cm\noindent\strut #1\strut}%
+\tempdim=\ht\tempboxnum
+\advance\tempdim\dp\tempboxnum\advance\tempdim-2ex
+\dp\tempboxnum=\tempdim\ht\tempboxnum=2ex\box\tempboxnum}
+
+
+% SMARPROOF
+
+%\outer\def\exproof#1{\immediate\write\bev{\string\input{#1.tex}}%
+%A proof is found in Appendix \ref{ap:proofs}}
+%\outer\def\exproof#1{\immediate\write\bev{\string\input{#1.tex}}\input{#1}}
+\newwrite\bev \immediate\openout\bev=t_proofs
+\chardef\other=12
+\outer\def\smartproof{\begin{proof}%
+        A proof is found in Part~\ref{part:proofs}%
+        \end{proof}
+        \immediate\write\bev{}\copytoblankline}
+\def\copytoblankline{\begingroup\setupcopy\copyans}
+\def\setupcopy{\def\do##1{\catcode`##1=\other}\dospecials
+  \catcode`\|=\other \obeylines}
+  {\obeylines \gdef\copyans#1
+  {\def\next{#1}%
+  \ifx\next\empty\let\next=\endgroup %
+  \else\immediate\write\bev{\next} \let\next=\copyans\fi\next}}
+\def\listproofs{\immediate\closeout\bev\part{Proofs}
+        \label{part:proofs}\clearpage\input{t_proofs}}
+\def\proofref#1{(#1)}
+
+%\def\smartproof{} \def\listproofs{} \def\proofref#1{}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "wafomanual"
+%%% End:

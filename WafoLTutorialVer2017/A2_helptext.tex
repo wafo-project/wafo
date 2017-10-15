@@ -1,0 +1,877 @@
+\chapter{WafoL routines}
+
+%\vspace{-12mm}
+\subsection*{Matlab m-routines}
+{\footnotesize\begin{verbatim}
+% WAFOL = lagrange module for WAFO toolbox
+% Version 2017 Oct-13-2017
+%
+% WafoL contains routines for 1st and 2nd order random Lagrange waves
+%
+%   dat2crossind       - Finds indices to level v down and/or upcrossings from data
+%   disper2            - Dispersion relation with possible mean flow
+%   genoptset          - Creates or alters 3D generation options structure
+%   ldat2lslope        - Extracts slopes at level crossings in Lagrange model
+%   ldat2lwav          - Finds time/space Lagrange process from simulated components
+%   ldat2lwav3D        - Generates Lagrange 3D wave process from simulated components
+%   looptest           - Simulates 2D Lagrange waves to estimate folding rate
+%   lwav2frontback     - Gives front/back crest periods/wavelength of wave data
+%   pdfnorm2d          - Bivariate Gaussian distribution  
+%   seamovie           - Makes a movie of a 2D or 3D simulated sea structure 
+%   simoptset          - Creates or alters simulation options structure
+%   spec2lasym         - Simulates asymmetry measures for Lagrange waves from spectrum
+%   spec2lcov          - Calculates auto- and cross-covariance functions 
+%   spec2ldat          - Simulates w and x components of 2D Lagrange wave
+%   spec2ldat3D        - Spectral simulation of components in 3D Lagrangian sea 
+%   spec2ldat3DM       - Particle trajectory simulation according to Marc Prevosto
+%   spec2ldat3DP       - Parallel version of spec2ldat3DM for trajectory simulation
+%   spec2lseries       - Spectral simulation of time series in 3D Lagrangian sea 
+%   spec2slcomp        - Compares 2nd order Stokes and 1st order Lagrange time waves 
+%   spec2slopedat      - Simulates Lagrange waves and extracts slopes at crossings 
+%   spec2slopedat3D    - Simulates values and slopes in 3D Lagrange field 
+%   spec2spaceslopecdf - Computes cdf for slope at crossings of space waves 
+%   spec2spaceslopepdf - Computes pdf for slope at crossings of space waves 
+%   spec2steepdat      - Simulates Lagrange waves and extracts steepness and slopes
+%   spec2timeslopecdf  - Computes cdf for slopes at crossings of time waves 
+%   spec2timeslopepdf  - Computes pdf for slopes at crossings of time waves 
+%   wav2slope          - Extracts slopes at up- and downcrossings after smoothing
+\end{verbatim}
+%\clearpage
+
+\subsection*{Scripts for examples}
+\begin{verbatim}
+%   WafoLCh1           - Script with commands for WafoL tutorial, Chapter 1
+%   WafoLCh2           - Script with commands for WafoL tutorial, Chapter 2
+%   WafoLCh3           - Script with commands for WafoL tutorial, Chapter 3
+\end{verbatim}
+
+\subsection*{Executables}
+\begin{verbatim}
+%   partkern.mexw32  	- mexw32 file for use with 32 bit systems
+%   partkern.mexw64  	- mexw64 file for use with 64 bit systems
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [ind, Nc]= dat2crossind(x,v,wdef,nowarning)
+%DAT2CROSSIND Finds indices to level v down and/or upcrossings from data
+%
+%CALL: [ind, Nc]= dat2crossind(x,v,wdef/cdef,warning);
+%
+%   ind  = indices to the level v crossings of the original sequence x
+%   Nc   = number of crossings (i.e.length of ind) 
+%
+%   x   = the surface elevation data
+%   v   = the reference level (default  v = mean of  x)
+%   wdef = defines the type of wave. Possible options are
+%        'dw', 'uw', 'cw', 'tw' or 'none'. (Default 'none').
+%        If wdef='none' all crossings will be returned,
+%        otherwise only the crossings which defines a 
+%        wave according to the wave definition will be returned.
+%   cdef = defines the type crossings returned. Possible options are
+%        'd' 'u' or 'all'. (Default 'all').
+%        If def='d' all down-crossings will be returned.
+%        Similarly if def='u' only the up-crossings will be returned
+%        otherwise 'all' the crossings will be returned.
+%   nowarning = true suppresses warning for no crossings (default = false)
+%
+% Example: 
+%   t = linspace(0,7*pi,250); 
+%   x = sin(t);
+%   [ind, Nc] = dat2crossind(x,0.75,'u')
+%   plot(t,x,'.',t(ind),x(ind),'o')  
+%
+% See also  findcross, wavedef, crossdef
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [l,res] = disper2(t,dt,niter,dx_rel)
+%DISPER2 Dispersion relation with possible mean flow
+%
+%     disper2: dispersion relation, Newton-Raphson
+%              with possible mean flow
+%
+%              (2.pi.f-k.v)^2 = g.k.tanh(k.d)
+%
+%CALL:  [l,res] = disper2(t[,d[,niter[,dx_rel]]])
+%
+%     input:   t  : period vector
+%              dt : water depth vector [water depth d, mean flow v] 
+%                   or matrix same number of lines as length of t
+%                   vector or matrix [water depth d, surface current ...
+%                             speed, bottom current speed, type of profile]
+%                   type of profile = 0 => uniform (bottom current ... 
+%                             speed is not used) (default value)
+%                   type of profile = 1 => linear
+%                   type of profile = 2 => exponential
+%                   (default value [Inf,0])
+%
+%       output:     l : wavelength (same size as t)
+%                   res : residue (om0-xk*v)^2-g0*xk*tanh(xk*d)
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function options3D = genoptset(varargin)
+%GENOPTSET Creates or alters 3D generation options structure
+%
+%CALL: options3D = genoptset(funcname,opts1,opts2,...,par1,val1,par2,val2,...);
+%
+%   options3D    = options structure in which the named 
+%                parameters have the specified values.  
+%   funcname   = string giving the name of the function for which default
+%                values for the options structure should be extracted.
+%
+%   par1,par2..= strings identifying the parameter to alter
+%   val1,val2..= corresponding values the parameters are altered to.
+%   
+%   GENOPTSET sets options for transformation of ldat3D (W,X,Y) to 
+%   3D Lagrange fields or 2D timeseries
+%
+%   GENOPTSET with no input arguments and no output arguments displays all 
+%   parameter names and their possible values.
+%
+% See also troptset and simoptset
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function Slopes=ldat2lslope(w,x,typ,levels)
+%LDAT2LSLOPE Extracts slopes at level crossings in Lagrange model
+%
+%Call: Slopes  = ldat2lslope(w,x,type,levels)
+%               
+%   Slopes  = struct array with observed slopes at the up- and 
+%             downcrossings of specified levels
+%
+%   w,x     = vertical and horizontal component in Lagrange model
+%   type    = 'space' gives slopes in space waves
+%                 'time' gives time slopes
+%   levels  = vector of absolute levels relative mwl=0 
+%                 (no default)
+%
+% Example:
+%   S=jonswap; mom=spec2mom(S);
+%   opt=simoptset;
+%   opt=simoptset(opt,'dt',0.25,'du',0.25)
+%   [w,x]=spec2ldat(S,opt)
+%   levels=[0 1 2]*sqrt(mom(1));
+%   Slopes=ldat2lslope(w,x,'time',levels)
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [L,L0]=ldat2lwav(w_in,x_in,type,tu0,dense,plott)
+%LDAT2LWAV Finds time/space Lagrange process from simulated components
+%   This version returns true time or 2D space profile and  
+%   the smoothed initial part until the first loop/break
+%                 
+%CALL: [L,L0]=ldat2lwav(w,x,type,tu0,dense,plotting)
+%
+%   L        = Lagrange process structure with fields 
+%                  L.type and L.t/L.u and L.Z
+%                  L can contain loops and breaking waves
+%   L0       = a pruned and smoothed version of L without loops
+%
+%   w        = Gaussian vertical process structure w.Z, w.u, w.t
+%   x        = Gaussian horizontal variation process structure 
+%              x.Z, x.u, x.t
+%   type     = 'time' or 'space' 
+%   tu0      = time t0 for space wave, 
+%            = space coordinate u0 for time wave
+%   dense    = interpolation rate for smoothing
+%   plotting = 0/false, no plotting (default), 
+%            = 1/true, plot L (and L0 if not empty)
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function L=ldat2lwav3D(W,X,Y,opt3D,varargin)
+%LDAT2LWAV3D Generates Lagrange 3D wave process from simulated components
+%   from W,X,Y fields (as output from spec2ldat3D) 
+% 
+%CALL:  L =ldat2lwav3D(W,X,Y,opt3D)
+%
+%   L       = Lagrange structure with fields 
+%               L.Z, L.x, L.y, L.t, L.type
+%
+%   W       = Gaussian vertical process structure w.Z, w.u, w.t
+%   X/Y     = Gaussian horizontal variation structures 
+%             X.Z, X.u, X.v, X.t
+%             Y.Z, Y.u, Y.v, Y.t
+%             if  X and Y  are empty then output is Gaussian
+%   opt3D   = structure (set by genoptset) with fields 
+%       .type   = 'movie' gives time dependent wave fields over times W.t
+%               = 'field' give wave field(s) at time(s) given by
+%       .t0     't0' (string) or empty: gives t0 = W.t(end)/2 (default)
+%               = t0 (numeric): gives field at time  t0
+%       .start  = [startx starty]  lower left corner of fields 
+%       .end    = [endx endy]  upper right corner of fields 
+%                   if empty  end  is generated from  start  coordinates
+%       .plotflag   = 'on'  plots one field - the last one
+%
+%               OR
+%       .type   = 'timeseries' gives  n  time series at points
+%                    with coordinates
+%       .PP     = 2 x n  array [p1,...,pn; q1,...,qn]'
+%                   If  n > 1 then output  L.Z  is is 
+%                   a cell array  L.Z{1}, ..., L.Z{n} 
+%       .rate       = interpolation rate (default = 1) not yet implemented
+%       .plotflag   = 'on'  plots one time series - the last one
+%
+%               OR (NOT YET AVAILABLE)
+%       .type   = 'swath' gives encountered Lagrange sea elevation
+%                    observed from a moving object with speed(s) --
+%                    possible further fields for this option are 
+%       .v [m/s]= along straight line(s) from 
+%       .start  = default = (W.u(1),W.v(1)/2)  to 
+%       .end      default = (W.u(end),W.v(1)/2)
+%               OR (NOT YET AVAILABLE)
+%       .type   = 'vfield' gives velocity field\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function Nloops = looptest(S,opt,varargin)
+%LOOPTEST Simulates 2D waves to estimate folding rate
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function Steep = lwav2frontback(L)
+%LWAV2FRONTBACK Gives front/back crest periods/wavelength of wave data
+%
+%CALL: Steep =lwav2frontback(L)
+%
+%   Steep = struct array with fields
+%      .ffull = full front period/wavelength
+%      .fhalf = half front period/wavelength
+%      .bfull = full back period/wavelength
+%      .bhalf = half back period/wavelength
+%
+%   L     = 2D wave L.t (L.u) and L.Z
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function pdf = pdfnorm2d(X,m,S)
+%PDFNORM2D Bivariate Gaussian distribution  
+%
+%CALL: pdf = pdfnorm2d(X,m,S)
+%
+%   X = 1x2 or n x 2 array of arguments
+%   m = 1x2 or nn x 2 array of mean values (default zero vector)
+%   S = 2x2 covariance matrix (default identity matrix)
+%     If  nn=1  then  m  is filled to size  n x 2
+%     else if  n ~= nn  then  X  is filled with first row to size  nn x 2
+%
+% Example:
+% x = linspace(-5,5);
+% [X1 X2] = meshgrid(x);
+% f = reshape(pdfnorm2d([X1(:),X2(:)]),100,100);
+% [area,epsi] = simpson(x,f);
+% [area2,epsi2] = simpson(x,area);
+%
+% See also: pdfnorm, pdfnormnd
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function Mv=seamovie(Y,s,Wavename)
+%SEAMOVIE Makes a movie of simulated sea and optionally saves it
+%  
+%CALL: Mv = seamovie(Y,s,Wavename)
+%  
+%      Mv = movie
+%
+%      Y = struct with 2d or 3d simulation (from spec2wave or spec2field)
+%      s = type of plot if 3d: 
+%               if s=1 then surf-plot, (default)
+%               if s=2 contour,
+%               else gray-scale view 
+%
+%      Wavename = optional namestring for avi-file ('MyWave.avi') 
+%              If absent, no avi-file is produced
+%              If MyWave.avi exists in working folder 
+%                   a new random name is given
+%              The avi-option uses VideoWriter. 
+%                   movie2avi works for Matlab ver 8.5 
+%                   but not for ver 8.1
+%  
+% See also  spec2field, spec2wave, movie, getframe
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function options  = simoptset(varargin)
+%SIMOPTSET Creates or alters simulation options structure
+%
+%CALL:  options = simoptset(funcname,opts1,opts2,...,par1,val1,par2,val2,...);
+%
+%   options    = transformation options structure in which the named 
+%                parameters have the specified values.  
+%   funcname   = string giving the name of the function for which default
+%                values for the options structure should be extracted.
+%                Options are 'dat2tr', 'lc2tr', 'reconstruct'.
+%   opts1,
+%   opts2..    = options structures
+%   par1,par2..= strings identifying the parameter to alter
+%   val1,val2..= corresponding values the parameters are altered to.
+%   
+%   SIMOPTSET combines the default options for a function given by FUNCNAME
+%   with new options structures (OPTS1,OPTS2,...) and/or with the named
+%   parameters (PAR1,PAR2,...) with the corresponding values (VAL1, VAL2,...).
+%   The parameters are set in the same order as the input arguments.
+%   Any parameters with non-empty values of the options struct overwrite
+%   the corresponding old parameters. 
+%   The input arguments can be given in any order with one exception:
+%   PARx and VALx must be given in pairs in that order.
+%   Any unspecified parameters for PARx are set to []. 
+%   Parameters with value [] indicate to use the default value for that
+%   parameter when OPTIONS is passed to the function. It is sufficient to
+%   type only the 2 first characters to uniquely identify the parameter
+%   or function name.  Upper case letters for parameter names and values
+%   that are strings are ignored. If an invalid string is provided, the
+%   default is used.
+%   
+%   SIMOPTSET with no input arguments and no output arguments displays all 
+%   parameter names and their possible values.
+%
+%   SIMOPTSET with no input arguments creates an options structure
+%   OPTIONS where all the fields are set to []. ???
+%
+% See also troptset, genoptsetfunction options  = simoptset(varargin)
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [Aa,Average]=spec2lasym(S,opt,alpha,Nsim)
+%SPEC2LASYM Estimates asymmetry measures for Lagrange waves
+%
+%   Useful to compute asymmetry measures for many degrees of asymmetry
+%   as specified by alpha = input vector of lalpha-values
+%   See help text for spec2slopedat
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [rww,rwx,rxx]=spec2lcov(spec,t,u,type,alpha,beta)
+%SPEC2LCOV Calculates auto- and cross-covariance functions 
+%       between W(0,0) and X(t,u) 
+%       or selected derivatives in the 2D Lagrange model 
+%
+%CALL: [rww,rwx,rxx]=spec2lcov(spec,t,u,type,alpha,beta)%
+%   For type==1
+%       rww      = structure with fields  rww.R, rww.t, rww.u
+%                  with covariance values Cov(W(0,0),W(t,u))
+%       rwx, rxx = similar structures with  Cov(W(0,0),X(t,u)) and 
+%                  Cov(X(0,0),X(t,u))
+%   For the other types the three covariance structures contain the
+%   covariance and cross-covariances indicated below
+%       spec     = orbital spectrum structure with depth  h
+%       t        = vector of time values
+%       u        = vector of space values
+%       type     = 1,2,3,4,5,6,7
+%       alpha,beta = parameters in the linked model 
+%
+%   if type=1: W(0,0),X(0,0) and W(t,u),X(t,u) 
+%           gives r^(ww),r^(wx),r^(xx)
+%   if type=2: dW/dt(0,0),dX/dt(0,0) and W(t,u),X(t,u) 
+%           gives r^(ww)_(t0),r^(wx)_(t0),r^(xx)_(t0)
+%   if type=3: dW/du(0,0),dX/du(0,0) and W(t,u),X(t,u) 
+%           gives r^(ww)_(u0),r^(wx)_(u0),r^(xx)_(u0)
+%   if type=4: dW/dt(0,0),dX/dt(0,0) and dW/dt(t,u),dX/dt(t,u) 
+%           gives r^(ww)_(tt),r^(wx)_(tt),r^(xx)_(tt)
+%   if type=5: dW/du(0,0),dX/du(0,0) and dW/du(t,u),dX/du(t,u) 
+%           gives r^(ww)_(uu),r^(wx)_(uu),r^(xx)_(uu)
+%   if type=6: dW/dt(0,0),dX/du(0,0) and dW/dt(t,u),dX/du(t,u) 
+%           gives r^(ww)_(tu),r^(wx)_(tu),r^(xx)_(tu)
+%
+% NOTE: This routine works only for one-sided spectra
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [w,x]=spec2ldat(spec,options,varargin)
+%SPEC2LDAT Simulates w and x components of 2D Lagrange wave
+%           
+%CALL: [w,x] = spec2ldat(spec,options);
+% 
+%   w     = Gaussian vertical process structure w.Z,w.u,w.t
+%   x     = Gaussian horizontal process structure x.Z,x.u,x.t
+%
+%   spec  =S    a frequency spectral density structure in 
+%               angular frequency ('w') or frequency ('f') form 
+%   options = struct with fields 
+%       .Nt    = giving  Nt  time points.  (default length(S)-1=n-1).
+%                If Nt>n-1 it is assummed that  S.S(k)=0  for  k>n-1
+%       .Nu    = giving  Nu  space points (defult = Nt)
+%       .dt    = step in grid (default dt is defined by the Nyquist freq) 
+%       .du    = step in grid (default du is defined by the Nyquist freq)
+%      (.u     = if non-empty and = [u1 u2 Nu] the u-vector will be set to 
+%                u = linspace(u1,u2,Nu), ONLY TESTED for ffttype='ffttime'
+%                if empty, then u = linspace(0,(Nu-1)*du,Nu))
+%       .lalpha = alpha value for modified Lagrange (default = 0)
+%       .lbeta  = beta value for modified Lagrange (default =0)
+%       .iseed  - method or starting seed for the random number generator 
+%                (default = 'shuffle')
+%       .ffttype - 'fftspace', fft over space, loop over time
+%                   generate space series with evolvement 
+%                   over time (useful if Nu > Nt),  
+%                - 'ffttime', fft over time, loop over space (default) 
+%                   generate time series with evolvement 
+%                   over space (useful if Nt > Nu),  
+%                - 'ffttwodim', 2D-fft over time and space.  
+%
+% Example of spec2ldat and ldat2lwav
+%
+%    S=jonswap;   opt=simoptset; 
+%    opt=simoptset(opt,'dt',0.25,'du',0.25);
+%    type='time';
+%    [w,x]=spec2ldat(S,opt)
+%    [L,Lsmooth]=ldat2lwav([w,x],type,[],10);
+%    subplot(211)
+%    plot(Lsmooth.t,Lsmooth.Z);      axis([0 50 -6 6])
+%    [w,x]=spec2ldat(S,opt,'lalpha',1)
+%    [L1,Lsmooth1]=ldat2lwav([w,x],type,[],10);
+%    subplot(223)
+%    plot(Lsmooth1.t,Lsmooth1.Z);    axis([0 50 -6 6])
+%    [w,x]=spec2ldat(S,opt,'lalpha',2)
+%    [L2,Lsmooth2]=ldat2lwav([w,x],type,[],10);
+%    subplot(224)
+%    plot(Lsmooth2.t,Lsmooth2.Z);    axis([0 50 -6 6])
+%
+% Version corresponding to Applied Ocean Research 2009 with respect 
+% to .lalpha and .lbeta 
+% See also: spec2sdat,cov2sdat, gaus2dat
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [W,X,Y]=spec2ldat3D(Spec,options,varargin)
+%SPEC2LDAT3D Spectral simulation of components in 3D Lagrangian sea 
+%
+%CALL: [W,X,Y]=spec2ldat3D(Spec,options)
+%
+%   W     = Gaussian vertical process structure W.Z,W.u,W.v,W.t
+%   X     = Gaussian horizontal process structure x.Z,x.u,x.v,x.t
+%   Y     = Gaussian horizontal process structure y.Z,y.u,y.v,y.t
+%
+%   Spec  = a directional frequency spectral density structure in 
+%           angular frequency ('w') and directional ('theta') form
+%           Alt. in wave number ('k', 'k2') form
+%   options = struct with fields 
+%       .Nt    = giving  Nt  time points.  (default length(S)-1=n-1).
+%                If Nt>n-1 it is assummed that S.S(k)=0 for all k>n-1
+%       .Nu    = giving  Nu  space points along x-axis (defult = Nt)
+%       .Nv    = giving  Nv  space points along y-axis (defult = Nt)
+%       .dt    = step in grid (default dt is defined by the Nyquist freq) 
+%       .du    = step in grid (default du is defined by the Nyquist freq)
+%       .dv    = step in grid (default dv is defined by the Nyquist freq)
+%       .lalpha = alpha value for modified Lagrange (default = 0)
+%       .iseed  = starting seed number for the random number generator 
+%                (default 'shuffle')
+%       .plotflag = 0 (no plotting)
+%
+% Version corresponding to Applied Ocean Research 2009 with respect 
+% to .lalpha 
+%
+% Based on WAFO-routine seasim, version sept 2014, see documentation
+% See also: spec2ldat,spec2sdat,cov2sdat, gaus2dat
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [W,X,Y,W2,X2,Y2] = spec2ldat3DM(Spec,order,options,varargin)
+%SPEC2LDAT3DM Particle trajectory simulation according to Marc Prevosto
+%             2D or 3D, first or second order Lagrange waves
+%
+%CALL: [W,X,Y,W2,X2,Y2] = spec2ldat3DM(spec,order,options) 
+%
+%   I   - Spec     : one-sided spectral structure with fields 
+%         'S'      : spectral density values
+%         'freq'   : 1D frequency spectrum over 'w'/'f'
+%         'D'      : spreading structure from  D = spreading
+%   I   - order    : 1, first order (default), or 2, second order, waves 
+%   I   - options  : struct with fields 
+%       .Nt     = minimum number of time points
+%       .Nu/.Nv = giving  Nu/Nv  space points along x/y-axis (default = 100)
+%       .dt     = approximate time-step  
+%       .du/.dv = step in grid (default du=dv=1)
+%       .iseed  = starting seed number for the random number generator 
+%                (default 'shuffle')
+%       h       = water depth (field in Spec, default = Inf)
+%
+%       z0      = secret parameter = particle depth between 0 and -h
+%                 can be set inside program, default = 0
+%       trf,tls = secret parameters for to truncate spectrum to avoid 
+%                 instability and increase speed, 
+%                 can be set inside program, default = 0.01,0.001
+%
+%   O   - W,X,Y    = first order components
+%   O   - W2,X2,Y2 = second order components
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [W,X,Y,W2,X2,Y2] = spec2ldat3DP(Spec,order,options,varargin)
+%SPEC2LDAT3DP Parallel version of spec2ldat3DM trajectory simulation
+%             2D or 3D, first or second order Lagrange waves.
+%             Same as spec2ldat3DM but with parallel looping in space 
+%             using matlabpool - can reduce simulation time to 
+%             the expense of heavy memory usage
+%
+%CALL: [W,X,Y,W2,X2,Y2] = spec2ldat3DP(spec,order,options) 
+%
+%   I   - Spec     : one-sided spectral density structure fields 
+%         'S'      : spectral density values
+%         'freq'   : 1D frequency spectrum over 'w'/'f'
+%         'D'      : spreading structure from  D = spreading
+%   I   - order    : 1, first order (default), or 2, second order, waves 
+%   I   - options  : struct with fields 
+%       .Nt     = minimum number of time points
+%       .Nu/.Nv = giving  Nu/Nv  space points along x/y-axis (default = 100)
+%       .dt     = approximate time-step  
+%       .du/.dv = step in grid (default du=dv=1)
+%       .iseed  = starting seed number for the random number generator 
+%                (default 'shuffle')
+%       h       = water depth (field in Spec, default = Inf)
+%
+%       z0      = secret parameter = particle depth between 0 and -h
+%                 can be set inside program, default = 0
+%       trf,tls = secret parameters for to truncate spectrum to avoid 
+%                 instability and increase speed, 
+%                 can be set inside program, default = 0.01,0.001
+%
+%   O   - W,X,Y    = first order components
+%   O   - W2,X2,Y2 = second order components
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function L=spec2lseries(Spec,PP,options,varargin)
+%SPEC2LSERIES Spectral simulation of time series in 3D Lagrangian sea 
+%
+%CALL: L=spec2lseries(Spec,Points,options)
+%
+%   L      = struct with  n  time series
+%   
+%   Spec   = a directional frequency spectral density structure in 
+%           angular frequency ('w') and directional ('theta') form
+%           Alt. in wave number ('k', 'k2') form
+%   Points = [x1, ..., xn; y1, ..., yn] array with coordinates of 
+%               measurement points
+%   options = struct with fields 
+%       .Nt    = giving  Nt  time points.  (default length(S)-1=n-1).
+%                If Nt>n-1 it is assummed that S.S(k)=0 for all k>n-1
+%       .Nu    = giving  Nu  space points along x-axis (default = Nt)
+%       .Nv    = giving  Nv  space points along y-axis (default = Nt)
+%       .dt    = step in grid (default dt is defined by the Nyquist freq) 
+%       .du    = step in grid (default du is defined by the Nyquist freq)
+%       .dv    = step in grid (default dv is defined by the Nyquist freq)
+%       .lalpha = alpha value for modified Lagrange (default = 0)
+%       .iseed  = starting seed number for the random number generator 
+%                (default 'shuffle')
+%       .plotflag = 0 (no plotting)
+%
+% Version corresponding to Applied Ocean Research 2009 with respect 
+% to .lalpha 
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [s2,s1,L0]=spec2slcomp(S,options,varargin)
+%SPEC2SLCOMP Compares 2nd order Stokes and 1st order Lagrange time waves 
+%           
+%CALL: [s2,s1,L0] = spec2slcomp(S,options,varargin)
+% 
+%   s2    = 2nd order Stokes wave structure s2.Z,s2.t
+%   s1    = Gaussian wave structure s1.Z,s1.t
+%   L0    = 1st order (smoothed) Lagrange wave structure L.Z,L.t 
+%   spec  = S   a frequency spectral density structure in 
+%               angular frequency ('w') or frequency ('f') form 
+%   options = struct with fields 
+%       .Nt = giving  Nt  time points.  (default length(S)-1=n-1).
+%             If Nt>n-1 it is assummed that  S.S(k)=0  for  k>n-1
+%       .dt = step in grid (default dt is defined by the Nyquist freq) 
+%       .u  = [-u1 u1 Nu] gives  u = linspace(-u1,u1,Nu) grid
+%             Nu should be an odd integer
+%             Generated waves are time waves observed at  u = 0  
+%  
+% The routine is a combination of 
+%   spec2nldat (Stokes) and spec2ldat/ldat2lwav (Lagrange)
+%
+% See also  spec2nldat spec2linspec, spec2ldat
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function Slopes=spec2slopedat(S,Nsim,type,lev,options,varargin)
+%SPEC2SLOPEDAT Simulates Lagrange waves and extracts slopes at crossings 
+%
+%CALL: Slopes = spec2slopedat(S,Nsim,type,levels,options)
+%
+%   Slopes   = struct array with observed slopes at the up- and 
+%              down-crossings of specified levels
+%
+%   S        = orbital spectrum
+%   Nsim     = number of replicates in simulation (default = 1)
+%   levels   = vector of standardized levels relative to zero 
+%                   (default = [-1 0 1 2]*standard deviation)
+%   type     = 'space' (default), 'time', or 'approxtime'
+%   options  = struct with fields for individual replicates
+%      .Nt       = giving  Nt  time points.  (default length(S)-1=n-1).
+%                  If Nt>n-1 it is assummed that S.S(k)=0 for all k>n-1
+%      .Nu       = giving  Nu  space points (defult = Nt)
+%      .du       = step in grid (default dt is defined by the Nyquist freq)
+%      .dt       = step in grid (default dt is defined by the Nyquist freq) 
+%      .lalpha   = alpha value for modified Lagrange
+%      .lbeta    = beta value for modified Lagrange
+%      .ffttype  = 'ffttime' (default), 'fftspace', 'ffttwodim'
+%      .iseed    - setting for random number generator,  
+%                  default = 'shuffle', [ int32 ]
+%      .plotflag - 'off', no plotting (default)
+%                - 'on' 
+%
+% Example:
+%   S=jonswap; opt=simoptset; mom=spec2mom(S);
+%   opt=simoptset(opt,'dt',0.25,'du',0.25)
+%   Nsim=100;
+%   levels=[0 1 2];
+%   Slopes=spec2slopedat(S,Nsim,'time',levels,opt)
+%
+% Used by spec2lasym
+% See also: spec2ldat, ldat2lwav, wav2slope
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function Slope = spec2slopedat3D(Spec,Nsim,Points,options,varargin)
+%SPEC2SLOPEDAT3D Simulates values and slopes in 3D Lagrange field 
+%
+%     with choice between 
+%     GL, fft2 over space, stepping over t, if Spec is dirspec
+%     MP, fft in time, stepping over space, if Spec is onedim with field D
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [Fu,Fd]=spec2spaceslopecdf(S,y,lev,opt,varargin)
+%SPEC2SPACESLOPECDF Computes cdf for slope at crossings of space waves 
+%
+%CALL: [Fu,Fd] = spec2spaceslopepdf(S,y,type,levels,options,varargin)
+%
+%   Fu, Fd  = cdf for Lagrange space wave slopes 
+%             at up- and down-crossings of specified levels
+%             For time waves, use spec2timeslopecdf
+%
+%   y       = cdf calculated at y
+%   levels  = vector of relative levels (default = [-1 0 1 2]
+%   options = struct with fields (plus some more)
+%       .lp     = if .p and .lbeta exist, the output  x  is modified 
+%                 Lagrange with extra -beta/(-i*omega)^p in the transfer
+%                 function
+%       .lalpha = alpha value for modified Lagrange
+%       .lbeta  = beta value for modified Lagrange
+%
+% Example:
+%   S=jonswap; mom=spec2mom(S);
+%   opt=simoptset('du',0.125,'Nt',512,'dt',0.25);
+%   levels=[0 1 2];
+%   y=linspace(-2,2,1001);
+%   [Fu,Fd]=spec2spaceslopecdf(S,y,levels,opt)
+%   clf
+%   subplot(211)
+%   plot(Fu.x,Fu.f{1},Fu.x,Fu.f{2},Fu.x,Fu.f{3}); hold on
+%   plot(Fd.x,Fd.f{1},'-.',Fd.x,Fd.f{2},'-.',Fd.x,Fd.f{3},'-.')
+%   [Fu,Fd]=spec2spaceslopecdf(S,y,levels,opt,'lalpha',1)
+%   title('Slope CDF at space up- and downcrossings, symmetric waves')
+%   axis([-2 2 0 1])
+%   subplot(212)
+%   plot(Fu.x,Fu.f{1},Fu.x,Fu.f{2},Fu.x,Fu.f{3}); hold on
+%   plot(Fd.x,Fd.f{1},'-.',Fd.x,Fd.f{2},'-.',Fd.x,Fd.f{3},'-.')
+%   title('Slope CDF at space up- and downcrossings, asymmetric waves')
+%   axis([-2 2 0 1])
+%
+% See also: spec2spaceslopepdf, spec2timeslopecdf, spec2ldat, 
+%     ldat2lwav, wav2slope
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [fu,fd]=spec2spaceslopepdf(S,y,levels,opt,varargin)
+%SPEC2SPACESLOPEPDF Computes pdf for slope at crossings of space waves 
+%
+%CALL: [fu,fd] = spec2spaceslopepdf(S,y,levels,options,varargin)
+%
+%   fu, fd  = pdf for Lagrange space wave slopes 
+%                       at up- and down-crossings of specified levels
+%                       For time waves, use spec2timeslopecdf
+%
+%   y       = pdf calculated at  y
+%   levels  = vector of relative levels (default = [-2 -1 0 1 2])
+%   options = struct with fields (plus some more)
+%       .lp     = if .p and .lbeta exist, the output  x  is modified 
+%                 Lagrange with extra -beta/(-i*omega)^p in the transfer
+%                 function
+%       .lalpha = alpha value for modified Lagrange
+%       .lbeta  = beta value for modified Lagrange
+%       .ltheta = if exist produces [w,x] to be transformed, theta = 
+%                 angle for the transformation
+%                 .lp, .lbeta and .ltheta are empty ([]) by default
+%       .plotflag - 'off', no plotting (default)
+%                 - 'on' 
+%
+% Example: See example for  spec2spaceslopepdf
+%
+% Ref: Lindgren & Aberg, JOMAE, 131 (2009) 031602-1
+% See also: spec2ldat, spec2timeslopecdf, ldat2lwav, wav2slope
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [Slopes,Steep,Data]=spec2steepdat(S,Nsim,type,lev,opt,varargin)
+%SPEC2STEEPDAT Simulates Lagrange waves and extracts steepness and slopes
+%                
+%CALL: [Slopes,Steep,Data] = spec2steepdat(S,Nsim,type,levels,options)
+%
+%   Slopes      = struct with fields 
+%      .up      = observed slopes at the up- and 
+%      .down      down-crossings of specified levels                   
+%      .meanup  = average wave profiles near up- and crossings
+%      .meandown    down-crossings of mean water level
+%      .meanx   = at corresponding times
+%      .A       = asymmetry measure by Hilbert transfor skewness
+%      .lambdaAL= asymmetry measure slope ratio at mean crossing
+%   Steep       = struct with fields 
+%      .ffull   = full front steepness as measured by L',L'' etc
+%      .bfull   = full back steepness
+%      .fhalf   = half front steepness
+%      .bhalf   = half back steepness
+%      .lambdaN = asymmetry measure according to front/back half period 
+%   Data        = struct Lagrange waves and two derivatives
+%
+%   S           = orbital spectrum
+%   Nsim        = number of replicates in simulation (default = 1)
+%   levels      = vector of standardized levels relative relative to 
+%                   (default levels = [-1 0 1 2 3]*standard deviation )
+%   type        = 'time', or 'space'
+%   options     = struct with fields for individual replicates
+%      .plotflag - 0, no plotting (default)
+%                - 1, plotting of waves and cross-covariance
+%                - 2, plotting of average waves
+%                - 3, both the above
+%
+% See also: spec2ldat, ldat2lwav, wav2slope
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [TTFu,varargout]=spec2timeslopecdf(S,y,lev,opt,varargin)
+%SPEC2TIMESLOPECDF Computes cdf for slopes at crossings of time waves 
+%
+%CALL: [TTFu,TTFd,STFu,STFd,VTFu,VTFd] = ... 
+%                       spec2timeslopecdf(S,y,levels,options,varargin)
+%
+%   XTFu, XTFd  = cdf for slopes at up- and down-crossings of levels 
+%                 according to Sections 5.1.1, 5.1.2, 5.1.3 in 
+%                 Adv Appl Probab 42 (2010) 489-508. 
+%                 TT = time slopes at time crossings
+%                 ST = space slopes at time crossings
+%                 VT = velocity at time crossings
+%                 Any number of output cdf:s can be specified, 
+%                 starting with TTFu, [with optional TTFd, ...]   
+%                 Note: Crossings with retrograd x-movement not included. 
+%
+%                 For space waves, use spec2spaceslopecdf 
+%
+%   y           = cdf calculated at  y
+%   levels      = vector of relative levels (default = [-1 0 1 2])
+%   options     = struct with fields (plus some more)
+%       .lalpha   = alpha value for modified Lagrange
+%       .lbeta    = beta value for modified Lagrange
+%       .plotflag - 'off', no plotting (default)
+%                 - 'on' 
+%
+% Example:
+%   S=jonswap; mom=spec2mom(S);
+%   opt=simoptset('du',0.125,'Nu',512,'dt',0.125);
+%   levels=[0 1 2]*sqrt(mom(1));
+%   y=linspace(0,8,1001);
+%   [TTFu,TTFd]=spec2timeslopecdf(S,y,levels,opt,'lalpha',1)
+%   clf
+%   plot(TTFu.x,TTFu.f{1},TTFu.x,TTFu.f{2},TTFu.x,TTFu.f{3}); hold on
+%   plot(TTFd.x,TTFd.f{1},'-.',TTFd.x,TTFd.f{2},'-.',TTFd.x,TTFd.f{3},'-.')
+%   title('Slope CDF at up- and downcrossings, asymmetric time waves')
+%   axis([0 8 0 1])
+%
+% See also: spec2ldat, spec2slopepdf, ldat2lwav, wav2slope
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function [TTfu,varargout]=spec2timeslopepdf(S,y,levels,opt,varargin) 
+%SPEC2TIMESLOPEPDF Computes pdf for slopes at crossings of time waves 
+%
+%CALL: [TTfu,TTfd,STfu,STfd,VTfu,VTfd] = ... 
+%                       spec2timeslopepdf(S,y,levels,options,varargin)
+%
+%   XTfu, XTfd = pdf for slopes at up- and down-crossings of levels 
+%                according to Sections 5.1.1, 5.1.2, 5.1.3 in 
+%                Adv Appl Probab 42 (2010) 489-508. 
+%                TT = time slopes at time crossings
+%                ST = space slopes at time crossings
+%                VT = velocity at time crossings
+%                Any number of output cdf:s can be specified, 
+%                starting with TTFu, [with optional TTFd, ...]      
+%                pdf is computed from a smoothed gradient of the
+%                simulated cdf; see spec2timeslopecdf 
+%
+%                For space waves, use spec2spaceslopepdf 
+%
+%   y         = pdf calculated at  y
+%               Note: the accuracy will depend on the y-spacing
+%               and on an interior smoothing parameter  smoothp  
+%   levels    = vector of relaive levels 
+%               (default = [-1 0 1 2])
+%   options   = struct with fields (plus some more)
+%       .lalpha = alpha value for modified Lagrange
+%       .lbeta  = beta value for modified Lagrange
+%
+% Example:
+%   S=jonswap; mom=spec2mom(S);
+%   opt=simoptset('du',0.125,'Nu',256,'dt',0.125);
+%   levels=[0 1 2]*sqrt(mom(1));
+%   y=linspace(0,8,101);
+%   [TTfu,TTfd]=spec2timeslopepdf(S,y,levels,opt,'lalpha',1)
+%   clf
+%   plot(TTfu.x,TTfu.f{1},TTfu.x,TTfu.f{2},TTfu.x,TTfu.f{3}); hold on
+%   plot(TTfd.x,TTfd.f{1},'-.',TTfd.x,TTfd.f{2},'-.',TTfd.x,TTfd.f{3},'-.')
+%   title('Slope PDF at up- and downcrossings, asymmetric time waves')
+%   axis([0 8 0 1])
+%
+% See also: spec2ldat, spec2slopepdf, ldat2lwav, wav2slope
+\end{verbatim}
+\clearpage
+
+\begin{verbatim}
+function Slope=wav2slope(L,lev,dense,p)
+%WAV2SLOPE Extracts slopes at up- and downcrossings after smoothing
+%
+%CALL: Slope=wav2slope(L,levels,dense,p)
+%
+%   Slope   = structure with observed up- and down-crossing slopes
+%       
+%   L       = data with fields L.t/L.u and L.Z
+%   levels  = vector with absolute levels; (required field, no default)
+%   dense   = interpolation rate,
+%                 []: no interpolation or smoothing
+%                  positive integer: data are interpolated at rate
+%                  dense at equidistant points (default: dense=20)
+%   p       = [0...1] is a smoothing parameter (default=1)
+%                   0 -> LS-straight line
+%                   1 -> cubic spline interpolation
+\end{verbatim}
+}
+
+

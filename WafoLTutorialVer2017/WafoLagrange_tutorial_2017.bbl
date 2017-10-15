@@ -1,0 +1,82 @@
+\begin{thebibliography}{10}
+
+\bibitem{Aberg2007Wave}
+S.~{\AA}berg.
+\newblock Wave intensities and slopes in {L}agrangian seas.
+\newblock {\em Adv. Appl. Probab.}, 39:1020--1035, 2007.
+
+\bibitem{AbergAndLindgren2008Height}
+S.~{\AA}berg and G.~Lindgren.
+\newblock Height ditributions of stochastic {L}agrange ocean waves.
+\newblock {\em Prob. Eng. Mech}, 23:359--363, 2008.
+
+\bibitem{fouqueskrogstadmyrhaug2006}
+S.~Fouques, H.~Krogstad, and D.~Myrhaug.
+\newblock A second order {L}agrangian model for irregular ocean waves.
+\newblock {\em J. Offshore Mech. Arct. Eng.}, 128:177--183, 2006.
+
+\bibitem{LeykinEtal1995}
+I.~A. Leykein, M.~A. Donelan, R.~H. Mellen, and D.~J. McLaughlin.
+\newblock Asymmetry of wind waves studied in a laboratory tank.
+\newblock {\em Ninlinear Proc. Geoph.}, 2:280--289, 1995.
+
+\bibitem{Lindgren2009Exact}
+G.~Lindgren.
+\newblock Exact asymmetric slope distributions in stochastic {G}auss-{L}agrange
+  ocean waves.
+\newblock {\em Appl. Ocean Res.}, 31:65--73, 2009.
+
+\bibitem{Lindgren2010Slope}
+G.~Lindgren.
+\newblock Slope distributions in front-back asymmetric stochastic {L}agrange
+  time waves.
+\newblock {\em Ann. Appl. Prob.}, 42:489--508, 2010.
+
+\bibitem{LindgrenAndAberg2009First}
+G.~Lindgren and S.~{\AA}berg.
+\newblock First order stochastic {L}agrange model for asymmetric ocean waves.
+\newblock {\em J. Offshore Mech. and Arctic Eng.}, 131:031602, 2009.
+
+\bibitem{LindgrenAndLindgren2011Stochastic}
+G.~Lindgren and F.~Lindgren.
+\newblock Stochastic asymmetry properties of 3{D} {G}auss-{L}agrange ocean
+  waves with directional spreading.
+\newblock {\em Stochastic Models}, 27:490--520, 2011.
+
+\bibitem{MarthinsenAndWinterstein1992Skewness}
+T.~Marthinsen and S.~Winterstein.
+\newblock On the skewness of random surface waves.
+\newblock In {\em Proc. 2'nd Int. Offshore and Polar Eng. Conf., ISOPE, San
+  Francisco, USA}, volume III, pages 472--478, 1992.
+
+\bibitem{Miche1944Mouvements}
+M.~Miche.
+\newblock Mouvements ondulatoires de la mer on profondeur constante ou
+  d{\'e}croissante. {F}orme limit de la houle lors de son d{\'e}ferlement.
+  {A}pplication aux digues marines.
+\newblock {\em Ann. Ponts Chass{\'e}es}, 114:25--78, 1944.
+
+\bibitem{NiedzweckiEtal1999}
+J.~M. Niedswecki, J.~W. van~de Lindt, and E.~W. Sandt.
+\newblock Characterizing random wave surface elevation data.
+\newblock {\em Ocean Eng.}, 26:401--430, 1999.
+
+\bibitem{Nouguieretal2015}
+F.~Nouguier, B.~Chapron, and C.~Gu{\' e}rin.
+\newblock Second-order {L}agrangian description of tri-dimensional gravity wave
+  interactions.
+\newblock {\em J. Fluid Mech.}, 772:165--196, 2015.
+
+\bibitem{Prevosto1998}
+M.~Prevosto.
+\newblock A second order, 3{D}, {L}agrange model.
+\newblock Technical report, IFREMER, Brest, 1998.
+
+\bibitem{WAFO-group2017Wafo}
+WAFO-group.
+\newblock {WAFO} - a matlab toolbox for analysis of random waves and loads - a
+  tutorial.
+\newblock \url{http://www.maths.lth.se/matstat/wafo/}, 2017.
+\newblock {Math. Stat., Center for Math. Sci., Lund Univ., Sweden}.
+
+\end{thebibliography}

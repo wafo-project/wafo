@@ -1,0 +1,78 @@
+\cleardoublepage
+\pagenumbering{roman}
+\chapter*{WAFO and module ``lagrange''}
+\addcontentsline{toc}{chapter}{WAFO and module Lagrange}
+\vspace{-5mm}
+
+\subsubsection*{On the module ``lagrange''}
+This is the 2017 version of a tutorial for how to use the \ML{} {\sc Wafo}-module 
+{\tt lagrange} for analysis and simulation of random Lagrange waves, 
+which is included in the {\sc Wafo} toolbox in the folder {\tt lagrange}. 
+The module consists of a number of \ML{} m-files and it requires a
+standard \ML{} setup together with the {\sc Wafo} 2017 toolbox. 
+In some example we use routines from other \ML{} toolboxes, 
+like the {\tt signal} toolbox. 
+
+The {\sc Wafo} module {\tt lagrange}  contains routines for generation of 2D and 3D 
+Gauss-Lagrange waves where a Gaussian process for the vertical movements of water particles is linked with  correlated Gaussian horizontal movements. This is the \fo model.  
+The module also contains routines for \so order 3D Stokes-Lagnage waves. 
+These routines are based on \ML{} and Fortran routines written by Marc Prevosto, IFREMER, Brest, France. The routines have been adapted to work together with {\sc Wafo}, including an option to use the \ML{} Parallel Computing toolbox.
+ 
+ The \ML{} code used for the examples in this tutorial can be found in three 
+ script files \verb+WafoLChx.m+. Some editing has been made on figures, 
+ and some simulations have been run with more replicates than in 
+ \verb+WafoLChx.m+.\footnote{The {\sc Wafo} lagrange routines were 
+ originally published  as a stand-alone package {\sc Wafo}L, and we keep 
+ that nomenclature thoughout this tutorial.} For help on the module, write 
+ {\tt help lagrange}.
+
+The routine \verb+spec2ldat3DP+ is a version of \verb+spec2ldat3DM+ 
+adapted for parallel processing with the Parallel Computing Toolbox in \ML{}. 
+
+Valuable comments on the tutorial and the use of {\sc Wafo} and 
+{\tt lagrange} by several users all over the world  are gratefully acknowledged. 
+Comments on {\sc Wafo}, the {\tt lagrange} tutorial, and the 
+routines are appreciated to 
+%
+%\noindent
+\verb+wafo@maths.lth.se+
+
+\subsubsection*{On {\sc Wafo}}
+
+\progname{} is built of modules of platform independent \ML{} m-files
+and a set of executable files from \verb!C++! and \verb+Fortran+
+source files. These executables are platform and \ML{-version} dependent,
+and they have been tested with recent \ML{} and {\sc Windows} installations.
+The latest version can be downloaded from
+
+\verb+https://github.com/wafo-project+,
+
+\noindent where you also find {\sc Pywafo}, a Python version. 
+
+
+\smallskip
+Older versions of the toolbox can be downloaded
+from the \progname{} homepage
+
+\noindent
+\verb+http://www.maths.lth.se/matstat/wafo/+
+
+\smallskip
+\noindent
+There you can also find links to exercises and articles using \progname{},
+and notes about its history.
+For help on the toolbox, write \verb+help wafo+. 
+
+
+\subsubsection*{
+The owners of the {\sc Wafo} package are}
+
+\noindent Per Andreas Brodtkorb: \verb+per.andreas.brodtkorb@gmail.com+
+
+\noindent Georg Lindgren: \verb+georg.lindgren@gmail.com+
+
+\noindent Igor Rychlik: \verb+igor.rychlik@gmail.com+
+
+\noindent New contributor: \verb+Marc.Prevosto@ifremer.fr+
+
+

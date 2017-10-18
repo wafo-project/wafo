@@ -136,5 +136,5 @@ function L=localfitgam(a,G)
 %h=10^(-5);
 %L=log(a)-(gammaln(a+h)-gammaln(a))/h-G;
 % wpsi = digamma function
-L=log(a)-wpsi(a)-G;
+L=log(a)-psi(a)-G;
 

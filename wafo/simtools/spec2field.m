@@ -1,7 +1,7 @@
 function W = spec2field(Spec,options,varargin)
 %SPEC2FIELD Spectral simulation of space-time Gaussian field 
 % 
-%CALL: W = spec2ldat3D(Spec,options)
+%CALL: W = spec2field(Spec,options)
 %
 %   W     = Gaussian wave structure W with fields 
 %       .Z      = matrix of size [N N N] with singleton dim removed
@@ -26,13 +26,24 @@ function W = spec2field(Spec,options,varargin)
 %       .plotflag = 0 (no plotting)
 %
 % Based on WAFO-routines seasim and spec2ldat3D
+%
+% Example: Generate 20 seconds of Gaussian wavefield
+%           over a rectangle with length = 1024 m and
+%           width = 512 m. Make movie with seasim.
+%
+%   S = demospec('dir')
+%   opt = simoptset('Nt',20,'dt',1,'Nu',1024,'du',1,'Nv',512,'dv',1)
+%   W = spec2field(S,opt)
+%   M = seamovie(W,1);
+%
 % See also: spec2ldat,spec2sdat,cov2sdat, gaus2dat
 
-% Tested on Matlab 8.1, 8.6
+% Tested on Matlab 8.1, 8.6, 9.2
 % History
-% Created by GL and FL 2010 (for Stochastic models article)
-% Modified by GL 2014
+% spec2field created by GL 2017 from spec2ldat by removing X, Y variation
 % Modified March 2015 by GL to give correct slope and curvature 
+% Modified by GL 2014
+% spec2ldat created by GL and FL 2010 (for Stochastic models article)
 
 tic
 % Initialization
@@ -194,27 +205,17 @@ W.Z = zeros(nffty,nfftx,Nt);
 nt = length(t);
 for j=1:nt
     W.Z(:,:,j)=real(fft2(Z0.*exp(-1i*Omega_*t(j))));
-%    X.Z(:,:,j)=-real(fft2(Z0u.*exp(-1i*Omega_*t(j))));
-%    Y.Z(:,:,j)=-real(fft2(Z0v.*exp(-1i*Omega_*t(j))));
     waitbar(j/nt);%,hand)
 end
 
 W.Z=squeeze(W.Z(1:Ny,1:Nx,:));
-%X.Z=squeeze(X.Z(1:Nv,1:Nu,:));
-%Y.Z=squeeze(Y.Z(1:Nv,1:Nu,:));
-clear Z0 %Z0u Z0v 
+clear Z0 
 
 if Nx>1
   W.y=x;
-%  X.u=u;
-%  Y.u=u;
 end
 if Ny>1
   W.x=y;
-%  X.v=v;
-%  Y.v=v;
 end
-%if Nt>1
   W.t=t;
-%end
 toc

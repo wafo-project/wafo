@@ -20,6 +20,7 @@ function [y] = rfcfilter(x,h,def)
 % Tested on Matlab 6.0
 %
 % History: 
+% Corrected final check, added lines 161-165, by GL, 25-Jan-2018
 % Updated by PJ 18-May-2000
 %   Help text.
 % Revised by PJ 12-Jan-2000
@@ -157,10 +158,15 @@ for i = 2:n
 end
 
 % Update y if last y0 is greater than (or equal) threshold
+if m == 1
+    yj = y(j);
+else
+    yj = y(j,2);
+end
 if def == 0
-  test = (abs(y0-y(j)) > h);
+  test = (abs(y0-yj) > h)
 else % def == 1
-  test = (abs(y0-y(j)) >= h);
+  test = (abs(y0-yj) >= h);
 end
 if test
   j=j+1;

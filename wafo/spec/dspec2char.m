@@ -84,6 +84,10 @@ function [ch,chtext] = dspec2char(S,varargin)
 % 'On the covariance of the periodogram'
 % Journal of time series analysis, Vol. 3, No. 3, pp. 195--207
 %
+% Kuik, A.J., van Vledder G.Ph. and Holthuijsen, L.H. (1988)
+% 'A method for the routine analysis of pitch-and-roll buoy wave data'
+% Journal of physical oceanography, Vol 18, pp. 1020--1034
+%
 % Tucker, M.J. (1993)
 % 'Recommended standard for wave data sampling and near-real-time processing'
 % Ocean Engineering, Vol.20, No.5, pp. 459--474

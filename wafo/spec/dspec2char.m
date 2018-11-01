@@ -84,6 +84,10 @@ function [ch,chtext] = dspec2char(S,varargin)
 % 'On the covariance of the periodogram'
 % Journal of time series analysis, Vol. 3, No. 3, pp. 195--207
 %
+% Kuik, A.J., van Vledder G.Ph. and Holthuijsen, L.H. (1988)
+% 'A method for the routine analysis of pitch-and-roll buoy wave data'
+% Journal of physical oceanography, Vol 18, pp. 1020--1034
+%
 % Tucker, M.J. (1993)
 % 'Recommended standard for wave data sampling and near-real-time processing'
 % Ocean Engineering, Vol.20, No.5, pp. 459--474
@@ -96,9 +100,10 @@ function [ch,chtext] = dspec2char(S,varargin)
 % "Comparative evalutation of directional wave analysis techniques applied
 % to field measurements", In Proc. 9'th ISOPE conference, Vol III, pp 87-94.
 
-% Tested on: Matlab 5.2
+% Tested on: Matlab 5.2, 9
 
 % History: 
+% Corrected by GL 05.08.2018, line 250 used  a(2,:) instead of  aa(2,:)  
 %revised pab 29.06.2001
 % - factors 15:25 are now calculated from the scaled Fourier coefficients of
 % D(theta) = int S(w,theta) dw instead of  D(theta) = int D(w,theta) dw 
@@ -247,7 +252,7 @@ b1=b(2); b2=b(3);
 
 %Fourier coefficients for D(theta,w)
 %aa0 = aa(1,:); 
-aa1 = a(2,:);aa2 = aa(3,:);
+aa1 = aa(2,:);aa2 = aa(3,:);
 bb1 = bb(2,:); bb2 = bb(3,:);
 
 FC1 = sqrt(aa1.^2+bb1.^2);

@@ -25,7 +25,7 @@ function [y] = rfcfilter(x,h,def)
 %   Help text.
 % Revised by PJ 12-Jan-2000
 %   updated for WAFO
-% Created by PJ (Pär Johannesson) 1999
+% Created by PJ (PÃ¤r Johannesson) 1999
 
   
 % Check input and output
@@ -164,7 +164,7 @@ else
     yj = y(j,2);
 end
 if def == 0
-  test = (abs(y0-yj) > h)
+  test = (abs(y0-yj) > h);
 else % def == 1
   test = (abs(y0-yj) >= h);
 end
